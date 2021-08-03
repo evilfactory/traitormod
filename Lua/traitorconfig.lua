@@ -22,8 +22,8 @@ config.overrideDefaultTraitors = true -- never set this to false
 
 config.assassinationEnabled = true
 
-config.infiltrationEnabled = true -- set this to false for the respawn shuttles to work
-config.infiltrationChance = 100
+config.infiltrationEnabled = false -- set this to false for the respawn shuttles to work
+config.infiltrationChance = 15
 config.infiltrationShipGodModeDistance = 40000
 
 config.thethingEnabled = false
@@ -35,7 +35,7 @@ config.communicationsOfflineChance = 15
 -- Gameplay Options
 config.enableSabotage = true -- allow everyone to sabotage
 config.enableWifiChat = true -- fixes wifi chat
-config.disableCrewMenu = true -- disables the crew menu by changing everyone's team to friendly npc
+config.disableCrewMenu = false -- disables the crew menu by changing everyone's team to friendly npc
 
 -- Traitor Selection Options
 config.roundEndPercentageIncrease = 10
