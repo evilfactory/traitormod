@@ -482,7 +482,7 @@ Hook.Add("think", "traitor_think", function()
                     if config.disableCrewMenu then
                         Player.SetClientCharacter(value, botGod)
 
-                        setClientCharacterToNil[value] = Timer.GetTime() + 0.1
+                        setClientCharacterToNil[value] = Timer.GetTime() + 0.5
                     end
                 end
 

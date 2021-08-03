@@ -13,8 +13,9 @@ Hook.Add("think", "traitorShip", function()
         local pos1 = Submarine.MainSub.WorldPosition
         local pos2 = respawnshuttle.WorldPosition
 
-        if Vector2.Distance(pos1, pos2) < config.infiltrationShipGodModeDistance then
+        if Vector2.Distance(pos1, pos2) < config.infiltrationShipGodModeDistance and respawnshuttle.GodMode then
             respawnshuttle.GodMode = false
+            Game.SendMessage("Be on the lookout, an unidentified sonar signature has been detected nearby, and it's closing in fast!", 1)
         end
 
         for key, value in pairs(traitormod.roundtraitors) do
@@ -49,12 +50,10 @@ traitormod.spawnTraitorShipAndHide = function()
     local sub = Game.GetRespawnSub()
     sub.ShowSonarMarker = false
 
-    sub.GodMode = true
-
     local steering = Game.GetSubmarineSteering(sub)
     steering.AutoPilot = false
 
-    sub.SetPosition({0, Level.Loaded.BottomPos + 1000})
+    sub.SetPosition(CreateVector2(0, Level.Loaded.BottomPos + 1000))
 
     return sub
 end
@@ -79,7 +78,9 @@ traitormod.spawnTraitorShip = function()
     end
 
     -- sub.SetPosition({Level.Loaded.EndPosition[1], Level.Loaded.EndPosition[2] - 10000})
-    sub.SetPosition(goodpositions[math.floor(#goodpositions / 2)].Position.ToVector2())
+    local goodposition = goodpositions[math.floor(#goodpositions / 2)].Position.ToVector2()
+    sub.SetPosition(goodposition)
+    Game.Explode(goodposition, 100, 0, 9999, 9999, 0, 0, 0)
     -- sub.SetPosition(CreateVector2(0, Level.Loaded.BottomPos + 1000))
 
     sub.GodMode = true

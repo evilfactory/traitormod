@@ -1,11 +1,11 @@
 local config = {}
 
 local codewords = {
-	"pomegrenade", "tabacco", "fish", "nonsense", "europa", "clown",
-	"thalamus", "hungry", "renegade", "angry", "green", "flamingos", "sink",
-	"mask", "boomer", "sweet", "ice", "charybdis", "cult", "secret", "moloch",
-	"husk", "rusted", "ruins", "red", "boat", "cats", "rats", "jeepers", "bench",
-	"tire", "trunk", "blow sticks", "thrashers"
+	"hull", "tabacco", "nonsense", "fish", "clown", "quartermaster", "fast", "possibility",
+	"thalamus", "hungry", "water", "looks", "renegade", "angry", "green", "sink", "rubber",
+	"mask", "sweet", "ice", "charybdis", "cult", "secret", "frequency",
+	"husk", "rust", "ruins", "red", "boat", "cats", "rats", "blast",
+	"tire", "trunk", "weapons", "threshers", "cargo", "method", "monkey"
 }
 
 
@@ -22,9 +22,9 @@ config.overrideDefaultTraitors = true -- never set this to false
 
 config.assassinationEnabled = true
 
-config.infiltrationEnabled = false -- set this to false for the respawn shuttles to work
-config.infiltrationChance = 15
-config.infiltrationShipGodModeDistance = 4000
+config.infiltrationEnabled = true -- set this to false for the respawn shuttles to work
+config.infiltrationChance = 100
+config.infiltrationShipGodModeDistance = 40000
 
 config.thethingEnabled = false
 config.thethingChance = 50
