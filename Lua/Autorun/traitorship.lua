@@ -99,29 +99,19 @@ traitormod.traitorShipRoundStart = function(maxplayers)
 
     for index, value in pairs(assignedNowTraitors) do
         traitormod.roundtraitors[value] = {}
-        traitormod.roundtraitors[value].name = "an Infiltration Traitor"
+        traitormod.roundtraitors[value].name = "an Infiltration Agent"
         traitormod.roundtraitors[value].objectiveType = "infiltration"
 
+        local minimess = "."
+        if maxplayers >= 2 then
+            minimess = ", cooperate with your fellow agents."
+        end
         local mess =
-            "You are a Infiltration Traitor! Your mission is to exterminate the Main Sub's Crew, cooperate with your fellow agents."
+            "You are an Infiltration Agent! Your mission is to exterminate the Main Sub's Crew" .. minimess .. " Good Luck, agent."
 
-        mess = mess ..
-                   "\n\nUse the codewords to communicate with the other agents."
-        mess = mess .. "\n\n The code words are: "
+        mess = mess .. "\n\n(You can type in local chat !traitor to check this information again.)"
 
-        for key, va in pairs(traitormod.selectedCodePhrases) do
-            mess = mess .. "\"" .. va .. "\" "
-        end
-
-        mess = mess .. "\n The code response is: "
-
-        for key, va in pairs(traitormod.selectedCodeResponses) do
-            mess = mess .. "\"" .. va .. "\" "
-        end
-
-        mess = mess .. "\n\n(You can type in local chat !traitor, to check this information again.)"
-
-        Game.Log(value.name .. " Was assigned to be Infiltration traitor", 6)
+        Game.Log(value.name .. " Was assigned to be Infiltration agent", 6)
 
         local cl = util.clientChar(value)
 
@@ -131,5 +121,66 @@ traitormod.traitorShipRoundStart = function(maxplayers)
 
         value.TeleportTo(waypoint.WorldPosition)
         -- Player.SetClientCharacter(cl, value)
+    end
+end
+
+traitormod.pincerRoundStart = function(maxplayers)
+    local sub = traitormod.spawnTraitorShip()
+
+    --probably 99999 mistakes with tables cuz i dont know how to use them
+    local assignedNowTraitors = traitormod.chooseTraitors(maxplayers)
+    local shuttleOperative = assignedNowTraitors[Random.Range(1, maxplayers)]
+    local mainOperatives = {}
+    --local mainOperatives = assignedNowTraitors.copy
+    --table.remove(mainOperatives, shuttleOperative)
+
+    --if desmond explains how copy works, just use the above thing
+    for index, value in pairs(assignedNowTraitors) do
+        traitormod.roundtraitors[value] = {}
+        traitormod.roundtraitors[value].name = "a Pincer Operative"
+        traitormod.roundtraitors[value].objectiveType = "Pincer"
+        if value ~= shuttleOperative then
+            table.insert(mainOperatives, value)
+        end
+    end
+
+    local codewordmess = "\n\n The code words are: "
+
+    for key, va in pairs(traitormod.selectedCodePhrases) do
+        codewordmess = codewordmess .. "\"" .. va .. "\" "
+    end
+
+    codewordmess = codewordmess .. "\n The code response is: "
+
+    for key, va in pairs(traitormod.selectedCodeResponses) do
+        codewordmess = codewordmess .. "\"" .. va .. "\" "
+    end
+
+    --this is for the shuttle operative
+    local mess = "You are a Pincer Operative! Your mission is to exterminate the Main Sub's Crew, but be careful, as someone onboard is working for us. Good Luck, agent."
+
+    mess = mess .. "\n\nUse the codewords to communicate with the other operatives."
+    mess = mess .. codewordmess
+    mess = mess .. "\n\n(You can type !traitor in local chat to check this information again.)"
+
+    Game.Log(shuttleOperative.name .. " Was assigned to be a Pincer Operative", 6)
+
+    local cl = util.clientChar(shuttleOperative)
+
+    traitormod.sendTraitorMessage(mess, cl)
+
+    local waypoint = WayPoint.GetRandom(SpawnType.Human, nil, sub)
+
+    shuttleOperative.TeleportTo(waypoint.WorldPosition)
+    -- Player.SetClientCharacter(cl, shuttleOperative)
+
+    -- time for main operatives (player makes more sense to me than value)
+    local messparttwo = "You are a Pincer Operative! A fellow operative will be infiltrating the station from outside within minutes, and it is your job to contact and assist them, sabatoging the crew from behind the scenes. Good Luck."
+    messparttwo = messparttwo .. "\n\nUse the codewords to communicate with the other operatives."
+    messparttwo = messparttwo .. codewordmess
+    messparttwo = messparttwo .. "\n\n(You can type !traitor in local chat to check this information again.)"
+    for index, player in pairs(mainOperatives) do
+        local cl2 = util.clientChar(player)
+        traitormod.sendTraitorMessage(messparttwo, cl2)
     end
 end

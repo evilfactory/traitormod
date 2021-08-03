@@ -58,8 +58,7 @@ traitormod.addPenalty = function(client, amount)
             config.firstJoinPercentage
     end
 
-    traitormod.peoplePercentages[client.SteamID].penalty =
-        traitormod.peoplePercentages[client.SteamID].penalty + amount
+    traitormod.peoplePercentages[client.SteamID].penalty = traitormod.peoplePercentages[client.SteamID].penalty + amount
 end
 
 traitormod.getPenalty = function(client)
@@ -236,7 +235,7 @@ traitormod.assignNormalTraitors = function(amount)
             end
         end
 
-        mess = mess .. "\n(You can type in local chat !traitor, to check this information again.)"
+        mess = mess .. "\n\n(You can type !traitor in local chat to check this information again.)"
 
 
         Game.Log(value.name ..
@@ -306,15 +305,25 @@ Hook.Add("roundStart", "traitor_start", function()
 
     local rng = Random.Range(0, 100)
     local rng2 = Random.Range(0, 100)
+    local rng3 = Random.Range(0, 100)
 
     if (rng < config.infiltrationChance and config.infiltrationEnabled == true) and Game.GetRespawnSub() ~= nil then
         local amount = config.getAmountInfiltrationTraitors(#util.GetValidPlayers())
 
-        Game.Log("Infiltraition Gamemode selected", 6)
-        traitormod.gamemodes["Infiltraition"] = true
+        Game.Log("Infiltration Gamemode selected", 6)
+        traitormod.gamemodes["Infiltration"] = true
 
         traitormod.traitorShipRoundStart(amount)
-    elseif (rng2 < config.thethingChance and config.thethingEnabled == true) then
+
+    --#util.GetValidPlayers() >= 2 and
+    elseif (rng < config.pincerChance and config.pincerEnabled == true) and config.getAmountPincerOperatives(#util.GetValidPlayers()) >= 2 and Game.GetRespawnSub() ~= nil then
+        local amount = config.getAmountPincerOperatives(#util.GetValidPlayers())
+        Game.Log("Pincer Gamemode selected", 6)
+        traitormod.gamemodes["Pincer"] = true
+
+        traitormod.pincerRoundStart(amount)
+
+    elseif (rng3 < config.thethingChance and config.thethingEnabled == true) then
         traitorsAssigned = false
         traitorAssignDelay = Timer.GetTime() + config.traitorSpawnDelay
 
@@ -380,8 +389,7 @@ Hook.Add("roundStart", "traitor_start", function()
                 value.Character.IsTraitor = true 
             end
             
-            Game.SendTraitorMessage(value, 'traitor', 'traitor',
-                                    TraitorMessageType.Objective) -- enable everyone to sabotage
+            Game.SendTraitorMessage(value, 'traitor', 'traitor', TraitorMessageType.Objective) -- enable everyone to sabotage
         end
     end
 
@@ -619,12 +627,14 @@ Hook.Add("chatMessage", "chatcommands", function(msg, client)
                               .objectiveTarget.name
             end
             
+            --marking this for later
+
             if tr.objectiveType == "thething"then
                 msg = msg .. "\nCurrent Mission: kill everyone"
             end
 
             if tr.objectiveType == "infiltration" then
-                msg = msg .. "\nCurrent Mission: kill Main Sub's Crew"
+                msg = msg .. "\nCurrent Mission: Exterminate the Main Sub's Crew"
             end
 
             if util.TableCount(traitormod.roundtraitors) > 1 then
