@@ -13,7 +13,7 @@ config.codewords = codewords
 config.amountCodewords = 2
 config.traitorSpawnDelay = 60
 config.nextMissionDelay = 60
-config.chooseBotsAsTraitorTargets = false
+config.chooseBotsAsTraitorTargets = true
 
 config.endRoundWhenAllTraitorsDie = false
 config.endRoundDelayInSeconds = 60

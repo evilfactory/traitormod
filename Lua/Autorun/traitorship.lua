@@ -5,7 +5,7 @@ local loadedpeople = {}
 local config = dofile("Mods/traitormod/Lua/traitorconfig.lua")
 local util = dofile("Mods/traitormod/Lua/util.lua")
 
-Game.OverrideRespawnSub(config.infiltrationEnabled)
+Game.OverrideRespawnSub(config.infiltrationEnabled or config.pincerEnabled)
 
 Hook.Add("think", "traitorShip", function()
     if respawnshuttle ~= nil then

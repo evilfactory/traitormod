@@ -277,7 +277,7 @@ end
 Hook.Add("roundStart", "traitor_start", function()
 
     Game.SendMessage(
-        "We are using TraitorMod Plugin by EvilFactory (https://steamcommunity.com/id/evilfactory/)\n Join discord.gg/f9zvNNuxu9",
+        "We are using TraitorMod by EvilFactory and Qunk \n(https://steamcommunity.com/sharedfiles/filedetails/?id=2559709754)\n Join discord.gg/f9zvNNuxu9",
         3)
 
     local players = util.GetValidPlayersNoBots()
@@ -296,19 +296,20 @@ Hook.Add("roundStart", "traitor_start", function()
     traitormod.chooseCodes()
 
     
-    if config.infiltrationEnabled then
+    if config.infiltrationEnabled or config.pincerEnabled then
         if Game.GetRespawnSub() == nil then
-            Game.SendMessage("TraitorMod Warning: Infiltration enabled but respawn shuttle disabled!", 1)
+            Game.SendMessage("TraitorMod Warning: Infiltration or Pincer enabled but respawn shuttle disabled!", 1)
         end
     end
 
 
+    
     local rng = Random.Range(0, 100)
     local rng2 = Random.Range(0, 100)
     local rng3 = Random.Range(0, 100)
 
     if (rng < config.infiltrationChance and config.infiltrationEnabled == true) and Game.GetRespawnSub() ~= nil then
-        local amount = config.getAmountInfiltrationTraitors(#util.GetValidPlayers())
+        local amount = config.getAmountInfiltrationTraitors(#util.GetValidPlayersNoBots())
 
         Game.Log("Infiltration Gamemode selected", 6)
         traitormod.gamemodes["Infiltration"] = true
@@ -316,8 +317,8 @@ Hook.Add("roundStart", "traitor_start", function()
         traitormod.traitorShipRoundStart(amount)
 
     --#util.GetValidPlayers() >= 2 and
-    elseif (rng < config.pincerChance and config.pincerEnabled == true) and config.getAmountPincerOperatives(#util.GetValidPlayers()) >= 2 and Game.GetRespawnSub() ~= nil then
-        local amount = config.getAmountPincerOperatives(#util.GetValidPlayers())
+    elseif (rng < config.pincerChance and config.pincerEnabled == true) and config.getAmountPincerOperatives(#util.GetValidPlayersNoBots()) >= 2 and Game.GetRespawnSub() ~= nil then
+        local amount = config.getAmountPincerOperatives(#util.GetValidPlayersNoBots())
         Game.Log("Pincer Gamemode selected", 6)
         traitormod.gamemodes["Pincer"] = true
 
@@ -341,7 +342,7 @@ Hook.Add("roundStart", "traitor_start", function()
         Game.Log("Assassination Gamemode was selected", 6)
         traitormod.gamemodes["Assassination"] = true
 
-        if config.infiltrationEnabled and Game.GetRespawnSub() ~= nil then
+        if (config.infiltrationEnabled or config.pincerEnabled) and Game.GetRespawnSub() ~= nil then
             traitormod.spawnTraitorShipAndHide()
         end
     end
@@ -431,9 +432,9 @@ Hook.Add("think", "traitor_think", function()
     if not traitorsAssigned and traitorAssignDelay < Timer.GetTime() then
 
         if traitormod.gamemodes["Assassination"] then
-            traitormod.assignNormalTraitors(config.getAmountTraitors(#util.GetValidPlayers()))
+            traitormod.assignNormalTraitors(config.getAmountTraitors(#util.GetValidPlayersNoBots()))
         elseif traitormod.gamemodes["The Thing"] then
-            traitormod.assignTheThing(config.getAmountTheThings(#util.GetValidPlayers()))
+            traitormod.assignTheThing(config.getAmountTheThings(#util.GetValidPlayersNoBots()))
         end
 
         traitorsAssigned = true
@@ -538,22 +539,6 @@ Hook.Add("chatMessage", "chatcommands", function(msg, client)
 
     if bit32.band(client.Permissions, 0x40) == 0x40 then
 
-        if msg == "!toggletraitorship" then
-            config.infiltrationEnabled = not config.infiltrationEnabled
-
-            if config.infiltrationEnabled then
-                Game.SendDirectChatMessage("", "Traitor Ship Enabled", nil, 1,
-                                           client)
-            else
-                Game.SendDirectChatMessage("", "Traitor Ship Disabled", nil, 1,
-                                           client)
-            end
-
-            Game.OverrideRespawnSub(config.infiltrationEnabled)
-
-            return true
-        end
-
         if msg == "!traitors" then
             local tosend = "Traitors of the round: "
 
@@ -610,7 +595,7 @@ Hook.Add("chatMessage", "chatcommands", function(msg, client)
     if msg == "!help" then
 
         
-        traitormod.sendTraitorMessage("\nCommands\n!help\n!traitor\n!traitors\n!percentage\n!percentages\n!toggletraitorship\n\nIf you want to change settings, open the file called traitorconfig.lua and do your changes then open your console (f3) and type in reloadlua (warning: this will reload all scripts and reset all traitors so dont do it while in a round.)", client)
+        traitormod.sendTraitorMessage("\nCommands\n!help\n!traitor\n!traitors\n!percentage\n!percentages\n!alive\n\nIf you want to change settings, open the file called traitorconfig.lua and do your changes then open your console (f3) and type in reloadlua (warning: this will reload all scripts and reset all traitors so dont do it while in a round.)", client)
 
         return true 
     end
