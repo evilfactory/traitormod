@@ -13,7 +13,7 @@ config.codewords = codewords
 config.amountCodewords = 2
 config.traitorSpawnDelay = 60
 config.nextMissionDelay = 60
-config.chooseBotsAsTraitorTargets = true
+config.chooseBotsAsTraitorTargets = false
 
 config.endRoundWhenAllTraitorsDie = false
 config.endRoundDelayInSeconds = 60
@@ -22,15 +22,15 @@ config.overrideDefaultTraitors = true -- never set this to false
 
 config.assassinationEnabled = true
 
-config.infiltrationEnabled = true -- set this to false for the respawn shuttles to work
+config.infiltrationEnabled = false -- set this to false for the respawn shuttles to work
 config.infiltrationChance = 20
 config.infiltrationShipGodModeDistance = 40000
 
-config.pincerEnabled = true
-config.pincerChance = 20 -- infiltration chance has priority
+config.pincerEnabled = false
+config.pincerChance = 15 -- infiltration chance has priority
 
 config.thethingEnabled = false
-config.thethingChance = 50
+config.thethingChance = 25
 
 config.enableCommunicationsOffline = false
 config.communicationsOfflineChance = 15
@@ -38,7 +38,7 @@ config.communicationsOfflineChance = 15
 -- Gameplay Options
 config.enableSabotage = true -- allow everyone to sabotage
 config.enableWifiChat = true -- fixes wifi chat
-config.disableCrewMenu = true -- disables the crew menu by changing everyone's team to friendly npc
+config.disableCrewMenu = false -- disables the crew menu by changing everyone's team to friendly npc
 
 -- Traitor Selection Options
 config.roundEndPercentageIncrease = 10

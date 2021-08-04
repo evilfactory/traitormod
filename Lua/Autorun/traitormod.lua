@@ -277,7 +277,7 @@ end
 Hook.Add("roundStart", "traitor_start", function()
 
     Game.SendMessage(
-        "We are using TraitorMod by EvilFactory and Qunk \n(https://steamcommunity.com/sharedfiles/filedetails/?id=2559709754)\n Join discord.gg/f9zvNNuxu9",
+        "We are using TraitorMod by\n EvilFactory and Qunk (https://steamcommunity.com/sharedfiles/filedetails/?id=2559709754)\n Join discord.gg/f9zvNNuxu9",
         3)
 
     local players = util.GetValidPlayersNoBots()
@@ -614,7 +614,7 @@ Hook.Add("chatMessage", "chatcommands", function(msg, client)
             
             --marking this for later
 
-            if tr.objectiveType == "thething"then
+            if tr.objectiveType == "thething" then
                 msg = msg .. "\nCurrent Mission: kill everyone"
             end
 
@@ -622,7 +622,7 @@ Hook.Add("chatMessage", "chatcommands", function(msg, client)
                 msg = msg .. "\nCurrent Mission: Exterminate the Main Sub's Crew"
             end
 
-            if util.TableCount(traitormod.roundtraitors) > 1 then
+            if tr.objectiveType ~= "thething" and util.TableCount(traitormod.roundtraitors) > 1 then
 
                 msg = msg .. "\n\n The code words are: "
 
