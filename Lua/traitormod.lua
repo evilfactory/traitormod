@@ -182,11 +182,11 @@ traitormod.chooseTraitors = function(amount)
     return traitors
 end
 
-traitormod.sendTraitorMessage = function(msg, client, notchatbox)
+traitormod.sendTraitorMessage = function(msg, client, notchatbox, icon)
     if client == nil then return end
 
     if notchatbox == true then
-        Game.SendDirectChatMessage("", msg, nil, 11, client)
+        Game.SendDirectChatMessage("", msg, nil, 11, client, icon)
     else
         Game.SendDirectChatMessage("", msg, nil, 7, client)
     end
@@ -255,7 +255,7 @@ traitormod.chooseNextObjective = function(key, value)
 
     if #players == 0 then
         traitormod.sendTraitorMessage("Good job agent, You did it.",
-                                      util.clientChar(key), true)
+                                      util.clientChar(key), true, "InfoFrameTabButton.Reputation")
 
         value.needNewObjective = false
 
@@ -266,7 +266,7 @@ traitormod.chooseNextObjective = function(key, value)
 
     traitormod.sendTraitorMessage("Your next mission is to assassinate " ..
                                       assassinate.name, util.clientChar(key),
-                                  true)
+                                  true, "GameModeIcon.pvp")
 
     Game.Log(key.name ..
                  " Was assigned another traitor mission, His mission is to kill " ..
@@ -486,7 +486,7 @@ Hook.Add("think", "traitor_think", function()
                         attackers ~= value.Character then
                         traitormod.sendTraitorMessage(
                             "Your death was caused by a traitor on a secret mission.",
-                            value, true)
+                            value, true, "InfoFrameTabButton.Traitor")
                     end
 
                     warningClients[value] = true
@@ -519,7 +519,7 @@ Hook.Add("think", "traitor_think", function()
                     traitormod.sendTraitorMessage(
                         "Great job, You killed " .. value.objectiveTarget.name ..
                             ". We will provide you your next mission shortly.",
-                        util.clientChar(key), true)
+                        util.clientChar(key), true, "MissionCompletedIcon")
 
                     value.objectiveTarget = nil
 
