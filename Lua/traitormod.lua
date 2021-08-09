@@ -31,7 +31,7 @@ Game.OverrideTraitors(config.overrideDefaultTraitors) -- shutup old traitors
 Game.AllowWifiChat(config.enableWifiChat) -- fixes wifi chat
 
 if config.chooseBotsAsTraitorTargets then
-    assassinationChooseFunc = util.GetValidPlayersNoTraitors
+    assassinationChooseFunc = util.GetValidPlayersNoTraitorsSameTeam
 else
     assassinationChooseFunc = util.GetValidPlayersNoBotsAndNoTraitors
 end

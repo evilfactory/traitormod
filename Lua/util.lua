@@ -113,4 +113,21 @@ util.GetValidPlayersNoTraitors = function(traitors)
 end
 
 
+util.GetValidPlayersNoTraitorsSameTeam = function(traitors)
+    local chars = Player.GetAllCharacters()
+    local valid = {}
+
+    for key, value in pairs(chars) do
+        if (value.IsHuman == true and value.IsDead == false) and
+                value.ClientDisconnected == false then
+            if traitors[value] == nil and value.TeamID == 1 then
+                table.insert(valid, value)
+            end
+        end
+    end
+
+    return valid
+
+end
+
 return util
