@@ -280,7 +280,7 @@ end
 Hook.Add("roundStart", "traitor_start", function()
 
     Game.SendMessage(
-        "We are using TraitorMod by\n EvilFactory and Qunk (https://steamcommunity.com/sharedfiles/filedetails/?id=2559709754)\n Join discord.gg/f9zvNNuxu9",
+        "We are using TraitorMod by\n EvilFactory and Qunk (https://steamcommunity.com/sharedfiles/filedetails/?id=2559709754)",
         3)
 
     local players = util.GetValidPlayersNoBots()
