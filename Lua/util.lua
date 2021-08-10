@@ -120,7 +120,7 @@ util.GetValidPlayersNoTraitorsSameTeam = function(traitors)
     for key, value in pairs(chars) do
         if (value.IsHuman == true and value.IsDead == false) and
                 value.ClientDisconnected == false then
-            if traitors[value] == nil and value.TeamID == 1 then
+            if traitors[value] == nil and value.TeamID ~= 0 and botGod ~= value then
                 table.insert(valid, value)
             end
         end

@@ -11,7 +11,7 @@ local codewords = {
 
 config.codewords = codewords
 config.amountCodewords = 2
-config.traitorSpawnDelay = 60
+config.traitorSpawnDelay = 15
 config.nextMissionDelay = 60
 config.chooseBotsAsTraitorTargets = false
 
