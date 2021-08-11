@@ -481,7 +481,7 @@ Hook.Add("think", "traitor_think", function()
             if warningClients[value] == nil then
 
                 if value.Character.IsDead == true then
-                    local attackers = value.Character.LastAttacker
+                    local attackers = value.Character.CauseOfDeath.Killer
                     if util.characterIsTraitor(attackers, traitormod.roundtraitors) and
                         attackers ~= value.Character then
                         traitormod.sendTraitorMessage(
