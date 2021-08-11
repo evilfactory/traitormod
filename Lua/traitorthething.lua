@@ -11,6 +11,15 @@ traitormod.assignTheThing = function (amount)
     local assignedNowTraitors = traitormod.chooseTraitors(amount)
 
     for index, value in pairs(assignedNowTraitors) do
+        if config.onlyTraitorsCanSabotage and config.enableSabotage then
+            value.IsTraitor = true 
+                
+            local client = util.clientChar(value)
+            if client then
+                Game.SendTraitorMessage(client, 'traitor', 'traitor', TraitorMessageType.Objective)
+            end 
+        end
+
         traitormod.roundtraitors[value] = {}
         traitormod.roundtraitors[value].name = "The Thing"
         traitormod.roundtraitors[value].objectiveType = "thething"

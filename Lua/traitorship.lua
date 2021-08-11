@@ -107,6 +107,15 @@ traitormod.traitorShipRoundStart = function(maxplayers)
         traitormod.roundtraitors[value].name = "an Infiltration Agent"
         traitormod.roundtraitors[value].objectiveType = "infiltration"
 
+        if config.onlyTraitorsCanSabotage and config.enableSabotage then
+            value.IsTraitor = true 
+                
+            local client = util.clientChar(value)
+            if client then
+                Game.SendTraitorMessage(client, 'traitor', 'traitor', TraitorMessageType.Objective)
+            end 
+        end
+
         local minimess = "."
         if maxplayers >= 2 then
             minimess = ", cooperate with your fellow agents."
@@ -141,6 +150,15 @@ traitormod.pincerRoundStart = function(maxplayers)
 
     --if desmond explains how copy works, just use the above thing
     for index, value in pairs(assignedNowTraitors) do
+        if config.onlyTraitorsCanSabotage and config.enableSabotage then
+            value.IsTraitor = true 
+                
+            local client = util.clientChar(value)
+            if client then
+                Game.SendTraitorMessage(client, 'traitor', 'traitor', TraitorMessageType.Objective)
+            end 
+        end
+
         traitormod.roundtraitors[value] = {}
         traitormod.roundtraitors[value].name = "a Pincer Operative"
         traitormod.roundtraitors[value].objectiveType = "Pincer"

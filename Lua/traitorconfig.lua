@@ -36,7 +36,8 @@ config.enableCommunicationsOffline = false
 config.communicationsOfflineChance = 15
 
 -- Gameplay Options
-config.enableSabotage = true -- allow everyone to sabotage
+config.enableSabotage = true -- allow sabotage
+config.onlyTraitorsCanSabotage = false
 config.enableWifiChat = true -- fixes wifi chat
 config.disableCrewMenu = false -- disables the crew menu by changing everyone's team to friendly npc
 

@@ -128,6 +128,43 @@ traitormod.chooseCodes = function()
 
 end
 
+traitormod.generateTraitorMessage = function(traitor)
+    local tr = traitormod.roundtraitors[traitor]
+            
+    local msg = "You are " .. tr.name .. "."
+
+    if tr.objectiveTarget ~= nil then
+        msg = msg .. "\nCurrent Mission: kill " ..
+                  traitormod.roundtraitors[traitor]
+                      .objectiveTarget.name
+    end
+    
+    if tr.objectiveType == "thething" then
+        msg = msg .. "\nCurrent Mission: kill everyone"
+    end
+
+    if tr.objectiveType == "infiltration" then
+        msg = msg .. "\nCurrent Mission: Exterminate the Main Sub's Crew"
+    end
+
+    if tr.objectiveType ~= "thething" and util.TableCount(traitormod.roundtraitors) > 1 then
+
+        msg = msg .. "\n\n The code words are: "
+
+        for key, va in pairs(traitormod.selectedCodePhrases) do
+            msg = msg .. "\"" .. va .. "\" "
+        end
+
+        msg = msg .. "\n The code response is: "
+
+        for key, va in pairs(traitormod.selectedCodeResponses) do
+            msg = msg .. "\"" .. va .. "\" "
+        end
+    end
+
+    return msg
+end
+
 traitormod.selectPlayerPercentages = function(ignore)
     local players = util.GetValidPlayersNoBotsAndNoTraitors(
                         traitormod.roundtraitors)
@@ -192,12 +229,30 @@ traitormod.sendTraitorMessage = function(msg, client, notchatbox, icon)
     end
 
     Game.SendDirectChatMessage("", msg, nil, 1, client)
+
+--[[     if client.Character and util.characterIsTraitor(client.Character, traitormod.roundtraitors) then
+        local msg = traitormod.generateTraitorMessage(client.Character)
+
+        --Game.SendTraitorMessage(client, "", "easterbunny", TraitorMessageType.ServerMessageBox)
+        Game.SendTraitorMessage(client, msg, "easterbunny", TraitorMessageType.Objective)
+    end ]]
 end
 
 traitormod.assignNormalTraitors = function(amount)
     local traitors = traitormod.chooseTraitors(amount)
 
-    for key, value in pairs(traitors) do traitormod.roundtraitors[value] = {} end
+    for key, value in pairs(traitors) do 
+        traitormod.roundtraitors[value] = {} 
+    
+        if config.onlyTraitorsCanSabotage and config.enableSabotage then
+            value.IsTraitor = true 
+                
+            local client = util.clientChar(value)
+            if client then
+                Game.SendTraitorMessage(client, 'traitor', 'traitor', TraitorMessageType.Objective)
+            end 
+        end
+    end
 
     local targets = assassinationChooseFunc(traitormod.roundtraitors)
 
@@ -386,14 +441,13 @@ Hook.Add("roundStart", "traitor_start", function()
 
     end
 
-    if config.enableSabotage then
+    if config.enableSabotage and not config.onlyTraitorsCanSabotage then
         for key, value in pairs(Player.GetAllClients()) do
-            
             if value.Character then
                 value.Character.IsTraitor = true 
             end
             
-            Game.SendTraitorMessage(value, 'traitor', 'traitor', TraitorMessageType.Objective) -- enable everyone to sabotage
+            Game.SendTraitorMessage(value, 'traitor', 'traitor', TraitorMessageType.Objective) -- enable everyone to sabotage        
         end
     end
 
@@ -599,50 +653,14 @@ Hook.Add("chatMessage", "chatcommands", function(msg, client)
     if msg == "!help" then
 
         
-        traitormod.sendTraitorMessage("\nCommands\n!help\n!traitor\n!traitors\n!percentage\n!percentages\n!alive\n\nIf you want to change settings, open the file called traitorconfig.lua and do your changes then open your console (f3) and type in reloadlua (warning: this will reload all scripts and reset all traitors so dont do it while in a round.)", client)
+        traitormod.sendTraitorMessage("\nCommands\n!help\n!traitor\n!traitors\n!traitoralive\n!percentage\n!percentages\n!alive\n\nIf you want to change settings, open the file called traitorconfig.lua and do your changes then open your console (f3) and type in reloadlua (warning: this will reload all scripts and reset all traitors so dont do it while in a round.)", client)
 
         return true 
     end
 
     if util.stringstarts(msg, "!traitor") then
         if util.characterIsTraitor(client.Character, traitormod.roundtraitors) then
-            local tr = traitormod.roundtraitors[client.Character]
-            
-            local msg = "You are " .. tr.name .. "."
-
-            if tr.objectiveTarget ~= nil then
-                msg = msg .. "\nCurrent Mission: kill " ..
-                          traitormod.roundtraitors[client.Character]
-                              .objectiveTarget.name
-            end
-            
-            --marking this for later
-
-            if tr.objectiveType == "thething" then
-                msg = msg .. "\nCurrent Mission: kill everyone"
-            end
-
-            if tr.objectiveType == "infiltration" then
-                msg = msg .. "\nCurrent Mission: Exterminate the Main Sub's Crew"
-            end
-
-            if tr.objectiveType ~= "thething" and util.TableCount(traitormod.roundtraitors) > 1 then
-
-                msg = msg .. "\n\n The code words are: "
-
-                for key, va in pairs(traitormod.selectedCodePhrases) do
-                    msg = msg .. "\"" .. va .. "\" "
-                end
-
-                msg = msg .. "\n The code response is: "
-
-                for key, va in pairs(traitormod.selectedCodeResponses) do
-                    msg = msg .. "\"" .. va .. "\" "
-                end
-
-            end
-
-            traitormod.sendTraitorMessage(msg, client)
+            traitormod.sendTraitorMessage(traitormod.generateTraitorMessage(client.Character), client)
         else
             traitormod.sendTraitorMessage("You are not a traitor.", client)
         end
