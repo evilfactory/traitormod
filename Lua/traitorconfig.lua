@@ -15,13 +15,15 @@ config.traitorSpawnDelay = 60
 config.nextMissionDelay = 60
 config.chooseBotsAsTraitorTargets = false
 
+config.enablePermanentData = false
+config.permanentDataPath = "Mods/traitormod/lua/permanentData.json"
+
 config.endRoundWhenAllTraitorsDie = false
 config.endRoundDelayInSeconds = 60
 
 config.overrideDefaultTraitors = true -- never set this to false
 
 config.assassinationEnabled = true
-config.maxAssasinationMissions = -1
 
 config.infiltrationEnabled = false -- set this to false for the respawn shuttles to work
 config.infiltrationChance = 20
@@ -47,7 +49,13 @@ config.roundEndPercentageIncrease = 10
 config.firstJoinPercentage = 10
 config.traitorPercentageSet = 5
 config.traitorPenalty = 5
-config.traitorWrongKillPenalty = 1
+config.traitorWrongKillPenalty = 2
+
+config.traitorRoleFilter = function (char)
+	-- if char.IsCaptain then return false end -- uncomment this to for example don't let captains to be traitors
+	
+	return true
+end
 
 -- >=12 players = 3 traitors, >=8 players = 2 traitors, default = 1 traitor
 config.getAmountTraitors = function (amountClients)

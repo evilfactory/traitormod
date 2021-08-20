@@ -19,6 +19,9 @@ local setClientCharacterToNil = {}
 
 local config = dofile("Mods/traitormod/Lua/traitorconfig.lua")
 local util = dofile("Mods/traitormod/Lua/util.lua")
+local json = dofile("Mods/traitormod/Lua/json.lua")
+
+traitormod.config = config
 
 local assassinationChooseFunc 
 
@@ -36,72 +39,93 @@ else
     assassinationChooseFunc = util.GetValidPlayersNoBotsAndNoTraitors
 end
 
-traitormod.config = config
+
+
+traitormod.loadFileData = function ()
+    if not config.enablePermanentData then return end
+
+    if File.Exists(config.permanentDataPath) then
+        traitormod.peoplePercentages = json.decode(File.Read(config.permanentDataPath)) or {}
+    end
+end
+
+traitormod.saveFileData = function ()
+    if not config.enablePermanentData then return end
+
+    File.Write(config.permanentDataPath, json.encode(traitormod.peoplePercentages))
+end
+
+traitormod.loadFileData()
 
 traitormod.setPercentage = function(client, amount)
     if client == nil then return end
+    local steamid = tostring(client.SteamID)
 
-    if traitormod.peoplePercentages[client.SteamID] == nil then
-        traitormod.peoplePercentages[client.SteamID] = {}
-        traitormod.peoplePercentages[client.SteamID].penalty = 1
-        traitormod.peoplePercentages[client.SteamID].p =
+    if traitormod.peoplePercentages[steamid] == nil then
+        traitormod.peoplePercentages[steamid] = {}
+        traitormod.peoplePercentages[steamid].penalty = 1
+        traitormod.peoplePercentages[steamid].p =
             config.firstJoinPercentage
     end
 
-    traitormod.peoplePercentages[client.SteamID].p = amount
+    traitormod.peoplePercentages[steamid].p = amount
 end
 
 traitormod.addPenalty = function(client, amount)
     if client == nil then return end
+    local steamid = tostring(client.SteamID)
 
-    if traitormod.peoplePercentages[client.SteamID] == nil then
-        traitormod.peoplePercentages[client.SteamID] = {}
-        traitormod.peoplePercentages[client.SteamID].penalty = 1
-        traitormod.peoplePercentages[client.SteamID].p =
+    if traitormod.peoplePercentages[steamid] == nil then
+        traitormod.peoplePercentages[steamid] = {}
+        traitormod.peoplePercentages[steamid].penalty = 1
+        traitormod.peoplePercentages[steamid].p =
             config.firstJoinPercentage
     end
 
-    traitormod.peoplePercentages[client.SteamID].penalty = traitormod.peoplePercentages[client.SteamID].penalty + amount
+    traitormod.peoplePercentages[steamid].penalty = traitormod.peoplePercentages[steamid].penalty + amount
 end
 
 traitormod.getPenalty = function(client)
     if client == nil then return 0 end
+    local steamid = tostring(client.SteamID)
 
-    if traitormod.peoplePercentages[client.SteamID] == nil then
-        traitormod.peoplePercentages[client.SteamID] = {}
-        traitormod.peoplePercentages[client.SteamID].penalty = 1
-        traitormod.peoplePercentages[client.SteamID].p =
+    if traitormod.peoplePercentages[steamid] == nil then
+        traitormod.peoplePercentages[steamid] = {}
+        traitormod.peoplePercentages[steamid].penalty = 1
+        traitormod.peoplePercentages[steamid].p =
             config.firstJoinPercentage
     end
 
-    return traitormod.peoplePercentages[client.SteamID].penalty
+    return traitormod.peoplePercentages[steamid].penalty
 end
 
 traitormod.addPercentage = function(client, amount)
     if client == nil then return end
+    local steamid = tostring(client.SteamID)
 
-    if traitormod.peoplePercentages[client.SteamID] == nil then
-        traitormod.peoplePercentages[client.SteamID] = {}
-        traitormod.peoplePercentages[client.SteamID].penalty = 1
-        traitormod.peoplePercentages[client.SteamID].p =
+    if traitormod.peoplePercentages[steamid] == nil then
+        traitormod.peoplePercentages[steamid] = {}
+        traitormod.peoplePercentages[steamid].penalty = 1
+        traitormod.peoplePercentages[steamid].p =
             config.firstJoinPercentage
     end
 
-    traitormod.peoplePercentages[client.SteamID].p =
-        traitormod.peoplePercentages[client.SteamID].p + amount
+    traitormod.peoplePercentages[steamid].p =
+        traitormod.peoplePercentages[steamid].p + amount
 end
 
 traitormod.getPercentage = function(client)
     if client == nil then return 0 end
+    local steamid = tostring(client.SteamID)
 
-    if traitormod.peoplePercentages[client.SteamID] == nil then
-        traitormod.peoplePercentages[client.SteamID] = {}
-        traitormod.peoplePercentages[client.SteamID].penalty = 1
-        traitormod.peoplePercentages[client.SteamID].p =
+    if traitormod.peoplePercentages[steamid] == nil then
+        traitormod.peoplePercentages[steamid] = {}
+        traitormod.peoplePercentages[steamid].penalty = 1
+        traitormod.peoplePercentages[steamid].p =
             config.firstJoinPercentage
     end
 
-    return traitormod.peoplePercentages[client.SteamID].p
+    return traitormod.peoplePercentages[steamid].p
 end
 
 traitormod.resetClientSpecific = function()
@@ -172,6 +196,10 @@ traitormod.selectPlayerPercentages = function(ignore)
     for i = 1, #players, 1 do
         for key, value in pairs(ignore) do
             if players[i] == value then table.remove(players, i) end
+        end
+
+        if players[i] ~= nil and not config.traitorRoleFilter(players[i]) then
+            table.remove(players, i)
         end
     end
 
@@ -337,7 +365,7 @@ Hook.Add("roundStart", "traitor_start", function()
     Game.SendMessage(
         "We are using TraitorMod by\n EvilFactory and Qunk (https://steamcommunity.com/sharedfiles/filedetails/?id=2559709754)",
         3)
-
+        
     local players = util.GetValidPlayersNoBots()
 
     for key, value in pairs(players) do
@@ -451,6 +479,8 @@ Hook.Add("roundStart", "traitor_start", function()
         end
     end
 
+
+    traitormod.saveFileData()
 end)
 
 Hook.Add("roundEnd", "traitor_end", function()
@@ -487,6 +517,8 @@ end)
 
 
 Hook.Add("characterDeath", "traitor_character_death", function (character)
+    if config.traitorWrongKillPenalty <= 0 then return end
+
     if character == nil or 
     character.CauseOfDeath == nil or 
     character.CauseOfDeath.Killer == nil or
@@ -496,12 +528,17 @@ Hook.Add("characterDeath", "traitor_character_death", function (character)
         return
     end
 
-
     local attacker = character.CauseOfDeath.Killer
 
-    if traitormod.roundtraitors[attacker] and 
-    traitormod.roundtraitors[attacker].objectiveType == "kill" and 
-    traitormod.roundtraitors[attacker].objectiveTarget ~= character then
+    local shouldBeenKilled = false
+
+    for traitor, traitorinfo in pairs(traitormod.roundtraitors) do
+        if traitorinfo.objectiveTarget == character then
+            shouldBeenKilled = true
+        end
+    end
+
+    if traitormod.roundtraitors[attacker] and not shouldBeenKilled then
         local traitorClient = util.clientChar(attacker)
         
         if traitorClient then
