@@ -485,6 +485,35 @@ Hook.Add("roundEnd", "traitor_end", function()
     setClientCharacterToNil = {}
 end)
 
+
+Hook.Add("characterDeath", "traitor_character_death", function (character)
+    if character == nil or 
+    character.CauseOfDeath == nil or 
+    character.CauseOfDeath.Killer == nil or
+    character.IsHuman == false or
+    character.ClientDisconnected == true or
+    character.TeamID == 0 then
+        return
+    end
+
+
+    local attacker = character.CauseOfDeath.Killer
+
+    if traitormod.roundtraitors[attacker] and 
+    traitormod.roundtraitors[attacker].objectiveType == "kill" and 
+    traitormod.roundtraitors[attacker].objectiveTarget ~= character then
+        local traitorClient = util.clientChar(attacker)
+        
+        if traitorClient then
+            traitormod.addPenalty(traitorClient, config.traitorWrongKillPenalty)
+
+            traitormod.sendTraitorMessage(
+            "You assassinated the wrong person, you have been penalized for that.",
+            traitorClient, true, "MissionFailedIcon")
+        end
+    end
+end)
+
 Hook.Add("think", "traitor_think", function()
     
     if not traitorsAssigned and traitorAssignDelay < Timer.GetTime() then
@@ -535,9 +564,9 @@ Hook.Add("think", "traitor_think", function()
             if warningClients[value] == nil then
 
                 if value.Character.IsDead == true then
-                    local attackers = value.Character.CauseOfDeath.Killer
-                    if util.characterIsTraitor(attackers, traitormod.roundtraitors) and
-                        attackers ~= value.Character then
+                    local attacker = value.Character.CauseOfDeath.Killer
+                    if util.characterIsTraitor(attacker, traitormod.roundtraitors) and
+                        attacker ~= value.Character then
                         traitormod.sendTraitorMessage(
                             "Your death was caused by a traitor on a secret mission.",
                             value, true, "InfoFrameTabButton.Traitor")
@@ -645,7 +674,7 @@ Hook.Add("chatMessage", "chatcommands", function(msg, client)
         traitormod.sendTraitorMessage("You have " ..
                                           math.floor(
                                               traitormod.getPercentage(client)) ..
-                                          "% of being traitor", client)
+                                          " percentage points of being traitor\nCurrent penalty: " .. traitormod.getPenalty(client) - 1, client)
 
         return true
     end

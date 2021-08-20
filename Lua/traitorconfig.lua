@@ -11,9 +11,9 @@ local codewords = {
 
 config.codewords = codewords
 config.amountCodewords = 2
-config.traitorSpawnDelay = 60
+config.traitorSpawnDelay = 15
 config.nextMissionDelay = 60
-config.chooseBotsAsTraitorTargets = false
+config.chooseBotsAsTraitorTargets = true
 
 config.endRoundWhenAllTraitorsDie = false
 config.endRoundDelayInSeconds = 60
@@ -21,6 +21,7 @@ config.endRoundDelayInSeconds = 60
 config.overrideDefaultTraitors = true -- never set this to false
 
 config.assassinationEnabled = true
+config.maxAssasinationMissions = -1
 
 config.infiltrationEnabled = false -- set this to false for the respawn shuttles to work
 config.infiltrationChance = 20
@@ -46,6 +47,7 @@ config.roundEndPercentageIncrease = 10
 config.firstJoinPercentage = 10
 config.traitorPercentageSet = 5
 config.traitorPenalty = 5
+config.traitorWrongKillPenalty = 1
 
 -- >=12 players = 3 traitors, >=8 players = 2 traitors, default = 1 traitor
 config.getAmountTraitors = function (amountClients)
