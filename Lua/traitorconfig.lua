@@ -16,7 +16,7 @@ config.nextMissionDelay = 60
 config.chooseBotsAsTraitorTargets = false
 
 config.enablePermanentData = false
-config.permanentDataPath = "Mods/traitormod/lua/permanentData.json"
+config.permanentDataPath = "Mods/traitormod/Lua/permanentData.json"
 
 config.endRoundWhenAllTraitorsDie = false
 config.endRoundDelayInSeconds = 60
