@@ -360,6 +360,7 @@ traitormod.chooseNextObjective = function(key, value)
     value.needNewObjective = false
 end
 
+
 Hook.Add("roundStart", "traitor_start", function()
 
     Game.SendMessage(
@@ -403,7 +404,7 @@ Hook.Add("roundStart", "traitor_start", function()
         traitormod.traitorShipRoundStart(amount)
 
     --#util.GetValidPlayers() >= 2 and
-    elseif (rng < config.pincerChance and config.pincerEnabled == true) and config.getAmountPincerOperatives(#util.GetValidPlayersNoBots()) >= 2 and Game.GetRespawnSub() ~= nil then
+    elseif (rng2 < config.pincerChance and config.pincerEnabled == true) and config.getAmountPincerOperatives(#util.GetValidPlayersNoBots()) >= 2 and Game.GetRespawnSub() ~= nil then
         local amount = config.getAmountPincerOperatives(#util.GetValidPlayersNoBots())
         Game.Log("Pincer Gamemode selected", 6)
         traitormod.gamemodes["Pincer"] = true
@@ -515,8 +516,7 @@ Hook.Add("roundEnd", "traitor_end", function()
     setClientCharacterToNil = {}
 end)
 
-
-Hook.Add("characterDeath", "traitor_character_death", function (character)
+Hook.Add("characterDeath", "traitor_character_death", function (character, affliction)
     if config.traitorWrongKillPenalty <= 0 then return end
 
     if character == nil or 
@@ -659,6 +659,7 @@ Hook.Add("think", "traitor_think", function()
 
 end)
 
+
 Hook.Add("chatMessage", "chatcommands", function(msg, client)
 
     if bit32.band(client.Permissions, 0x40) == 0x40 then
@@ -768,5 +769,6 @@ Hook.Add("chatMessage", "chatcommands", function(msg, client)
 
     end
 end)
+
 
 Traitormod = traitormod
