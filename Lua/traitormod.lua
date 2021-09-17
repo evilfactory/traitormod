@@ -640,7 +640,7 @@ Hook.Add("think", "traitor_think", function()
                         "Great job, You killed " .. value.objectiveTarget.name ..
                             ". We will provide you your next mission shortly.",
                         util.clientChar(key), true, "MissionCompletedIcon")
-                    Hook.Call("traitormod.missionCompleted", {value})
+                    Hook.Call("traitormod.missionCompleted", {key})
                     value.objectiveTarget = nil
 
                     value.needNewObjective = true
