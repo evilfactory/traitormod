@@ -1,7 +1,12 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<contentpackage name="traitormod" path="Mods/traitormod/filelist.xml" corepackage="false" gameversion="0.14.6.0" steamworkshopid="2559709754" installtime="1627568966">
+<contentpackage name="traitormod" path="Mods/traitormod/filelist.xml" corepackage="false" gameversion="0.14.6.0" steamworkshopid="2559709754" installtime="1628648965">
   <None file="Mods/traitormod/Lua/traitorconfig.lua" />
   <None file="Mods/traitormod/Lua/util.lua" />
+  <None file="Mods/traitormod/Lua/traitormod.lua" />
+  <None file="Mods/traitormod/Lua/traitorship.lua" />
+  <None file="Mods/traitormod/Lua/traitorthething.lua" />
+  <None file="Mods/traitormod/Lua/Autorun/traitorloader.lua" />
+  <None file="Mods/traitormod/README.md" />
   <None file="Mods/traitormod/Lua/Autorun/traitormod.lua" />
   <None file="Mods/traitormod/Lua/Autorun/traitorship.lua" />
   <None file="Mods/traitormod/Lua/Autorun/traitorthething.lua" />
