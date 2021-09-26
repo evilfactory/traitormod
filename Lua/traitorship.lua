@@ -49,7 +49,6 @@ end)
 
 traitormod.spawnTraitorShipAndHide = function()
 
-    Game.SetRespawnSubTeam(2)
     Game.DispatchRespawnSub()
 
     local sub = Game.GetRespawnSub()
@@ -64,7 +63,6 @@ traitormod.spawnTraitorShipAndHide = function()
 end
 
 traitormod.spawnTraitorShip = function()
-    Game.SetRespawnSubTeam(2)
     Game.DispatchRespawnSub()
 
     local sub = Game.GetRespawnSub()
