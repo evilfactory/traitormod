@@ -1,10 +1,12 @@
 local language = {}
 language.Name = "English"
 
-language.Help = "!help - This message\n!traitor - See traitor information\n!points - See your points."
+language.Help = "!help - This message\n!traitor - See traitor information\n!roundinfo - See round information. (admin only)\n!points - See your points."
 
 language.NoTraitor = "You aren't a traitor."
 language.RoundNotStarted = "Round not started."
+
+language.KilledByTraitor = "Your death was caused by a traitor on a secret mission."
 
 language.TraitorWelcome = "You are a traitor!"
 
@@ -29,7 +31,7 @@ language.Points = "%s Points"
 language.Codewords = "Code Words: %s"
 language.CodeResponses = "Code Responses: %s"
 
-language.OtherTraitors = "Other traitors: "
+language.OtherTraitors = "Other traitors: %s"
 
 language.CommandTip = "(Type !traitor in chat to show this message again.)"
 
@@ -42,7 +44,7 @@ language.NoObjectives = "No objectives."
 
 language.PointsAwarded = "You have been awarded %s points."
 
-language.ObjectiveAssassinate = "Assassinate %s, make sure he doesn't enjoy the shift!"
+language.ObjectiveAssassinate = "Assassinate %s"
 language.ObjectiveAssassinateCompleted = "Good job! You killed %s, that bastard."
 
 language.ObjectiveSurvive = "Survive the shift."

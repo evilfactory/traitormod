@@ -46,7 +46,7 @@ end
 Traitormod.RoundNumber = 0
 
 Traitormod.LoadData = function ()
-    if Traitormod.PermanentPoints then
+    if Traitormod.Config.PermanentPoints then
         Traitormod.ClientData = json.decode(File.Read("Mods/traitormod/Lua/data.json")) or {}
     else
         Traitormod.ClientData = {}
@@ -54,7 +54,7 @@ Traitormod.LoadData = function ()
 end
 
 Traitormod.SaveData = function ()
-    if Traitormod.PermanentPoints then
+    if Traitormod.Config.PermanentPoints then
         File.Write("Mods/traitormod/Lua/data.json", json.encode(Traitormod.ClientData))
     end
 end
@@ -210,6 +210,20 @@ Hook.Add("roundEnd", "Traitormod.RoundEnd", function ()
 
     for key, value in pairs(Client.ClientList) do
         Traitormod.AddData(value, "Weight", Traitormod.Config.AmountWeightWithPoints(Traitormod.GetData(value, "Points") or 0))
+
+        if value.Character.IsDead then
+            Traitormod.AddData(value, "Lives", -1)
+
+            if (Traitormod.GetData(value, "Lives") or 0) <= 0 then
+                Traitormod.SetData(value, "Points", Traitormod.Config.PointsLostAfterNoLives(Traitormod.GetData(value, "Points") or 0))
+                Traitormod.SetData(value, "Lives", Traitormod.Config.MaxLives)
+            end
+        else
+
+            if (Traitormod.GetData(value, "Lives") or 0) < Traitormod.Config.MaxLives then
+                Traitormod.AddData(value, "Lives", 1)
+            end
+        end
     end
 
     local endMessage = Traitormod.SelectedGamemode.End()
@@ -289,5 +303,4 @@ Hook.Add("chatMessage", "Traitormod.ChatMessage", function (message, client)
         return true
     end
     
-
 end)

@@ -11,11 +11,11 @@ nogamemode.Think = function ()
 end
 
 nogamemode.End = function ()
-    
+    return ""
 end
 
 nogamemode.ShowInfo = function ()
-    
+    return ""
 end
 
 return nogamemode

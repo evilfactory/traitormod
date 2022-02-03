@@ -28,38 +28,8 @@ assassination.Think = function ()
     thinkTimer = Timer.GetTime() + 0.1
 
     for character, traitor in pairs(assassination.Traitors) do
-        for _, objective in pairs(traitor.MainObjectives) do
-            if not objective.EndRoundObjective and objective.CheckCompleted() and not objective.Awarded then
-
-                Traitormod.SendMessageCharacter(character, objective.GetCompletedText(), true, "MissionCompletedIcon")
-
-                Timer.Wait(function ()
-                    local target = assassination.GetValidTarget()
-
-                    if target == nil then
-                        Traitormod.SendMessageCharacter(character, lang.AssassinationEveryoneDead, true, "InfoFrameTabButton.Reputation")
-
-                        return
-                    end
-
-                    local newObjective = Traitormod.GetObjective("Assassinate")
-                    newObjective.Start(character, target)
-                    table.insert(traitor.MainObjectives, newObjective)
-
-                    Traitormod.SendMessageCharacter(character, string.format(lang.AssassinationNewObjective, target.Name), true, "GameModeIcon.pvp")
-
-                end, assassination.Config.NextTargetDelay * 1000)
-
-                objective.Award(character)
-            end
-        end
-
-        for _, objective in pairs(traitor.SubObjectives) do
-            if not objective.EndRoundObjective and objective.CheckCompleted() and not objective.Awarded then
-                Traitormod.SendMessageCharacter(character, objective.GetCompletedText(), true, "MissionCompletedIcon")
-
-                objective.Award(character)
-            end
+        if not character.IsDead then
+            assassination.CheckObjectives(character, traitor)
         end
     end
 end
@@ -105,8 +75,7 @@ end
 assassination.ShowInfo = function (character)
     local traitor = assassination.Traitors[character]
 
-    if traitor == nil then 
-
+    if traitor == nil or character.IsDead then 
         Traitormod.SendMessageCharacter(character, Traitormod.Language.NoTraitor)
         return 
     end
@@ -235,6 +204,53 @@ assassination.AssignInitialMissions = function (character)
     end
 end
 
+assassination.RenewAssassinationObjective = function(character, traitor, target)
+    local newObjective = Traitormod.GetObjective("Assassinate")
+    newObjective.Start(traitor, target)
+    table.insert(traitor.MainObjectives, newObjective)
+
+    Traitormod.SendMessageCharacter(character, string.format(lang.AssassinationNewObjective, target.Name), true, "GameModeIcon.pvp")
+end
+
+assassination.CheckObjectives = function (character, traitor)
+    for _, objective in pairs(traitor.MainObjectives) do
+        if not objective.EndRoundObjective and objective.CheckCompleted() and not objective.Awarded then
+
+            Traitormod.SendMessageCharacter(character, objective.GetCompletedText(), true, "MissionCompletedIcon")
+
+            Timer.Wait(function ()
+                local target = assassination.GetValidTarget()
+
+                if target == nil and not character.IsDead then
+                    Traitormod.SendMessageCharacter(character, lang.AssassinationEveryoneDead, true, "InfoFrameTabButton.Reputation")
+
+                    return
+                end
+
+                local newObjective = Traitormod.GetObjective("Assassinate")
+                newObjective.Start(character, target)
+                table.insert(traitor.MainObjectives, newObjective)
+
+                
+                if not character.IsDead then 
+                    Traitormod.SendMessageCharacter(character, string.format(lang.AssassinationNewObjective, target.Name), true, "GameModeIcon.pvp")
+                end
+
+            end, assassination.Config.NextTargetDelay * 1000)
+
+            objective.Award(character)
+        end
+    end
+
+    for _, objective in pairs(traitor.SubObjectives) do
+        if not objective.EndRoundObjective and objective.CheckCompleted() and not objective.Awarded then
+            Traitormod.SendMessageCharacter(character, objective.GetCompletedText(), true, "MissionCompletedIcon")
+
+            objective.Award(character)
+        end
+    end
+end
+
 local weightedRandom = dofile("Mods/traitormod/Lua/weightedrandom.lua")
 
 assassination.SelectTraitors = function ()
@@ -274,5 +290,25 @@ assassination.GetAmountTraitors = function ()
     end
     return i
 end
+
+Hook.Add("characterDeath", "Traitormod.Assassination.DeathByTraitor", function (character, affliction)
+    if character == nil or 
+    character.CauseOfDeath == nil or 
+    character.CauseOfDeath.Killer == nil or
+    character.IsHuman == false or
+    character.ClientDisconnected == true or
+    character.TeamID == 0 or 
+    assassination.Traitors == nil then
+        return
+    end
+
+    if assassination.Traitors[character] then return end
+
+    local attacker = character.CauseOfDeath.Killer
+
+    if assassination.Traitors[attacker] ~= nil then
+        Traitormod.SendMessageCharacter(character, lang.KilledByTraitor, true, "InfoFrameTabButton.Traitor")
+    end
+end)
 
 return assassination

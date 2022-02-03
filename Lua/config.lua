@@ -14,6 +14,13 @@ config.AmountCodeWords = 2
 
 config.PermanentPoints = true
 
+config.MaxLives = 4
+
+-- looses half points
+config.PointsLostAfterNoLives = function (x)
+    return x * 0.5
+end
+
 -- 400 points = 200 experience
 config.AmountExperienceWithPoints = function (x)
     return x * 0.5
@@ -23,7 +30,7 @@ end
 -- 100 experience = 4 chance
 -- 1000 experience = 6 chance
 config.AmountWeightWithPoints = function (x)
-    return math.log(x + 1) -- add 1 because log of 0 is -infinity
+    return math.log(x + 10) -- add 1 because log of 0 is -infinity
 end
 
 config.ObjectiveConfig = {
@@ -51,7 +58,7 @@ config.GamemodeConfig = {
         SelectionDelay = 1,
 
         NextTargetDelay = 30,
-        SelectBotsAsTargets = false,
+        SelectBotsAsTargets = true,
 
         -- Codewords, Names, None
         TraitorMethodCommunication = "Codewords",

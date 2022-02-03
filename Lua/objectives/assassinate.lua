@@ -10,7 +10,7 @@ objective.CheckCompleted = function ()
     return objective.ToKill.IsDead
 end
 
-objective.GetListText = function ()
+objective.GetListText = function (endround)
     if objective.CheckCompleted() then
         return string.format(Traitormod.Language.Completed .. Traitormod.Language.ObjectiveAssassinate, objective.ToKill.Name)
     else
