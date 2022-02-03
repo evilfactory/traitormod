@@ -62,7 +62,7 @@ config.GamemodeConfig = {
 
         AmountTraitors = function (amountPlayers)
             if amountPlayers > 12 then return 3 end
-            if amountPlayers > 8 then return 2 end
+            if amountPlayers > 3 then return 2 end
             return 1
         end,
 
