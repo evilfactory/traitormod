@@ -51,7 +51,7 @@ config.GamemodeConfig = {
         SelectionDelay = 1,
 
         NextTargetDelay = 30,
-        SelectBotsAsTargets = true,
+        SelectBotsAsTargets = false,
 
         -- Codewords, Names, None
         TraitorMethodCommunication = "Codewords",

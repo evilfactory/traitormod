@@ -205,6 +205,8 @@ end)
 
 Hook.Add("roundEnd", "Traitormod.RoundEnd", function ()
     Traitormod.RoundNumber = Traitormod.RoundNumber + 1
+    
+    if Traitormod.SelectedGamemode == nil then return end
 
     for key, value in pairs(Client.ClientList) do
         Traitormod.AddData(value, "Weight", Traitormod.Config.AmountWeightWithPoints(Traitormod.GetData(value, "Points") or 0))
@@ -251,21 +253,15 @@ Hook.Add("think", "Traitormod.Think", function ()
 end)
 
 Hook.Add("chatMessage", "Traitormod.ChatMessage", function (message, client)
-    if message == "!traitor" then
-        if Game.RoundStarted and Traitormod.SelectedGamemode then
-            Traitormod.SelectedGamemode.ShowInfo(client.Character)
-        else
-            Traitormod.SendMessage(client, Traitormod.Language.RoundNotStarted)
-        end
+    if message == "!help" then
+        Traitormod.SendMessage(client, Traitormod.Language.Help)
 
         return true
     end
 
-    if message == "!roundinfo" then
-        if Traitormod.LastRoundSummary ~= nil then
-            Traitormod.SendMessage(client, Traitormod.LastRoundSummary)
-        elseif Game.RoundStarted and Traitormod.SelectedGamemode then
-            Traitormod.SelectedGamemode.ShowRoundInfo(client)
+    if message == "!traitor" then
+        if Game.RoundStarted and Traitormod.SelectedGamemode then
+            Traitormod.SelectedGamemode.ShowInfo(client.Character)
         else
             Traitormod.SendMessage(client, Traitormod.Language.RoundNotStarted)
         end
@@ -278,4 +274,20 @@ Hook.Add("chatMessage", "Traitormod.ChatMessage", function (message, client)
 
         return true
     end
+
+    if not client.HasPermission(ClientPermissions.ConsoleCommands) then return end
+
+    if message == "!roundinfo" then
+        if Traitormod.LastRoundSummary ~= nil then
+            Traitormod.SendMessage(client, Traitormod.LastRoundSummary)
+        elseif Game.RoundStarted and Traitormod.SelectedGamemode then
+            Traitormod.SelectedGamemode.ShowRoundInfo(client)
+        else
+            Traitormod.SendMessage(client, Traitormod.Language.RoundNotStarted)
+        end
+
+        return true
+    end
+    
+
 end)

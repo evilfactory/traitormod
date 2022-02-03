@@ -1,6 +1,8 @@
 local language = {}
 language.Name = "English"
 
+language.Help = "!help - This message\n!traitor - See traitor information\n!points - See your points."
+
 language.NoTraitor = "You aren't a traitor."
 language.RoundNotStarted = "Round not started."
 
@@ -8,7 +10,7 @@ language.TraitorWelcome = "You are a traitor!"
 
 language.AgentNoticeCodewords = "There are other agents on this submarine. You dont know their names, but you do have a method of communication. Use the code words to greet the agent and code response to respond. Disguise such words in a normal-looking phrase so the crew doesn't suspect anything."
 
-language.AgentNoticeNoCodeWords = "There are other agents on this submarine. You know their names, cooperate with them so you have a higher chance of success."
+language.AgentNoticeNoCodewords = "There are other agents on this submarine. You know their names, cooperate with them so you have a higher chance of success."
 
 language.AgentNoticeOnlyTraitor = "You are the only traitor on this ship, proceed with caution."
 
