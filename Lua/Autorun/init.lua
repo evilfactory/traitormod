@@ -1,0 +1,1 @@
+dofile("Mods/traitormod/Lua/traitormod.lua")

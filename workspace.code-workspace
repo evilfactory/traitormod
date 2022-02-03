@@ -1,0 +1,17 @@
+{
+	"folders": [
+		{
+			"path": "."
+		}
+	],
+	"settings": {
+
+		"Lua.diagnostics.libraryFiles": "Enable",
+    	"Lua.workspace.library": [
+        	"B:/programming/BLua/bluadocs"
+		],
+		"Lua.diagnostics.globals": [
+			"ServerLogMessageType"
+		],
+	},
+}
