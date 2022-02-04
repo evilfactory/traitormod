@@ -297,9 +297,9 @@ Hook.Add("chatMessage", "Traitormod.ChatMessage", function (message, client)
 
     if message == "!roundinfo" then
         if Game.RoundStarted and Traitormod.SelectedGamemode then
-            Traitormod.SendMessage(client, Traitormod.LastRoundSummary)
-        elseif Traitormod.LastRoundSummary ~= nil then
             Traitormod.SelectedGamemode.ShowRoundInfo(client)
+        elseif Traitormod.LastRoundSummary ~= nil then
+            Traitormod.SendMessage(client, Traitormod.LastRoundSummary)
         else
             Traitormod.SendMessage(client, Traitormod.Language.RoundNotStarted)
         end
