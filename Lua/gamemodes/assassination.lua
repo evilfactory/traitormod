@@ -256,7 +256,7 @@ local weightedRandom = dofile("Mods/traitormod/Lua/weightedrandom.lua")
 assassination.SelectTraitors = function ()
     local clientWeight = {}
     for key, value in pairs(Client.ClientList) do
-        if assassination.Config.TraitorFilter(value) then
+        if value.Character and assassination.Config.TraitorFilter(value) then
             clientWeight[value] = Traitormod.GetData(value, "Weight") or 0
         end
     end
