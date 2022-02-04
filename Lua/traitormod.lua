@@ -221,9 +221,11 @@ Hook.Add("roundEnd", "Traitormod.RoundEnd", function ()
                 end
             else
 
-                if (Traitormod.GetData(value, "Lives") or 0) < Traitormod.Config.MaxLives then
-                    Traitormod.AddData(value, "Lives", 1)
-                end
+                --if Vector3.Distance(value.Character.WorldPosition, Level.EndPosition) then
+                    if (Traitormod.GetData(value, "Lives") or 0) < Traitormod.Config.MaxLives then
+                        Traitormod.AddData(value, "Lives", 1)
+                    end
+                --end
             end
         end
     end

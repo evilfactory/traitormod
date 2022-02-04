@@ -55,10 +55,10 @@ config.GamemodeConfig = {
         Enabled = true,
         WeightChance = 50,
 
-        SelectionDelay = 1,
+        SelectionDelay = 60,
 
-        NextTargetDelay = 30,
-        SelectBotsAsTargets = true,
+        NextTargetDelay = 60,
+        SelectBotsAsTargets = false,
 
         -- Codewords, Names, None
         TraitorMethodCommunication = "Names",
@@ -69,12 +69,13 @@ config.GamemodeConfig = {
 
         AmountTraitors = function (amountPlayers)
             if amountPlayers > 12 then return 3 end
-            if amountPlayers > 3 then return 2 end
+            if amountPlayers > 5 then return 2 end
             return 1
         end,
 
         TraitorFilter = function (client)
             if client.character.HasJob("captain") then return false end
+            if client.character.HasJob("securityofficer") then return false end
 
             return true
         end
