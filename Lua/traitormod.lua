@@ -211,17 +211,19 @@ Hook.Add("roundEnd", "Traitormod.RoundEnd", function ()
     for key, value in pairs(Client.ClientList) do
         Traitormod.AddData(value, "Weight", Traitormod.Config.AmountWeightWithPoints(Traitormod.GetData(value, "Points") or 0))
 
-        if value.Character.IsDead then
-            Traitormod.AddData(value, "Lives", -1)
+        if value.Character ~= nil then
+            if value.Character.IsDead then
+                Traitormod.AddData(value, "Lives", -1)
 
-            if (Traitormod.GetData(value, "Lives") or 0) <= 0 then
-                Traitormod.SetData(value, "Points", Traitormod.Config.PointsLostAfterNoLives(Traitormod.GetData(value, "Points") or 0))
-                Traitormod.SetData(value, "Lives", Traitormod.Config.MaxLives)
-            end
-        else
+                if (Traitormod.GetData(value, "Lives") or 0) <= 0 then
+                    Traitormod.SetData(value, "Points", Traitormod.Config.PointsLostAfterNoLives(Traitormod.GetData(value, "Points") or 0))
+                    Traitormod.SetData(value, "Lives", Traitormod.Config.MaxLives)
+                end
+            else
 
-            if (Traitormod.GetData(value, "Lives") or 0) < Traitormod.Config.MaxLives then
-                Traitormod.AddData(value, "Lives", 1)
+                if (Traitormod.GetData(value, "Lives") or 0) < Traitormod.Config.MaxLives then
+                    Traitormod.AddData(value, "Lives", 1)
+                end
             end
         end
     end
