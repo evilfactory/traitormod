@@ -61,7 +61,7 @@ config.GamemodeConfig = {
         SelectBotsAsTargets = true,
 
         -- Codewords, Names, None
-        TraitorMethodCommunication = "Codewords",
+        TraitorMethodCommunication = "Names",
 
         MinSubObjectives = 1,
         MaxSubObjectives = 2,
