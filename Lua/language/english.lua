@@ -24,7 +24,7 @@ language.ObjectiveCompleted = "Objective completed: %s"
 language.TraitorsRound = "Traitors of the round:"
 language.NoTraitors = "No traitors."
 
-language.PointsInfo = "You have %s points."
+language.PointsInfo = "You have %s points and %s lives."
 
 language.Points = "%s Points"
 

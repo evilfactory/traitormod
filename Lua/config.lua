@@ -93,8 +93,9 @@ config.RandomEventConfig = {
         Enabled = true,
         WeightChance = 10,
 
-        BallastFloraInitialDelay = 20,
+        BallastFloraInitialDelay = 150,
         BallastFloraDelay = 20,
+        BallastFloraEndDelay = 50
     },
 }
 

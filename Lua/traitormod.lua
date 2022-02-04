@@ -286,7 +286,7 @@ Hook.Add("chatMessage", "Traitormod.ChatMessage", function (message, client)
     end
 
     if message == "!points" then
-        Traitormod.SendMessage(client, string.format(Traitormod.Language.PointsInfo, Traitormod.GetData(client, "Points") or 0))
+        Traitormod.SendMessage(client, string.format(Traitormod.Language.PointsInfo, Traitormod.GetData(client, "Points") or 0, Traitormod.GetData(client, "Lives") or Traitormod.Config.MaxLives))
 
         return true
     end

@@ -3,12 +3,18 @@ local event = {}
 event.Name = "SuperBallastFlora"
 
 local ballastFloraTimer = 0
+local ballastFloraEndTimer = 0
 
 event.Start = function ()
     ballastFloraTimer = Timer.GetTime() + event.Config.BallastFloraInitialDelay
+    ballastFloraEndTimer = Timer.GetTime() + event.Config.BallastFloraInitialDelay + event.Config.BallastFloraEndDelay
 end
 
 event.Think = function ()
+    if Timer.GetTime() > ballastFloraEndTimer then
+        return
+    end
+
     if Timer.GetTime() > ballastFloraTimer then
 
         local pumps = {}
