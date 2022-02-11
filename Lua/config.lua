@@ -36,17 +36,17 @@ end
 config.ObjectiveConfig = {
     Assassinate = {
         Enabled = true,
-        AmountPoints = 500,
+        AmountPoints = 700,
     },
 
     Survive = {
         Enabled = true,
-        AmountPoints = 250,
+        AmountPoints = 2500,
     },
 
     StealCaptainID = {
         Enabled = true,
-        AmountPoints = 300,
+        AmountPoints = 1500,
     },
 }
 
