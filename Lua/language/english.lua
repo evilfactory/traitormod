@@ -1,10 +1,16 @@
 local language = {}
 language.Name = "English"
 
-language.Help = "!help - This message\n!traitor - See traitor information\n!roundinfo - See round information. (admin only)\n!points - See your points."
+language.Help = "!help - This message\n!traitor - See traitor information\n!points - See your points.\n!roundinfo - See round information. (admin only)\n!traitoralive - Check if all traitors died.\n!alive - See alive players (dead people only)"
 
 language.NoTraitor = "You aren't a traitor."
 language.RoundNotStarted = "Round not started."
+
+language.AllTraitorsDead = "All traitors dead!"
+language.TraitorsAlive = "There's still traitors alive."
+
+language.Alive = "Alive"
+language.Dead = "Dead"
 
 language.KilledByTraitor = "Your death was caused by a traitor on a secret mission."
 
@@ -24,7 +30,7 @@ language.ObjectiveCompleted = "Objective completed: %s"
 language.TraitorsRound = "Traitors of the round:"
 language.NoTraitors = "No traitors."
 
-language.PointsInfo = "You have %s points and %s lives."
+language.PointsInfo = "You have %s points and %s lives. Your traitor chance is %s%%, compared to the rest of the crew."
 
 language.Points = "%s Points"
 

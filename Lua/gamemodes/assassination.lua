@@ -145,6 +145,16 @@ assassination.ShowRoundInfo = function (client)
     Traitormod.SendMessage(client, message)
 end
 
+assassination.TraitorAlive = function ()
+    for character, traitor in pairs(assassination.Traitors) do
+        if not character.IsDead then
+            return lang.TraitorsAlive
+        end
+    end
+
+    return lang.AllTraitorsDead
+end
+
 assassination.GetValidTarget = function ()
     local targets = {}
     for key, value in pairs(Character.CharacterList) do

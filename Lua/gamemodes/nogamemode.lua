@@ -18,4 +18,8 @@ nogamemode.ShowInfo = function ()
     return ""
 end
 
+nogamemode.TraitorAlive = function ()
+    return "any"
+end
+
 return nogamemode

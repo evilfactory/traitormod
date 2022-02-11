@@ -288,7 +288,44 @@ Hook.Add("chatMessage", "Traitormod.ChatMessage", function (message, client)
     end
 
     if message == "!points" then
-        Traitormod.SendMessage(client, string.format(Traitormod.Language.PointsInfo, Traitormod.GetData(client, "Points") or 0, Traitormod.GetData(client, "Lives") or Traitormod.Config.MaxLives))
+        local maxPoints = 0
+        for index, value in pairs(Client.ClientList) do
+            maxPoints = maxPoints + (Traitormod.GetData(value, "WeightChance") or 0)
+        end
+
+        local percentage = (Traitormod.GetData(client, "WeightChance") or 0) / maxPoints * 100
+
+        if percentage ~= percentage then
+            percentage = 100 -- percentage is NaN, set it to 100%
+        end
+
+        Traitormod.SendMessage(client, string.format(Traitormod.Language.PointsInfo, Traitormod.GetData(client, "Points") or 0, Traitormod.GetData(client, "Lives") or Traitormod.Config.MaxLives, math.floor(percentage)))
+
+        return true
+    end
+
+    if message == "!alive" and 
+    ((client.Character == nil or client.Character.IsDead) or 
+    client.HasPermission(ClientPermissions.ConsoleCommands)) then
+
+        if not Game.RoundStarted or Traitormod.SelectedGamemode == nil then
+            Traitormod.SendMessage(client, Traitormod.Language.RoundNotStarted)
+
+            return true
+        end
+
+        local msg = ""
+        for index, value in pairs(Character.CharacterList) do
+            if value.IsHuman and not value.IsBot then
+                if value.IsDead then
+                    msg = msg .. value.Name .. " ---- " .. Traitormod.Language.Dead .. "\n"
+                else
+                    msg = msg .. value.Name .. " ++++ " .. Traitormod.Language.Alive .. "\n"
+                end
+            end
+        end
+
+        Traitormod.SendMessage(client, msg)
 
         return true
     end
@@ -300,6 +337,16 @@ Hook.Add("chatMessage", "Traitormod.ChatMessage", function (message, client)
             Traitormod.SelectedGamemode.ShowRoundInfo(client)
         elseif Traitormod.LastRoundSummary ~= nil then
             Traitormod.SendMessage(client, Traitormod.LastRoundSummary)
+        else
+            Traitormod.SendMessage(client, Traitormod.Language.RoundNotStarted)
+        end
+
+        return true
+    end
+
+    if message == "!traitoralive" then
+        if Game.RoundStarted and Traitormod.SelectedGamemode then
+            Traitormod.SendMessage(client, Traitormod.SelectedGamemode.TraitorAlive())
         else
             Traitormod.SendMessage(client, Traitormod.Language.RoundNotStarted)
         end
