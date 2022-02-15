@@ -290,10 +290,10 @@ Hook.Add("chatMessage", "Traitormod.ChatMessage", function (message, client)
     if message == "!points" then
         local maxPoints = 0
         for index, value in pairs(Client.ClientList) do
-            maxPoints = maxPoints + (Traitormod.GetData(value, "WeightChance") or 0)
+            maxPoints = maxPoints + (Traitormod.GetData(value, "Weight") or 0)
         end
 
-        local percentage = (Traitormod.GetData(client, "WeightChance") or 0) / maxPoints * 100
+        local percentage = (Traitormod.GetData(client, "Weight") or 0) / maxPoints * 100
 
         if percentage ~= percentage then
             percentage = 100 -- percentage is NaN, set it to 100%
