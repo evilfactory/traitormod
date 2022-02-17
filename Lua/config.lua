@@ -19,7 +19,7 @@ config.DistanceToEndOutpostRequired = 5000
 
 -- looses half points
 config.PointsLostAfterNoLives = function (x)
-    return x * 0.5
+    return x * 0.75
 end
 
 -- 400 points = 200 experience
