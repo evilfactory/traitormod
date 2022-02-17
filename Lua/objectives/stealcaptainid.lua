@@ -3,7 +3,23 @@ local objective = {}
 objective.Name = "StealCaptainID"
 
 objective.Start = function (character)
+    local captainFound = false
+
+    for key, value in pairs(Client.ClientList) do
+        if value.Character ~= nil and value.Character.Info ~= nil then
+            if value.Character.Info.Job.Prefab.Identifier == "captain" then
+                captainFound = true
+            end
+        end
+    end
+
+    if not captainFound then
+        return false
+    end
+
     objective.Character = character
+
+    return true
 end
 
 objective.CheckCompleted = function ()

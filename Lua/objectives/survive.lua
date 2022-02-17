@@ -5,6 +5,8 @@ objective.EndRoundObjective = true
 
 objective.Start = function (character)
     objective.Character = character
+
+    return true
 end
 
 objective.CheckCompleted = function ()

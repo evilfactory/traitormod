@@ -208,9 +208,11 @@ assassination.AssignInitialMissions = function (character)
     for i = 1, Random.Range(assassination.Config.MinSubObjectives, assassination.Config.MaxSubObjectives + 1), 1 do
         local rng = Random.Range(1, #objectivesAvaiable + 1)
         local objective = Traitormod.GetObjective(objectivesAvaiable[rng])
-        objective.Start(character, assassination.GetValidTarget())
-        table.insert(traitor.SubObjectives, objective)
-        table.remove(objectivesAvaiable, rng)
+        
+        if objective.Start(character, assassination.GetValidTarget()) then
+            table.insert(traitor.SubObjectives, objective)
+            table.remove(objectivesAvaiable, rng)    
+        end
     end
 end
 

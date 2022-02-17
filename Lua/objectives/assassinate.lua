@@ -3,7 +3,9 @@ local objective = {}
 objective.Name = "Assassinate"
 
 objective.Start = function (character, toKill)
-    objective.ToKill = toKill    
+    objective.ToKill = toKill
+
+    return true
 end
 
 objective.CheckCompleted = function ()
