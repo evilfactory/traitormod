@@ -15,6 +15,7 @@ config.AmountCodeWords = 2
 config.PermanentPoints = true
 
 config.MaxLives = 4
+config.DistanceToEndOutpostRequired = 5000
 
 -- looses half points
 config.PointsLostAfterNoLives = function (x)
