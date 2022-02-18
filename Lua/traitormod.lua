@@ -219,7 +219,7 @@ Hook.Add("roundEnd", "Traitormod.RoundEnd", function ()
                     Traitormod.SetData(value, "Points", Traitormod.Config.PointsLostAfterNoLives(Traitormod.GetData(value, "Points") or 0))
                     Traitormod.SetData(value, "Lives", Traitormod.Config.MaxLives)
                 end
-            else if Vector3.Distance(value.Character.WorldPosition, Level.EndPosition) < Traitormod.Config.DistanceToEndOutpostRequired then
+            else if Vector3.Distance(value.Character.WorldPosition, Level.Loaded.EndPosition) < Traitormod.Config.DistanceToEndOutpostRequired then
                     if (Traitormod.GetData(value, "Lives") or 0) < Traitormod.Config.MaxLives then
                         Traitormod.AddData(value, "Lives", 1)
                     end
