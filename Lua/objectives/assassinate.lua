@@ -28,7 +28,7 @@ objective.Award = function (character)
     local client = Traitormod.FindClientCharacter(character)
     
     if client == nil then 
-        print("Traitormod Error: Couldn't award " + client.Name)
+        print("Traitormod Error: Couldn't award " + character.Name)
     else
         Traitormod.AddData(client, "Points", objective.Config.AmountPoints)
     end
