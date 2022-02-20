@@ -351,5 +351,17 @@ Hook.Add("chatMessage", "Traitormod.ChatMessage", function (message, client)
 
         return true
     end
+
+    if message == "!allpoints" then
+        local messageToSend = ""
+
+        for index, value in pairs(Client.ClientList) do
+            messageToSend = messageToSend .. value.Name .. ": " .. (Traitormod.GetData(value, "Points") or 0) .. " Points - " .. math.floor(Traitormod.GetData(value, "Weight") or 0) .. " Weight"
+        end
+
+        Traitormod.SendMessage(client, messageToSend)
+
+        return true
+    end
     
 end)
