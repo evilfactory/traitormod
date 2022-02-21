@@ -284,9 +284,12 @@ assassination.SelectTraitors = function ()
 
     for i = 1, assassination.Config.AmountTraitors(#Client.ClientList), 1 do
         local index = weightedRandom.Choose(clientWeight)
-        assassination.GreetTraitor(index.Character)
-        clientWeight[index] = nil
-        Traitormod.SetData(index, "Weight", 0)
+
+        if index ~= nil then
+            assassination.GreetTraitor(index.Character)
+            clientWeight[index] = nil
+            Traitormod.SetData(index, "Weight", 0)
+        end
     end
 
     for character, traitor in pairs(assassination.Traitors) do
