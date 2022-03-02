@@ -52,8 +52,8 @@ config.ObjectiveConfig = {
 
     KidnapSecurity = {
         Enabled = true,
-        AmountPoints = 1500,
-        Seconds = 10,
+        AmountPoints = 4500,
+        Seconds = 500,
     },
 }
 
@@ -62,7 +62,7 @@ config.GamemodeConfig = {
         Enabled = true,
         WeightChance = 50,
 
-        SelectionDelay = 5,
+        SelectionDelay = 60,
 
         NextTargetDelay = 60,
         SelectBotsAsTargets = true,
@@ -70,8 +70,8 @@ config.GamemodeConfig = {
         -- Codewords, Names, None
         TraitorMethodCommunication = "Names",
 
-        MinSubObjectives = 3,
-        MaxSubObjectives = 3,
+        MinSubObjectives = 1,
+        MaxSubObjectives = 2,
         SubObjectives = {"StealCaptainID", "Survive", "KidnapSecurity"},
 
         AmountTraitors = function (amountPlayers)
