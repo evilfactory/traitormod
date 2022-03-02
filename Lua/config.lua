@@ -49,6 +49,12 @@ config.ObjectiveConfig = {
         Enabled = true,
         AmountPoints = 1500,
     },
+
+    KidnapSecurity = {
+        Enabled = true,
+        AmountPoints = 1500,
+        Seconds = 10,
+    },
 }
 
 config.GamemodeConfig = {
@@ -56,17 +62,17 @@ config.GamemodeConfig = {
         Enabled = true,
         WeightChance = 50,
 
-        SelectionDelay = 60,
+        SelectionDelay = 5,
 
         NextTargetDelay = 60,
-        SelectBotsAsTargets = false,
+        SelectBotsAsTargets = true,
 
         -- Codewords, Names, None
         TraitorMethodCommunication = "Names",
 
-        MinSubObjectives = 1,
-        MaxSubObjectives = 2,
-        SubObjectives = {"StealCaptainID", "Survive"},
+        MinSubObjectives = 3,
+        MaxSubObjectives = 3,
+        SubObjectives = {"StealCaptainID", "Survive", "KidnapSecurity"},
 
         AmountTraitors = function (amountPlayers)
             if amountPlayers > 12 then return 3 end

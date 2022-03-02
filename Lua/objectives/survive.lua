@@ -6,10 +6,13 @@ objective.EndRoundObjective = true
 objective.Start = function (character)
     objective.Character = character
 
+    objective.ObjectiveText = Traitormod.Language.ObjectiveSurvive
+    
+
     return true
 end
 
-objective.CheckCompleted = function ()
+objective.IsCompleted = function ()
     return not objective.Character.IsDead
 end
 

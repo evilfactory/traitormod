@@ -41,7 +41,7 @@ language.OtherTraitors = "Other traitors: %s"
 
 language.CommandTip = "(Type !traitor in chat to show this message again.)"
 
-language.Completed = "(Completed) "
+language.Completed = " (Completed)"
 
 language.Objective = "Main Objectives:"
 language.SubObjective = "Sub Objectives:"
@@ -50,11 +50,11 @@ language.NoObjectives = "No objectives."
 
 language.PointsAwarded = "You have been awarded %s points."
 
-language.ObjectiveAssassinate = "Assassinate %s"
-language.ObjectiveAssassinateCompleted = "Good job! You killed %s, that bastard."
+language.ObjectiveAssassinate = "Assassinate %s."
 
 language.ObjectiveSurvive = "Survive the shift."
 language.ObjectiveStealCaptainID = "Steal the captain's ID."
+language.ObjectiveKidnapSecurity = "Handcuff %s, the security guard, for %s seconds."
 
 language.ObjectiveText = "Your traitor objectives are:"
 

@@ -12,7 +12,6 @@ event.Start = function ()
     Game.SendMessage("Some anomaly is stopping the radio from working!", ChatMessageType.ServerMessageBoxInGame)
     
     Game.SendMessage("Some anomaly is stopping the radio from working!", ChatMessageType.Error)
-
 end
 
 event.Think = function ()

@@ -17,7 +17,7 @@ for key, value in pairs(Traitormod.Languages) do
 end
 
 Traitormod.Gamemodes = {
-    dofile("Mods/traitormod/Lua/gamemodes/assassination.lua")
+    dofile("Mods/traitormod/Lua/gamemodes/assassination/assassination.lua")
 }
 
 Traitormod.EnabledGamemodes = {}
@@ -27,6 +27,7 @@ Traitormod.Objectives = {
     "Mods/traitormod/Lua/objectives/assassinate.lua",
     "Mods/traitormod/Lua/objectives/stealcaptainid.lua",
     "Mods/traitormod/Lua/objectives/survive.lua",
+    "Mods/traitormod/Lua/objectives/kidnapsecurity.lua",
 }
 
 Traitormod.RandomEvents = {
@@ -44,6 +45,7 @@ if not File.Exists("Mods/traitormod/Lua/data.json") then
 end
 
 Traitormod.RoundNumber = 0
+Traitormod.Commands = {}
 
 Traitormod.LoadData = function ()
     if Traitormod.Config.PermanentPoints then
@@ -175,6 +177,40 @@ Traitormod.GetRandomObjective = function (allowedObjectives)
     end
 end
 
+Traitormod.ParseCommand = function (text)
+    local result = {}
+
+    if text == nil then return result end
+
+    local spat, epat, buf, quoted = [=[^(["])]=], [=[(["])$]=]
+    for str in text:gmatch("%S+") do
+        local squoted = str:match(spat)
+        local equoted = str:match(epat)
+        local escaped = str:match([=[(\*)["]$]=])
+        if squoted and not quoted and not equoted then
+            buf, quoted = str, squoted
+        elseif buf and equoted == quoted and #escaped % 2 == 0 then
+            str, buf, quoted = buf .. ' ' .. str, nil, nil
+        elseif buf then
+            buf = buf .. ' ' .. str
+        end
+        if not buf then result[#result + 1] = str:gsub(spat,""):gsub(epat,"") end
+    end
+
+    return result
+end
+
+Traitormod.AddCommand = function (commandName, callback)
+    local cmd = {}
+
+    Traitormod.Commands[commandName] = cmd
+    cmd.Callback = callback;
+end
+
+Traitormod.RemoveCommand = function (commandName)
+    Traitormod.Commands[commandName] = nil
+end
+
 Traitormod.LoadData()
 
 
@@ -269,99 +305,14 @@ Hook.Add("think", "Traitormod.Think", function ()
 end)
 
 Hook.Add("chatMessage", "Traitormod.ChatMessage", function (message, client)
-    if message == "!help" then
-        Traitormod.SendMessage(client, Traitormod.Language.Help)
-
-        return true
-    end
-
-    if message == "!traitor" then
-        if Game.RoundStarted and Traitormod.SelectedGamemode then
-            Traitormod.SelectedGamemode.ShowInfo(client.Character)
-        else
-            Traitormod.SendMessage(client, Traitormod.Language.RoundNotStarted)
-        end
-
-        return true
-    end
-
-    if message == "!points" then
-        local maxPoints = 0
-        for index, value in pairs(Client.ClientList) do
-            maxPoints = maxPoints + (Traitormod.GetData(value, "Weight") or 0)
-        end
-
-        local percentage = (Traitormod.GetData(client, "Weight") or 0) / maxPoints * 100
-
-        if percentage ~= percentage then
-            percentage = 100 -- percentage is NaN, set it to 100%
-        end
-
-        Traitormod.SendMessage(client, string.format(Traitormod.Language.PointsInfo, Traitormod.GetData(client, "Points") or 0, Traitormod.GetData(client, "Lives") or Traitormod.Config.MaxLives, math.floor(percentage)))
-
-        return true
-    end
-
-    if message == "!alive" and 
-    ((client.Character == nil or client.Character.IsDead) or 
-    client.HasPermission(ClientPermissions.ConsoleCommands)) then
-
-        if not Game.RoundStarted or Traitormod.SelectedGamemode == nil then
-            Traitormod.SendMessage(client, Traitormod.Language.RoundNotStarted)
-
-            return true
-        end
-
-        local msg = ""
-        for index, value in pairs(Character.CharacterList) do
-            if value.IsHuman and not value.IsBot then
-                if value.IsDead then
-                    msg = msg .. value.Name .. " ---- " .. Traitormod.Language.Dead .. "\n"
-                else
-                    msg = msg .. value.Name .. " ++++ " .. Traitormod.Language.Alive .. "\n"
-                end
-            end
-        end
-
-        Traitormod.SendMessage(client, msg)
-
-        return true
-    end
-
-    if not client.HasPermission(ClientPermissions.ConsoleCommands) then return end
-
-    if message == "!roundinfo" then
-        if Game.RoundStarted and Traitormod.SelectedGamemode then
-            Traitormod.SelectedGamemode.ShowRoundInfo(client)
-        elseif Traitormod.LastRoundSummary ~= nil then
-            Traitormod.SendMessage(client, Traitormod.LastRoundSummary)
-        else
-            Traitormod.SendMessage(client, Traitormod.Language.RoundNotStarted)
-        end
-
-        return true
-    end
-
-    if message == "!traitoralive" then
-        if Game.RoundStarted and Traitormod.SelectedGamemode then
-            Traitormod.SendMessage(client, Traitormod.SelectedGamemode.TraitorAlive())
-        else
-            Traitormod.SendMessage(client, Traitormod.Language.RoundNotStarted)
-        end
-
-        return true
-    end
-
-    if message == "!allpoints" then
-        local messageToSend = ""
-
-        for index, value in pairs(Client.ClientList) do
-            messageToSend = messageToSend .. value.Name .. ": " .. (Traitormod.GetData(value, "Points") or 0) .. " Points - " .. math.floor(Traitormod.GetData(value, "Weight") or 0) .. " Weight"
-        end
-
-        Traitormod.SendMessage(client, messageToSend)
-
-        return true
-    end
+    local split = Traitormod.ParseCommand(message)
     
+    local command = table.remove(split, 1)
+
+    if Traitormod.Commands[command] then
+        return Traitormod.Commands[command].Callback(client, split)
+    end
 end)
+
+
+dofile("Mods/traitormod/Lua/commands.lua")
