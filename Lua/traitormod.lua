@@ -211,6 +211,24 @@ Traitormod.RemoveCommand = function (commandName)
     Traitormod.Commands[commandName] = nil
 end
 
+Traitormod.PointsToBeGiven = {}
+Hook.HookMethod("Barotrauma.CharacterInfo", "IncreaseSkillLevel", function (instance, ptable)
+    if ptable.gainedFromAbility then return end
+    if instance.Character == nil then return end
+
+    local client = Traitormod.FindClientCharacter(instance.Character)
+
+    if client == nil then return end
+
+    local points = Traitormod.Config.PointsGainedFromSkill[ptable.skillIdentifier]
+
+    if points == nil then return end
+
+    points = points * ptable.increase
+
+    Traitormod.PointsToBeGiven[client] = (Traitormod.PointsToBeGiven[client] or 0) + points
+end)
+
 Traitormod.LoadData()
 
 
@@ -294,6 +312,8 @@ Hook.Add("roundEnd", "Traitormod.RoundEnd", function ()
     Traitormod.SaveData()
 end)
 
+local pointsGiveTimer = 0
+
 Hook.Add("think", "Traitormod.Think", function ()
     if Game.RoundStarted and Traitormod.SelectedGamemode then
         Traitormod.SelectedGamemode.Think()
@@ -301,6 +321,20 @@ Hook.Add("think", "Traitormod.Think", function ()
         for key, event in pairs(Traitormod.SelectedRandomEvents) do
             event.Think()
         end
+    end
+
+    if Timer.GetTime() > pointsGiveTimer then
+        for key, value in pairs(Traitormod.PointsToBeGiven) do
+            if value > 10 then
+                Traitormod.AddData(key, "Points", value)
+
+                Traitormod.SendMessage(key, string.format(Traitormod.Language.PointsAwarded, math.floor(value)), true, "InfoFrameTabButton.Mission")
+
+                Traitormod.PointsToBeGiven[key] = 0
+            end
+        end
+
+        pointsGiveTimer = Timer.GetTime() + 60
     end
 end)
 

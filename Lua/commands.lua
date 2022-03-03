@@ -26,7 +26,7 @@ Traitormod.AddCommand("!points", function (client, args)
         percentage = 100 -- percentage is NaN, set it to 100%
     end
 
-    Traitormod.SendMessage(client, string.format(Traitormod.Language.PointsInfo, Traitormod.GetData(client, "Points") or 0, Traitormod.GetData(client, "Lives") or Traitormod.Config.MaxLives, math.floor(percentage)))
+    Traitormod.SendMessage(client, string.format(Traitormod.Language.PointsInfo, math.floor(Traitormod.GetData(client, "Points")) or 0, Traitormod.GetData(client, "Lives") or Traitormod.Config.MaxLives, math.floor(percentage)))
 
     return true
 end)
@@ -76,7 +76,7 @@ Traitormod.AddCommand("!allpoints", function (client, args)
     local messageToSend = ""
 
     for index, value in pairs(Client.ClientList) do
-        messageToSend = messageToSend .. value.Name .. ": " .. (Traitormod.GetData(value, "Points") or 0) .. " Points - " .. math.floor(Traitormod.GetData(value, "Weight") or 0) .. " Weight"
+        messageToSend = messageToSend .. value.Name .. ": " .. math.floor(Traitormod.GetData(value, "Points") or 0) .. " Points - " .. math.floor(Traitormod.GetData(value, "Weight") or 0) .. " Weight"
     end
 
     Traitormod.SendMessage(client, messageToSend)

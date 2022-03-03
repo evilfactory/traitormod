@@ -17,6 +17,14 @@ config.PermanentPoints = true
 config.MaxLives = 4
 config.DistanceToEndOutpostRequired = 5000
 
+config.PointsGainedFromSkill = {
+    medical = 13,
+    weapons = 12,
+    mechanical = 5,
+    electrical = 10,
+    helm = 5,
+}
+
 -- looses half points
 config.PointsLostAfterNoLives = function (x)
     return x * 0.75
