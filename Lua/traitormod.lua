@@ -1,4 +1,5 @@
-print("Traitor Mod by Evilfactory and Qunk.")
+print("Traitor Mod by Evil Factory.")
+print("Special thanks to Qunk, Femboy69 and JoneK for helping in the development of this mod.")
 
 Game.OverrideTraitors(true)
 
@@ -28,6 +29,7 @@ Traitormod.Objectives = {
     "Mods/traitormod/Lua/objectives/stealcaptainid.lua",
     "Mods/traitormod/Lua/objectives/survive.lua",
     "Mods/traitormod/Lua/objectives/kidnapsecurity.lua",
+    "Mods/traitormod/Lua/objectives/poisoncaptain.lua",
 }
 
 Traitormod.RandomEvents = {
@@ -215,6 +217,7 @@ Traitormod.PointsToBeGiven = {}
 Hook.HookMethod("Barotrauma.CharacterInfo", "IncreaseSkillLevel", function (instance, ptable)
     if ptable.gainedFromAbility then return end
     if instance.Character == nil then return end
+    if instance.Character.IsDead then return end
 
     local client = Traitormod.FindClientCharacter(instance.Character)
 
@@ -225,6 +228,8 @@ Hook.HookMethod("Barotrauma.CharacterInfo", "IncreaseSkillLevel", function (inst
     if points == nil then return end
 
     points = points * ptable.increase
+
+    print(points)
 
     Traitormod.PointsToBeGiven[client] = (Traitormod.PointsToBeGiven[client] or 0) + points
 end)
@@ -325,7 +330,7 @@ Hook.Add("think", "Traitormod.Think", function ()
 
     if Timer.GetTime() > pointsGiveTimer then
         for key, value in pairs(Traitormod.PointsToBeGiven) do
-            if value > 10 then
+            if value > 200 then
                 Traitormod.AddData(key, "Points", value)
 
                 Traitormod.SendMessage(key, string.format(Traitormod.Language.PointsAwarded, math.floor(value)), true, "InfoFrameTabButton.Mission")
@@ -334,7 +339,7 @@ Hook.Add("think", "Traitormod.Think", function ()
             end
         end
 
-        pointsGiveTimer = Timer.GetTime() + 60
+        pointsGiveTimer = Timer.GetTime() + 500
     end
 end)
 

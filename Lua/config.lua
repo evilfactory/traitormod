@@ -18,11 +18,11 @@ config.MaxLives = 4
 config.DistanceToEndOutpostRequired = 5000
 
 config.PointsGainedFromSkill = {
-    medical = 13,
-    weapons = 12,
-    mechanical = 5,
-    electrical = 10,
-    helm = 5,
+    medical = 4,
+    weapons = 4,
+    mechanical = 3,
+    electrical = 3,
+    helm = 1,
 }
 
 -- looses half points
@@ -63,6 +63,11 @@ config.ObjectiveConfig = {
         AmountPoints = 4500,
         Seconds = 500,
     },
+
+    PoisonCaptain = {
+        Enabled = true,
+        AmountPoints = 1500,
+    },
 }
 
 config.GamemodeConfig = {
@@ -73,14 +78,14 @@ config.GamemodeConfig = {
         SelectionDelay = 60,
 
         NextTargetDelay = 60,
-        SelectBotsAsTargets = true,
+        SelectBotsAsTargets = false,
 
         -- Codewords, Names, None
         TraitorMethodCommunication = "Names",
 
         MinSubObjectives = 1,
-        MaxSubObjectives = 2,
-        SubObjectives = {"StealCaptainID", "Survive", "KidnapSecurity"},
+        MaxSubObjectives = 3,
+        SubObjectives = {"StealCaptainID", "Survive", "KidnapSecurity", "PoisonCaptain"},
 
         AmountTraitors = function (amountPlayers)
             if amountPlayers > 12 then return 3 end

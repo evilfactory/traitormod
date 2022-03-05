@@ -232,8 +232,9 @@ assassination.AssignInitialMissions = function (character)
         
         if objective.Start(character, assassination.GetValidTarget(objective.RoleFilter)) then
             table.insert(traitor.SubObjectives, objective)
-            table.remove(objectivesAvaiable, rng)    
         end
+
+        table.remove(objectivesAvaiable, rng)    
     end
 end
 
