@@ -229,8 +229,6 @@ Hook.HookMethod("Barotrauma.CharacterInfo", "IncreaseSkillLevel", function (inst
 
     points = points * ptable.increase
 
-    print(points)
-
     Traitormod.PointsToBeGiven[client] = (Traitormod.PointsToBeGiven[client] or 0) + points
 end)
 
