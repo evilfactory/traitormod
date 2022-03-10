@@ -26,7 +26,7 @@ Traitormod.AddCommand("!points", function (client, args)
         percentage = 100 -- percentage is NaN, set it to 100%
     end
 
-    Traitormod.SendMessage(client, string.format(Traitormod.Language.PointsInfo, math.floor(Traitormod.GetData(client, "Points")) or 0, Traitormod.GetData(client, "Lives") or Traitormod.Config.MaxLives, math.floor(percentage)))
+    Traitormod.SendMessage(client, string.format(Traitormod.Language.PointsInfo, math.floor(Traitormod.GetData(client, "Points") or 0), Traitormod.GetData(client, "Lives") or Traitormod.Config.MaxLives, math.floor(percentage)))
 
     return true
 end)
