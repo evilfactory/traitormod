@@ -43,7 +43,13 @@ assassination.End = function ()
     for character, traitor in pairs(assassination.Traitors) do
         for _, objective in pairs(traitor.SubObjectives) do
             if objective.EndRoundObjective and objective.IsCompleted() and not objective.Awarded then
-                objective.Award(character)
+                local client = Traitormod.FindClientCharacter(character)
+
+                if client then
+                    Traitormod.AddData(client, "Points", objective.Config.AmountPoints)
+                end
+                
+                objective.Awarded = true
             end
         end
     end
