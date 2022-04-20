@@ -56,6 +56,7 @@ language.ObjectiveSurvive = "Survive the shift."
 language.ObjectiveStealCaptainID = "Steal the captain's ID."
 language.ObjectiveKidnapSecurity = "Handcuff %s, the security guard, for %s seconds."
 language.ObjectivePoisonCaptain = "Poison %s, the captain with Sufforin."
+language.ObjectiveWreckGift = "Grab the gift"
 
 language.ObjectiveText = "Your traitor objectives are:"
 

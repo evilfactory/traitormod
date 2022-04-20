@@ -7,6 +7,10 @@ objective.Start = function (character, target)
     objective.Character = character
     objective.Target = target
 
+    if objective.Target == nil then
+        return false
+    end
+
     if not objective.Character.IsMedic then
         return false
     end

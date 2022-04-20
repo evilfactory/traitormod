@@ -15,8 +15,8 @@ assassination.Start = function ()
 
     assassination.CurrentRoundNumber = Traitormod.RoundNumber
 
-    dofile("Mods/traitormod/Lua/gamemodes/assassination/commands.lua")
-    dofile("Mods/traitormod/Lua/gamemodes/assassination/hooks.lua")
+    dofile(Traitormod.Path .. "/Lua/gamemodes/assassination/commands.lua")
+    dofile(Traitormod.Path .. "/Lua/gamemodes/assassination/hooks.lua")
 
     Timer.Wait(function ()
         if assassination.CurrentRoundNumber ~= Traitormod.RoundNumber then return end
@@ -38,7 +38,7 @@ assassination.Think = function ()
 end
 
 assassination.End = function ()
-    dofile("Mods/traitormod/Lua/gamemodes/assassination/cleanup.lua")
+    dofile(Traitormod.Path .. "/Lua/gamemodes/assassination/cleanup.lua")
 
     for character, traitor in pairs(assassination.Traitors) do
         for _, objective in pairs(traitor.SubObjectives) do
@@ -184,7 +184,7 @@ end
 assassination.GetValidTarget = function (roleFilter)
     local targets = {}
     for key, value in pairs(Character.CharacterList) do
-        if assassination.Traitors[value] == nil and value.IsHuman and not value.IsDead and 
+        if value ~= botGod and assassination.Traitors[value] == nil and value.IsHuman and not value.IsDead and 
         (roleFilter == nil or roleFilter[value.Info.Job.Prefab.Identifier]) then
             if not value.IsBot or assassination.Config.SelectBotsAsTargets then
                 table.insert(targets, value)
@@ -192,7 +192,7 @@ assassination.GetValidTarget = function (roleFilter)
         end
     end
 
-    return targets[Random.Range(1, #targets + 1)]
+    return targets[math.random(1, #targets)]
 end
 
 assassination.GreetTraitor = function (character)
@@ -232,10 +232,10 @@ assassination.AssignInitialMissions = function (character)
         objectivesAvaiable[key] = value
     end
 
-    for i = 1, Random.Range(assassination.Config.MinSubObjectives, assassination.Config.MaxSubObjectives + 1), 1 do
-        local rng = Random.Range(1, #objectivesAvaiable + 1)
+    for i = 1, math.random(assassination.Config.MinSubObjectives, assassination.Config.MaxSubObjectives), 1 do
+        local rng = math.random(1, #objectivesAvaiable)
         local objective = Traitormod.GetObjective(objectivesAvaiable[rng])
-        
+
         if objective.Start(character, assassination.GetValidTarget(objective.RoleFilter)) then
             table.insert(traitor.SubObjectives, objective)
         end
@@ -314,7 +314,7 @@ assassination.CheckObjectives = function (character, traitor)
     end
 end
 
-local weightedRandom = dofile("Mods/traitormod/Lua/weightedrandom.lua")
+local weightedRandom = dofile(Traitormod.Path .. "/Lua/weightedrandom.lua")
 
 assassination.SelectTraitors = function ()
     local clientWeight = {}

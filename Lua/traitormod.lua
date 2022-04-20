@@ -3,10 +3,9 @@ print("Special thanks to Qunk, Femboy69 and JoneK for helping in the development
 
 Game.OverrideTraitors(true)
 
-Traitormod = {}
-Traitormod.Config = dofile("Mods/traitormod/Lua/config.lua")
+Traitormod.Config = dofile(Traitormod.Path .. "/Lua/config.lua")
 Traitormod.Languages = {
-    dofile("Mods/traitormod/Lua/language/english.lua")
+    dofile(Traitormod.Path .. "/Lua/language/english.lua")
 }
 
 Traitormod.Language = Traitormod.Languages[1]
@@ -18,32 +17,32 @@ for key, value in pairs(Traitormod.Languages) do
 end
 
 Traitormod.Gamemodes = {
-    dofile("Mods/traitormod/Lua/gamemodes/assassination/assassination.lua")
+    dofile(Traitormod.Path .. "/Lua/gamemodes/assassination/assassination.lua")
 }
 
 Traitormod.EnabledGamemodes = {}
-Traitormod.SelectedGamemode = dofile("Mods/traitormod/Lua/gamemodes/nogamemode.lua")
+Traitormod.SelectedGamemode = dofile(Traitormod.Path .. "/Lua/gamemodes/nogamemode.lua")
 
 Traitormod.Objectives = {
-    "Mods/traitormod/Lua/objectives/assassinate.lua",
-    "Mods/traitormod/Lua/objectives/stealcaptainid.lua",
-    "Mods/traitormod/Lua/objectives/survive.lua",
-    "Mods/traitormod/Lua/objectives/kidnapsecurity.lua",
-    "Mods/traitormod/Lua/objectives/poisoncaptain.lua",
+    Traitormod.Path .. "/Lua/objectives/assassinate.lua",
+    Traitormod.Path .. "/Lua/objectives/stealcaptainid.lua",
+    Traitormod.Path .. "/Lua/objectives/survive.lua",
+    Traitormod.Path .. "/Lua/objectives/kidnapsecurity.lua",
+    Traitormod.Path .. "/Lua/objectives/poisoncaptain.lua",
 }
 
 Traitormod.RandomEvents = {
-    dofile("Mods/traitormod/Lua/randomevents/communicationsoffline.lua"),
-    dofile("Mods/traitormod/Lua/randomevents/superballastflora.lua"),
+    dofile(Traitormod.Path .. "/Lua/randomevents/communicationsoffline.lua"),
+    dofile(Traitormod.Path .. "/Lua/randomevents/superballastflora.lua"),
 }
 
 Traitormod.EnabledRandomEvents = {}
 Traitormod.SelectedRandomEvents = {}
 
-local json = dofile("Mods/traitormod/Lua/json.lua")
+local json = dofile(Traitormod.Path .. "/Lua/json.lua")
 
-if not File.Exists("Mods/traitormod/Lua/data.json") then
-    File.Write("Mods/traitormod/Lua/data.json", "{}")
+if not File.Exists(Traitormod.Path .. "/Lua/data.json") then
+    File.Write(Traitormod.Path .. "/Lua/data.json", "{}")
 end
 
 Traitormod.RoundNumber = 0
@@ -51,7 +50,7 @@ Traitormod.Commands = {}
 
 Traitormod.LoadData = function ()
     if Traitormod.Config.PermanentPoints then
-        Traitormod.ClientData = json.decode(File.Read("Mods/traitormod/Lua/data.json")) or {}
+        Traitormod.ClientData = json.decode(File.Read(Traitormod.Path .. "/Lua/data.json")) or {}
     else
         Traitormod.ClientData = {}
     end
@@ -59,7 +58,7 @@ end
 
 Traitormod.SaveData = function ()
     if Traitormod.Config.PermanentPoints then
-        File.Write("Mods/traitormod/Lua/data.json", json.encode(Traitormod.ClientData))
+        File.Write(Traitormod.Path .. "/Lua/data.json", json.encode(Traitormod.ClientData))
     end
 end
 
@@ -235,7 +234,7 @@ end)
 Traitormod.LoadData()
 
 
-local weightedRandom = dofile("Mods/traitormod/Lua/weightedrandom.lua")
+local weightedRandom = dofile(Traitormod.Path .. "/Lua/weightedrandom.lua")
 
 Hook.Add("roundStart", "Traitormod.RoundStart", function ()
     for key, value in pairs(Client.ClientList) do
@@ -352,4 +351,4 @@ Hook.Add("chatMessage", "Traitormod.ChatMessage", function (message, client)
 end)
 
 
-dofile("Mods/traitormod/Lua/commands.lua")
+dofile(Traitormod.Path .. "/Lua/commands.lua")

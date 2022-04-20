@@ -6,6 +6,10 @@ objective.RoleFilter = {["securityofficer"] = true}
 objective.Start = function (character, target)
     objective.Target = target
 
+    if objective.Target == nil then
+        return false
+    end
+
     objective.ObjectiveText = string.format(Traitormod.Language.ObjectiveKidnapSecurity, objective.Target.Name, objective.Config.Seconds)
 
     objective.SecondsLeft = objective.Config.Seconds
