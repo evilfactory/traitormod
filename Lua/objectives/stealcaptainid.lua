@@ -5,9 +5,9 @@ objective.Name = "StealCaptainID"
 objective.Start = function (character)
     local captainFound = false
 
-    for key, value in pairs(Client.ClientList) do
-        if value.Character ~= nil and value.Character.Info ~= nil then
-            if value.Character.Info.Job.Prefab.Identifier == "captain" then
+    for key, value in pairs(Character.CharacterList) do
+        if value ~= nil and value.Info ~= nil then
+            if value.Info.Job.Prefab.Identifier == "captain" then
                 captainFound = true
             end
         end
@@ -26,7 +26,7 @@ end
 
 objective.IsCompleted = function ()
     for item in objective.Character.Inventory.AllItems do
-        if item.Prefab.Identifier == "idcard" and string.find(item.Tags, "jobid:captain") then
+        if item.Prefab.Identifier == "idcard" and item.GetComponentString("IdCard").OwnerJobId == "captain" then
             return true
         end
     end
