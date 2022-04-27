@@ -181,19 +181,31 @@ assassination.ShowRoundInfo = function (client)
     Traitormod.SendMessage(client, message)
 end
 
-assassination.GetValidTarget = function (roleFilter)
+local hasBeenTargeted = {}
+
+assassination.GetValidTarget = function (roleFilter, sideObjective)
     local targets = {}
+
     for key, value in pairs(Character.CharacterList) do
+        -- if character is not a traitor, is a humand and is not dead
         if value ~= botGod and assassination.Traitors[value] == nil and value.IsHuman and not value.IsDead and 
+        -- and the role filter is empty or the character is in the role filter 
         (roleFilter == nil or roleFilter[value.Info.Job.Prefab.Identifier]) then
+            -- if the chararcter is not a bot or the config is set so bots can be targets
             if not value.IsBot or assassination.Config.SelectBotsAsTargets then
-                table.insert(targets, value)
+                -- if the character has not already been targeted or it is a side objective
+                if not hasBeenTargeted[value] or sideObjective then
+                    -- add the character as a possible target
+                    table.insert(targets, value)
+                    -- add the target to the list of characters that have been targeted
+                    hasBeenTargeted[value] = not sideObjective
+                    end 
+                end
             end
         end
     end
 
     return targets[math.random(1, #targets)]
-end
 
 assassination.GreetTraitor = function (character)
     local traitor = {}
@@ -236,7 +248,7 @@ assassination.AssignInitialMissions = function (character)
         local rng = math.random(1, #objectivesAvaiable)
         local objective = Traitormod.GetObjective(objectivesAvaiable[rng])
 
-        if objective.Start(character, assassination.GetValidTarget(objective.RoleFilter)) then
+        if objective.Start(character, assassination.GetValidTarget(objective.RoleFilter, true)) then
             table.insert(traitor.SubObjectives, objective)
         end
 
