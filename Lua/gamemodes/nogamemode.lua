@@ -14,7 +14,7 @@ nogamemode.End = function ()
     return ""
 end
 
-nogamemode.ShowInfo = function ()
+nogamemode.ShowRoundInfo = function ()
     return ""
 end
 
