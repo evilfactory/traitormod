@@ -1,7 +1,7 @@
 local language = {}
 language.Name = "English"
 
-language.Help = "!help - This message\n!traitor - See traitor information\n!points - See your points.\n!roundinfo - See round information. (admin only)\n!traitoralive - Check if all traitors died.\n!alive - See alive players (dead people only)"
+language.Help = "!help - This message\n!traitor - See traitor information\n!points - See your points.\n!roundinfo - See round information. (admin only)\n!alive - See alive players (dead people only)"
 
 language.NoTraitor = "You aren't a traitor."
 language.RoundNotStarted = "Round not started."
