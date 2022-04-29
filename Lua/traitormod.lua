@@ -1,4 +1,6 @@
-print("Traitor Mod by Evil Factory.")
+local version = "2.1-SNAPSHOT"
+
+print("Traitor Mod v" .. version .. " by Evil Factory")
 print("Special thanks to Qunk, Femboy69 and JoneK for helping in the development of this mod.")
 
 Game.OverrideTraitors(true)
@@ -127,7 +129,7 @@ Traitormod.SendMessageCharacter = function (character, text, popup, icon)
     local client = Traitormod.FindClientCharacter(character)
 
     if client == nil then
-        print("Traitormod.SendMessageCharacter() Client is null, ", character.name, " ", text)
+        Traitormod.Error("SendMessageCharacter() Client is null, ", character.name, " ", text)
         return
     end
 
@@ -212,6 +214,7 @@ Traitormod.RemoveCommand = function (commandName)
     Traitormod.Commands[commandName] = nil
 end
 
+-- when a character gains skill level, add PointsToBeGiven according to config
 Traitormod.PointsToBeGiven = {}
 Hook.HookMethod("Barotrauma.CharacterInfo", "IncreaseSkillLevel", function (instance, ptable)
     if ptable.gainedFromAbility then return end
@@ -233,10 +236,24 @@ end)
 
 Traitormod.LoadData()
 
+Traitormod.Log = function (message)
+    print("[TraitorMod] " .. message)
+end
+
+Traitormod.Debug = function (message)
+    if Traitormod.Config.DebugLogs then
+        print("[TraitorMod-Debug] " .. message)
+    end
+end
+
+Traitormod.Error = function (message)
+    error("[TraitorMod] " .. message)
+end
 
 local weightedRandom = dofile(Traitormod.Path .. "/Lua/weightedrandom.lua")
 
 Hook.Add("roundStart", "Traitormod.RoundStart", function ()
+    -- give XP to players based on stored points
     for key, value in pairs(Client.ClientList) do
         if value.Character ~= nil and value.Character.Info ~= nil then
             local amount = Traitormod.Config.AmountExperienceWithPoints(Traitormod.GetData(value, "Points") or 0)
@@ -244,15 +261,19 @@ Hook.Add("roundStart", "Traitormod.RoundStart", function ()
         end
     end
 
+    -- choose a gamemode
     if #Traitormod.EnabledGamemodes == 0 then return end
     local result = weightedRandom.Choose(Traitormod.EnabledGamemodes, "Config", "WeightChance")
     Traitormod.SelectedGamemode = Traitormod.EnabledGamemodes[result]
     Traitormod.SelectedGamemode.Start()
+    Traitormod.Log("Starting gamemode " .. Traitormod.SelectedGamemode.Name)
 
+    -- check for event
     if Random.Range(0, 100) < Traitormod.Config.RandomEventConfig.AnyRandomEventChance then
         local result = weightedRandom.Choose(Traitormod.EnabledRandomEvents, "Config", "WeightChance")
 
         if result ~= nil then
+            Traitormod.Log("Starting event " .. Traitormod.EnabledRandomEvents[result].Name)
             table.insert(Traitormod.SelectedRandomEvents, Traitormod.EnabledRandomEvents[result])
             Traitormod.EnabledRandomEvents[result].Start()
         end
@@ -264,10 +285,13 @@ Hook.Add("roundEnd", "Traitormod.RoundEnd", function ()
     
     if Traitormod.SelectedGamemode == nil then return end
 
+    -- handle stored player lives and weight
     for key, value in pairs(Client.ClientList) do
+        -- add weight according to points and config conversion
         Traitormod.AddData(value, "Weight", Traitormod.Config.AmountWeightWithPoints(Traitormod.GetData(value, "Points") or 0))
 
         if value.Character ~= nil then
+            -- if char is dead, remove one live, if lives reaches 0 reduce poitns according to config
             if value.Character.IsDead then
                 Traitormod.AddData(value, "Lives", -1)
 
@@ -275,6 +299,7 @@ Hook.Add("roundEnd", "Traitormod.RoundEnd", function ()
                     Traitormod.SetData(value, "Points", Traitormod.Config.PointsLostAfterNoLives(Traitormod.GetData(value, "Points") or 0))
                     Traitormod.SetData(value, "Lives", Traitormod.Config.MaxLives)
                 end
+            -- else if character in reach of end position, gain a live
             else if Vector2.Distance(value.Character.WorldPosition, Level.Loaded.EndPosition) < Traitormod.Config.DistanceToEndOutpostRequired then
                     if (Traitormod.GetData(value, "Lives") or 0) < Traitormod.Config.MaxLives then
                         Traitormod.AddData(value, "Lives", 1)
@@ -284,6 +309,7 @@ Hook.Add("roundEnd", "Traitormod.RoundEnd", function ()
         end
     end
 
+    -- send LastRoundSummary
     local endMessage = Traitormod.SelectedGamemode.End()
 
     local eventMessage = ""
@@ -305,6 +331,7 @@ Hook.Add("roundEnd", "Traitormod.RoundEnd", function ()
     Traitormod.SendMessageEveryone(endMessage)
     Traitormod.LastRoundSummary = endMessage
     
+    -- end all events
     for key, event in pairs(Traitormod.SelectedRandomEvents) do
         event.End()
     end
@@ -316,6 +343,7 @@ end)
 
 local pointsGiveTimer = 0
 
+-- register tick
 Hook.Add("think", "Traitormod.Think", function ()
     if Game.RoundStarted and Traitormod.SelectedGamemode then
         Traitormod.SelectedGamemode.Think()
@@ -325,6 +353,7 @@ Hook.Add("think", "Traitormod.Think", function ()
         end
     end
 
+    -- every 500s, if a character has 200+ PointsToBeGiven, store added points and send feedback
     if Timer.GetTime() > pointsGiveTimer then
         for key, value in pairs(Traitormod.PointsToBeGiven) do
             if value > 200 then
@@ -340,6 +369,7 @@ Hook.Add("think", "Traitormod.Think", function ()
     end
 end)
 
+-- Traitormod.Commands hook
 Hook.Add("chatMessage", "Traitormod.ChatMessage", function (message, client)
     local split = Traitormod.ParseCommand(message)
     
