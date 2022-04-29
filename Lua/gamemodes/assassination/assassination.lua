@@ -194,13 +194,14 @@ assassination.GetValidTarget = function (roleFilter)
     local debug = ""
     for key, value in pairs(Character.CharacterList) do
         if value ~= botGod and assassination.Traitors[value] == nil and value.IsHuman and not value.IsDead and 
-        (roleFilter == nil or roleFilter[value.Info.Job.Prefab.Identifier]) then
+        (roleFilter == nil or roleFilter[tostring(value.Info.Job.Prefab.Identifier)]) then
             if not value.IsBot or assassination.Config.SelectBotsAsTargets then
                 table.insert(targets, value)
                 debug = debug.." | "..value.Name.."("..tostring(value.Info.Job.Prefab.Identifier)..")"
             end
         end
     end
+    
     Traitormod.Debug("Selecting new random target out of "..#targets.." possible candidates"..debug)
     return targets[math.random(1, #targets)]
 end
