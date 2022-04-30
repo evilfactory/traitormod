@@ -20,10 +20,12 @@ assassination.Start = function ()
     dofile(Traitormod.Path .. "/Lua/gamemodes/assassination/hooks.lua")
 
     -- select traitor after configured time has passed
+    local delay = math.random(assassination.Config.StartDelayMin, assassination.Config.StartDelayMax)
+    Traitormod.Log("Traitors will be chosen in " .. delay .. "s")
     Timer.Wait(function ()
         if assassination.CurrentRoundNumber ~= Traitormod.RoundNumber then return end
         assassination.SelectTraitors()
-    end, assassination.Config.SelectionDelay * 1000)
+    end, delay * 1000)
 end
 
 local thinkTimer = 0
@@ -299,7 +301,9 @@ assassination.CheckObjectives = function (character, traitor)
                     string.format(lang.PointsAwarded, objective.Config.AmountPoints), "MissionCompletedIcon") --InfoFrameTabButton.Mission
             end
 
-            -- choose next target after NextTargetDelay seconds
+            -- choose next target after configured time passed
+            local delay = math.random(assassination.Config.NextDelayMin, assassination.Config.NextDelayMax)
+            Traitormod.Log("Choosing new target in " .. delay .. "s")
             Timer.Wait(function ()
                 if assassination.CurrentRoundNumber ~= Traitormod.RoundNumber then return end
 
@@ -318,7 +322,7 @@ assassination.CheckObjectives = function (character, traitor)
 
                 assassination.RenewAssassinationObjective(character, traitor, target)
 
-            end, assassination.Config.NextTargetDelay * 1000)
+            end, delay * 1000)
         end
     end
 

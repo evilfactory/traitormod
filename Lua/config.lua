@@ -81,9 +81,11 @@ config.GamemodeConfig = {
         WeightChance = 50,
         EndOnComplete = true,           -- end round when there are no assassination targets left
 
-        SelectionDelay = 60,
+        StartDelayMin = 90,
+        StartDelayMax = 180,
+        NextDelayMin = 30,
+        NextDelayMin = 90,
 
-        NextTargetDelay = 60,
         SelectBotsAsTargets = true,
         SelectPiratesAsTargets = false,
         SelectUniqueTargets = true,     -- every traitor target can only be chosen once (for respawn on)
