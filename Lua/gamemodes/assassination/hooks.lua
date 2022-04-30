@@ -23,7 +23,9 @@ Hook.Add("characterDeath", "Traitormod.Assassination.DeathByTraitor", function (
         -- if traitor dies while assassination is not complete and traitor not supposed to come back as traitor, set traitor failed - loose traitor state
         if not assassination.Completed and assassination.Config.TraitorRespawnAs ~= "traitor" then
             if Traitormod.IsRespawnEnabled() then
-                Traitormod.SendMessageCharacter(character, lang.TraitorDeath, true, "InfoFrameTabButton.Traitor")
+                Traitormod.SendMessageCharacter(character, lang.TraitorDeath, "InfoFrameTabButton.Traitor")
+
+                Traitormod.UpdateVanillaTraitor(character, false)
             end
             victimTraitor.Failed = true
         end
@@ -34,7 +36,7 @@ Hook.Add("characterDeath", "Traitormod.Assassination.DeathByTraitor", function (
         if assassination.Traitors[attacker] ~= nil then
             victimType = "Assassination target"
             assassination.Traitors[attacker].Kills = (assassination.Traitors[attacker].Kills or 0) + 1
-            Traitormod.SendMessageCharacter(character, lang.KilledByTraitor, true, "InfoFrameTabButton.Traitor")
+            Traitormod.SendMessageCharacter(character, lang.KilledByTraitor, "InfoFrameTabButton.Traitor")
         end
     end
 

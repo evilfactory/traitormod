@@ -1,6 +1,6 @@
-local version = "2.1-SNAPSHOT"
+local VERSION = "2.1-SNAPSHOT"
 
-print("Traitor Mod v" .. version .. " by Evil Factory")
+print("Traitor Mod v" .. VERSION .. " by Evil Factory")
 print("Special thanks to Qunk, Femboy69 and JoneK for helping in the development of this mod.")
 
 Game.OverrideTraitors(true)
@@ -119,8 +119,9 @@ Traitormod.SendMessageEveryone = function (text)
     Game.SendMessage(text, 1)
 end
 
-Traitormod.SendMessage = function (client, text, popup, icon)
-    if popup == true then
+Traitormod.SendMessage = function (client, text, icon)
+    -- ChatMessageType 1-5 in chat, 6 is log, 7/10 is popup, 9 no effect, 11 is messagebox
+    if icon then
         Game.SendDirectChatMessage("", text, nil, 11, client, icon)
     else
         Game.SendDirectChatMessage("", text, nil, 7, client)
@@ -129,7 +130,7 @@ Traitormod.SendMessage = function (client, text, popup, icon)
     Game.SendDirectChatMessage("", text, nil, 1, client)
 end
 
-Traitormod.SendMessageCharacter = function (character, text, popup, icon)
+Traitormod.SendMessageCharacter = function (character, text, icon)
     if character.IsBot then return end
     
     local client = Traitormod.FindClientCharacter(character)
@@ -139,8 +140,27 @@ Traitormod.SendMessageCharacter = function (character, text, popup, icon)
         return
     end
 
-    Traitormod.SendMessage(client, text, popup, icon)
+    Traitormod.SendMessage(client, text, icon)
 end
+
+local iconIdentifier =  "enginetrap" -- can be any defined Traitor mission id in vanilla xml, mainly used for icon
+Traitormod.SendTraitorMessageBox = function (character, text)
+    local client = Traitormod.FindClientCharacter(character)
+    Game.SendTraitorMessage(client, text, iconIdentifier, TraitorMessageType.ServerMessageBox);
+    Game.SendDirectChatMessage("", text, nil, 1, client)
+end
+
+-- set character traitor to enable sabotage, set mission objective text then sync with session
+ Traitormod.UpdateVanillaTraitor = function (character, enabled, objectiveSummary)
+    character.IsTraitor = enabled
+    local client = Traitormod.FindClientCharacter(character)
+    local msg = nil
+    if enabled and Traitormod.SelectedGamemode then
+        msg = objectiveSummary or Traitormod.SelectedGamemode.GetTraitorObjectiveSummary(character)
+    end
+    character.TraitorCurrentObjective = msg
+    Game.SendTraitorMessage(client, msg, iconIdentifier, TraitorMessageType.Objective)
+ end
 
 Traitormod.SelectCodeWords = function ()
     local copied = {}
@@ -272,12 +292,28 @@ end
 
 local weightedRandom = dofile(Traitormod.Path .. "/Lua/weightedrandom.lua")
 
+local traitorsEnabled = -1
 Hook.Add("roundStart", "Traitormod.RoundStart", function ()
+    Traitormod.Log("Starting traitor round - Traitor Mod v" .. VERSION)
+
     -- give XP to players based on stored points
     for key, value in pairs(Client.ClientList) do
         if value.Character ~= nil and value.Character.Info ~= nil then
             local amount = Traitormod.Config.AmountExperienceWithPoints(Traitormod.GetData(value, "Points") or 0)
+            Traitormod.Debug("Giving experience to character: " .. value.Character.Name .. " -> " .. amount)
             value.Character.Info.GiveExperience(amount)
+        end
+    end
+
+    traitorsEnabled = Game.ServerSettings.TraitorsEnabled
+    if traitorsEnabled == 0 then
+        Traitormod.Log("Traitors are disabled.")
+        return
+    elseif traitorsEnabled == 1 then
+        local rng = math.random()
+        if rng < 0.5 then
+            Traitormod.Log("No traitors on this mission...")
+            return
         end
     end
 
@@ -301,9 +337,6 @@ Hook.Add("roundStart", "Traitormod.RoundStart", function ()
 end)
 
 Hook.Add("roundEnd", "Traitormod.RoundEnd", function ()
-    Traitormod.RoundNumber = Traitormod.RoundNumber + 1
-    
-    if Traitormod.SelectedGamemode == nil then return end
     local endReached = false
 
     -- handle stored player lives and weight
@@ -331,6 +364,12 @@ Hook.Add("roundEnd", "Traitormod.RoundEnd", function ()
         end
     end
 
+    if traitorsEnabled == 0 or Traitormod.SelectedGamemode == nil then
+        return
+    end
+
+    Traitormod.RoundNumber = Traitormod.RoundNumber + 1
+
     -- send LastRoundSummary
     local endMessage = Traitormod.SelectedGamemode.End()
 
@@ -352,6 +391,7 @@ Hook.Add("roundEnd", "Traitormod.RoundEnd", function ()
     end
 
     endMessage = 
+    Traitormod.Language.RoundSummary .. "\n" ..
     roundResult .. 
     string.format(Traitormod.Language.Gamemode, Traitormod.SelectedGamemode.Name) .. "\n" ..
     string.format(Traitormod.Language.RandomEvents, eventMessage) .. "\n\n" .. 
@@ -389,7 +429,7 @@ Hook.Add("think", "Traitormod.Think", function ()
             if value > 200 then
                 Traitormod.AddData(key, "Points", value)
 
-                Traitormod.SendMessage(key, string.format(Traitormod.Language.PointsAwarded, math.floor(value)), true, "InfoFrameTabButton.Mission")
+                Traitormod.SendMessage(key, string.format(Traitormod.Language.PointsAwarded, math.floor(value)), "InfoFrameTabButton.Mission")
 
                 Traitormod.PointsToBeGiven[key] = 0
             end

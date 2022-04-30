@@ -44,73 +44,44 @@ end
 assassination.End = function ()
     dofile(Traitormod.Path .. "/Lua/gamemodes/assassination/cleanup.lua")
 
-    local message = lang.TraitorsRound
-
     if assassination.GetAmountTraitors() == 0 then 
-        message = message .. " " .. lang.NoTraitors
+        message = lang.NoTraitors
     else
-        message = message .. "\n"
+        message = assassination.GetRoundSummary()
+    end
 
-        for character, traitor in pairs(assassination.Traitors) do
-            -- award points for completed EndRoundObjectives
-            for _, objective in pairs(traitor.SubObjectives) do
-                if objective.EndRoundObjective and objective.IsCompleted() and not objective.Awarded then
-                    local client = Traitormod.FindClientCharacter(character)
+    -- award points for completed EndRoundObjectives
+    for character, traitor in pairs(assassination.Traitors) do
+        for _, objective in pairs(traitor.SubObjectives) do
+            if objective.EndRoundObjective and objective.IsCompleted() and not objective.Awarded then
+                local client = Traitormod.FindClientCharacter(character)
+            
+                if client then
+                    Traitormod.AddData(client, "Points", objective.Config.AmountPoints)
+                end
                 
-                    if client then
-                        Traitormod.AddData(client, "Points", objective.Config.AmountPoints)
-                    end
-                    
-                    objective.Awarded = true
-                end
+                objective.Awarded = true
             end
-
-            -- return round summary
-            local mainObjectiveText = ""
-            for key, value in pairs(traitor.MainObjectives) do
-                mainObjectiveText = mainObjectiveText .. "  >  " .. value.ObjectiveText
-
-                if value.Awarded then
-                    mainObjectiveText = mainObjectiveText .. lang.Completed .. "\n"
-                else
-                    mainObjectiveText = mainObjectiveText .. "\n"
-                end
-            end
-
-            local subObjectivesText = ""
-            for key, value in pairs(traitor.SubObjectives) do
-                subObjectivesText = subObjectivesText .. "  >  " .. value.ObjectiveText
-
-                if value.Awarded then
-                    subObjectivesText = subObjectivesText .. lang.Completed .. "\n"
-                else
-                    subObjectivesText = subObjectivesText .. "\n"
-                end
-            end
-
-            if #traitor.SubObjectives == 0 then
-                subObjectivesText = subObjectivesText .. "  >  " .. lang.NoObjectives .. "\n"
-            end
-
-            local traitorName = character.Name
-            if traitor.Deaths > 0 then
-                traitorName = traitorName.." (Died)"
-            end
-
-            message = message .. string.format("\n%s\n%s\n%s\n%s\n%s", string.format(lang.CharacterName, traitorName), lang.Objective, mainObjectiveText, lang.SubObjective, subObjectivesText)
         end
     end
 
     return message
 end
 
--- rerturns traitor information including objectives and codewords for MultiTraitor, used for command !traitor, only usable by traitors
-assassination.ShowInfo = function (character)
+assassination.GetRoundSummary = function ()
+    local summary = lang.TraitorsRound .. "\n"
+    for character, traitor in pairs(assassination.Traitors) do
+        summary = summary .. assassination.GetTraitorObjectiveSummary(character, true) .. "\n"
+    end
+    return summary
+end
+
+assassination.GetTraitorObjectiveSummary = function (character, roundSummary)
     local traitor = assassination.Traitors[character]
 
+    -- if given character was no traitor, return no traitor.
     if traitor == nil or character.IsDead or traitor.Failed then 
-        Traitormod.SendMessageCharacter(character, Traitormod.Language.NoTraitor)
-        return 
+        return Traitormod.Language.NoTraitor
     end
 
     local mainObjectiveText = ""
@@ -119,24 +90,38 @@ assassination.ShowInfo = function (character)
 
         if value.Awarded then
             mainObjectiveText = mainObjectiveText .. lang.Completed .. "\n"
-        else
+        elseif not roundSummary then
             mainObjectiveText = mainObjectiveText .. " " .. string.format(lang.Points, value.Config.AmountPoints) .. "\n"
         end
     end
 
     local subObjectivesText = ""
-    for key, value in pairs(traitor.SubObjectives) do
-        subObjectivesText = subObjectivesText .. "  >  " .. value.ObjectiveText
-
-        if value.Awarded then
-            subObjectivesText = subObjectivesText .. lang.Completed .. "\n"
-        else
-            subObjectivesText = subObjectivesText .. " " .. string.format(lang.Points, value.Config.AmountPoints) .. "\n"
+    if #traitor.SubObjectives == 0 then
+        subObjectivesText = subObjectivesText .. "  >  " .. lang.NoObjectives .. "\n"
+    else
+        for key, value in pairs(traitor.SubObjectives) do
+            subObjectivesText = subObjectivesText .. "  >  " .. value.ObjectiveText
+        
+            if value.Awarded then
+                subObjectivesText = subObjectivesText .. lang.Completed .. "\n"
+            elseif not roundSummary then
+                subObjectivesText = subObjectivesText .. " " .. string.format(lang.Points, value.Config.AmountPoints) .. "\n"
+            end
         end
     end
 
-    if #traitor.SubObjectives == 0 then
-        subObjectivesText = subObjectivesText .. "  >  " .. lang.NoObjectives .. "\n"
+    if roundSummary then
+        local prefix = "Crew member"
+        if character.Info and character.Info.Job then
+            prefix = tostring(TextManager.Get("jobname." .. tostring(character.Info.Job.Prefab.Identifier)))
+        end
+
+        local traitorName = character.Name
+        if traitor.Deaths > 0 then
+            traitorName = traitorName.." (Died)"
+        end
+        
+        return string.format("- %s %s\n\n%s\n%s\n%s\n%s", prefix, traitorName, lang.Objective, mainObjectiveText, lang.SubObjective, subObjectivesText)
     end
 
     local codewordText = ""
@@ -166,30 +151,18 @@ assassination.ShowInfo = function (character)
         codewordText = string.format(lang.OtherTraitors, names)
     end
 
-    local missions = string.format("%s\n\n%s\n\n%s\n\n%s\n%s\n%s\n%s", lang.TraitorWelcome, codewordText, lang.ObjectiveText, lang.Objective, mainObjectiveText, lang.SubObjective, subObjectivesText)
-    
-    Traitormod.SendMessageCharacter(character, missions)
+    return string.format("%s\n\n%s\n%s\n%s\n%s\n%s", lang.ObjectiveText, lang.Objective, mainObjectiveText, lang.SubObjective, subObjectivesText, codewordText)
+end
+
+-- rerturns traitor information including objectives and codewords for MultiTraitor, used for command !traitor, only usable by traitors
+assassination.ShowInfo = function (character)
+    local summary = assassination.GetTraitorObjectiveSummary(character)
+    Traitormod.SendMessageCharacter(character, summary)
 end
 
 -- returns a summary of the current gamemode, used for admin command !roundinfo
 assassination.ShowRoundInfo = function (client)
-    local message = lang.TraitorsRound .. "\n"
-    
-    for character, traitor in pairs(assassination.Traitors) do
-        local mainObjectiveText = ""
-        for key, value in pairs(traitor.MainObjectives) do
-            mainObjectiveText = mainObjectiveText .. "  >  " .. value.ObjectiveText .. "\n"
-        end
-
-        local subObjectivesText = ""
-        for key, value in pairs(traitor.SubObjectives) do
-            subObjectivesText = subObjectivesText .. "  >  " .. value.ObjectiveText .. "\n"
-        end
-
-        message = message .. string.format("\n%s\n%s\n%s\n%s\n%s", string.format(lang.CharacterName, character.Name), lang.Objective, mainObjectiveText, lang.SubObjective, subObjectivesText)
-    end
-
-    Traitormod.SendMessage(client, message)
+    Traitormod.SendMessage(client, assassination.GetRoundSummary())
 end
 
 -- returns a random valid assassination target for a given role filter
@@ -199,9 +172,11 @@ assassination.GetValidTarget = function (roleFilter)
     for key, value in pairs(Character.CharacterList) do
         if value ~= botGod and assassination.Traitors[value] == nil and value.IsHuman and not value.IsDead and 
         (roleFilter == nil or roleFilter[tostring(value.Info.Job.Prefab.Identifier)]) then
-            if not value.IsBot or assassination.Config.SelectBotsAsTargets then
-                table.insert(targets, value)
-                debug = debug.." | "..value.Name.."("..tostring(value.Info.Job.Prefab.Identifier)..")"
+            if assassination.Config.SelectPiratesAsTargets or not string.startsWith(value.Name, tostring(TextManager.Get("missiontype.pirate"))) then
+                if not value.IsBot or assassination.Config.SelectBotsAsTargets then
+                    table.insert(targets, value)
+                    debug = debug.." | "..value.Name.."("..tostring(value.Info.Job.Prefab.Identifier)..")"
+                end
             end
         end
     end
@@ -230,7 +205,16 @@ assassination.GreetTraitor = function (character)
         greet = string.format("%s\n\n%s", lang.TraitorWelcome, lang.AgentNoticeNoCodewords)
     end
 
-    Traitormod.SendMessageCharacter(character, greet)
+    -- send greeting
+    Traitormod.SendTraitorMessageBox(character, greet)
+    
+    -- assign missions
+    assassination.AssignInitialMissions(character)
+
+    -- set mission objective
+    local objectiveSummary = assassination.GetTraitorObjectiveSummary(character)
+    Traitormod.SendTraitorMessageBox(character, objectiveSummary)
+    Traitormod.UpdateVanillaTraitor(character, true, objectiveSummary)
 end
 
 -- initially choose objectives and targets
@@ -250,20 +234,34 @@ assassination.AssignInitialMissions = function (character)
 
     local objectivesAvaiable = {}
     for key, value in pairs(assassination.Config.SubObjectives) do
-        objectivesAvaiable[key] = value
+        local objective = Traitormod.GetObjective(value)
+            
+        -- if sub objective AlwaysActive start right away, else add to available choices
+        if objective.Config.AlwaysActive then
+            if objective.Start(character) then
+                table.insert(traitor.SubObjectives, objective)
+                Traitormod.Log("AlwaysActive Sub objective "..objective.Name.. " started.")
+            else
+                Traitormod.Error("AlwaysActive Sub objective "..objective.Name.. " could not be started!")
+            end
+        else
+            table.insert(objectivesAvaiable, objective)
+        end
     end
 
     for i = 1, math.random(assassination.Config.MinSubObjectives, assassination.Config.MaxSubObjectives), 1 do
+        if #objectivesAvaiable == 0 then
+            return
+        end
         local rng = math.random(1, #objectivesAvaiable)
-        local objective = Traitormod.GetObjective(objectivesAvaiable[rng])
-        Traitormod.Debug("GetValidTarget for ".. objective.Name)
+        local objective = objectivesAvaiable[rng]
         local subTarget = assassination.GetValidTarget(objective.RoleFilter)
         if objective.Start(character, subTarget) then
             table.insert(traitor.SubObjectives, objective)
             Traitormod.Log("Sub objective "..objective.Name.. " started with target " .. subTarget.Name)
         end
 
-        table.remove(objectivesAvaiable, rng)    
+        table.remove(objectivesAvaiable, rng)
     end
 end
 
@@ -273,7 +271,12 @@ assassination.RenewAssassinationObjective = function(character, traitor, target)
     newObjective.Start(traitor, target)
     table.insert(traitor.MainObjectives, newObjective)
 
-    Traitormod.SendMessageCharacter(character, string.format(lang.AssassinationNewObjective, target.Name), true, "GameModeIcon.pvp")
+    if not character.IsDead then 
+        -- give feedback about new target
+        Traitormod.SendMessageCharacter(character, string.format(lang.AssassinationNewObjective, target.Name), "GameModeIcon.pvp")
+
+        Traitormod.UpdateVanillaTraitor(character, true)
+    end
 end
 
 -- check if objectives have been completed
@@ -282,8 +285,19 @@ assassination.CheckObjectives = function (character, traitor)
     -- MainObjectives
     for _, objective in pairs(traitor.MainObjectives) do
         if not objective.EndRoundObjective and objective.IsCompleted() and not objective.Awarded then
+            -- award points for main objection completion
+            objective.Awarded = true
 
-            Traitormod.SendMessageCharacter(character, string.format(lang.ObjectiveCompleted, objective.ObjectiveText), true, "MissionCompletedIcon")
+            local client = Traitormod.FindClientCharacter(character)
+            if client == nil then 
+                Traitormod.Error("Couldn't award assassination points for " + character.Name)
+            else
+                Traitormod.AddData(client, "Points", objective.Config.AmountPoints)
+
+                Traitormod.SendMessage(client, 
+                    string.format(lang.ObjectiveCompleted, objective.ObjectiveText) .. " \n\n" .. 
+                    string.format(lang.PointsAwarded, objective.Config.AmountPoints), "MissionCompletedIcon") --InfoFrameTabButton.Mission
+            end
 
             -- choose next target after NextTargetDelay seconds
             Timer.Wait(function ()
@@ -294,7 +308,7 @@ assassination.CheckObjectives = function (character, traitor)
 
                 if target == nil and not character.IsDead then
                     -- if no new target found, give feedback and return
-                    Traitormod.SendMessageCharacter(character, lang.AssassinationEveryoneDead, true, "InfoFrameTabButton.Reputation")
+                    Traitormod.SendMessageCharacter(character, lang.AssassinationEveryoneDead, "InfoFrameTabButton.Reputation")
                     assassination.Completed = true
                     if assassination.Config.EndOnComplete then
                         Game.EndGame()
@@ -302,37 +316,17 @@ assassination.CheckObjectives = function (character, traitor)
                     return
                 end
 
-                local newObjective = Traitormod.GetObjective("Assassinate")
-                newObjective.Start(character, target)
-                table.insert(traitor.MainObjectives, newObjective)
-
-                
-                if not character.IsDead then 
-                    -- give feedback about new target
-                    Traitormod.SendMessageCharacter(character, string.format(lang.AssassinationNewObjective, target.Name), true, "GameModeIcon.pvp")
-                end
+                assassination.RenewAssassinationObjective(character, traitor, target)
 
             end, assassination.Config.NextTargetDelay * 1000)
-
-            -- award points for main objection completion
-            objective.Awarded = true
-
-            local client = Traitormod.FindClientCharacter(character)
-            if client == nil then 
-                Traitormod.Error("Couldn't award assassination points for " + character.Name)
-            else
-                Traitormod.AddData(client, "Points", objective.Config.AmountPoints)
-
-                Traitormod.SendMessage(client, string.format(lang.PointsAwarded, objective.Config.AmountPoints), true, "InfoFrameTabButton.Mission")
-
-            end
         end
     end
 
     -- SubObjectives
     for _, objective in pairs(traitor.SubObjectives) do
         if not objective.EndRoundObjective and objective.IsCompleted() and not objective.Awarded then
-            Traitormod.SendMessageCharacter(character, objective.ObjectiveText, true, "MissionCompletedIcon")
+            Traitormod.SendMessageCharacter(character, objective.ObjectiveText, "MissionCompletedIcon")
+            Traitormod.UpdateVanillaTraitor(character, true)
 
             objective.Awarded = true
 
@@ -344,7 +338,7 @@ assassination.CheckObjectives = function (character, traitor)
 
                 Traitormod.AddData(client, "Points", objective.Config.AmountPoints)
 
-                Traitormod.SendMessage(client, string.format(lang.PointsAwarded, objective.Config.AmountPoints), true, "InfoFrameTabButton.Mission")
+                Traitormod.SendMessage(client, string.format(lang.PointsAwarded, objective.Config.AmountPoints), "InfoFrameTabButton.Mission")
             end
 
         end
@@ -375,18 +369,12 @@ assassination.SelectTraitors = function ()
         local index = weightedRandom.Choose(clientWeight)
 
         if index ~= nil then
-            Traitormod.Log("Chose "..index.Character.Name.. " as traitor. Weight: "..clientWeight[index])
+            Traitormod.Log("Chose " .. index.Character.Name.. " as traitor. Weight: " .. math.floor(clientWeight[index] * 100) / 100)
             assassination.GreetTraitor(index.Character)
             clientWeight[index] = nil
             -- if traitor chosen reset stored weight to 0
             Traitormod.SetData(index, "Weight", 0)
         end
-    end
-
-    -- assign missions to successfully registered traitors
-    for character, traitor in pairs(assassination.Traitors) do
-        assassination.AssignInitialMissions(character)
-        assassination.ShowInfo(character)
     end
 end
 
@@ -397,6 +385,11 @@ assassination.GetAmountTraitors = function ()
     end
     return i
 end
+
+function string.startsWith(String,Start)
+    return string.sub(String,1,string.len(Start))==Start
+ end
+ 
 
 
 return assassination
