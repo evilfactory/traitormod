@@ -18,6 +18,10 @@ for key, value in pairs(Traitormod.Languages) do
     end
 end
 
+if Traitormod.Config.EnableControlHusk then
+    Game.EnableControlHusk(true)
+end
+
 Traitormod.Gamemodes = {
     dofile(Traitormod.Path .. "/Lua/gamemodes/assassination/assassination.lua")
 }
