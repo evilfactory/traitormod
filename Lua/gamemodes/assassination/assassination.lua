@@ -1,6 +1,7 @@
 local assassination = {}
 
 assassination.Name = "Assassination"
+assassination.Completed = false
 
 local lang = Traitormod.Language
 
@@ -34,7 +35,7 @@ assassination.Think = function ()
 
     -- check traitor objectives every 100ms
     for character, traitor in pairs(assassination.Traitors) do
-        if not character.IsDead then
+        if not character.IsDead and not traitor.Failed then
             assassination.CheckObjectives(character, traitor)
         end
     end
@@ -43,58 +44,61 @@ end
 assassination.End = function ()
     dofile(Traitormod.Path .. "/Lua/gamemodes/assassination/cleanup.lua")
 
-    -- award points for completed EndRoundObjectives
-    for character, traitor in pairs(assassination.Traitors) do
-        for _, objective in pairs(traitor.SubObjectives) do
-            if objective.EndRoundObjective and objective.IsCompleted() and not objective.Awarded then
-                local client = Traitormod.FindClientCharacter(character)
-
-                if client then
-                    Traitormod.AddData(client, "Points", objective.Config.AmountPoints)
-                end
-                
-                objective.Awarded = true
-            end
-        end
-    end
-
-    -- return round summary
     local message = lang.TraitorsRound
 
     if assassination.GetAmountTraitors() == 0 then 
         message = message .. " " .. lang.NoTraitors
     else
         message = message .. "\n"
-    end
-    
-    for character, traitor in pairs(assassination.Traitors) do
-        local mainObjectiveText = ""
-        for key, value in pairs(traitor.MainObjectives) do
-            mainObjectiveText = mainObjectiveText .. "  >  " .. value.ObjectiveText
-            
-            if value.Awarded then
-                mainObjectiveText = mainObjectiveText .. lang.Completed .. "\n"
-            else
-                mainObjectiveText = mainObjectiveText .. "\n"
+
+        for character, traitor in pairs(assassination.Traitors) do
+            -- award points for completed EndRoundObjectives
+            for _, objective in pairs(traitor.SubObjectives) do
+                if objective.EndRoundObjective and objective.IsCompleted() and not objective.Awarded then
+                    local client = Traitormod.FindClientCharacter(character)
+                
+                    if client then
+                        Traitormod.AddData(client, "Points", objective.Config.AmountPoints)
+                    end
+                    
+                    objective.Awarded = true
+                end
             end
-        end
 
-        local subObjectivesText = ""
-        for key, value in pairs(traitor.SubObjectives) do
-            subObjectivesText = subObjectivesText .. "  >  " .. value.ObjectiveText
+            -- return round summary
+            local mainObjectiveText = ""
+            for key, value in pairs(traitor.MainObjectives) do
+                mainObjectiveText = mainObjectiveText .. "  >  " .. value.ObjectiveText
 
-            if value.Awarded then
-                subObjectivesText = subObjectivesText .. lang.Completed .. "\n"
-            else
-                subObjectivesText = subObjectivesText .. "\n"
+                if value.Awarded then
+                    mainObjectiveText = mainObjectiveText .. lang.Completed .. "\n"
+                else
+                    mainObjectiveText = mainObjectiveText .. "\n"
+                end
             end
-        end
 
-        if #traitor.SubObjectives == 0 then
-            subObjectivesText = subObjectivesText .. "  >  " .. lang.NoObjectives .. "\n"
-        end
+            local subObjectivesText = ""
+            for key, value in pairs(traitor.SubObjectives) do
+                subObjectivesText = subObjectivesText .. "  >  " .. value.ObjectiveText
 
-        message = message .. string.format("\n%s\n%s\n%s\n%s\n%s", string.format(lang.CharacterName, character.Name), lang.Objective, mainObjectiveText, lang.SubObjective, subObjectivesText)
+                if value.Awarded then
+                    subObjectivesText = subObjectivesText .. lang.Completed .. "\n"
+                else
+                    subObjectivesText = subObjectivesText .. "\n"
+                end
+            end
+
+            if #traitor.SubObjectives == 0 then
+                subObjectivesText = subObjectivesText .. "  >  " .. lang.NoObjectives .. "\n"
+            end
+
+            local traitorName = character.Name
+            if traitor.Deaths > 0 then
+                traitorName = traitorName.." (Died)"
+            end
+
+            message = message .. string.format("\n%s\n%s\n%s\n%s\n%s", string.format(lang.CharacterName, traitorName), lang.Objective, mainObjectiveText, lang.SubObjective, subObjectivesText)
+        end
     end
 
     return message
@@ -104,7 +108,7 @@ end
 assassination.ShowInfo = function (character)
     local traitor = assassination.Traitors[character]
 
-    if traitor == nil or character.IsDead then 
+    if traitor == nil or character.IsDead or traitor.Failed then 
         Traitormod.SendMessageCharacter(character, Traitormod.Language.NoTraitor)
         return 
     end
@@ -213,6 +217,8 @@ assassination.GreetTraitor = function (character)
 
     traitor.MainObjective = nil
     traitor.SubObjectives = {}
+    traitor.Deaths = 0
+    traitor.Kills = 0
 
     local greet = ""
 
@@ -283,13 +289,16 @@ assassination.CheckObjectives = function (character, traitor)
             Timer.Wait(function ()
                 if assassination.CurrentRoundNumber ~= Traitormod.RoundNumber then return end
 
-                Traitormod.Debug("GetValidTarget for assassination")
+                Traitormod.Debug("Next GetValidTarget for assassination")
                 local target = assassination.GetValidTarget()
 
                 if target == nil and not character.IsDead then
                     -- if no new target found, give feedback and return
                     Traitormod.SendMessageCharacter(character, lang.AssassinationEveryoneDead, true, "InfoFrameTabButton.Reputation")
-
+                    assassination.Completed = true
+                    if assassination.Config.EndOnComplete then
+                        Game.EndGame()
+                    end
                     return
                 end
 

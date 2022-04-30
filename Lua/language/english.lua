@@ -15,6 +15,7 @@ language.Dead = "Dead"
 language.KilledByTraitor = "Your death was caused by a traitor on a secret mission."
 
 language.TraitorWelcome = "You are a traitor!"
+language.TraitorDeath = "You have failed in your mission. As a result, the mission has been canceled and you will come back as part of the crew. Keep a low profile until you are contacted again."
 
 language.AgentNoticeCodewords = "There are other agents on this submarine. You dont know their names, but you do have a method of communication. Use the code words to greet the agent and code response to respond. Disguise such words in a normal-looking phrase so the crew doesn't suspect anything."
 
@@ -26,6 +27,9 @@ language.Gamemode = "Gamemode: %s"
 language.RandomEvents = "Random Events: %s"
 language.CharacterName = "Character Name: %s"
 language.ObjectiveCompleted = "Objective completed: %s"
+
+language.CrewWins = "The crew successfully completed their mission!"
+language.TraitorsWin = "The traitors succeeded in completing their objectives!"
 
 language.TraitorsRound = "Traitors of the round:"
 language.NoTraitors = "No traitors."

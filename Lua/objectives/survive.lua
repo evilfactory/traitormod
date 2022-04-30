@@ -1,3 +1,4 @@
+local assassination = Traitormod.SelectedGamemode
 local objective = {}
 
 objective.Name = "Survive"
@@ -13,7 +14,7 @@ objective.Start = function (character)
 end
 
 objective.IsCompleted = function ()
-    return not objective.Character.IsDead
+    return assassination.Traitors[objective.Character].Deaths == 0
 end
 
 return objective

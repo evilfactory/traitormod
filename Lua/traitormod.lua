@@ -126,6 +126,8 @@ Traitormod.SendMessage = function (client, text, popup, icon)
 end
 
 Traitormod.SendMessageCharacter = function (character, text, popup, icon)
+    if character.IsBot then return end
+    
     local client = Traitormod.FindClientCharacter(character)
 
     if client == nil then
@@ -247,7 +249,21 @@ Traitormod.Debug = function (message)
 end
 
 Traitormod.Error = function (message)
-    error("[TraitorMod] " .. message)
+    print("[TraitorMod-Error] " .. message)
+end
+
+Traitormod.IsRespawnEnabled = function ()
+    -- FIXME - Could not find a way to check respawn if respawn sub is disabled. Use config for now, default is true.
+    return Game.GetRespawnSub() ~= nil or Traitormod.Config.IsRespawnEnabled or Traitormod.Config.IsRespawnEnabled == nil
+end
+
+Traitormod.AllCrewMissionsCompleted = function ()
+    for key, value in pairs(Game.GameSession.missions) do
+        if not value.Completed then
+            return false
+        end
+    end
+    return true
 end
 
 local weightedRandom = dofile(Traitormod.Path .. "/Lua/weightedrandom.lua")
@@ -284,6 +300,7 @@ Hook.Add("roundEnd", "Traitormod.RoundEnd", function ()
     Traitormod.RoundNumber = Traitormod.RoundNumber + 1
     
     if Traitormod.SelectedGamemode == nil then return end
+    local endReached = false
 
     -- handle stored player lives and weight
     for key, value in pairs(Client.ClientList) do
@@ -301,7 +318,8 @@ Hook.Add("roundEnd", "Traitormod.RoundEnd", function ()
                 end
             -- else if character in reach of end position, gain a live
             else if Vector2.Distance(value.Character.WorldPosition, Level.Loaded.EndPosition) < Traitormod.Config.DistanceToEndOutpostRequired then
-                    if (Traitormod.GetData(value, "Lives") or 0) < Traitormod.Config.MaxLives then
+                endReached = true
+                if (Traitormod.GetData(value, "Lives") or 0) < Traitormod.Config.MaxLives then
                         Traitormod.AddData(value, "Lives", 1)
                     end
                 end
@@ -322,10 +340,18 @@ Hook.Add("roundEnd", "Traitormod.RoundEnd", function ()
         eventMessage = "None"
     end
 
+    local roundResult = ""
+    if Traitormod.SelectedGamemode.Completed then
+        roundResult = Traitormod.Language.TraitorsWin .. "\n\n"
+    elseif Traitormod.AllCrewMissionsCompleted() and endReached then
+        roundResult = Traitormod.Language.CrewWins .. "\n\n"
+    end
+
     endMessage = 
+    roundResult .. 
     string.format(Traitormod.Language.Gamemode, Traitormod.SelectedGamemode.Name) .. "\n" ..
-    string.format(Traitormod.Language.RandomEvents, eventMessage) ..
-    "\n\n" .. endMessage
+    string.format(Traitormod.Language.RandomEvents, eventMessage) .. "\n\n" .. 
+    endMessage
 
     Game.Log(endMessage, ServerLogMessageType.ServerMessage)
     Traitormod.SendMessageEveryone(endMessage)
