@@ -1,6 +1,9 @@
 local config = {}
 
 config.Language = "English"
+config.DebugLogs = true             
+
+config.EnableControlHusk = true     -- EXPERIMENTAL: enable to control husked character after death
 
 config.Codewords = {
     "hull", "tabacco", "nonsense", "fish", "clown", "quartermaster", "fast", "possibility",
@@ -50,7 +53,8 @@ config.ObjectiveConfig = {
 
     Survive = {
         Enabled = true,
-        AmountPoints = 2500,
+        AlwaysActive = true,
+        AmountPoints = 500,
     },
 
     StealCaptainID = {
@@ -61,7 +65,7 @@ config.ObjectiveConfig = {
     KidnapSecurity = {
         Enabled = true,
         AmountPoints = 4500,
-        Seconds = 500,
+        Seconds = 300,
     },
 
     PoisonCaptain = {
@@ -74,11 +78,16 @@ config.GamemodeConfig = {
     Assassination = {
         Enabled = true,
         WeightChance = 50,
+        EndOnComplete = true,           -- end round when there are no assassination targets left
 
-        SelectionDelay = 60,
+        StartDelayMin = 90,
+        StartDelayMax = 180,
+        NextDelayMin = 30,
+        NextDelayMin = 90,
 
-        NextTargetDelay = 60,
-        SelectBotsAsTargets = false,
+        SelectBotsAsTargets = true,
+        SelectPiratesAsTargets = false,
+        SelectUniqueTargets = true,     -- every traitor target can only be chosen once (for respawn on)
 
         -- Codewords, Names, None
         TraitorMethodCommunication = "Names",
@@ -89,8 +98,11 @@ config.GamemodeConfig = {
 
         AmountTraitors = function (amountPlayers)
             if amountPlayers > 12 then return 3 end
-            if amountPlayers > 5 then return 2 end
-            return 1
+            if amountPlayers > 6 then return 2 end            
+            if amountPlayers > 2 then return 1 end
+            --if amountPlayers == 1 then return 1 end
+            print("Not enough players to start traitor mode.")
+            return 0
         end,
 
         TraitorFilter = function (client)
@@ -106,7 +118,7 @@ config.RandomEventConfig = {
     AnyRandomEventChance = 10, -- percentage
 
     CommunicationsOffline = {
-        Enabled = true,
+        Enabled = false,
         WeightChance = 10,
     },
 

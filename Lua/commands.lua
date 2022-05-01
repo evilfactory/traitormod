@@ -1,3 +1,4 @@
+----- USER COMMANDS -----
 Traitormod.AddCommand("!help", function (client, args)
     Traitormod.SendMessage(client, Traitormod.Language.Help)
 
@@ -31,6 +32,7 @@ Traitormod.AddCommand("!points", function (client, args)
     return true
 end)
 
+----- ADMIN COMMANDS -----
 Traitormod.AddCommand("!alive", function (client, args)
     if not (client.Character == nil or client.Character.IsDead) and not client.HasPermission(ClientPermissions.ConsoleCommands) then return end
 

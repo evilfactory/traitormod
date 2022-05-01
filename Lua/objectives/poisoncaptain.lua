@@ -12,6 +12,7 @@ objective.Start = function (character, target)
     end
 
     if not objective.Character.IsMedic then
+        Traitormod.Debug("PoisonCaptain is only available for medics.")
         return false
     end
 
