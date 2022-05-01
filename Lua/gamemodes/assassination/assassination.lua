@@ -45,21 +45,17 @@ end
 
 assassination.End = function ()
     dofile(Traitormod.Path .. "/Lua/gamemodes/assassination/cleanup.lua")
-
-    if assassination.GetAmountTraitors() == 0 then 
-        message = lang.NoTraitors
-    else
-        message = assassination.GetRoundSummary()
-    end
-
+    local noTraitors = true
     -- award points for completed EndRoundObjectives
     for character, traitor in pairs(assassination.Traitors) do
+        noTraitors = false
         for _, objective in pairs(traitor.SubObjectives) do
             if objective.EndRoundObjective and objective.IsCompleted() and not objective.Awarded then
                 local client = Traitormod.FindClientCharacter(character)
             
                 if client then
-                    Traitormod.AddData(client, "Points", objective.Config.AmountPoints)
+                    local xp = Traitormod.AwardPoints(client, objective.Config.AmountPoints, false, true)
+                    Traitormod.SendObjectiveCompleted(client,  objective, xp)
                 end
                 
                 objective.Awarded = true
@@ -67,15 +63,28 @@ assassination.End = function ()
         end
     end
 
+    if noTraitors then 
+        message = lang.NoTraitors
+    else
+        message = assassination.GetRoundSummary()
+    end
+
     return message
 end
 
 assassination.GetRoundSummary = function ()
-    local summary = lang.TraitorsRound .. "\n"
+    local title = lang.TraitorsRound .. "\n"
+    local summary = nil
+
     for character, traitor in pairs(assassination.Traitors) do
-        summary = summary .. assassination.GetTraitorObjectiveSummary(character, true) .. "\n"
+        summary = (summary or "") .. assassination.GetTraitorObjectiveSummary(character, true) .. "\n"
     end
-    return summary
+
+    if not summary then
+        summary = Traitormod.Language.NoTraitors
+    end
+
+    return title .. summary
 end
 
 assassination.GetTraitorObjectiveSummary = function (character, roundSummary)
@@ -93,7 +102,10 @@ assassination.GetTraitorObjectiveSummary = function (character, roundSummary)
         if value.Awarded then
             mainObjectiveText = mainObjectiveText .. lang.Completed .. "\n"
         elseif not roundSummary then
-            mainObjectiveText = mainObjectiveText .. " " .. string.format(lang.Points, value.Config.AmountPoints) .. "\n"
+            local xp = math.floor(Traitormod.Config.AmountExperienceWithPoints(value.Config.AmountPoints))
+            mainObjectiveText = mainObjectiveText .. string.format(lang.Experience, xp) .. "\n"
+        else
+            mainObjectiveText = mainObjectiveText .. "\n"
         end
     end
 
@@ -107,7 +119,10 @@ assassination.GetTraitorObjectiveSummary = function (character, roundSummary)
             if value.Awarded then
                 subObjectivesText = subObjectivesText .. lang.Completed .. "\n"
             elseif not roundSummary then
-                subObjectivesText = subObjectivesText .. " " .. string.format(lang.Points, value.Config.AmountPoints) .. "\n"
+                local xp = math.floor(Traitormod.Config.AmountExperienceWithPoints(value.Config.AmountPoints))
+                subObjectivesText = subObjectivesText .. string.format(lang.Experience, xp) .. "\n"
+            else
+                subObjectivesText = subObjectivesText .. "\n"
             end
         end
     end
@@ -294,11 +309,8 @@ assassination.CheckObjectives = function (character, traitor)
             if client == nil then 
                 Traitormod.Error("Couldn't award assassination points for " + character.Name)
             else
-                Traitormod.AddData(client, "Points", objective.Config.AmountPoints)
-
-                Traitormod.SendMessage(client, 
-                    string.format(lang.ObjectiveCompleted, objective.ObjectiveText) .. " \n\n" .. 
-                    string.format(lang.PointsAwarded, objective.Config.AmountPoints), "MissionCompletedIcon") --InfoFrameTabButton.Mission
+                local xp = Traitormod.AwardPoints(client, objective.Config.AmountPoints)
+                Traitormod.SendObjectiveCompleted(client, objective, xp)
             end
 
             -- choose next target after configured time passed
@@ -329,9 +341,6 @@ assassination.CheckObjectives = function (character, traitor)
     -- SubObjectives
     for _, objective in pairs(traitor.SubObjectives) do
         if not objective.EndRoundObjective and objective.IsCompleted() and not objective.Awarded then
-            Traitormod.SendMessageCharacter(character, objective.ObjectiveText, "MissionCompletedIcon")
-            Traitormod.UpdateVanillaTraitor(character, true)
-
             objective.Awarded = true
 
             -- award points for sub objection completion
@@ -339,10 +348,8 @@ assassination.CheckObjectives = function (character, traitor)
             if client == nil then 
                 Traitormod.Error("Couldn't award sub objective points for " + character.Name)
             else
-
-                Traitormod.AddData(client, "Points", objective.Config.AmountPoints)
-
-                Traitormod.SendMessage(client, string.format(lang.PointsAwarded, objective.Config.AmountPoints), "InfoFrameTabButton.Mission")
+                local xp = Traitormod.AwardPoints(client, objective.Config.AmountPoints)
+                Traitormod.SendObjectiveCompleted(client, objective, xp)
             end
 
         end

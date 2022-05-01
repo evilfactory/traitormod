@@ -162,6 +162,14 @@ end
     Game.SendTraitorMessage(client, msg, iconIdentifier, TraitorMessageType.Objective)
  end
 
+ Traitormod.SendObjectiveCompleted = function(client, objective, xp)
+    Traitormod.SendMessage(client, 
+    string.format(Traitormod.Language.ObjectiveCompleted, objective.ObjectiveText) .. " \n\n" .. 
+    string.format(Traitormod.Language.ExperienceAwarded, xp), "MissionCompletedIcon") --InfoFrameTabButton.Mission
+
+    Traitormod.UpdateVanillaTraitor(client.Character, true)
+ end
+
 Traitormod.SelectCodeWords = function ()
     local copied = {}
     for key, value in pairs(Traitormod.Config.Codewords) do
@@ -290,6 +298,24 @@ Traitormod.AllCrewMissionsCompleted = function ()
     return true
 end
 
+Traitormod.GiveExperience = function (character, amount, isMissionXP)
+    Traitormod.Debug("Giving experience to character: " .. character.Name .. " -> " .. amount)
+    character.Info.GiveExperience(amount, isMissionXP)
+end
+
+Traitormod.AwardPoints = function (client, amount, update, isMissionXP)
+    Traitormod.AddData(client, "Points", amount)
+                
+    local xp = Traitormod.Config.AmountExperienceWithPoints(amount)
+
+    Traitormod.GiveExperience(client.Character, xp)
+    if update == nil or update then
+        Traitormod.UpdateVanillaTraitor(client.Character, true)
+    end
+
+    return xp
+end
+
 local weightedRandom = dofile(Traitormod.Path .. "/Lua/weightedrandom.lua")
 
 local traitorsEnabled = -1
@@ -300,8 +326,7 @@ Hook.Add("roundStart", "Traitormod.RoundStart", function ()
     for key, value in pairs(Client.ClientList) do
         if value.Character ~= nil and value.Character.Info ~= nil then
             local amount = Traitormod.Config.AmountExperienceWithPoints(Traitormod.GetData(value, "Points") or 0)
-            Traitormod.Debug("Giving experience to character: " .. value.Character.Name .. " -> " .. amount)
-            value.Character.Info.GiveExperience(amount)
+            Traitormod.GiveExperience(value.Character, amount)
         end
     end
 
@@ -321,8 +346,8 @@ Hook.Add("roundStart", "Traitormod.RoundStart", function ()
     if #Traitormod.EnabledGamemodes == 0 then return end
     local result = weightedRandom.Choose(Traitormod.EnabledGamemodes, "Config", "WeightChance")
     Traitormod.SelectedGamemode = Traitormod.EnabledGamemodes[result]
-    Traitormod.SelectedGamemode.Start()
     Traitormod.Log("Starting gamemode " .. Traitormod.SelectedGamemode.Name)
+    Traitormod.SelectedGamemode.Start()
 
     -- check for event
     if Random.Range(0, 100) < Traitormod.Config.RandomEventConfig.AnyRandomEventChance then
@@ -338,7 +363,7 @@ end)
 
 Hook.Add("roundEnd", "Traitormod.RoundEnd", function ()
     local endReached = false
-
+    local crewMissionsComplete = Traitormod.AllCrewMissionsCompleted()
     -- handle stored player lives and weight
     for key, value in pairs(Client.ClientList) do
         -- add weight according to points and config conversion
@@ -356,6 +381,15 @@ Hook.Add("roundEnd", "Traitormod.RoundEnd", function ()
             -- else if character in reach of end position, gain a live
             else if Vector2.Distance(value.Character.WorldPosition, Level.Loaded.EndPosition) < Traitormod.Config.DistanceToEndOutpostRequired then
                 endReached = true
+                
+                -- FIXME: if no traitor, award points for mission completion
+                if valueIsNoTraitor and crewMissionsComplete then
+                    local xp = Traitormod.AwardPoints(client, Traitormod.Config.PointsGainedFromCrewMissionsCompleted, false, true)
+                    Traitormod.SendMessage(client, 
+                    Traitormod.Language.CrewWins .. " \n\n" .. 
+                    string.format(Traitormod.Language.ExperienceAwarded, xp), "MissionCompletedIcon") --InfoFrameTabButton.Mission
+                end
+
                 if (Traitormod.GetData(value, "Lives") or 0) < Traitormod.Config.MaxLives then
                         Traitormod.AddData(value, "Lives", 1)
                     end
@@ -386,7 +420,7 @@ Hook.Add("roundEnd", "Traitormod.RoundEnd", function ()
     local roundResult = ""
     if Traitormod.SelectedGamemode.Completed then
         roundResult = Traitormod.Language.TraitorsWin .. "\n\n"
-    elseif Traitormod.AllCrewMissionsCompleted() and endReached then
+    elseif crewMissionsComplete and endReached then
         roundResult = Traitormod.Language.CrewWins .. "\n\n"
     end
 
@@ -427,9 +461,8 @@ Hook.Add("think", "Traitormod.Think", function ()
     if Timer.GetTime() > pointsGiveTimer then
         for key, value in pairs(Traitormod.PointsToBeGiven) do
             if value > 200 then
-                Traitormod.AddData(key, "Points", value)
-
-                Traitormod.SendMessage(key, string.format(Traitormod.Language.PointsAwarded, math.floor(value)), "InfoFrameTabButton.Mission")
+                local xp = Traitormod.AwardPoints(key, value, false)
+                Traitormod.SendMessage(key, string.format(Traitormod.Language.ExperienceAwarded, math.floor(xp)), "InfoFrameTabButton.Mission")
 
                 Traitormod.PointsToBeGiven[key] = 0
             end

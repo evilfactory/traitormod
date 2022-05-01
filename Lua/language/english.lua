@@ -15,7 +15,7 @@ language.Dead = "Dead"
 language.KilledByTraitor = "Your death was caused by a traitor on a secret mission."
 
 language.TraitorWelcome = "You are a traitor!"
-language.TraitorDeath = "You have failed in your mission. As a result, the mission has been canceled and you will come back as part of the crew. You are no longer a traitor, so play nice!"
+language.TraitorDeath = "You have failed in your mission. As a result, the mission has been canceled and you will come back as part of the crew.\n\nYou are no longer a traitor, so play nice!"
 
 language.AgentNoticeCodewords = "There are other agents on this submarine. You dont know their names, but you do have a method of communication. Use the code words to greet the agent and code response to respond. Disguise such words in a normal-looking phrase so the crew doesn't suspect anything."
 
@@ -36,7 +36,8 @@ language.NoTraitors = "No traitors."
 
 language.PointsInfo = "You have %s points and %s lives. Your traitor chance is %s%%, compared to the rest of the crew."
 
-language.Points = "%s Points"
+language.Points = " (%s Points)"
+language.Experience = " (%s XP)"
 
 language.Codewords = "Code Words: %s"
 language.CodeResponses = "Code Responses: %s"
@@ -53,6 +54,7 @@ language.SubObjective = "Sub Objectives:"
 language.NoObjectives = "No objectives."
 
 language.PointsAwarded = "You have been awarded %s points."
+language.ExperienceAwarded = "You gained %s XP."
 
 language.ObjectiveAssassinate = "Assassinate %s."
 
@@ -64,7 +66,7 @@ language.ObjectiveWreckGift = "Grab the gift"
 
 language.ObjectiveText = "Assassinate the crew in order to complete your mission."
 
-language.AssassinationNewObjective = "Your next assassination target is to kill %s."
+language.AssassinationNewObjective = "Your next assassination target is %s."
 language.AssassinationEveryoneDead = "Good job agent, you did it!"
 
 return language
