@@ -199,13 +199,14 @@ assassination.GetValidTarget = function (roleFilter, sideObjective)
                     table.insert(targets, value)
                     -- add the target to the list of characters that have been targeted
                     hasBeenTargeted[value] = not sideObjective
-                    end 
+                    
                 end
             end
         end
     end
 
     return targets[math.random(1, #targets)]
+end
 
 assassination.GreetTraitor = function (character)
     local traitor = {}
