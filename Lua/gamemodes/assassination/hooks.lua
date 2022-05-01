@@ -22,7 +22,7 @@ Hook.Add("characterDeath", "Traitormod.Assassination.DeathByTraitor", function (
 
         -- if traitor dies while assassination is not complete and traitor not supposed to come back as traitor, set traitor failed - loose traitor state
         if not assassination.Completed and assassination.Config.TraitorRespawnAs ~= "traitor" then
-            if Traitormod.IsRespawnEnabled() then
+            if Game.ServerSettings.AllowRespawn then
                 Traitormod.SendMessageCharacter(character, lang.TraitorDeath, "InfoFrameTabButton.Traitor")
 
                 Traitormod.UpdateVanillaTraitor(character, false)

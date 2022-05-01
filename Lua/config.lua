@@ -3,7 +3,6 @@ local config = {}
 config.Language = "English"
 config.DebugLogs = true             
 
-config.IsRespawnEnabled = true      -- FIXME: Should come from serverSettings
 config.EnableControlHusk = true     -- EXPERIMENTAL: enable to control husked character after death
 
 config.Codewords = {

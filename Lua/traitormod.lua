@@ -284,11 +284,6 @@ Traitormod.Error = function (message)
     print("[TraitorMod-Error] " .. message)
 end
 
-Traitormod.IsRespawnEnabled = function ()
-    -- FIXME - Could not find a way to check respawn if respawn sub is disabled. Use config for now, default is true.
-    return Game.GetRespawnSub() ~= nil or Traitormod.Config.IsRespawnEnabled or Traitormod.Config.IsRespawnEnabled == nil
-end
-
 Traitormod.AllCrewMissionsCompleted = function ()
     for key, value in pairs(Game.GameSession.missions) do
         if not value.Completed then
