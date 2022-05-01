@@ -182,10 +182,8 @@ assassination.ShowRoundInfo = function (client)
     Traitormod.SendMessage(client, assassination.GetRoundSummary())
 end
 
-local hasBeenTargeted = {}
-
--- returns a random valid assassination target for a given role filter
-assassination.GetValidTarget = function (roleFilter, sideObjective)
+-- returns a random valid assassination target for a given role filter FIXME: Ignore all hostile outpost npcs
+assassination.GetValidTarget = function (traitor, roleFilter, sideObjective)
     local targets = {}
     local debug = ""
     for key, value in pairs(Character.CharacterList) do
@@ -193,13 +191,11 @@ assassination.GetValidTarget = function (roleFilter, sideObjective)
         if value ~= botGod and assassination.Traitors[value] == nil and value.IsHuman and not value.IsDead and 
         (roleFilter == nil or roleFilter[tostring(value.Info.Job.Prefab.Identifier)]) then
             if assassination.Config.SelectPiratesAsTargets or not string.startsWith(value.Name, tostring(TextManager.Get("missiontype.pirate"))) then
-                if not value.IsBot or assassination.Config.SelectBotsAsTargets then
+                if assassination.Config.SelectBotsAsTargets or not value.IsBot then
                     -- if the character has not already been targeted or it is a side objective target
-                    if not hasBeenTargeted[value] or sideObjective then
+                    if not assassination.Config.SelectUniqueTargets or sideObjective or not traitor.MainTargets[value] then
                         -- add the character as a possible target
                         table.insert(targets, value)
-                        -- set hasBeenTargeted to true if not sideobjective
-                        hasBeenTargeted[value] = not sideObjective
                         debug = debug.." | "..value.Name.."("..tostring(value.Info.Job.Prefab.Identifier)..")"
                     end
                 end
@@ -208,7 +204,16 @@ assassination.GetValidTarget = function (roleFilter, sideObjective)
     end
     
     Traitormod.Debug("Selecting new random target out of "..#targets.." possible candidates"..debug)
-    return targets[math.random(1, #targets)]
+    if #targets > 0 then
+        local chosenTarget = targets[math.random(1, #targets)]
+
+        -- set MainTargets to true if not sideobjective
+        traitor.MainTargets[chosenTarget] = not sideObjective
+
+        return chosenTarget
+    end
+
+    return nil
 end
 
 -- registers a character as traitor and sends an info message
@@ -217,6 +222,7 @@ assassination.GreetTraitor = function (character)
     assassination.Traitors[character] = traitor
 
     traitor.MainObjective = nil
+    traitor.MainTargets = {}
     traitor.SubObjectives = {}
     traitor.Deaths = 0
     traitor.Kills = 0
@@ -250,7 +256,7 @@ assassination.AssignInitialMissions = function (character)
     traitor.MainObjectives = {}
 
     Traitormod.Debug("GetValidTarget for assassination")
-    local target = assassination.GetValidTarget()
+    local target = assassination.GetValidTarget(traitor)
     Traitormod.Log("Chose assassination target " .. target.Name)
 
     if target ~= nil then
@@ -281,7 +287,8 @@ assassination.AssignInitialMissions = function (character)
         end
         local rng = math.random(1, #objectivesAvaiable)
         local objective = objectivesAvaiable[rng]
-        local subTarget = assassination.GetValidTarget(objective.RoleFilter, true)
+        Traitormod.Debug("GetValidTarget for ".. objective.Name)
+        local subTarget = assassination.GetValidTarget(traitor, objective.RoleFilter, true)
         if objective.Start(character, subTarget) then
             table.insert(traitor.SubObjectives, objective)
             Traitormod.Log("Sub objective "..objective.Name.. " started with target " .. subTarget.Name)
@@ -329,7 +336,7 @@ assassination.CheckObjectives = function (character, traitor)
                 if assassination.CurrentRoundNumber ~= Traitormod.RoundNumber then return end
 
                 Traitormod.Debug("Next GetValidTarget for assassination")
-                local target = assassination.GetValidTarget()
+                local target = assassination.GetValidTarget(traitor)
 
                 if target == nil and not character.IsDead then
                     -- if no new target found, give feedback and return
