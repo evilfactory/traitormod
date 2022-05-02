@@ -342,6 +342,8 @@ end)
 
 Hook.Add("chatMessage", "Traitormod.ChatMessage", function (message, client)
     local split = Traitormod.ParseCommand(message)
+
+    if #split == 0 then return end
     
     local command = table.remove(split, 1)
 
