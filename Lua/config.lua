@@ -89,7 +89,7 @@ config.GamemodeConfig = {
 
         SelectBotsAsTargets = true,
         SelectPiratesAsTargets = false,
-        SelectUniqueTargets = true,     -- every traitor target can only be chosen once (for respawn on)
+        SelectUniqueTargets = true,     -- every traitor target can only be chosen once per traitor (respawn+false -> no end)
 
         -- Codewords, Names, None
         TraitorMethodCommunication = "Names",
@@ -102,7 +102,7 @@ config.GamemodeConfig = {
             if amountPlayers > 12 then return 3 end
             if amountPlayers > 6 then return 2 end            
             if amountPlayers > 2 then return 1 end
-            --if amountPlayers == 1 then return 1 end
+            if amountPlayers == 1 then Traitormod.Log("1P Testing mode.") return 1 end
             print("Not enough players to start traitor mode.")
             return 0
         end,

@@ -1,4 +1,4 @@
-local VERSION = "2.1-SNAPSHOT"
+local VERSION = "2.1-RC1"
 
 print("Traitor Mod v" .. VERSION .. " by Evil Factory")
 print("Special thanks to Qunk, Femboy69 and JoneK for helping in the development of this mod.")
@@ -268,18 +268,22 @@ end)
 
 Traitormod.LoadData()
 
+-- type: 6 = Server message, 7 = Console usage, 9 error
 Traitormod.Log = function (message)
-    print("[TraitorMod] " .. message)
+    --print("[TraitorMod] " .. message)
+    Game.Log("[TraitorMod] " .. message, 6)
 end
 
 Traitormod.Debug = function (message)
     if Traitormod.Config.DebugLogs then
-        print("[TraitorMod-Debug] " .. message)
+        --print("[TraitorMod-Debug] " .. message)
+        Game.Log("[TraitorMod-Debug] " .. message, 6)
     end
 end
 
 Traitormod.Error = function (message)
-    print("[TraitorMod-Error] " .. message)
+    --print("[TraitorMod-Error] " .. message)
+    Game.Log("[TraitorMod-Error] " .. message, 9)
 end
 
 Traitormod.AllCrewMissionsCompleted = function ()
