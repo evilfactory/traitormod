@@ -9,6 +9,12 @@ event.Start = function ()
         end
     end
 
+    Hook.Add("item.created", "TraitorMod.DecreaseRadioRange", function (item)
+        if item ~= nil and item.Prefab.Identifier == "headset" then
+            item.GetComponentString("WifiComponent").Range = 10;
+        end
+    end)
+
     local message = "Some anomaly is stopping the radio from working!"
 
     Game.SendMessage(message, ChatMessageType.ServerMessageBoxInGame)
@@ -20,7 +26,7 @@ event.Think = function ()
 end
 
 event.End = function ()
-    
+    Hook.Remove("item.created", "TraitorMod.DecreaseRadioRange")
 end
 
 return event
