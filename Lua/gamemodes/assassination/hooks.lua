@@ -1,20 +1,18 @@
 local assassination = Traitormod.SelectedGamemode
 local lang = Traitormod.Language
 
-Hook.Add("characterDeath", "Traitormod.Assassination.DeathByTraitor", function (character, affliction)
-    if character == nil or 
-    character.CauseOfDeath == nil or 
-    character.IsHuman == false or
-    character.ClientDisconnected == true or
-    character.TeamID == 0 or 
-    assassination.Traitors == nil then
+assassination.OnCharacterDied = function (client, affliction)
+    if assassination.Traitors == nil then
         return
     end
 
+    local character = client.Character
     local attacker = character.CauseOfDeath.Killer
     local victimTraitor = assassination.Traitors[character]
     local attackerName = "Unknown"
     local victimType = "Crew member"
+    local message = nil
+    local icon = nil
 
     if victimTraitor then
         victimType = "Traitor"
@@ -23,9 +21,9 @@ Hook.Add("characterDeath", "Traitormod.Assassination.DeathByTraitor", function (
         -- if traitor dies while assassination is not complete and traitor not supposed to come back as traitor, set traitor failed - loose traitor state
         if not assassination.Completed and assassination.Config.TraitorRespawnAs ~= "traitor" then
             if Game.ServerSettings.AllowRespawn then
-                Traitormod.SendMessageCharacter(character, lang.TraitorDeath, "InfoFrameTabButton.Traitor")
-
-                Traitormod.UpdateVanillaTraitor(character, false)
+                message = lang.TraitorDeath
+                icon = "InfoFrameTabButton.Traitor"
+                Traitormod.UpdateVanillaTraitor(client, false)
             end
             victimTraitor.Failed = true
         end
@@ -36,9 +34,13 @@ Hook.Add("characterDeath", "Traitormod.Assassination.DeathByTraitor", function (
         if assassination.Traitors[attacker] ~= nil then
             victimType = "Assassination target"
             assassination.Traitors[attacker].Kills = (assassination.Traitors[attacker].Kills or 0) + 1
-            Traitormod.SendMessageCharacter(character, lang.KilledByTraitor, "InfoFrameTabButton.Traitor")
+            
+            message = lang.KilledByTraitor
+            icon = "InfoFrameTabButton.Traitor"
         end
     end
 
     Traitormod.Log(string.format("%s %s died. Cause: %s Killer: %s", victimType, character.Name, character.CauseOfDeath.Type, attackerName))
-end)
+
+    return message, icon
+end

@@ -28,6 +28,8 @@ config.PointsGainedFromSkill = {
     helm = 1,
 }
 
+config.PointsGainedFromCrewMissionsCompleted = 1000
+
 -- looses half points
 config.PointsLostAfterNoLives = function (x)
     return x * 0.75

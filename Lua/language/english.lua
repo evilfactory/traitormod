@@ -33,11 +33,19 @@ language.TraitorsWin = "The traitors succeeded in completing their objectives!"
 
 language.TraitorsRound = "Traitors of the round:"
 language.NoTraitors = "No traitors."
+language.TraitorAlive = "You survived as a traitor."
 
 language.PointsInfo = "You have %s points and %s lives. Your traitor chance is %s%%, compared to the rest of the crew."
 
 language.Points = " (%s Points)"
 language.Experience = " (%s XP)"
+
+language.PointsAwarded = "You have been awarded %s points."
+language.ExperienceAwarded = "You gained %s XP."
+
+language.LifeGained = "You gained %s lives! You now have %s."
+language.Death = "You died. You have %s lives left before you loose experience."
+language.NoLives = "You died and lost all your lives. As a result you lost some experience."
 
 language.Codewords = "Code Words: %s"
 language.CodeResponses = "Code Responses: %s"
@@ -53,12 +61,9 @@ language.SubObjective = "Sub Objectives:"
 
 language.NoObjectives = "No objectives."
 
-language.PointsAwarded = "You have been awarded %s points."
-language.ExperienceAwarded = "You gained %s XP."
-
 language.ObjectiveAssassinate = "Assassinate %s."
 
-language.ObjectiveSurvive = "Survive the shift."
+language.ObjectiveSurvive = "Kill targets and survive the shift."
 language.ObjectiveStealCaptainID = "Steal the captain's ID."
 language.ObjectiveKidnapSecurity = "Handcuff %s, the security guard, for %s seconds."
 language.ObjectivePoisonCaptain = "Poison %s, the captain with Sufforin."

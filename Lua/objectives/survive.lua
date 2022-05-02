@@ -14,7 +14,8 @@ objective.Start = function (character)
 end
 
 objective.IsCompleted = function ()
-    return assassination.Traitors[objective.Character].Deaths == 0
+    local traitor = assassination.Traitors[objective.Character]
+    return traitor.HasProgress and traitor.Deaths == 0
 end
 
 return objective

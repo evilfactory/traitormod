@@ -63,6 +63,36 @@ assassination.End = function ()
         end
     end
 
+    -- handle stored player lives and weight
+    for key, value in pairs(Client.ClientList) do
+        -- add weight according to points and config conversion
+        Traitormod.AddData(value, "Weight", Traitormod.Config.AmountWeightWithPoints(Traitormod.GetData(value, "Points") or 0))
+
+        if value.Character ~= nil then
+            local isTraitor = assassination.Traitors[value.Character]
+            local endReached = Vector2.Distance(value.Character.WorldPosition, Level.Loaded.EndPosition) < Traitormod.Config.DistanceToEndOutpostRequired
+
+            -- if client was no traitor, and in reach of end position, gain a live
+            if not isTraitor and endReached then
+                local msg = nil
+                
+                -- award points for mission completion
+                if Traitormod.AllCrewMissionsCompleted() then
+                    local xp = Traitormod.AwardPoints(value, Traitormod.Config.PointsGainedFromCrewMissionsCompleted, false, true)
+                    msg = Traitormod.Language.CrewWins .. " \n\n" .. string.format(Traitormod.Language.ExperienceAwarded, xp)
+                end
+                
+                Traitormod.AdjustLives(value, 1, msg)
+            elseif isTraitor then
+            -- if traitor reached end or has finished main objectives on round end, gain a live
+                if isTraitor.HasProgress and endReached then
+                    Traitormod.AdjustLives(value, 1, Traitormod.Language.TraitorAlive)
+                end
+            end
+        end
+    end
+
+    local message
     if noTraitors then 
         message = lang.NoTraitors
     else
@@ -91,7 +121,7 @@ assassination.GetTraitorObjectiveSummary = function (character, roundSummary)
     local traitor = assassination.Traitors[character]
 
     -- if given character was no traitor, return no traitor.
-    if traitor == nil or character.IsDead or traitor.Failed then 
+    if not roundSummary and (traitor == nil or character.IsDead or traitor.Failed) then 
         return Traitormod.Language.NoTraitor
     end
 
@@ -237,16 +267,17 @@ assassination.GreetTraitor = function (character)
         greet = string.format("%s\n\n%s", lang.TraitorWelcome, lang.AgentNoticeNoCodewords)
     end
 
+    local client = Traitormod.FindClientCharacter(character)
     -- send greeting
-    Traitormod.SendTraitorMessageBox(character, greet)
+    Traitormod.SendTraitorMessageBox(client, greet)
     
     -- assign missions
     assassination.AssignInitialMissions(character)
 
     -- set mission objective
     local objectiveSummary = assassination.GetTraitorObjectiveSummary(character)
-    Traitormod.SendTraitorMessageBox(character, objectiveSummary)
-    Traitormod.UpdateVanillaTraitor(character, true, objectiveSummary)
+    Traitormod.SendTraitorMessageBox(client, objectiveSummary)
+    Traitormod.UpdateVanillaTraitor(client, true, objectiveSummary)
 end
 
 -- initially choose objectives and targets
@@ -299,16 +330,16 @@ assassination.AssignInitialMissions = function (character)
 end
 
 -- add new assassination objective
-assassination.RenewAssassinationObjective = function(character, traitor, target)
+assassination.RenewAssassinationObjective = function(client, traitor, target)
     local newObjective = Traitormod.GetObjective("Assassinate")
     newObjective.Start(traitor, target)
     table.insert(traitor.MainObjectives, newObjective)
 
-    if not character.IsDead then 
+    if not client.Character.IsDead then 
         -- give feedback about new target
-        Traitormod.SendMessageCharacter(character, string.format(lang.AssassinationNewObjective, target.Name), "GameModeIcon.pvp")
+        Traitormod.SendMessage(client, string.format(lang.AssassinationNewObjective, target.Name), "GameModeIcon.pvp")
 
-        Traitormod.UpdateVanillaTraitor(character, true)
+        Traitormod.UpdateVanillaTraitor(client, true)
     end
 end
 
@@ -327,6 +358,7 @@ assassination.CheckObjectives = function (character, traitor)
             else
                 local xp = Traitormod.AwardPoints(client, objective.Config.AmountPoints)
                 Traitormod.SendObjectiveCompleted(client, objective, xp)
+                traitor.HasProgress = true
             end
 
             -- choose next target after configured time passed
@@ -340,7 +372,7 @@ assassination.CheckObjectives = function (character, traitor)
 
                 if target == nil and not character.IsDead then
                     -- if no new target found, give feedback and return
-                    Traitormod.SendMessageCharacter(character, lang.AssassinationEveryoneDead, "InfoFrameTabButton.Reputation")
+                    Traitormod.SendMessage(client, lang.AssassinationEveryoneDead, "InfoFrameTabButton.Reputation")
                     assassination.Completed = true
                     if assassination.Config.EndOnComplete then
                         Game.EndGame()
@@ -348,7 +380,7 @@ assassination.CheckObjectives = function (character, traitor)
                     return
                 end
 
-                assassination.RenewAssassinationObjective(character, traitor, target)
+                assassination.RenewAssassinationObjective(client, traitor, target)
 
             end, delay * 1000)
         end
