@@ -102,7 +102,11 @@ config.GamemodeConfig = {
             if amountPlayers > 12 then return 3 end
             if amountPlayers > 6 then return 2 end            
             if amountPlayers > 2 then return 1 end
-            if amountPlayers == 1 then Traitormod.Log("1P Testing mode.") return 1 end
+            if amountPlayers == 1 then 
+                Traitormod.Log("1P Testing mode.") 
+                config.TestMode = true
+                return 1 
+            end
             print("Not enough players to start traitor mode.")
             return 0
         end,

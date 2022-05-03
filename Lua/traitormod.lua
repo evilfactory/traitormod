@@ -301,7 +301,9 @@ Traitormod.GiveExperience = function (character, amount, isMissionXP)
 end
 
 Traitormod.AwardPoints = function (client, amount, update, isMissionXP)
-    Traitormod.AddData(client, "Points", amount)
+    if not Traitormod.Config.TestMode then
+        Traitormod.AddData(client, "Points", amount)
+    end
                 
     local xp = Traitormod.Config.AmountExperienceWithPoints(amount)
 
@@ -329,7 +331,9 @@ Traitormod.AdjustLives = function (client, amount, description, iconOverride)
     if (newLives or 0) <= 0 then
         -- if no lives left, reduce amount of points, reset to maxLives
         Traitormod.Log("Player ".. client.Character.Name .." lost all lives. Reducing points...")
-        Traitormod.SetData(client, "Points", Traitormod.Config.PointsLostAfterNoLives(Traitormod.GetData(client, "Points") or 0))
+        if not Traitormod.Config.TestMode then  
+            Traitormod.SetData(client, "Points", Traitormod.Config.PointsLostAfterNoLives(Traitormod.GetData(client, "Points") or 0))
+        end
         newLives = Traitormod.Config.MaxLives
         lifeAdjustMessage = string.format(Traitormod.Language.NoLives, newLives)
     elseif (newLives or 0) > Traitormod.Config.MaxLives then
