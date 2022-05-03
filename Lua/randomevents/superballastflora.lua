@@ -33,6 +33,9 @@ event.Think = function ()
             local pump = pumps[Random.Range(1, #pumps + 1)]
             
             pump.InfectBallast("ballastflora", true)
+            if SERVER then
+                pump.Item.CreateServerEvent(pump, pump)
+            end
         end
 
         ballastFloraTimer = Timer.GetTime() + event.Config.BallastFloraDelay
