@@ -267,7 +267,7 @@ end
 -- FIXME: not called... ?
 -- when a character gains skill level, add PointsToBeGiven according to config
 Traitormod.PointsToBeGiven = {}
-Hook.HookMethod("Characters.CharacterInfo", "IncreaseSkillLevel", function (instance, ptable)
+Hook.HookMethod("Barotrauma.CharacterInfo", "IncreaseSkillLevel", function (instance, ptable)
     Traitormod.Debug("IncreaseSkillLevel: " .. tostring(ptable.skillIdentifier) .. " gainedFromAbility=" .. tonstring(ptable.gainedFromAbility))
     if ptable.gainedFromAbility then return end
     if instance.Character == nil then return end
