@@ -109,18 +109,18 @@ Traitormod.AddData = function(client, name, amount)
 end
 
 Traitormod.SendMessageEveryone = function (text)
-    Game.SendMessage(text, 7)
-    Game.SendMessage(text, 1)
+    Game.SendMessage(text, ChatMessageType.MessageBox)
+    Game.SendMessage(text, ChatMessageType.Private)
 end
 
 Traitormod.SendMessage = function (client, text, popup, icon)
     if popup == true then
-        Game.SendDirectChatMessage("", text, nil, 11, client, icon)
+        Game.SendDirectChatMessage("", text, nil, ChatMessageBox.ServerMessageBoxInGame, client, icon)
     else
-        Game.SendDirectChatMessage("", text, nil, 7, client)
+        Game.SendDirectChatMessage("", text, nil, ChatMessageType.MessageBox, client)
     end
 
-    Game.SendDirectChatMessage("", text, nil, 1, client)
+    Game.SendDirectChatMessage("", text, nil, ChatMessageType.Private, client)
 end
 
 Traitormod.SendMessageCharacter = function (character, text, popup, icon)
