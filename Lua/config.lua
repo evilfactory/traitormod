@@ -90,7 +90,7 @@ config.GamemodeConfig = {
         StartDelayMin = 90,
         StartDelayMax = 180,
         NextDelayMin = 30,
-        NextDelayMin = 90,
+        NextDelayMax = 90,
 
         SelectBotsAsTargets = true,
         SelectPiratesAsTargets = false,
