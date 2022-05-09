@@ -667,7 +667,7 @@ Hook.Add("think", "Traitormod.Think", function ()
         end
 
         -- if configured, give temporary experience to all characters
-        if Traitormod.Config.FreeExperience then
+        if Traitormod.Config.FreeExperience and Traitormod.Config.FreeExperience > 0 then
             for key, value in pairs(Client.ClientList) do
                 Traitormod.GiveExperience(value.Character, Traitormod.Config.FreeExperience)
             end
