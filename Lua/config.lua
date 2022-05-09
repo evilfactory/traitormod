@@ -1,6 +1,7 @@
 local config = {}
 
 config.Language = "English"
+config.SendWelcomeMessage = true
 config.DebugLogs = true             
 
 config.EnableControlHusk = true     -- EXPERIMENTAL: enable to control husked character after death
@@ -15,7 +16,7 @@ config.Codewords = {
 
 config.AmountCodeWords = 2
 
-config.PermanentPoints = true
+config.PermanentPoints = true      -- sets if points and lives will be stored in and loaded from a file
 
 config.MaxLives = 4
 config.DistanceToEndOutpostRequired = 5000
@@ -27,6 +28,9 @@ config.PointsGainedFromSkill = {
     electrical = 3,
     helm = 1,
 }
+
+config.FreeExperience = 50         -- temporary experience given every ExperienceTimer seconds
+config.ExperienceTimer = 120
 
 config.PointsGainedFromCrewMissionsCompleted = 1000
 
@@ -57,6 +61,7 @@ config.ObjectiveConfig = {
         Enabled = true,
         AlwaysActive = true,
         AmountPoints = 500,
+        AmountLives = 1,
     },
 
     StealCaptainID = {
@@ -99,6 +104,7 @@ config.GamemodeConfig = {
         SubObjectives = {"StealCaptainID", "Survive", "KidnapSecurity", "PoisonCaptain"},
 
         AmountTraitors = function (amountPlayers)
+            config.TestMode = false
             if amountPlayers > 12 then return 3 end
             if amountPlayers > 6 then return 2 end            
             if amountPlayers > 2 then return 1 end

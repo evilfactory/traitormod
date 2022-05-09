@@ -12,8 +12,14 @@ Traitormod.AddCommand("!version", function (client, args)
 end)
 
 Traitormod.AddCommand("!traitor", function (client, args)
-    if Game.RoundStarted and Traitormod.SelectedGamemode then
-        Traitormod.SelectedGamemode.ShowInfo(client.Character)
+    if Game.ServerSettings.TraitorsEnabled == 0 then
+        Traitormod.SendMessage(client, Traitormod.Language.NoTraitors)
+    elseif Game.RoundStarted and Traitormod.SelectedGamemode and Traitormod.SelectedGamemode.GetTraitorObjectiveSummary then
+        local summary = Traitormod.SelectedGamemode.GetTraitorObjectiveSummary(client.Character)
+        Traitormod.SendMessage(client, summary)
+        Traitormod.UpdateVanillaTraitor(client, true, summary)
+    elseif Game.RoundStarted then
+        Traitormod.SendMessage(client, Traitormod.Language.NoTraitor)
     else
         Traitormod.SendMessage(client, Traitormod.Language.RoundNotStarted)
     end
@@ -22,18 +28,7 @@ Traitormod.AddCommand("!traitor", function (client, args)
 end)
 
 Traitormod.AddCommand("!points", function (client, args)
-    local maxPoints = 0
-    for index, value in pairs(Client.ClientList) do
-        maxPoints = maxPoints + (Traitormod.GetData(value, "Weight") or 0)
-    end
-
-    local percentage = (Traitormod.GetData(client, "Weight") or 0) / maxPoints * 100
-
-    if percentage ~= percentage then
-        percentage = 100 -- percentage is NaN, set it to 100%
-    end
-
-    Traitormod.SendMessage(client, string.format(Traitormod.Language.PointsInfo, math.floor(Traitormod.GetData(client, "Points") or 0), Traitormod.GetData(client, "Lives") or Traitormod.Config.MaxLives, math.floor(percentage)))
+    Traitormod.SendMessage(client, Traitormod.GetDataInfo(client, true))
 
     return true
 end)
@@ -67,8 +62,8 @@ end)
 Traitormod.AddCommand("!roundinfo", function (client, args)
     if not client.HasPermission(ClientPermissions.ConsoleCommands) then return end
 
-    if Game.RoundStarted and Traitormod.SelectedGamemode then
-        Traitormod.SelectedGamemode.ShowRoundInfo(client)
+    if Game.RoundStarted and Traitormod.SelectedGamemode and Traitormod.SelectedGamemode.GetRoundSummary then
+        Traitormod.SendMessage(client, Traitormod.SelectedGamemode.GetRoundSummary())
     elseif Traitormod.LastRoundSummary ~= nil then
         Traitormod.SendMessage(client, Traitormod.LastRoundSummary)
     else
