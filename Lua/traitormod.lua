@@ -264,28 +264,22 @@ Traitormod.RemoveCommand = function (commandName)
     Traitormod.Commands[commandName] = nil
 end
 
--- FIXME: not called... ?
 -- when a character gains skill level, add PointsToBeGiven according to config
 Traitormod.PointsToBeGiven = {}
 Hook.HookMethod("Barotrauma.CharacterInfo", "IncreaseSkillLevel", function (instance, ptable)
-    Traitormod.Debug("IncreaseSkillLevel: " .. tostring(ptable.skillIdentifier) .. " gainedFromAbility=" .. tonstring(ptable.gainedFromAbility))
-    if ptable.gainedFromAbility then return end
-    if instance.Character == nil then return end
-    if instance.Character.IsDead then return end
+    if not ptable or ptable.gainedFromAbility or instance.Character == nil or instance.Character.IsDead then return end
 
     local client = Traitormod.FindClientCharacter(instance.Character)
 
     if client == nil then return end
 
-    local points = Traitormod.Config.PointsGainedFromSkill[ptable.skillIdentifier]
+    local points = Traitormod.Config.PointsGainedFromSkill[tostring(ptable.skillIdentifier)]
 
     if points == nil then return end
 
     points = points * ptable.increase
 
     Traitormod.PointsToBeGiven[client] = (Traitormod.PointsToBeGiven[client] or 0) + points
-    
-    Traitormod.Debug("Points +"..points)
 end)
 
 Traitormod.LoadData()
