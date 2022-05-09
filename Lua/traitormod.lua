@@ -486,8 +486,21 @@ Hook.Add("roundEnd", "Traitormod.RoundEnd", function ()
         if value.Character ~= nil then
             local wasTraitor = nil
 
-            if Traitormod.SelectedGamemode.Traitors then
-                wasTraitor = Traitormod.SelectedGamemode.Traitors[value.Character]
+            if Traitormod.SelectedGamemode then
+                local traitors = Traitormod.SelectedGamemode.Traitors
+
+                if traitors then
+                    wasTraitor = traitors[value.Character]
+
+                    -- tryhard fix for traitor not being found
+                    if not wasTraitor then
+                        for character, traitor in pairs(traitors) do
+                            if  character.Name == value.Character.Name then
+                                wasTraitor = traitor
+                            end
+                        end
+                    end
+                end
             end
         
             -- if client was no traitor, and in reach of end position, gain a live
