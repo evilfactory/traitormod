@@ -516,7 +516,7 @@ Hook.Add("roundEnd", "Traitormod.RoundEnd", function ()
                 end
                 Traitormod.SendMessage(value, msg, icon)
             --elseif isTraitor then
-            ---- if traitor reached end without dying and has finished main objectives on round end, gain a live
+            ---- if traitor reached end without dying and has finished main objectives on round end, gain a live -> now done by survive objective
             --    if isTraitor.Kills > 0 and isTraitor.Deaths == 0 then
             --        local msg = Traitormod.Language.TraitorAlive
             --        Traitormod.AdjustLives(value, 1, msg)
@@ -526,7 +526,7 @@ Hook.Add("roundEnd", "Traitormod.RoundEnd", function ()
     end
 
     -- if traitor was disabled or no traitor was chosen (maybe)
-    if Traitormod.SelectedGamemode.Name == "nogamemode" then
+    if Traitormod.SelectedGamemode == nil or Traitormod.SelectedGamemode.Name == "nogamemode" then
         endMessage = Traitormod.Language.RoundSummary .. "\n\n" .. Traitormod.Language.NoTraitors
     else
         local gameModeMessage = Traitormod.SelectedGamemode.End()
@@ -593,7 +593,6 @@ end)
 
 Hook.Add("characterCreated", "Traitormod.CharacterCreated", function (character)
     local client = Traitormod.FindClientCharacter(character)
-    --Traitormod.Debug("Character spawned: " .. character.Name .. " client: " .. tostring(client) .. " ishuman: " ..  tostring(character.isHuman) .. " ClientDisconnected: ".. tostring(character.ClientDisconnected) ..  " team: " .. character.TeamID)
 
     -- if character is valid player FIXME Client is always nil
     if client == nil or
@@ -603,6 +602,8 @@ Hook.Add("characterCreated", "Traitormod.CharacterCreated", function (character)
     character.TeamID == 0 then
         return
     end
+
+    Traitormod.Debug("Character spawned: " .. character.Name .. " client: " .. tostring(client) .. " ishuman: " ..  tostring(character.isHuman) .. " ClientDisconnected: ".. tostring(character.ClientDisconnected) ..  " team: " .. character.TeamID)
     
     -- Traitormod.LoadExperience(client) load experience here?
 end)
