@@ -5,6 +5,12 @@ Traitormod.AddCommand("!help", function (client, args)
     return true
 end)
 
+Traitormod.AddCommand("!version", function (client, args)
+    Traitormod.SendMessage(client, "Running Evil Factory's Traitor Mod v" .. Traitormod.VERSION)
+
+    return true
+end)
+
 Traitormod.AddCommand("!traitor", function (client, args)
     if Game.RoundStarted and Traitormod.SelectedGamemode then
         Traitormod.SelectedGamemode.ShowInfo(client.Character)
