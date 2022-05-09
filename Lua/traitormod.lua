@@ -1,4 +1,4 @@
-Traitormod.VERSION = "2.1-RC2"
+Traitormod.VERSION = "2.1-SNAPSHOT"
 
 print("Traitor Mod v" .. Traitormod.VERSION .. " by Evil Factory")
 print("Special thanks to Qunk, Femboy69 and JoneK for helping in the development of this mod.")
@@ -310,6 +310,7 @@ end
 
 Traitormod.LoadExperience = function (client)
     local amount = Traitormod.Config.AmountExperienceWithPoints(Traitormod.GetData(client, "Points") or 0)
+    if amount == client.Character.Info.ExperiencePoints then return end
     Traitormod.Debug("Loading experience from stored points: " .. client.Character.Name .. " -> " .. amount)
     client.Character.Info.SetExperience(amount)
 end
@@ -590,20 +591,26 @@ Hook.Add("roundEnd", "Traitormod.RoundEnd", function ()
 end)
 
 Hook.Add("characterCreated", "Traitormod.CharacterCreated", function (character)
-    local client = Traitormod.FindClientCharacter(character)
-
-    -- if character is valid player FIXME Client is always nil
-    if client == nil or
-    character == nil or 
+    -- if character is valid player
+    if character == nil or 
+    character.IsBot == true or
     character.IsHuman == false or
     character.ClientDisconnected == true or
     character.TeamID == 0 then
         return
     end
-
-    Traitormod.Debug("Character spawned: " .. character.Name .. " client: " .. tostring(client) .. " ishuman: " ..  tostring(character.isHuman) .. " ClientDisconnected: ".. tostring(character.ClientDisconnected) ..  " team: " .. character.TeamID)
     
-    -- Traitormod.LoadExperience(client) load experience here?
+    -- delay handling, otherwise client won't be found
+    Timer.Wait(function ()
+        if Traitormod.SelectedGamemode and Traitormod.SelectedGamemode.CurrentRoundNumber ~= Traitormod.RoundNumber then return end
+        local client = Traitormod.FindClientCharacter(character)
+        --Traitormod.Debug("Character spawned: " .. character.Name .. " client: " .. tostring(client))
+
+        if client ~= nil then
+            -- set experience of respawned character to stored value - note initial spawn may not call this hook (on local server)
+            Traitormod.LoadExperience(client)
+        end
+    end, 100)
 end)
 
 Hook.Add("characterDeath", "Traitormod.DeathByTraitor", function (character, affliction)
