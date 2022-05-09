@@ -328,8 +328,8 @@ Traitormod.AwardPoints = function (client, amount, isMissionXP)
 end
 
 Traitormod.AdjustLives = function (client, amount)
-    if not amount then
-        return ""
+    if not amount or amount == 0 then
+        return
     end
 
     local oldLives = Traitormod.GetData(client, "Lives") or Traitormod.Config.MaxLives
@@ -513,7 +513,7 @@ Hook.Add("roundEnd", "Traitormod.RoundEnd", function ()
                     msg = Traitormod.Language.CrewWins .. " \n\n" .. string.format(Traitormod.Language.ExperienceAwarded, xp)
                 end
                 
-                local lifeMsg, icon = Traitormod.AdjustLives(value, Traitormod.Config.LivesGainedFromCrewMissionsCompleted)
+                local lifeMsg, icon = Traitormod.AdjustLives(value, (Traitormod.Config.LivesGainedFromCrewMissionsCompleted or 1))
                 if msg and lifeMsg then
                     msg = msg .. "\n" .. lifeMsg
                 elseif lifeMsg then
