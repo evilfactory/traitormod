@@ -33,6 +33,7 @@ config.FreeExperience = 50         -- temporary experience given every Experienc
 config.ExperienceTimer = 120
 
 config.PointsGainedFromCrewMissionsCompleted = 1000
+config.LivesGainedFromCrewMissionsCompleted = 1
 
 -- looses half points
 config.PointsLostAfterNoLives = function (x)

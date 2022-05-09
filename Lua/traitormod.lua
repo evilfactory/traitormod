@@ -286,19 +286,16 @@ Traitormod.LoadData()
 
 -- type: 6 = Server message, 7 = Console usage, 9 error
 Traitormod.Log = function (message)
-    --print("[TraitorMod] " .. message)
     Game.Log("[TraitorMod] " .. message, 6)
 end
 
 Traitormod.Debug = function (message)
     if Traitormod.Config.DebugLogs then
-        --print("[TraitorMod-Debug] " .. message)
         Game.Log("[TraitorMod-Debug] " .. message, 6)
     end
 end
 
 Traitormod.Error = function (message)
-    --print("[TraitorMod-Error] " .. message)
     Game.Log("[TraitorMod-Error] " .. message, 9)
 end
 
@@ -515,19 +512,13 @@ Hook.Add("roundEnd", "Traitormod.RoundEnd", function ()
                     msg = Traitormod.Language.CrewWins .. " \n\n" .. string.format(Traitormod.Language.ExperienceAwarded, xp)
                 end
                 
-                local lifeMsg, icon = Traitormod.AdjustLives(value, 1)
+                local lifeMsg, icon = Traitormod.AdjustLives(value, Traitormod.Config.LivesGainedFromCrewMissionsCompleted)
                 if msg and lifeMsg then
                     msg = msg .. "\n" .. lifeMsg
                 elseif lifeMsg then
                     msg = lifeMsg
                 end
                 Traitormod.SendMessage(value, msg, icon)
-            --elseif isTraitor then
-            ---- if traitor reached end without dying and has finished main objectives on round end, gain a live -> now done by survive objective
-            --    if isTraitor.Kills > 0 and isTraitor.Deaths == 0 then
-            --        local msg = Traitormod.Language.TraitorAlive
-            --        Traitormod.AdjustLives(value, 1, msg)
-            --    end
             end
         end
     end
