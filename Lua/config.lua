@@ -110,7 +110,7 @@ config.GamemodeConfig = {
             if amountPlayers > 6 then return 2 end            
             if amountPlayers > 2 then return 1 end
             if amountPlayers == 1 then 
-                Traitormod.Log("1P Testing mode.") 
+                Traitormod.Log("1P testing mode - no points can be gained or lost") 
                 config.TestMode = true
                 return 1 
             end

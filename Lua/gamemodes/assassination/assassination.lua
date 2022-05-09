@@ -402,12 +402,13 @@ assassination.SelectTraitors = function ()
         return
     end
 
-    if assassination.Config.AmountTraitors(#Client.ClientList) > 1 then
+    local amountTraitors = assassination.Config.AmountTraitors(#Client.ClientList)
+    if amountTraitors > 1 then
         assassination.MultiTraitor = true
     end
 
     -- choose and initialize traitors
-    for i = 1, assassination.Config.AmountTraitors(#Client.ClientList), 1 do
+    for i = 1, amountTraitors, 1 do
         local index = weightedRandom.Choose(clientWeight)
 
         if index ~= nil then
