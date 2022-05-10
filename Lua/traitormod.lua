@@ -152,7 +152,7 @@ end
 local traitorMissionIdentifier =  'easterbunny' -- can be any defined Traitor mission id in vanilla xml, mainly used for icon
 Traitormod.SendTraitorMessageBox = function (client, text)
     Game.SendTraitorMessage(client, text, traitorMissionIdentifier, TraitorMessageType.ServerMessageBox);
-    Game.SendDirectChatMessage("", text, nil, 1, client)
+    Game.SendDirectChatMessage("", text, nil, Traitormod.Config.ChatMessageType, client)
 end
 
 -- set character traitor to enable sabotage, set mission objective text then sync with session
