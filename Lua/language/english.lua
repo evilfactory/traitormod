@@ -41,6 +41,7 @@ language.TraitorInfo = "Your traitor chance is %s%%, compared to the rest of the
 language.Points = " (%s Points)"
 language.Experience = " (%s XP)"
 
+language.SkillsIncreased = "Good job on improving your skills."
 language.PointsAwarded = "You have been awarded %s points."
 language.ExperienceAwarded = "You gained %s XP."
 

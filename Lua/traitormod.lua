@@ -128,7 +128,7 @@ Traitormod.SendMessage = function (client, text, icon)
     text = tostring(text)
 
     if icon then
-        Game.SendDirectChatMessage("", text, nil, Traitormod.Config.ChatMessageType, client, icon)
+        Game.SendDirectChatMessage("", text, nil, ChatMessageType.ServerMessageBoxInGame, client, icon)
     else
         Game.SendDirectChatMessage("", text, nil, ChatMessageType.MessageBox, client)
     end
@@ -674,8 +674,10 @@ Hook.Add("think", "Traitormod.Think", function ()
             if value > 100 then
                 local xp = Traitormod.AwardPoints(key, value)
                 Traitormod.GiveExperience(key.Character, xp)
-                Traitormod.SendMessage(key, string.format(Traitormod.Language.ExperienceAwarded, math.floor(xp)), "InfoFrameTabButton.Mission")
 
+                local text = Traitormod.Language.ExperienceAwarded .. "\n" .. string.format(Traitormod.Language.ExperienceAwarded, math.floor(xp))
+                Game.SendDirectChatMessage("", text, nil, Traitormod.Config.ChatMessageType, key)
+                
                 Traitormod.PointsToBeGiven[key] = 0
             end
         end
