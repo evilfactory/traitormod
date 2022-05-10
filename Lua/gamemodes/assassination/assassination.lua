@@ -184,13 +184,13 @@ assassination.GetValidTarget = function (traitor, roleFilter, sideObjective)
         -- if character is not a traitor, is a human and is not dead and matches the rolefilter
         if value ~= botGod and assassination.Traitors[value] == nil and value.IsHuman and not value.IsDead and 
         (roleFilter == nil or roleFilter[tostring(value.Info.Job.Prefab.Identifier)]) then
-            if assassination.Config.SelectPiratesAsTargets or not string.startsWith(value.Name, tostring(TextManager.Get("missiontype.pirate"))) then
+            if assassination.Config.SelectPiratesAsTargets or value.TeamID ~= CharacterTeamType.None then
                 if assassination.Config.SelectBotsAsTargets or not value.IsBot then
                     -- if the character has not already been targeted or it is a side objective target
                     if not assassination.Config.SelectUniqueTargets or sideObjective or not traitor.MainTargets[value] then
                         -- add the character as a possible target
                         table.insert(targets, value)
-                        debug = debug.." | "..value.Name.."("..tostring(value.Info.Job.Prefab.Identifier)..")"
+                        debug = debug.." | "..value.Name.." ("..tostring(value.Info.Job.Prefab.Identifier)..value.TeamID..")"
                     end
                 end
             end
@@ -254,11 +254,13 @@ assassination.AssignInitialMissions = function (character)
 
     Traitormod.Debug("GetValidTarget for assassination")
     local target = assassination.GetValidTarget(traitor)
-    Traitormod.Log("Chose assassination target " .. target.Name)
 
     if target ~= nil then
+        Traitormod.Log("Chose assassination target " .. target.Name)
         traitor.MainObjectives[1] = Traitormod.GetObjective("Assassinate")
         traitor.MainObjectives[1].Start(character, target)
+    else
+        Traitormod.Error("No initial assassination target has been found!")
     end
 
     local objectivesAvaiable = {}
