@@ -609,7 +609,6 @@ Hook.Add("characterCreated", "Traitormod.CharacterCreated", function (character)
     
     -- delay handling, otherwise client won't be found
     Timer.Wait(function ()
-        if Traitormod.SelectedGamemode and Traitormod.SelectedGamemode.CurrentRoundNumber ~= Traitormod.RoundNumber then return end
         local client = Traitormod.FindClientCharacter(character)
         --Traitormod.Debug("Character spawned: " .. character.Name .. " client: " .. tostring(client))
 
