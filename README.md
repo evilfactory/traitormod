@@ -18,7 +18,7 @@ __**Traitor objectives**__
 
 > **Sub objectives** - up to three of these may be chosen and can be done optionally to gain more points 
 > 
-> ||• *Kidnapping*        (4500 points)
+> • *Kidnapping*        (4500 points)
 > Put a selected security guard in handcuffs for a given time.
 > 
 > • *Poison Captain*    (1500 points)
@@ -28,20 +28,21 @@ __**Traitor objectives**__
 > Take the ID card from your acting captain and put it in your inventory.
 > 
 > • *Survive*                  (500 points, +1 Life)
-> Finish at least one main objective and be alive at the end of the round. Can be set to be always active. ||
+> Finish at least one main objective and be alive at the end of the round. Can be set to be always active.
  
 __**Events**__
 
 > There is a chance that a random event fires some time during the round.
-> ||• *Super Ballast Flora*
+> • *Super Ballast Flora*
 > Several ballast tanks will be infested with alien plants.
 > 
 > • *Communications Offline*
-> Will drastically reduce the range of all remote communication for the whole round.||
+> Will drastically reduce the range of all remote communication for the whole round.
 
 __**Source**__
 
 > Evil Factory hosts this mod on git hub
 > https://github.com/evilfactory/traitormod
+>
 > A legacy version of this mod is available on the steam workshop
 > https://steamcommunity.com/sharedfiles/filedetails/?id=2559709754

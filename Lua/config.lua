@@ -1,12 +1,12 @@
 local config = {}
+config.DebugLogs = true
 
+----- USER FEEDBACK -----
 config.Language = "English"
 config.SendWelcomeMessage = true
-config.ChatMessageType = ChatMessageType.Private
-config.DebugLogs = true             
+config.ChatMessageType = ChatMessageType.Private    -- Error = red | Private = green | Dead = blue | Radio = yellow
 
-config.EnableControlHusk = true     -- EXPERIMENTAL: enable to control husked character after death
-
+----- GAMEPLAY -----
 config.Codewords = {
     "hull", "tabacco", "nonsense", "fish", "clown", "quartermaster", "fast", "possibility",
 	"thalamus", "hungry", "water", "looks", "renegade", "angry", "green", "sink", "rubber",
@@ -17,11 +17,18 @@ config.Codewords = {
 
 config.AmountCodeWords = 2
 
+config.FreeExperience = 50         -- temporary experience given every ExperienceTimer seconds
+config.ExperienceTimer = 120
+
+config.EnableControlHusk = true     -- EXPERIMENTAL: enable to control husked character after death
+
+----- POINTS + LIVES -----
 config.PermanentPoints = true      -- sets if points and lives will be stored in and loaded from a file
-
 config.MaxLives = 4
-config.DistanceToEndOutpostRequired = 5000
 
+config.DistanceToEndOutpostRequired = 5000
+config.PointsGainedFromCrewMissionsCompleted = 1000
+config.LivesGainedFromCrewMissionsCompleted = 1
 config.PointsGainedFromSkill = {
     medical = 4,
     weapons = 4,
@@ -30,18 +37,10 @@ config.PointsGainedFromSkill = {
     helm = 1,
 }
 
-config.FreeExperience = 50         -- temporary experience given every ExperienceTimer seconds
-config.ExperienceTimer = 120
-
-config.PointsGainedFromCrewMissionsCompleted = 1000
-config.LivesGainedFromCrewMissionsCompleted = 1
-
--- looses half points
 config.PointsLostAfterNoLives = function (x)
     return x * 0.75
 end
 
--- 400 points = 200 experience
 config.AmountExperienceWithPoints = function (x)
     return x * 0.5
 end
@@ -53,6 +52,7 @@ config.AmountWeightWithPoints = function (x)
     return math.log(x + 10) -- add 1 because log of 0 is -infinity
 end
 
+----- OBJECVTIVES -----
 config.ObjectiveConfig = {
     Assassinate = {
         Enabled = true,
@@ -83,6 +83,7 @@ config.ObjectiveConfig = {
     },
 }
 
+----- GAMEMODE -----
 config.GamemodeConfig = {
     Assassination = {
         Enabled = true,
@@ -128,6 +129,7 @@ config.GamemodeConfig = {
     }
 }
 
+----- EVENTS -----
 config.RandomEventConfig = {
     AnyRandomEventChance = 10, -- percentage
 
