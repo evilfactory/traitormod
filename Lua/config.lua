@@ -2,6 +2,7 @@ local config = {}
 
 config.Language = "English"
 config.SendWelcomeMessage = true
+config.ChatMessageType = ChatMessageType.Private
 config.DebugLogs = true             
 
 config.EnableControlHusk = true     -- EXPERIMENTAL: enable to control husked character after death

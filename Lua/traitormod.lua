@@ -116,9 +116,9 @@ end
 
 Traitormod.SendMessageEveryone = function (text, popup)
     if popup then
-        Game.SendMessage(text, 7)
+        Game.SendMessage(text, ChatMessageType.MessageBox)
     end
-    Game.SendMessage(text, 1)
+    Game.SendMessage(text, Traitormod.Config.ChatMessageType)
 end
 
 Traitormod.SendMessage = function (client, text, icon)
@@ -127,14 +127,13 @@ Traitormod.SendMessage = function (client, text, icon)
     end
     text = tostring(text)
 
-    -- ChatMessageType 1-5 in chat, 6 is log, 7/10 is popup, 9 no effect, 11 is messagebox
     if icon then
-        Game.SendDirectChatMessage("", text, nil, 11, client, icon)
+        Game.SendDirectChatMessage("", text, nil, Traitormod.Config.ChatMessageType, client, icon)
     else
-        Game.SendDirectChatMessage("", text, nil, 7, client)
+        Game.SendDirectChatMessage("", text, nil, ChatMessageType.MessageBox, client)
     end
 
-    Game.SendDirectChatMessage("", text, nil, 1, client)
+    Game.SendDirectChatMessage("", text, nil, Traitormod.Config.ChatMessageType, client)
 end
 
 Traitormod.SendMessageCharacter = function (character, text, icon)
@@ -433,7 +432,7 @@ Hook.Add("roundStart", "Traitormod.RoundStart", function ()
 
             -- Send Welcome message
             if Traitormod.Config.SendWelcomeMessage or Traitormod.Config.SendWelcomeMessage == nil then
-                Game.SendDirectChatMessage("", "| Traitor Mod v" .. Traitormod.VERSION .. " |\n" .. Traitormod.GetDataInfo(value), nil, 5, value)
+                Game.SendDirectChatMessage("", "| Traitor Mod v" .. Traitormod.VERSION .. " |\n" .. Traitormod.GetDataInfo(value), nil, ChatMessageType.Server, value)
             end
         end
     end
