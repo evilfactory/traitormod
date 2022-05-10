@@ -118,7 +118,7 @@ Traitormod.SendMessageEveryone = function (text, popup)
     if popup then
         Game.SendMessage(text, ChatMessageType.MessageBox)
     end
-    Game.SendMessage(text, Traitormod.Config.ChatMessageType)
+    Game.SendMessage(text, ChatMessageType.Server)
 end
 
 Traitormod.SendMessage = function (client, text, icon)
