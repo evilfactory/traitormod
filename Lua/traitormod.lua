@@ -115,7 +115,7 @@ end
 
 Traitormod.SendMessage = function (client, text, popup, icon)
     if popup == true then
-        Game.SendDirectChatMessage("", text, nil, ChatMessageBox.ServerMessageBoxInGame, client, icon)
+        Game.SendDirectChatMessage("", text, nil, ChatMessageType.ServerMessageBoxInGame, client, icon)
     else
         Game.SendDirectChatMessage("", text, nil, ChatMessageType.MessageBox, client)
     end
