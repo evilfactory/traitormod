@@ -299,8 +299,12 @@ Traitormod.Error = function (message)
     Game.Log("[TraitorMod-Error] " .. message, 9)
 end
 
-Traitormod.AllCrewMissionsCompleted = function ()
-    for key, value in pairs(Game.GameSession.Missions) do
+Traitormod.AllCrewMissionsCompleted = function (missions)
+    if not missions then
+        if Game.GameSession == nil or Game.GameSession.Missions == nil then return end
+        missions = Game.GameSession.Missions
+    end
+    for key, value in pairs(missions) do
         if not value.Completed then
             return false
         end
@@ -467,14 +471,32 @@ Hook.Add("roundStart", "Traitormod.RoundStart", function ()
 end)
 
 Hook.Add("roundEnd", "Traitormod.RoundEnd", function ()
-    local crewReachedEnd = false
-    local crewMissionsComplete = true -- Traitormod.AllCrewMissionsCompleted() FIXME: Missions are never completed - happens after roundEnd hook
-
     Traitormod.RoundNumber = Traitormod.RoundNumber + 1
 
+    local gameModeMessage = Traitormod.SelectedGamemode.End()
+
+    -- show vanilla round summary
+    local traitorMissionResult = nil
+    local traitorCharacters = {}
+    if Traitormod.SelectedGamemode.Traitors then
+        for character, traitor in pairs(Traitormod.SelectedGamemode.Traitors) do
+            table.insert(traitorCharacters, character)
+        end
+    end
+
+    if #traitorCharacters > 0 then
+        -- first arg = mission id, second = message, third = completed, forth = list of characters
+        traitorMissionResult = {TraitorMissionResult(traitorMissionIdentifier, gameModeMessage, Traitormod.SelectedGamemode.Completed or false, traitorCharacters)} 
+    end
+
+    return traitorMissionResult
+end)
+
+Hook.Add("missionsEnded", "Traitormod.MissionsEnded", function (missions)
     -- send LastRoundSummary
     local endMessage
-    local traitorMissionResult = nil
+    local crewReachedEnd = false
+    local crewMissionsComplete = Traitormod.AllCrewMissionsCompleted(missions)
     
     -- handle stored player lives and weight
     for key, value in pairs(Client.ClientList) do
@@ -528,7 +550,7 @@ Hook.Add("roundEnd", "Traitormod.RoundEnd", function ()
     if Traitormod.SelectedGamemode == nil or Traitormod.SelectedGamemode.Name == "nogamemode" then
         endMessage = Traitormod.Language.RoundSummary .. "\n\n" .. Traitormod.Language.NoTraitors
     else
-        local gameModeMessage = Traitormod.SelectedGamemode.End()
+        local gameModeMessage = Traitormod.SelectedGamemode.GetRoundSummary()
         Traitormod.Debug(string.format("Round %d ended | traitorsEnabled = %d | crewMissionsComplete = %s | endReached = %s", Traitormod.RoundNumber, traitorsEnabled, tostring(crewMissionsComplete), tostring(crewReachedEnd)))
 
         local eventMessage = ""
@@ -555,18 +577,6 @@ Hook.Add("roundEnd", "Traitormod.RoundEnd", function ()
         string.format(Traitormod.Language.RandomEvents, eventMessage) .. "\n\n" .. 
         gameModeMessage .. "\n"
 
-        -- show vanilla round summary
-        local traitorCharacters = {}
-        if Traitormod.SelectedGamemode.Traitors then
-            for character, traitor in pairs(Traitormod.SelectedGamemode.Traitors) do
-                table.insert(traitorCharacters, character)
-            end
-        end
-
-        if #traitorCharacters > 0 then
-            -- first arg = mission id, second = message, third = completed, forth = list of characters
-            traitorMissionResult = {TraitorMissionResult(traitorMissionIdentifier, gameModeMessage, Traitormod.SelectedGamemode.Completed or false, traitorCharacters)} 
-        end
     end
 
     -- show summary only if traitor mode was enabled initially
@@ -586,8 +596,6 @@ Hook.Add("roundEnd", "Traitormod.RoundEnd", function ()
     Traitormod.SelectedRandomEvents = {}
 
     Traitormod.SaveData()
-
-    return traitorMissionResult
 end)
 
 Hook.Add("characterCreated", "Traitormod.CharacterCreated", function (character)
