@@ -33,17 +33,15 @@ __**Traitor objectives**__
 __**Events**__
 
 > There is a chance that a random event fires some time during the round.
-> ||• Super Ballast Flora
+> ||• *Super Ballast Flora*
 > Several ballast tanks will be infested with alien plants.
 > 
-> • Communications Offline (Currently deactivated to avoid confusion with text chat bug)
+> • *Communications Offline*
 > Will drastically reduce the range of all remote communication for the whole round.||
 
 __**Source**__
 
 > Evil Factory hosts this mod on git hub
 > https://github.com/evilfactory/traitormod
-> My personal contribution can be followed here
-> https://github.com/MassCraxx/traitormod/
 > A legacy version of this mod is available on the steam workshop
 > https://steamcommunity.com/sharedfiles/filedetails/?id=2559709754
