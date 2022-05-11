@@ -319,8 +319,12 @@ Traitormod.LoadExperience = function (client)
 end
 
 Traitormod.GiveExperience = function (character, amount, isMissionXP)
+    if character == nil or amount == nil or amount == 0 then
+        return false
+    end
     Traitormod.Debug("Giving experience to character: " .. character.Name .. " -> " .. amount)
     character.Info.GiveExperience(amount, isMissionXP)
+    return true
 end
 
 Traitormod.AwardPoints = function (client, amount, isMissionXP)
@@ -672,12 +676,12 @@ Hook.Add("think", "Traitormod.Think", function ()
         for key, value in pairs(Traitormod.PointsToBeGiven) do
             if value > 100 then
                 local xp = Traitormod.AwardPoints(key, value)
-                Traitormod.GiveExperience(key.Character, xp)
+                if Traitormod.GiveExperience(key.Character, xp) then
+                    local text = Traitormod.Language.SkillsIncreased .. "\n" .. string.format(Traitormod.Language.ExperienceAwarded, math.floor(xp))
+                    Game.SendDirectChatMessage("", text, nil, Traitormod.Config.ChatMessageType, key)
 
-                local text = Traitormod.Language.ExperienceAwarded .. "\n" .. string.format(Traitormod.Language.ExperienceAwarded, math.floor(xp))
-                Game.SendDirectChatMessage("", text, nil, Traitormod.Config.ChatMessageType, key)
-                
-                Traitormod.PointsToBeGiven[key] = 0
+                    Traitormod.PointsToBeGiven[key] = 0
+                end
             end
         end
 
