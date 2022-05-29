@@ -474,6 +474,7 @@ Hook.Add("roundStart", "Traitormod.RoundStart", function ()
 end)
 
 Hook.Add("roundEnd", "Traitormod.RoundEnd", function ()
+    Traitormod.Debug("Round " .. Traitormod.RoundNumber .. " ended.")
     Traitormod.RoundNumber = Traitormod.RoundNumber + 1
 
     local gameModeMessage = Traitormod.SelectedGamemode.End()
@@ -496,6 +497,7 @@ Hook.Add("roundEnd", "Traitormod.RoundEnd", function ()
 end)
 
 Hook.Add("missionsEnded", "Traitormod.MissionsEnded", function (missions)
+    Traitormod.Debug("missionsEnded with " .. #missions .. " missions.")
     -- send LastRoundSummary
     local endMessage
     local crewReachedEnd = false
