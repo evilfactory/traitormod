@@ -17,7 +17,6 @@ Traitormod.AddCommand("!traitor", function (client, args)
     elseif Game.RoundStarted and Traitormod.SelectedGamemode and Traitormod.SelectedGamemode.GetTraitorObjectiveSummary then
         local summary = Traitormod.SelectedGamemode.GetTraitorObjectiveSummary(client.Character)
         Traitormod.SendMessage(client, summary)
-        Traitormod.UpdateVanillaTraitor(client, true, summary)
     elseif Game.RoundStarted then
         Traitormod.SendMessage(client, Traitormod.Language.NoTraitor)
     else
