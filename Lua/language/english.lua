@@ -65,6 +65,7 @@ language.Objective = "Main Objectives:"
 language.SubObjective = "Sub Objectives (optional):"
 
 language.NoObjectives = "No objectives."
+language.NoObjectivesYet = "No targets yet..."
 
 language.ObjectiveAssassinate = "Assassinate %s."
 
