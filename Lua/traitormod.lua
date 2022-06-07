@@ -421,7 +421,7 @@ end
 local weightedRandom = dofile(Traitormod.Path .. "/Lua/weightedrandom.lua")
 
 local traitorsEnabled = -1
-local pointsGiveTimer
+local pointsGiveTimer = -1
 
 Hook.Add("roundStart", "Traitormod.RoundStart", function ()
     Traitormod.Log("Starting traitor round - Traitor Mod v" .. Traitormod.VERSION)
@@ -674,7 +674,7 @@ Hook.Add("think", "Traitormod.Think", function ()
     end
 
     -- every 60s, if a character has 100+ PointsToBeGiven, store added points and send feedback
-    if Timer.GetTime() > pointsGiveTimer then
+    if pointsGiveTimer > 0 and Timer.GetTime() > pointsGiveTimer then
         for key, value in pairs(Traitormod.PointsToBeGiven) do
             if value > 100 then
                 local xp = Traitormod.AwardPoints(key, value)
