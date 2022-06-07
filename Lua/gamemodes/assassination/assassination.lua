@@ -243,7 +243,6 @@ assassination.AssignInitialMissions = function (targetsAvailable)
             Traitormod.Log("Chose assassination target " .. target.Name)
             traitor.MainObjectives[1] = Traitormod.GetObjective("Assassinate")
             traitor.MainObjectives[1].Start(character, target)
-            Traitormod.Error("No initial assassination target has been found!")
     
             local objectivesAvaiable = {}
             for key, value in pairs(assassination.Config.SubObjectives) do
