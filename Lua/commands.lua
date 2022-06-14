@@ -121,3 +121,39 @@ Traitormod.AddCommand("!addpoint", function (client, args)
 
     return true
 end)
+
+Traitormod.AddCommand("!removepoint", function (client, args)
+if not client.HasPermission(ClientPermissions.ConsoleCommands) then return end
+
+if #args < 2 then
+    Traitormod.SendMessage(client, "Incorrect amount of arguments. usage: !removepoint \"Client Name\" 500")
+
+    return true
+end
+
+local name = table.remove(args, 1)
+local amount = tonumber(table.remove(args, 1))
+
+if amount == nil or amount ~= amount then
+    Traitormod.SendMessage(client, "Invalid number value.")
+    return true
+end
+
+local found = nil
+
+for key, value in pairs(Client.ClientList) do
+    if value.Name == name then
+        found = value
+    end
+end
+
+if found == nil then
+    Traitormod.SendMessage(client, "Couldn't find a client with name " .. name)
+    return true
+end
+
+Traitormod.AddData(found, "Points", -amount)
+Traitormod.SendMessage(client, string.format("Removed %s points from %s.", amount, found.Name))
+
+return true
+end)

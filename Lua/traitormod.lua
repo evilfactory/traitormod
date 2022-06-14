@@ -608,8 +608,7 @@ Hook.Add("characterCreated", "Traitormod.CharacterCreated", function (character)
     if character == nil or 
     character.IsBot == true or
     character.IsHuman == false or
-    character.ClientDisconnected == true or
-    character.TeamID == 0 then
+    character.ClientDisconnected == true then
         return
     end
     
@@ -621,8 +620,10 @@ Hook.Add("characterCreated", "Traitormod.CharacterCreated", function (character)
         if client ~= nil then
             -- set experience of respawned character to stored value - note initial spawn may not call this hook (on local server)
             Traitormod.LoadExperience(client)
+        else
+            Traitormod.Error("Could not load experience for created character!")
         end
-    end, 1000)
+    end, 500)
 end)
 
 Hook.Add("characterDeath", "Traitormod.DeathByTraitor", function (character, affliction)
