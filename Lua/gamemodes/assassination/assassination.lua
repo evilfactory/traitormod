@@ -315,7 +315,7 @@ assassination.CheckObjectives = function (character, traitor)
 
             local client = Traitormod.FindClientCharacter(character)
             if client == nil then 
-                Traitormod.Error("Couldn't award assassination points for " + character.Name)
+                Traitormod.Error("Couldn't award assassination points for " .. character.Name)
             else
                 -- flag character as killed, so it wont be targeted again
                 assassination.KilledTargets[client.Character] = true
@@ -356,7 +356,7 @@ assassination.CheckObjectives = function (character, traitor)
             -- award points for sub objection completion
             local client = Traitormod.FindClientCharacter(character)
             if client == nil then 
-                Traitormod.Error("Couldn't award sub objective points for " + character.Name)
+                Traitormod.Error("Couldn't award sub objective points for " .. character.Name)
             else
                 local xp = Traitormod.AwardPoints(client, objective.Config.AmountPoints)
                 Traitormod.SendObjectiveCompleted(client, objective.ObjectiveText, xp)

@@ -319,7 +319,7 @@ Traitormod.LoadExperience = function (client)
 end
 
 Traitormod.GiveExperience = function (character, amount, isMissionXP)
-    if character == nil or amount == nil or amount == 0 then
+    if character == nil or character.Info == nil or character.Info.GiveExperience == nil or character.IsHuman == false or amount == nil or amount == 0 then
         return false
     end
     Traitormod.Debug("Giving experience to character: " .. character.Name .. " -> " .. amount)
@@ -622,7 +622,7 @@ Hook.Add("characterCreated", "Traitormod.CharacterCreated", function (character)
             -- set experience of respawned character to stored value - note initial spawn may not call this hook (on local server)
             Traitormod.LoadExperience(client)
         end
-    end, 100)
+    end, 1000)
 end)
 
 Hook.Add("characterDeath", "Traitormod.DeathByTraitor", function (character, affliction)
@@ -674,7 +674,7 @@ Hook.Add("think", "Traitormod.Think", function ()
     end
 
     -- every 60s, if a character has 100+ PointsToBeGiven, store added points and send feedback
-    if pointsGiveTimer > 0 and Timer.GetTime() > pointsGiveTimer then
+    if pointsGiveTimer and Timer.GetTime() > pointsGiveTimer then
         for key, value in pairs(Traitormod.PointsToBeGiven) do
             if value > 100 then
                 local xp = Traitormod.AwardPoints(key, value)
