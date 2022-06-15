@@ -106,13 +106,14 @@ Traitormod.AddCommand("!addpoint", function (client, args)
     local found = nil
 
     for key, value in pairs(Client.ClientList) do
-        if value.Name == name then
+        if value.Name == name or tostring(value.SteamID) == name then
             found = value
+            break
         end
     end
 
     if found == nil then
-        Traitormod.SendMessage(client, "Couldn't find a client with name " .. name)
+        Traitormod.SendMessage(client, "Couldn't find a client with name / steamID " .. name)
         return true
     end
 
@@ -142,13 +143,14 @@ end
 local found = nil
 
 for key, value in pairs(Client.ClientList) do
-    if value.Name == name then
+    if value.Name == name or tostring(value.SteamID) == name then
         found = value
+        break
     end
 end
 
 if found == nil then
-    Traitormod.SendMessage(client, "Couldn't find a client with name " .. name)
+    Traitormod.SendMessage(client, "Couldn't find a client with name / steamID " .. name)
     return true
 end
 
