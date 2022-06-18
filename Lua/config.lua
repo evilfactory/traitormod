@@ -91,10 +91,10 @@ config.GamemodeConfig = {
         EndOnComplete = true,           -- end round when there are no assassination targets left
         EndGameDelaySeconds = 5,
 
-        StartDelayMin = 10,
-        StartDelayMax = 10,
-        NextDelayMin = 10,
-        NextDelayMax = 10,
+        StartDelayMin = 90,
+        StartDelayMax = 180,
+        NextDelayMin = 30,
+        NextDelayMax = 90,
 
         SelectBotsAsTargets = true,
         SelectPiratesAsTargets = false,
