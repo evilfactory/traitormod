@@ -34,6 +34,7 @@ end)
 
 Traitormod.AddCommand("!info", function (client, args)
     Traitormod.SendWelcome(client)
+    
     return true
 end)
 

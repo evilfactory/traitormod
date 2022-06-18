@@ -375,7 +375,14 @@ assassination.GetNextAssassinationTarget = function(client, traitor, realTarget)
     -- if no new target found, end round or give feedback and return
         assassination.Completed = true
         if assassination.Config.EndOnComplete then
-            Game.EndGame()
+            local delay = (assassination.Config.EndGameDelaySeconds or 0)
+
+            Traitormod.SendMessageEveryone(lang.TraitorsWin)
+            Traitormod.Log("Assassination complete. Ending round in " .. delay)
+
+            Timer.Wait(function ()
+                Game.EndGame()
+            end, delay * 1000)
         else
             Traitormod.SendMessage(client, lang.AssassinationEveryoneDead, "InfoFrameTabButton.Reputation")
         end
