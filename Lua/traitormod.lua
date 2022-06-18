@@ -723,6 +723,11 @@ Hook.Add("think", "Traitormod.Think", function ()
     end
 end)
 
+-- new player connected to the server
+Hook.Add("clientConnected", "Traitormod.ClientConnected", function (client)
+    Traitormod.SendWelcome(client)
+end)
+
 -- Traitormod.Commands hook
 Hook.Add("chatMessage", "Traitormod.ChatMessage", function (message, client)
     local split = Traitormod.ParseCommand(message)
