@@ -32,6 +32,11 @@ Traitormod.AddCommand("!points", function (client, args)
     return true
 end)
 
+Traitormod.AddCommand("!info", function (client, args)
+    Traitormod.SendWelcome(client)
+    return true
+end)
+
 ----- ADMIN COMMANDS -----
 Traitormod.AddCommand("!alive", function (client, args)
     if not (client.Character == nil or client.Character.IsDead) and not client.HasPermission(ClientPermissions.ConsoleCommands) then return end
