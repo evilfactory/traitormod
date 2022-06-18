@@ -25,7 +25,7 @@ assassination.OnCharacterDied = function (client, affliction)
         victimTraitor.Deaths = (victimTraitor.Deaths or 0) + 1
 
         -- if traitor dies while assassination is not complete and traitor not supposed to come back as traitor, set traitor failed - loose traitor state
-        if not assassination.Completed and assassination.Config.TraitorRespawnAs ~= "traitor" then
+        if not victimTraitor.Failed and not assassination.Completed and assassination.Config.TraitorRespawnAs ~= "traitor" then
             if Game.ServerSettings.AllowRespawn then
                 message = lang.TraitorDeath
                 icon = "InfoFrameTabButton.Traitor"
@@ -39,3 +39,20 @@ assassination.OnCharacterDied = function (client, affliction)
 
     return message, icon
 end
+
+--assassination.OnCharacterCreated = function(client, character)
+--    if assassination.Config.AllowDeadTraitors then
+-----     -- update "new" traitor character
+--        local spawnedTraitor = assassination.Traitors[character] --< can not work with character as key
+--        print(spawnedTraitor)
+--        if spawnedTraitor ~= nil then
+--            Traitormod.Debug("Traitor " .. character.Name .. " respawned.")
+--            -- traitor was spawned that was dead on selection -> update new character
+--            if client ~= nil then
+--                Traitormod.UpdateVanillaTraitor(client, true)
+--            else
+--                character.IsTraitor = true
+--            end
+--        end
+--    end
+--end

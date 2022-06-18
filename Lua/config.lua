@@ -52,7 +52,7 @@ config.AmountWeightWithPoints = function (x)
     return math.log(x + 10) -- add 1 because log of 0 is -infinity
 end
 
------ OBJECVTIVES -----
+----- OBJECTIVES -----
 config.ObjectiveConfig = {
     Assassinate = {
         Enabled = true,

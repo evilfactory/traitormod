@@ -1,7 +1,9 @@
 Traitormod.VERSION = "2.1-SNAPSHOT"
 
+print("-----------------------------------------------------------------------------------------------")
 print("Traitor Mod v" .. Traitormod.VERSION .. " by Evil Factory")
 print("Special thanks to Qunk, Femboy69 and JoneK for helping in the development of this mod.")
+print("-----------------------------------------------------------------------------------------------")
 
 Game.OverrideTraitors(true)
 
@@ -312,8 +314,14 @@ Traitormod.AllCrewMissionsCompleted = function (missions)
 end
 
 Traitormod.LoadExperience = function (client)
+    if client == nil then
+        Traitormod.Error("Loading experience failed! Client was nil")
+        return
+    elseif not client.Character or not client.Character.Info then 
+        Traitormod.Error("Loading experience failed! Client.Character or .Info was null! " .. client.Name)
+        return 
+    end
     local amount = Traitormod.Config.AmountExperienceWithPoints(Traitormod.GetData(client, "Points") or 0)
-    if amount == client.Character.Info.ExperiencePoints then return end
     Traitormod.Debug("Loading experience from stored points: " .. client.Character.Name .. " -> " .. amount)
     client.Character.Info.SetExperience(amount)
 end
@@ -418,27 +426,35 @@ Traitormod.EndReached = function(character)
     return characterInsideOutpost or Vector2.Distance(character.WorldPosition, Level.Loaded.EndPosition) < Traitormod.Config.DistanceToEndOutpostRequired
 end
 
+Traitormod.SendWelcome = function(client)
+    if Traitormod.Config.SendWelcomeMessage or Traitormod.Config.SendWelcomeMessage == nil then
+        Game.SendDirectChatMessage("", "| Traitor Mod v" .. Traitormod.VERSION .. " |\n" .. Traitormod.GetDataInfo(client), nil, ChatMessageType.Server, client)
+    end
+end
+
 local weightedRandom = dofile(Traitormod.Path .. "/Lua/weightedrandom.lua")
 
 local traitorsEnabled = -1
 local pointsGiveTimer = -1
 
-Hook.Add("roundStart", "Traitormod.RoundStart", function ()
+Traitormod.OnRoundStart = function()
     Traitormod.Log("Starting traitor round - Traitor Mod v" .. Traitormod.VERSION)
     pointsGiveTimer = Timer.GetTime() + Traitormod.Config.ExperienceTimer
 
     -- give XP to players based on stored points
     for key, value in pairs(Client.ClientList) do
-        if value.Character ~= nil and value.Character.Info ~= nil then
+        if value.Character ~= nil then
             Traitormod.SetData(value, "Name", value.Character.Name)
-
-            Traitormod.LoadExperience(value)
-
-            -- Send Welcome message
-            if Traitormod.Config.SendWelcomeMessage or Traitormod.Config.SendWelcomeMessage == nil then
-                Game.SendDirectChatMessage("", "| Traitor Mod v" .. Traitormod.VERSION .. " |\n" .. Traitormod.GetDataInfo(value), nil, ChatMessageType.Server, value)
-            end
         end
+
+        if not value.SpectateOnly then 
+            Traitormod.LoadExperience(value)
+        else
+            Traitormod.Debug("Skipping load experience for spectator " .. value.Name)
+        end
+
+        -- Send Welcome message
+        Traitormod.SendWelcome(value)
     end
     
     traitorsEnabled = Game.ServerSettings.TraitorsEnabled
@@ -471,6 +487,10 @@ Hook.Add("roundStart", "Traitormod.RoundStart", function ()
             Traitormod.EnabledRandomEvents[result].Start()
         end
     end
+end
+
+Hook.Add("roundStart", "Traitormod.RoundStart", function ()
+    Traitormod.OnRoundStart()
 end)
 
 Hook.Add("roundEnd", "Traitormod.RoundEnd", function ()
@@ -508,7 +528,7 @@ Hook.Add("missionsEnded", "Traitormod.MissionsEnded", function (missions)
         -- add weight according to points and config conversion
         Traitormod.AddData(value, "Weight", Traitormod.Config.AmountWeightWithPoints(Traitormod.GetData(value, "Points") or 0))
     
-        if value.Character ~= nil then
+        if value.Character ~= nil and not value.SpectateOnly then
             local wasTraitor = nil
 
             if Traitormod.SelectedGamemode then
@@ -617,13 +637,17 @@ Hook.Add("characterCreated", "Traitormod.CharacterCreated", function (character)
         local client = Traitormod.FindClientCharacter(character)
         --Traitormod.Debug("Character spawned: " .. character.Name .. " client: " .. tostring(client))
 
+        if Traitormod.SelectedGamemode.OnCharacterCreated then
+            Traitormod.SelectedGamemode.OnCharacterCreated(client, character)
+        end
+
         if client ~= nil then
             -- set experience of respawned character to stored value - note initial spawn may not call this hook (on local server)
             Traitormod.LoadExperience(client)
         else
-            Traitormod.Error("Could not load experience for created character!")
+            Traitormod.Error("Loading experience on characterCreated failed! Client was nil after 1sec")
         end
-    end, 500)
+    end, 1000)
 end)
 
 Hook.Add("characterDeath", "Traitormod.DeathByTraitor", function (character, affliction)
@@ -714,3 +738,8 @@ end)
 
 
 dofile(Traitormod.Path .. "/Lua/commands.lua")
+
+-- Round start call for reload during round 
+if Game.RoundStarted then
+    Traitormod.OnRoundStart()
+end
