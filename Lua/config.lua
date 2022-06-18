@@ -20,7 +20,7 @@ config.AmountCodeWords = 2
 config.FreeExperience = 50         -- temporary experience given every ExperienceTimer seconds
 config.ExperienceTimer = 120
 
-config.EnableControlHusk = true     -- EXPERIMENTAL: enable to control husked character after death
+config.EnableControlHusk = false     -- EXPERIMENTAL: enable to control husked character after death
 
 ----- POINTS + LIVES -----
 config.PermanentPoints = true      -- sets if points and lives will be stored in and loaded from a file
