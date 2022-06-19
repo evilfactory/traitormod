@@ -55,7 +55,7 @@ language.MaxLives = "You have the maximum amount of lives."
 language.Codewords = "Code Words: %s"
 language.CodeResponses = "Code Responses: %s"
 
-language.OtherTraitors = "Other traitors: %s"
+language.OtherTraitors = "All Traitors: %s"
 
 language.CommandTip = "(Type !traitor in chat to show this message again.)"
 

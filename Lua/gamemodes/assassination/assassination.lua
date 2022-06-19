@@ -162,7 +162,7 @@ assassination.GetTraitorObjectiveSummary = function (character, roundSummary)
             codeResponses = codeResponses .. " '" .. value .. "' "
         end
         
-        codewordText = "\n" .. string.format(lang.Codewords, codeWords) .. "\n" .. string.format(lang.CodeResponses, codeResponses)
+        codewordText = "\n\n" .. string.format(lang.Codewords, codeWords) .. "\n" .. string.format(lang.CodeResponses, codeResponses)
     elseif assassination.Config.TraitorMethodCommunication == "Names" then
         local names = ""
 
@@ -170,7 +170,7 @@ assassination.GetTraitorObjectiveSummary = function (character, roundSummary)
             names = names .. "\"" .. character.Name .. "\" "
         end
 
-        codewordText = "\n" .. string.format(lang.OtherTraitors, names)
+        codewordText = "\n\n" .. string.format(lang.OtherTraitors, names)
     end
 
     return string.format("%s\n\n%s\n%s\n%s\n%s%s", lang.ObjectiveText, lang.Objective, mainObjectiveText, lang.SubObjective, subObjectivesText, codewordText)
@@ -183,7 +183,7 @@ assassination.GetValidTarget = function (roleFilter, sideObjective)
     for key, value in pairs(Character.CharacterList) do
         -- if character is not a traitor, is a human and is not dead and matches the rolefilter
         if value ~= botGod and assassination.Traitors[value] == nil and value.IsHuman and not value.IsDead and 
-        (roleFilter == nil or roleFilter[tostring(value.Info.Job.Prefab.Identifier)]) then
+        (roleFilter == nil or roleFilter[value.Info.Job.Prefab.Identifier.Value]) then
             if assassination.Config.SelectPiratesAsTargets or value.TeamID ~= CharacterTeamType.None then
                 if assassination.Config.SelectBotsAsTargets or not value.IsBot then
                     -- if the character has not already been killed or it is a side objective target
