@@ -1,8 +1,3 @@
-Traitormod.VERSION = "2.1-SNAPSHOT"
-
-print(">> Traitor Mod v" .. Traitormod.VERSION .. " by Evil Factory")
-print(">> Special thanks to Qunk, Femboy69 and JoneK for helping in the development of this mod.")
-
 Game.OverrideTraitors(true)
 
 Traitormod.Config = dofile(Traitormod.Path .. "/Lua/config.lua")
