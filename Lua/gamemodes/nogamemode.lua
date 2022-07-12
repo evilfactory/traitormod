@@ -11,15 +11,11 @@ nogamemode.Think = function ()
 end
 
 nogamemode.End = function ()
-    return ""
+    return Traitormod.Language.NoTraitors
 end
 
-nogamemode.ShowRoundInfo = function ()
-    return ""
-end
-
-nogamemode.TraitorAlive = function ()
-    return "any"
+nogamemode.GetRoundSummary = function ()
+    return "No active gamemode."
 end
 
 return nogamemode

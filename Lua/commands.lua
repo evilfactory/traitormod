@@ -1,12 +1,24 @@
+----- USER COMMANDS -----
 Traitormod.AddCommand("!help", function (client, args)
     Traitormod.SendMessage(client, Traitormod.Language.Help)
 
     return true
 end)
 
+Traitormod.AddCommand("!version", function (client, args)
+    Traitormod.SendMessage(client, "Running Evil Factory's Traitor Mod v" .. Traitormod.VERSION)
+
+    return true
+end)
+
 Traitormod.AddCommand("!traitor", function (client, args)
-    if Game.RoundStarted and Traitormod.SelectedGamemode then
-        Traitormod.SelectedGamemode.ShowInfo(client.Character)
+    if Game.ServerSettings.TraitorsEnabled == 0 then
+        Traitormod.SendMessage(client, Traitormod.Language.NoTraitors)
+    elseif Game.RoundStarted and Traitormod.SelectedGamemode and Traitormod.SelectedGamemode.GetTraitorObjectiveSummary then
+        local summary = Traitormod.SelectedGamemode.GetTraitorObjectiveSummary(client.Character)
+        Traitormod.SendMessage(client, summary)
+    elseif Game.RoundStarted then
+        Traitormod.SendMessage(client, Traitormod.Language.NoTraitor)
     else
         Traitormod.SendMessage(client, Traitormod.Language.RoundNotStarted)
     end
@@ -15,22 +27,18 @@ Traitormod.AddCommand("!traitor", function (client, args)
 end)
 
 Traitormod.AddCommand("!points", function (client, args)
-    local maxPoints = 0
-    for index, value in pairs(Client.ClientList) do
-        maxPoints = maxPoints + (Traitormod.GetData(value, "Weight") or 0)
-    end
-
-    local percentage = (Traitormod.GetData(client, "Weight") or 0) / maxPoints * 100
-
-    if percentage ~= percentage then
-        percentage = 100 -- percentage is NaN, set it to 100%
-    end
-
-    Traitormod.SendMessage(client, string.format(Traitormod.Language.PointsInfo, math.floor(Traitormod.GetData(client, "Points") or 0), Traitormod.GetData(client, "Lives") or Traitormod.Config.MaxLives, math.floor(percentage)))
+    Traitormod.SendMessage(client, Traitormod.GetDataInfo(client, true))
 
     return true
 end)
 
+Traitormod.AddCommand("!info", function (client, args)
+    Traitormod.SendWelcome(client)
+    
+    return true
+end)
+
+----- ADMIN COMMANDS -----
 Traitormod.AddCommand("!alive", function (client, args)
     if not (client.Character == nil or client.Character.IsDead) and not client.HasPermission(ClientPermissions.ConsoleCommands) then return end
 
@@ -59,8 +67,8 @@ end)
 Traitormod.AddCommand("!roundinfo", function (client, args)
     if not client.HasPermission(ClientPermissions.ConsoleCommands) then return end
 
-    if Game.RoundStarted and Traitormod.SelectedGamemode then
-        Traitormod.SelectedGamemode.ShowRoundInfo(client)
+    if Game.RoundStarted and Traitormod.SelectedGamemode and Traitormod.SelectedGamemode.GetRoundSummary then
+        Traitormod.SendMessage(client, Traitormod.SelectedGamemode.GetRoundSummary())
     elseif Traitormod.LastRoundSummary ~= nil then
         Traitormod.SendMessage(client, Traitormod.LastRoundSummary)
     else
@@ -104,13 +112,14 @@ Traitormod.AddCommand("!addpoint", function (client, args)
     local found = nil
 
     for key, value in pairs(Client.ClientList) do
-        if value.Name == name then
+        if value.Name == name or tostring(value.SteamID) == name then
             found = value
+            break
         end
     end
 
     if found == nil then
-        Traitormod.SendMessage(client, "Couldn't find a client with name " .. name)
+        Traitormod.SendMessage(client, "Couldn't find a client with name / steamID " .. name)
         return true
     end
 
@@ -118,4 +127,41 @@ Traitormod.AddCommand("!addpoint", function (client, args)
     Traitormod.SendMessage(client, string.format("Gave %s points to %s.", amount, found.Name))
 
     return true
+end)
+
+Traitormod.AddCommand("!removepoint", function (client, args)
+if not client.HasPermission(ClientPermissions.ConsoleCommands) then return end
+
+if #args < 2 then
+    Traitormod.SendMessage(client, "Incorrect amount of arguments. usage: !removepoint \"Client Name\" 500")
+
+    return true
+end
+
+local name = table.remove(args, 1)
+local amount = tonumber(table.remove(args, 1))
+
+if amount == nil or amount ~= amount then
+    Traitormod.SendMessage(client, "Invalid number value.")
+    return true
+end
+
+local found = nil
+
+for key, value in pairs(Client.ClientList) do
+    if value.Name == name or tostring(value.SteamID) == name then
+        found = value
+        break
+    end
+end
+
+if found == nil then
+    Traitormod.SendMessage(client, "Couldn't find a client with name / steamID " .. name)
+    return true
+end
+
+Traitormod.AddData(found, "Points", -amount)
+Traitormod.SendMessage(client, string.format("Removed %s points from %s.", amount, found.Name))
+
+return true
 end)

@@ -1,23 +1,15 @@
 local objective = {}
 
 objective.Name = "StealCaptainID"
+objective.RoleFilter = {["captain"] = true}
 
-objective.Start = function (character)
-    local captainFound = false
+objective.Start = function (character, target)
+    objective.Character = character
 
-    for key, value in pairs(Character.CharacterList) do
-        if value ~= nil and value.Info ~= nil then
-            if value.Info.Job.Prefab.Identifier == "captain" then
-                captainFound = true
-            end
-        end
-    end
-
-    if not captainFound then
+    -- if no valid captain found, abort
+    if not target then
         return false
     end
-
-    objective.Character = character
 
     objective.ObjectiveText = Traitormod.Language.ObjectiveStealCaptainID
 

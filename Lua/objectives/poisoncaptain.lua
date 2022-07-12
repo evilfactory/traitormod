@@ -12,10 +12,15 @@ objective.Start = function (character, target)
     end
 
     if not objective.Character.IsMedic then
+        Traitormod.Debug("PoisonCaptain is only available for medics.")
         return false
     end
 
-    objective.ObjectiveText = string.format(Traitormod.Language.ObjectivePoisonCaptain, target.Name)
+    objective.TargetName = Traitormod.GetJobString(objective.Target)
+
+    objective.Poison = "Sufforin"
+
+    objective.ObjectiveText = string.format(Traitormod.Language.ObjectivePoisonCaptain, objective.TargetName, objective.Poison)
 
     return true
 end
