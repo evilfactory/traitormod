@@ -20,6 +20,7 @@ config.AmountCodeWords = 2
 config.FreeExperience = 50         -- temporary experience given every ExperienceTimer seconds
 config.ExperienceTimer = 120
 
+config.RagdollOnDisconnect = false
 config.EnableControlHusk = false     -- EXPERIMENTAL: enable to control husked character after death
 
 ----- POINTS + LIVES -----

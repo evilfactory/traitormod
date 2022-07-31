@@ -13,8 +13,12 @@ for key, value in pairs(Traitormod.Languages) do
     end
 end
 
+if Traitormod.Config.RagdollOnDisconnect then
+    Game.DisableDisconnectCharacter(not Traitormod.Config.RagdollOnDisconnect)
+end
+
 if Traitormod.Config.EnableControlHusk then
-    Game.EnableControlHusk(true)
+    Game.EnableControlHusk(Traitormod.Config.EnableControlHusk)
 end
 
 Traitormod.Gamemodes = {
