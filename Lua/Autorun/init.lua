@@ -11,5 +11,4 @@ local path = table.pack(...)[1]
 
 Traitormod.Path = path
 
-dofile(Traitormod.Path .. "/Lua/traitormod_util.lua")
 dofile(Traitormod.Path .. "/Lua/traitormod.lua")

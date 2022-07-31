@@ -1,3 +1,5 @@
+dofile(Traitormod.Path .. "/Lua/traitormod_util.lua")
+
 Game.OverrideTraitors(true)
 
 if Traitormod.Config.RagdollOnDisconnect then
