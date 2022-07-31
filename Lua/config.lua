@@ -20,11 +20,13 @@ config.AmountCodeWords = 2
 config.FreeExperience = 50         -- temporary experience given every ExperienceTimer seconds
 config.ExperienceTimer = 120
 
+config.RagdollOnDisconnect = false
 config.EnableControlHusk = false     -- EXPERIMENTAL: enable to control husked character after death
 
 ----- POINTS + LIVES -----
 config.PermanentPoints = true      -- sets if points and lives will be stored in and loaded from a file
 config.MaxLives = 4
+config.MaxExperienceFromPoints = 50000     -- if not nil, this amount is the maximum experience players gain from stored points (30k = lvl 10 | 38400 = lvl 12)
 
 config.DistanceToEndOutpostRequired = 5000
 config.PointsGainedFromCrewMissionsCompleted = 1000
