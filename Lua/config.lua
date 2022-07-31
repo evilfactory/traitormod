@@ -123,8 +123,8 @@ config.GamemodeConfig = {
         end,
 
         TraitorFilter = function (client)
-            if client.character.HasJob("captain") then return false end
-            if client.character.HasJob("securityofficer") then return false end
+            if client.Character.HasJob("captain") then return false end
+            if client.Character.HasJob("securityofficer") then return false end
 
             return true
         end
@@ -148,6 +148,14 @@ config.RandomEventConfig = {
         BallastFloraDelay = 20,
         BallastFloraEndDelay = 50
     },
+}
+
+config.PointShopConfig = {
+    Enabled = true,
+    ItemCategories = {
+        dofile(Traitormod.Path .. "/Lua/config/pointshop/traitor.lua"),
+        dofile(Traitormod.Path .. "/Lua/config/pointshop/medical.lua"),
+    }
 }
 
 return config
