@@ -90,19 +90,54 @@ ps.ValidateClient = function(client)
     return true
 end
 
-ps.SpawnItem = function(client, identifier)
+ps.SpawnItem = function(client, identifier, condition)
     local prefab = ItemPrefab.GetItemPrefab(identifier)
+    
+    if prefab == nil then
+        Traitormod.SendMessage(client, "PointShop Error: Could not find item with identifier " .. identifier .. " please report this error.")
+        Traitormod.Error("PointShop Error: Could not find item with identifier " .. identifier)
+        return
+    end
 
-    Entity.Spawner.AddItemToSpawnQueue(prefab, client.Character.Inventory, nil, nil, function (item)
-        
-    end)
+    local isInstallation = false
+
+    -- FIXME: find a better way to do this
+    if identifier == "fabricator" or 
+       identifier == "deconstructor" or 
+       identifier == "medicalfabricator" or
+       identifier == "junctionbox" or
+       identifier == "battery" or
+       identifier == "supercapacitor" or
+       identifier == "door" or
+       identifier == "shuttleoxygenerator" or
+       identifier == "op_researchterminal"
+    then
+        isInstallation = true
+    end
+
+    local function OnSpawn(item)
+        local powerContainer = item.GetComponentString("PowerContainer")
+        if powerContainer then
+            powerContainer.Charge = powerContainer.Capacity
+        end
+    end
+
+    if isInstallation then
+        if client.Character.Submarine == nil then
+            Entity.Spawner.AddItemToSpawnQueue(prefab, client.Character.WorldPosition, condition, nil, OnSpawn)
+        else
+            Entity.Spawner.AddItemToSpawnQueue(prefab, client.Character.WorldPosition - client.Character.Submarine.Position, client.Character.Submarine, condition, nil, OnSpawn)
+        end
+    else
+        Entity.Spawner.AddItemToSpawnQueue(prefab, client.Character.Inventory, condition, nil, OnSpawn)
+    end
 end
 
 ps.BuyProduct = function(client, product)
     local points = Traitormod.GetData(client, "Points") or 0
 
     if product.Price > points then
-        textPromptUtils.Prompt("You do not have enough points to buy this item.", {}, client, function (id, client) end)
+        textPromptUtils.Prompt("You do not have enough points to buy this item.", {}, client, function (id, client) end, "gambler")
         return
     end
 
@@ -112,19 +147,28 @@ ps.BuyProduct = function(client, product)
     end
 
     if not ps.UseProductLimit(client, product) then
-        textPromptUtils.Prompt("This product is out of stock.", {}, client, function (id, client) end)
+        textPromptUtils.Prompt("This product is out of stock.", {}, client, function (id, client) end, "gambler")
         return
     end
 
     Traitormod.SetData(client, "Points", points - product.Price)
 
-    textPromptUtils.Prompt(string.format("%s Points have been used to buy \"%s\"", product.Price, product.Name), {}, client, function (id, client) end)
+    points = Traitormod.GetData(client, "Points") or 0
+
+    textPromptUtils.Prompt(string.format("%s Points have been used to buy \"%s\", you now have %s points.", product.Price, product.Name, points), {}, client, function (id, client) end, "gambler")
 
     -- Activate the product
 
     if product.Items then
-        for key, value in pairs(product.Items) do
-            ps.SpawnItem(client, value)
+        if product.ItemsCondition == nil then product.ItemsCondition = {} end
+
+        if product.ItemRandom then
+            local randomIndex = math.random(1, #product.Items)
+            ps.SpawnItem(client, product.Items[randomIndex], product.ItemsCondition[randomIndex] or 100)
+        else
+            for key, value in pairs(product.Items) do
+                ps.SpawnItem(client, value, product.ItemsCondition[key] or 100)
+            end
         end
     end
 end
@@ -137,14 +181,20 @@ ps.ShowCategoryItems = function(client, category)
     table.insert(options, ">> Cancel <<")
 
     for key, product in pairs(category.Products) do
-        local text = string.format("%s - $%s (%s/%s)",
+        local text = string.format("%s - %spt (%s/%s)",
             product.Name, product.Price, ps.GetProductLimit(client, product), product.Limit or defaultLimit)
 
         table.insert(options, text)
         productsLookup[#options] = product
     end
 
-    textPromptUtils.Prompt("Choose what you want to buy.", options, client, function (id, client2)
+    table.insert(options, "") -- FIXME: for some reason when the bar is full, the last item is never shown?
+
+    local points = Traitormod.GetData(client, "Points") or 0
+
+    textPromptUtils.Prompt(
+        "Your current balance: " .. points .." points\nWhat do you wish to buy?", 
+        options, client, function (id, client2)
         if id == 1 then
             ps.ShowCategory(client2)
         end
@@ -152,7 +202,7 @@ ps.ShowCategoryItems = function(client, category)
         if productsLookup[id] == nil then return end
 
         ps.BuyProduct(client2, productsLookup[id])
-    end)
+    end, category.IsTraitorOnly and "clown" or "gambler", category.IsTraitorOnly)
 end
 
 ps.ShowCategory = function(client)
@@ -168,12 +218,16 @@ ps.ShowCategory = function(client)
         end
     end
 
+    table.insert(options, "") -- FIXME: for some reason when the bar is full, the last item is never shown?
+
+    local points = Traitormod.GetData(client, "Points") or 0
+
     -- note: we have two different client variables here to prevent cheating
-    textPromptUtils.Prompt("Choose a category.", options, client, function (id, client2)
+    textPromptUtils.Prompt("Your current balance: " .. points .." points\nChoose a category.", options, client, function (id, client2)
         if categoryLookup[id] == nil then return end
 
         ps.ShowCategoryItems(client2, categoryLookup[id])
-    end)
+    end, "officeinside")
 end
 
 Traitormod.AddCommand("!pointshop", function (client, args)

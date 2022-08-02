@@ -93,8 +93,8 @@ config.GamemodeConfig = {
         EndOnComplete = true,           -- end round when there are no assassination targets left
         EndGameDelaySeconds = 5,
 
-        StartDelayMin = 90,
-        StartDelayMax = 180,
+        StartDelayMin = 1,
+        StartDelayMax = 1,
         NextDelayMin = 30,
         NextDelayMax = 90,
 
@@ -155,7 +155,12 @@ config.PointShopConfig = {
     Enabled = true,
     ItemCategories = {
         dofile(Traitormod.Path .. "/Lua/config/pointshop/traitor.lua"),
+        dofile(Traitormod.Path .. "/Lua/config/pointshop/maintenance.lua"),
+        dofile(Traitormod.Path .. "/Lua/config/pointshop/materials.lua"),
         dofile(Traitormod.Path .. "/Lua/config/pointshop/medical.lua"),
+        dofile(Traitormod.Path .. "/Lua/config/pointshop/ores.lua"),
+        dofile(Traitormod.Path .. "/Lua/config/pointshop/other.lua"),
+        dofile(Traitormod.Path .. "/Lua/config/pointshop/experimental.lua"),
     }
 }
 

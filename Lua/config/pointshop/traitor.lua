@@ -5,12 +5,53 @@ category.IsTraitorOnly = true
 
 category.Products = {
     {
-        Name = "Frag Grenade",
-        Price = 500,
+        Name = "Boom Stick",
+        Price = 3200,
         Limit = 1,
-        IsLimitGlobal = true,
-        Items = {"fraggrenade"},
-    }
+        IsLimitGlobal = false,
+        Items = {"shotgununique", 
+        "shotgunshell", "shotgunshell", "shotgunshell", "shotgunshell", "shotgunshell", "shotgunshell", "shotgunshell", "shotgunshell"},
+    },
+
+    {
+        Name = "Deadeye Carbine",
+        Price = 3200,
+        Limit = 1,
+        IsLimitGlobal = false,
+        Items = {"smgunique", "smgmagazine", "smgmagazine"},
+    },
+
+    {
+        Name = "Europan Handshake",
+        Price = 2700,
+        Limit = 1,
+        IsLimitGlobal = false,
+        Items = {"divingknifeunique"},
+    },
+
+    {
+        Name = "Prototype Steam Cannon",
+        Price = 1300,
+        Limit = 1,
+        IsLimitGlobal = false,
+        Items = {"flamerunique", "incendiumfueltank"},
+    },
+
+    {
+        Name = "Detonator",
+        Price = 1350,
+        Limit = 3,
+        IsLimitGlobal = false,
+        Items = {"detonator"},
+    },
+
+    {
+        Name = "UEX Materials",
+        Price = 1500,
+        Limit = 5,
+        IsLimitGlobal = false,
+        Items = {"sodium", "phosphorus"},
+    },
 }
 
 return category
