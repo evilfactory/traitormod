@@ -242,9 +242,12 @@ Traitormod.LoadExperience = function (client)
         return 
     end
     local amount = Traitormod.Config.AmountExperienceWithPoints(Traitormod.GetData(client, "Points") or 0)
-    if Traitormod.Config.MaxExperienceFromPoints and amount > Traitormod.Config.MaxExperienceFromPoints then
-        amount = Traitormod.Config.MaxExperienceFromPoints
+    local max = Traitormod.Config.MaxExperienceFromPoints or 2000000000     -- must be int32
+
+    if amount > max then
+        amount = max
     end
+
     Traitormod.Debug("Loading experience from stored points: " .. client.Character.Name .. " -> " .. amount)
     client.Character.Info.SetExperience(amount)
 end
