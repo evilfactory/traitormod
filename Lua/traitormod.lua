@@ -385,6 +385,7 @@ Hook.Add("chatMessage", "Traitormod.ChatMessage", function (message, client)
     local command = table.remove(split, 1)
 
     if Traitormod.Commands[command] then
+        Traitormod.Log(client.Name .. " used command: ".. message)
         return Traitormod.Commands[command].Callback(client, split)
     end
 end)

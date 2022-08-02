@@ -84,7 +84,7 @@ Traitormod.AddCommand("!allpoints", function (client, args)
     local messageToSend = ""
 
     for index, value in pairs(Client.ClientList) do
-        messageToSend = messageToSend .. value.Name .. ": " .. math.floor(Traitormod.GetData(value, "Points") or 0) .. " Points - " .. math.floor(Traitormod.GetData(value, "Weight") or 0) .. " Weight"
+        messageToSend = messageToSend .. "\n" .. value.Name .. ": " .. math.floor(Traitormod.GetData(value, "Points") or 0) .. " Points - " .. math.floor(Traitormod.GetData(value, "Weight") or 0) .. " Weight"
     end
 
     Traitormod.SendMessage(client, messageToSend)
@@ -130,38 +130,119 @@ Traitormod.AddCommand("!addpoint", function (client, args)
 end)
 
 Traitormod.AddCommand("!removepoint", function (client, args)
-if not client.HasPermission(ClientPermissions.ConsoleCommands) then return end
+    if not client.HasPermission(ClientPermissions.ConsoleCommands) then return end
 
-if #args < 2 then
-    Traitormod.SendMessage(client, "Incorrect amount of arguments. usage: !removepoint \"Client Name\" 500")
+    if #args < 2 then
+        Traitormod.SendMessage(client, "Incorrect amount of arguments. usage: !removepoint \"Client Name\" 500")
 
-    return true
-end
-
-local name = table.remove(args, 1)
-local amount = tonumber(table.remove(args, 1))
-
-if amount == nil or amount ~= amount then
-    Traitormod.SendMessage(client, "Invalid number value.")
-    return true
-end
-
-local found = nil
-
-for key, value in pairs(Client.ClientList) do
-    if value.Name == name or tostring(value.SteamID) == name then
-        found = value
-        break
+        return true
     end
-end
 
-if found == nil then
-    Traitormod.SendMessage(client, "Couldn't find a client with name / steamID " .. name)
+    local name = table.remove(args, 1)
+    local amount = tonumber(table.remove(args, 1))
+
+    if amount == nil or amount ~= amount then
+        Traitormod.SendMessage(client, "Invalid number value.")
+        return true
+    end
+
+    local found = nil
+
+    for key, value in pairs(Client.ClientList) do
+        if value.Name == name or tostring(value.SteamID) == name then
+            found = value
+            break
+        end
+    end
+
+    if found == nil then
+        Traitormod.SendMessage(client, "Couldn't find a client with name / steamID " .. name)
+        return true
+    end
+
+    Traitormod.AddData(found, "Points", -amount)
+    Traitormod.SendMessage(client, string.format("Removed %s points from %s.", amount, found.Name))
+
     return true
-end
+end)
 
-Traitormod.AddData(found, "Points", -amount)
-Traitormod.SendMessage(client, string.format("Removed %s points from %s.", amount, found.Name))
+Traitormod.AddCommand("!addlife", function (client, args)
+    if not client.HasPermission(ClientPermissions.ConsoleCommands) then return end
 
-return true
+    if #args < 1 then
+        Traitormod.SendMessage(client, "Incorrect amount of arguments. usage: !addlife \"Client Name\" 1")
+
+        return true
+    end
+
+    local name = table.remove(args, 1)
+
+    local amount = 1
+    if #args > 1 then
+        amount = tonumber(table.remove(args, 1))
+    end
+
+    if amount == nil or amount ~= amount then
+        Traitormod.SendMessage(client, "Invalid number value.")
+        return true
+    end
+
+    local found = nil
+
+    for key, value in pairs(Client.ClientList) do
+        if value.Name == name or tostring(value.SteamID) == name then
+            found = value
+            break
+        end
+    end
+
+    if found == nil then
+        Traitormod.SendMessage(client, "Couldn't find a client with name / steamID " .. name)
+        return true
+    end
+
+    local lifeMsg, lifeIcon = Traitormod.AdjustLives(found, amount)
+
+    if lifeMsg then
+        Traitormod.SendMessage(found, lifeMsg, lifeIcon)
+    end
+
+    return true
+end)
+
+Traitormod.AddCommand("!revive", function (client, args)
+    if not client.HasPermission(ClientPermissions.ConsoleCommands) then return end
+
+    local reviveClient = client
+    local name = client.Name
+
+    if #args > 0 then
+        -- if client name is given, revive related character
+        name = table.remove(args, 1)
+        -- find character by client name
+        for player in Client.ClientList do
+            if player.Name == name then
+                reviveClient = player
+            end
+        end
+    end
+
+    if reviveClient.Character and reviveClient.Character.IsDead then
+        reviveClient.Character.Revive()
+        client.SetClientCharacter(reviveClient.Character);
+        local lifeMsg, lifeIcon = Traitormod.AdjustLives(reviveClient, 1)
+
+        if lifeMsg then
+            Traitormod.SendMessage(reviveClient, lifeMsg, lifeIcon)
+        end
+
+        Game.SendDirectChatMessage("", "Character of " .. name .. " revived and given back 1 life.", nil, ChatMessageType.Error, client)
+
+    elseif reviveClient.Character then
+        Game.SendDirectChatMessage("", "Character of " .. name .. " is not dead.", nil, ChatMessageType.Error, client)
+    else
+        Game.SendDirectChatMessage("", "Character of " .. name .. " not found.", nil, ChatMessageType.Error, client)
+    end
+
+    return true
 end)
