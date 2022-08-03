@@ -5,6 +5,12 @@ Traitormod.AddCommand("!help", function (client, args)
     return true
 end)
 
+Traitormod.AddCommand("!helpadmin", function (client, args)
+    Traitormod.SendMessage(client, Traitormod.Language.HelpAdmin)
+
+    return true
+end)
+
 Traitormod.AddCommand("!version", function (client, args)
     Traitormod.SendMessage(client, "Running Evil Factory's Traitor Mod v" .. Traitormod.VERSION)
 

@@ -1,7 +1,8 @@
 local language = {}
 language.Name = "English"
 
-language.Help = "!help - This message\n!traitor - See traitor information\n!points - See your points.\n!alive - See alive players (dead people only)\n!traitoralive - Check if all traitors died. (admin only)\n!roundinfo - See round information. (spoiler - admin only)"
+language.Help = "!help - shows this help message.\n!helpadmin - lists all available admin commands.\n!traitor - show traitor information.\n!points - show your points and lives.\n!alive - list alive players (only while dead).\n!version - shows running version of the traitormod."
+language.HelpAdmin = "\n!traitoralive - check if all traitors died.\n!roundinfo - show round information (spoiler!).\n!allpoints - shows point amounts of all connected clients.\n!addpoint [Client] [+/-Amount] - add points to a client.\n!addlife [Client] [+/-Amount] - add life(s) to a client.\n!revive [Client] - revives a given client character."
 
 language.NoTraitor = "You aren't a traitor."
 language.RoundNotStarted = "Round not started."
