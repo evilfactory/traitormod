@@ -260,6 +260,8 @@ ps.ShowCategory = function(client)
     local options = {}
     local categoryLookup = {}
 
+    table.insert(options, ">> Cancel <<")
+
     for key, value in pairs(config.PointShopConfig.ItemCategories) do
         if ps.CanClientAccessCategory(client, value) then
             table.insert(options, value.Name)
@@ -267,12 +269,11 @@ ps.ShowCategory = function(client)
         end
     end
 
-    if #options == 0 then
+    if #options == 1 then
         textPromptUtils.Prompt("Point Shop not available.", {}, client, function (id, client) end, "gambler")
         return
     end
 
-    table.insert(options, 1, ">> Cancel <<")
     table.insert(options, "") -- FIXME: for some reason when the bar is full, the last item is never shown?
 
     local points = Traitormod.GetData(client, "Points") or 0
