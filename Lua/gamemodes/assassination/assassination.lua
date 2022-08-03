@@ -7,10 +7,13 @@ local lang = Traitormod.Language
 
 assassination.Start = function ()
     assassination.Traitors = {}
+    assassination.WantedTraitors = 0
+    assassination.PossibleTraitors = 0
+    assassination.TraitorsAsked = 0
     assassination.KilledTargets = {}
-    assassination.Completed = false
 
-    assassination.MultiTraitor = false
+    assassination.Started = false
+    assassination.Completed = false
 
     local words = Traitormod.SelectCodeWords()
     assassination.Codewords = words[1]
@@ -149,7 +152,7 @@ assassination.GetTraitorObjectiveSummary = function (character, roundSummary)
 
     local codewordText = ""
 
-    if not assassination.MultiTraitor then
+    if assassination.WantedTraitors == 1 then
         
     elseif assassination.Config.TraitorMethodCommunication == "Codewords" then
         local codeWords = ""
@@ -453,9 +456,6 @@ assassination.SelectTraitors = function (fast)
                 amountTraitors = traitorChoices
                 Traitormod.Log("Not enough valid players to assign all traitors... New amount: " .. tostring(amountTraitors)) 
             end
-            if amountTraitors > 1 then
-                assassination.MultiTraitor = true
-            end
         
             assassination.WantedTraitors = amountTraitors
 
@@ -499,6 +499,7 @@ end
 assassination.WantedTraitors = 0
 assassination.PossibleTraitors = 0
 assassination.TraitorsAsked = 0
+assassination.Started = false
 
 assassination.OnTraitorConfirmed = function(index, clientWeight)
     Traitormod.Log("Chose " .. index.Character.Name.. " as traitor. Weight: " .. math.floor(clientWeight[index] * 100) / 100)
@@ -513,7 +514,12 @@ assassination.OnTraitorConfirmed = function(index, clientWeight)
 end
 
 assassination.StartTraitor = function()
-    -- greet traitors afterwards, so we have all infos about existing traitors
+    if assassination.Started then
+        return
+    end
+    assassination.Started = true
+
+    -- greet traitors after choosing all, so we have all infos about existing traitors
 
     -- check if there are valid traitor victims
     Traitormod.Debug("Check if there are targets...")
@@ -522,7 +528,7 @@ assassination.StartTraitor = function()
     for character, traitor in pairs(assassination.Traitors) do
         local greet = ""
 
-        if not assassination.MultiTraitor or assassination.Config.TraitorMethodCommunication == "None"  then
+        if assassination.WantedTraitors == 1 or assassination.Config.TraitorMethodCommunication == "None"  then
             greet = string.format("%s\n\n%s", lang.TraitorWelcome, lang.AgentNoticeOnlyTraitor)
         elseif assassination.Config.TraitorMethodCommunication == "Codewords" then
             greet = string.format("%s\n\n%s", lang.TraitorWelcome, lang.AgentNoticeCodewords)
