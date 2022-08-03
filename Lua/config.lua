@@ -161,6 +161,7 @@ config.PointShopConfig = {
         dofile(Traitormod.Path .. "/Lua/config/pointshop/ores.lua"),
         dofile(Traitormod.Path .. "/Lua/config/pointshop/other.lua"),
         dofile(Traitormod.Path .. "/Lua/config/pointshop/experimental.lua"),
+        --dofile(Traitormod.Path .. "/Lua/config/pointshop/deathspawn.lua"),
     }
 }
 

@@ -6,17 +6,26 @@ category.IsTraitorOnly = false
 category.Products = {
     {
         Name = "Door",
-        Price = 2800,
-        Limit = 1,
+        Price = 2400,
+        Limit = 5,
         Items = {
             {Identifier = "door", IsInstallation = true}
         }
     },
 
     {
+        Name = "Supplies Cabinet",
+        Price = 600,
+        Limit = 3,
+        Items = {
+            {Identifier = "suppliescabinet", IsInstallation = true}
+        }
+    },
+
+    {
         Name = "Oxygen Generator",
         Price = 3200,
-        Limit = 1,
+        Limit = 2,
         Items = {
             {Identifier = "shuttleoxygenerator", IsInstallation = true}
         }
@@ -61,7 +70,7 @@ category.Products = {
     {
         Name = "Junction Box",
         Price = 1200,
-        Limit = 1,
+        Limit = 4,
         Items = {
             {Identifier = "junctionbox", IsInstallation = true}
         }
@@ -70,7 +79,7 @@ category.Products = {
     {
         Name = "Battery",
         Price = 2000,
-        Limit = 1,
+        Limit = 3,
         Items = {
             {Identifier = "battery", IsInstallation = true}
         }
@@ -79,7 +88,7 @@ category.Products = {
     {
         Name = "Super Capacitor",
         Price = 2000,
-        Limit = 1,
+        Limit = 2,
         Items = {
             {Identifier = "supercapacitor", IsInstallation = true}
         }

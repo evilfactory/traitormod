@@ -15,14 +15,14 @@ category.Products = {
         Name = "Steel Bar",
         Price = 150,
         Limit = 4,
-        Items = {"steelbar"}
+        Items = {"steel"}
     },
 
     {
         Name = "Iron",
         Price = 120,
         Limit = 4,
-        Items = {"steelbar"}
+        Items = {"iron"}
     },
 
     {

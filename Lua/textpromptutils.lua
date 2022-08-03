@@ -36,6 +36,7 @@ Hook.Add("netMessageReceived", "promptResponse", function (msg, header, client)
 
         if promptIDToCallback[id] ~= nil then
             promptIDToCallback[id](option + 1, client)
+            promptIDToCallback[id] = nil
         end
     end
 end)

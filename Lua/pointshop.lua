@@ -68,6 +68,16 @@ ps.UseProductLimit = function (client, product)
 end
 
 ps.CanClientAccessCategory = function(client, category)
+    local isDead = client.Character == nil or client.Character.IsDead or not client.Character.IsHuman
+
+    if isDead and not category.IsDeadOnly then
+        return false
+    end
+
+    if not isDead and category.IsDeadOnly then
+        return false
+    end
+
     -- FIXME: Is this correct?
     if category.IsTraitorOnly and not client.Character.IsTraitor then
         return false
@@ -82,7 +92,7 @@ ps.ValidateClient = function(client)
         return false
     end
 
-    if client.Character == nil or client.Character.IsDead or not client.InGame then
+    if not client.InGame then
         Traitormod.SendMessage(client, "You must be in game to use the Pointshop.")
         return false
     end
@@ -168,11 +178,6 @@ ps.BuyProduct = function(client, product)
         return
     end
 
-    -- the person could have died between the time they accessed the pointshop and the time they bought the item.
-    if not ps.ValidateClient(client) then
-        return
-    end
-
     if not ps.UseProductLimit(client, product) then
         textPromptUtils.Prompt("This product is out of stock.", {}, client, function (id, client) end, "gambler")
         return
@@ -182,7 +187,7 @@ ps.BuyProduct = function(client, product)
 
     points = Traitormod.GetData(client, "Points") or 0
 
-    textPromptUtils.Prompt(string.format("%s Points have been used to buy \"%s\", you now have %s points.", product.Price, product.Name, points), {}, client, function (id, client) end, "gambler")
+    textPromptUtils.Prompt(string.format("Purchased \"%s\" for %s points\n\nNew point balance is: %s points.", product.Name, product.Price, math.floor(points)), {}, client, function (id, client) end, "gambler")
 
     -- Activate the product
     ps.ActivateProduct(client, product)
@@ -214,9 +219,38 @@ ps.ShowCategoryItems = function(client, category)
             ps.ShowCategory(client2)
         end
 
-        if productsLookup[id] == nil then return end
+        local product = productsLookup[id]
+        if product == nil then return end
 
-        ps.BuyProduct(client2, productsLookup[id])
+        local productHasInstallation = false
+
+        if product.Items ~= nil then
+            for key, value in pairs(product.Items) do
+                if type(value) == "table" and value.IsInstallation then
+                    productHasInstallation = true
+                end
+            end
+        end
+        
+        if productHasInstallation then
+            textPromptUtils.Prompt(
+            "The product that you are about to buy will spawn an installation in your exact location, you won't be able to move it else where, do you wish to continue?\n",
+            {"Yes", "No"}, client2, function (id, client3)
+                if id == 1 then
+                    if not ps.ValidateClient(client3) or not ps.CanClientAccessCategory(client2, category) then
+                        return
+                    end
+
+                    ps.BuyProduct(client3, product)
+                end
+            end, category.IsTraitorOnly and "clown" or "gambler", category.IsTraitorOnly)
+        else
+            if not ps.ValidateClient(client2) or not ps.CanClientAccessCategory(client2, category) then
+                return
+            end
+
+            ps.BuyProduct(client2, product)
+        end
     end, category.IsTraitorOnly and "clown" or "gambler", category.IsTraitorOnly)
 end
 
