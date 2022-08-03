@@ -291,7 +291,7 @@ Traitormod.AdjustLives = function (client, amount)
 
     if (newLives or 0) <= 0 then
         -- if no lives left, reduce amount of points, reset to maxLives
-        Traitormod.Log("Player ".. client.Character.Name .." lost all lives. Reducing points...")
+        Traitormod.Log("Player ".. client.Name .." lost all lives. Reducing points...")
         if not Traitormod.Config.TestMode then  
             Traitormod.SetData(client, "Points", Traitormod.Config.PointsLostAfterNoLives(Traitormod.GetData(client, "Points") or 0))
             Traitormod.LoadExperience(client)
@@ -304,7 +304,7 @@ Traitormod.AdjustLives = function (client, amount)
         lifeAdjustMessage = nil -- no change in lives, no need for feedback
     end
     
-    Traitormod.Log("Adjusting lives of player " .. client.Character.Name .. " by " .. amount .. ". New value: " .. newLives)
+    Traitormod.Log("Adjusting lives of player " .. client.Name .. " by " .. amount .. ". New value: " .. newLives)
     Traitormod.SetData(client, "Lives", newLives)
     return lifeAdjustMessage, icon
 end

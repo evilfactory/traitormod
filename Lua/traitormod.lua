@@ -233,6 +233,7 @@ Hook.Add("roundEnd", "Traitormod.RoundEnd", function ()
     Traitormod.RoundNumber = Traitormod.RoundNumber + 1
 
     Traitormod.PointsToBeGiven = {}
+    Traitormod.AbandonedCharacters = {}
 
     local gameModeMessage = Traitormod.SelectedGamemode.End()
 
@@ -371,9 +372,30 @@ Hook.HookMethod("Barotrauma.CharacterInfo", "IncreaseSkillLevel", function (inst
     Traitormod.PointsToBeGiven[client] = (Traitormod.PointsToBeGiven[client] or 0) + points
 end)
 
+Traitormod.AbandonedCharacters = {}
 -- new player connected to the server
 Hook.Add("clientConnected", "Traitormod.ClientConnected", function (client)
     Traitormod.SendWelcome(client)
+
+    if Traitormod.AbandonedCharacters[client.SteamID] and Traitormod.AbandonedCharacters[client.SteamID].IsDead then
+        -- client left while char was alive -> but char is dead, so adjust life
+        Traitormod.Log(string.format("%s connected, but his character died in the meantime...", client.Name))
+
+        local lifeMsg, lifeIcon = Traitormod.AdjustLives(client, -1)
+        Traitormod.SendMessage(client, lifeMsg, lifeIcon)
+    end
+end)
+
+-- player disconnected from server
+Hook.Add("clientDisconnected", "Traitormod.ClientDisconnected", function (client)
+
+    -- if character was alive while disconnecting, make sure player looses live if he rejoins the round
+    if client.Character and not client.Character.IsDead and client.Character.IsHuman then
+        Traitormod.Log(string.format("%s disconnected with an alive character. Remembering for rejoin...", client.Name))
+        Traitormod.AbandonedCharacters[client.SteamID] = client.Character
+    elseif not client.Character then
+        Traitormod.Log(string.format("%s disconnected with no valid character.", client.Name))
+    end
 end)
 
 -- Traitormod.Commands hook
