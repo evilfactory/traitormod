@@ -90,29 +90,14 @@ ps.ValidateClient = function(client)
     return true
 end
 
-ps.SpawnItem = function(client, identifier, condition)
-    local prefab = ItemPrefab.GetItemPrefab(identifier)
-    
+ps.SpawnItem = function(client, item)
+    local prefab = ItemPrefab.GetItemPrefab(item.Identifier)
+    local condition = item.Condition or 100
+
     if prefab == nil then
-        Traitormod.SendMessage(client, "PointShop Error: Could not find item with identifier " .. identifier .. " please report this error.")
-        Traitormod.Error("PointShop Error: Could not find item with identifier " .. identifier)
+        Traitormod.SendMessage(client, "PointShop Error: Could not find item with identifier " .. item.Identifier .. " please report this error.")
+        Traitormod.Error("PointShop Error: Could not find item with identifier " .. item.Identifier)
         return
-    end
-
-    local isInstallation = false
-
-    -- FIXME: find a better way to do this
-    if identifier == "fabricator" or 
-       identifier == "deconstructor" or 
-       identifier == "medicalfabricator" or
-       identifier == "junctionbox" or
-       identifier == "battery" or
-       identifier == "supercapacitor" or
-       identifier == "door" or
-       identifier == "shuttleoxygenerator" or
-       identifier == "op_researchterminal"
-    then
-        isInstallation = true
     end
 
     local function OnSpawn(item)
@@ -122,7 +107,7 @@ ps.SpawnItem = function(client, identifier, condition)
         end
     end
 
-    if isInstallation then
+    if item.IsInstallation then
         if client.Character.Submarine == nil then
             Entity.Spawner.AddItemToSpawnQueue(prefab, client.Character.WorldPosition, condition, nil, OnSpawn)
         else
@@ -130,6 +115,29 @@ ps.SpawnItem = function(client, identifier, condition)
         end
     else
         Entity.Spawner.AddItemToSpawnQueue(prefab, client.Character.Inventory, condition, nil, OnSpawn)
+    end
+end
+
+ps.ActivateProduct = function (client, product)
+    if product.Items then
+        if product.ItemRandom then
+            local randomIndex = math.random(1, #product.Items)
+            local item = product.Items[randomIndex]
+
+            if type(product.Items[randomIndex]) == "string" then
+                item = {Identifier = product.Items[randomIndex]}
+            end
+
+            ps.SpawnItem(client, item)
+        else
+            for key, value in pairs(product.Items) do
+                if type(value) == "string" then
+                    value = {Identifier = value}
+                end
+
+                ps.SpawnItem(client, value)
+            end
+        end
     end
 end
 
@@ -158,19 +166,7 @@ ps.BuyProduct = function(client, product)
     textPromptUtils.Prompt(string.format("%s Points have been used to buy \"%s\", you now have %s points.", product.Price, product.Name, points), {}, client, function (id, client) end, "gambler")
 
     -- Activate the product
-
-    if product.Items then
-        if product.ItemsCondition == nil then product.ItemsCondition = {} end
-
-        if product.ItemRandom then
-            local randomIndex = math.random(1, #product.Items)
-            ps.SpawnItem(client, product.Items[randomIndex], product.ItemsCondition[randomIndex] or 100)
-        else
-            for key, value in pairs(product.Items) do
-                ps.SpawnItem(client, value, product.ItemsCondition[key] or 100)
-            end
-        end
-    end
+    ps.ActivateProduct(client, product)
 end
 
 ps.ShowCategoryItems = function(client, category)
@@ -198,7 +194,7 @@ ps.ShowCategoryItems = function(client, category)
         if id == 1 then
             ps.ShowCategory(client2)
         end
-        
+
         if productsLookup[id] == nil then return end
 
         ps.BuyProduct(client2, productsLookup[id])

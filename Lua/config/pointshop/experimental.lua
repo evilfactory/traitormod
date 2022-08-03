@@ -8,63 +8,82 @@ category.Products = {
         Name = "Door",
         Price = 2800,
         Limit = 1,
-        Items = {"door"}
+        IsInstalation = true,
+        Items = {
+            {Identifier = "door", IsInstalation = true}
+        }
     },
 
     {
         Name = "Oxygen Generator",
         Price = 3200,
         Limit = 1,
-        Items = {"shuttleoxygenerator"}
+        Items = {
+            {Identifier = "shuttleoxygenerator", IsInstalation = true}
+        }
     },
 
     {
         Name = "Fabricator",
         Price = 5000,
         Limit = 1,
-        Items = {"fabricator"}
+        Items = {
+            {Identifier = "fabricator", IsInstalation = true}
+        }
     },
 
     {
         Name = "Deconstructor",
         Price = 3900,
         Limit = 1,
-        Items = {"deconstructor"}
+        Items = {
+            {Identifier = "deconstructor", IsInstalation = true}
+        }
     },
 
     {
         Name = "Medical Fabricator",
         Price = 4600,
         Limit = 1,
-        Items = {"medicalfabricator"}
+        Items = {
+            {Identifier = "medicalfabricator", IsInstalation = true}
+        }
     },
 
     {
         Name = "Research Station",
         Price = 1700,
         Limit = 1,
-        Items = {"op_researchterminal"}
+        Items = {
+            {Identifier = "op_researchterminal", IsInstalation = true}
+        }
     },
 
     {
         Name = "Junction Box",
         Price = 1200,
         Limit = 1,
-        Items = {"junctionbox"}
+        Items = {
+            {Identifier = "junctionbox", IsInstalation = true}
+        }
     },
 
     {
         Name = "Battery",
         Price = 2000,
         Limit = 1,
-        Items = {"battery"}
+        Items = {
+            {Identifier = "battery", IsInstalation = true}
+        }
     },
 
     {
         Name = "Super Capacitor",
         Price = 2000,
         Limit = 1,
-        Items = {"supercapacitor"}
+        Items = {
+            {Identifier = "supercapacitor", IsInstalation = true}
+        }
     },
 }
 

@@ -34,11 +34,10 @@ category.Products = {
 
     {
         Name = "Low Quality Fuel Rod",
-        Price = 700,
-        Limit = 1,
+        Price = 560,
+        Limit = 10,
 
-        Items = {"fuelrod"},
-        ItemsCondition = {5},
+        Items = {{Identifier = "fuelrod", Condition = 9}},
     },
 }
 
