@@ -2,7 +2,7 @@ dofile(Traitormod.Path .. "/Lua/traitormod_util.lua")
 
 Game.OverrideTraitors(true)
 
-if Traitormod.Config.RagdollOnDisconnect then
+if Traitormod.Config.RagdollOnDisconnect ~= nil then
     Game.DisableDisconnectCharacter(not Traitormod.Config.RagdollOnDisconnect)
 end
 
