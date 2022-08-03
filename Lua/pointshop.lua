@@ -215,7 +215,7 @@ ps.ShowCategoryItems = function(client, category)
     local points = Traitormod.GetData(client, "Points") or 0
 
     textPromptUtils.Prompt(
-        "Your current balance: " .. points .." points\nWhat do you wish to buy?", 
+        "Your current balance: " .. math.floor(points) .." points\nWhat do you wish to buy?", 
         options, client, function (id, client2)
         if id == 1 then
             ps.ShowCategory(client2)
@@ -260,8 +260,6 @@ ps.ShowCategory = function(client)
     local options = {}
     local categoryLookup = {}
 
-    table.insert(options, ">> Cancel <<")
-
     for key, value in pairs(config.PointShopConfig.ItemCategories) do
         if ps.CanClientAccessCategory(client, value) then
             table.insert(options, value.Name)
@@ -269,12 +267,18 @@ ps.ShowCategory = function(client)
         end
     end
 
+    if #options == 0 then
+        textPromptUtils.Prompt("Point Shop not available.", {}, client, function (id, client) end, "gambler")
+        return
+    end
+
+    table.insert(options, 1, ">> Cancel <<")
     table.insert(options, "") -- FIXME: for some reason when the bar is full, the last item is never shown?
 
     local points = Traitormod.GetData(client, "Points") or 0
 
     -- note: we have two different client variables here to prevent cheating
-    textPromptUtils.Prompt("Your current balance: " .. points .." points\nChoose a category.", options, client, function (id, client2)
+    textPromptUtils.Prompt("Your current balance: " .. math.floor(points) .." points\nChoose a category.", options, client, function (id, client2)
         if categoryLookup[id] == nil then return end
 
         ps.ShowCategoryItems(client2, categoryLookup[id])
