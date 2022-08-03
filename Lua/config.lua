@@ -124,6 +124,7 @@ config.GamemodeConfig = {
         end,
 
         TraitorFilter = function (client)
+            if not client.character.IsHuman then return false end
             if client.character.HasJob("captain") then return false end
             if client.character.HasJob("securityofficer") then return false end
 
