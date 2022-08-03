@@ -90,7 +90,7 @@ ps.ValidateClient = function(client)
     return true
 end
 
-ps.SpawnItem = function(client, item)
+ps.SpawnItem = function(client, item, onSpawned)
     local prefab = ItemPrefab.GetItemPrefab(item.Identifier)
     local condition = item.Condition or 100
 
@@ -105,6 +105,8 @@ ps.SpawnItem = function(client, item)
         if powerContainer then
             powerContainer.Charge = powerContainer.Capacity
         end
+
+        if onSpawned then onSpawned(item) end
     end
 
     if item.IsInstallation then
@@ -119,6 +121,19 @@ ps.SpawnItem = function(client, item)
 end
 
 ps.ActivateProduct = function (client, product)
+    local spawnedItems = {}
+    local spawnedItemCount = 0
+
+    local function OnSpawned(item)
+        table.insert(spawnedItems, item)
+
+        spawnedItemCount = spawnedItemCount + 1
+
+        if spawnedItemCount == #product.Items and product.Action then
+            product.Action(client, product, spawnedItems)
+        end
+    end
+
     if product.Items then
         if product.ItemRandom then
             local randomIndex = math.random(1, #product.Items)
@@ -128,16 +143,20 @@ ps.ActivateProduct = function (client, product)
                 item = {Identifier = product.Items[randomIndex]}
             end
 
-            ps.SpawnItem(client, item)
+            ps.SpawnItem(client, item, OnSpawned)
         else
             for key, value in pairs(product.Items) do
                 if type(value) == "string" then
                     value = {Identifier = value}
                 end
 
-                ps.SpawnItem(client, value)
+                ps.SpawnItem(client, value, OnSpawned)
             end
         end
+    end
+
+    if product.Items == nil or #product.Items == 0 and product.Action then
+        product.Action(client, product)
     end
 end
 

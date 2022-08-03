@@ -52,6 +52,20 @@ category.Products = {
         IsLimitGlobal = false,
         Items = {"sodium", "phosphorus"},
     },
+
+    --[[
+    {
+        Name = "Make You Explode Lol",
+        Price = 10,
+        Limit = 5,
+        Items = {"compoundn"},
+        Action = function (client, product, items)
+            Timer.Wait(function ()
+                items[1].Condition = 0
+            end, 1000)
+        end
+    },
+    ]]--
 }
 
 return category
