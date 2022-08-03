@@ -125,8 +125,8 @@ config.GamemodeConfig = {
 
         TraitorFilter = function (client)
             if not client.character.IsHuman then return false end
-            if client.character.HasJob("captain") then return false end
-            if client.character.HasJob("securityofficer") then return false end
+            if client.Character.HasJob("captain") then return false end
+            if client.Character.HasJob("securityofficer") then return false end
 
             return true
         end
@@ -150,6 +150,20 @@ config.RandomEventConfig = {
         BallastFloraDelay = 20,
         BallastFloraEndDelay = 50
     },
+}
+
+config.PointShopConfig = {
+    Enabled = true,
+    ItemCategories = {
+        dofile(Traitormod.Path .. "/Lua/config/pointshop/traitor.lua"),
+        dofile(Traitormod.Path .. "/Lua/config/pointshop/maintenance.lua"),
+        dofile(Traitormod.Path .. "/Lua/config/pointshop/materials.lua"),
+        dofile(Traitormod.Path .. "/Lua/config/pointshop/medical.lua"),
+        dofile(Traitormod.Path .. "/Lua/config/pointshop/ores.lua"),
+        dofile(Traitormod.Path .. "/Lua/config/pointshop/other.lua"),
+        dofile(Traitormod.Path .. "/Lua/config/pointshop/experimental.lua"),
+        --dofile(Traitormod.Path .. "/Lua/config/pointshop/deathspawn.lua"),
+    }
 }
 
 return config
