@@ -8,9 +8,8 @@ category.Products = {
         Name = "Door",
         Price = 2800,
         Limit = 1,
-        IsInstalation = true,
         Items = {
-            {Identifier = "door", IsInstalation = true}
+            {Identifier = "door", IsInstallation = true}
         }
     },
 
@@ -19,7 +18,7 @@ category.Products = {
         Price = 3200,
         Limit = 1,
         Items = {
-            {Identifier = "shuttleoxygenerator", IsInstalation = true}
+            {Identifier = "shuttleoxygenerator", IsInstallation = true}
         }
     },
 
@@ -28,7 +27,7 @@ category.Products = {
         Price = 5000,
         Limit = 1,
         Items = {
-            {Identifier = "fabricator", IsInstalation = true}
+            {Identifier = "fabricator", IsInstallation = true}
         }
     },
 
@@ -37,7 +36,7 @@ category.Products = {
         Price = 3900,
         Limit = 1,
         Items = {
-            {Identifier = "deconstructor", IsInstalation = true}
+            {Identifier = "deconstructor", IsInstallation = true}
         }
     },
 
@@ -46,7 +45,7 @@ category.Products = {
         Price = 4600,
         Limit = 1,
         Items = {
-            {Identifier = "medicalfabricator", IsInstalation = true}
+            {Identifier = "medicalfabricator", IsInstallation = true}
         }
     },
 
@@ -55,7 +54,7 @@ category.Products = {
         Price = 1700,
         Limit = 1,
         Items = {
-            {Identifier = "op_researchterminal", IsInstalation = true}
+            {Identifier = "op_researchterminal", IsInstallation = true}
         }
     },
 
@@ -64,7 +63,7 @@ category.Products = {
         Price = 1200,
         Limit = 1,
         Items = {
-            {Identifier = "junctionbox", IsInstalation = true}
+            {Identifier = "junctionbox", IsInstallation = true}
         }
     },
 
@@ -73,7 +72,7 @@ category.Products = {
         Price = 2000,
         Limit = 1,
         Items = {
-            {Identifier = "battery", IsInstalation = true}
+            {Identifier = "battery", IsInstallation = true}
         }
     },
 
@@ -82,7 +81,7 @@ category.Products = {
         Price = 2000,
         Limit = 1,
         Items = {
-            {Identifier = "supercapacitor", IsInstalation = true}
+            {Identifier = "supercapacitor", IsInstallation = true}
         }
     },
 }
