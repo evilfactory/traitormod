@@ -183,6 +183,8 @@ ps.BuyProduct = function(client, product)
         return
     end
 
+    Traitormod.Log(string.format("PointShop: %s bought \"%s\".", client.Name, product.Name))
+
     Traitormod.SetData(client, "Points", points - product.Price)
 
     points = Traitormod.GetData(client, "Points") or 0
