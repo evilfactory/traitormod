@@ -89,6 +89,7 @@ config.ObjectiveConfig = {
 config.GamemodeConfig = {
     Assassination = {
         Enabled = true,
+        TraitorsCanChoose = true,
         WeightChance = 50,
         EndOnComplete = true,           -- end round when there are no assassination targets left
         EndGameDelaySeconds = 5,

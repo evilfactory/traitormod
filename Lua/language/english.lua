@@ -15,6 +15,7 @@ language.Dead = "Dead"
 
 language.KilledByTraitor = "Your death may be caused by a traitor on a secret mission."
 
+language.TraitorOffer = "You received an offer to become a traitor.\n\nAs a traitor you will be following the agenda of the Honkmother, working against the rest of the crew.\n"
 language.TraitorWelcome = "You are a traitor!"
 language.TraitorDeath = "You have failed in your mission. As a result, the mission has been canceled and you will come back as part of the crew.\n\nYou are no longer a traitor, so play nice!"
 

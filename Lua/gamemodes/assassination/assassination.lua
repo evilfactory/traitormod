@@ -1,4 +1,5 @@
 local assassination = {}
+local textPromptUtils = require("textpromptutils")
 
 assassination.Name = "Assassination"
 
@@ -431,6 +432,8 @@ assassination.SelectTraitors = function (fast)
                     playerInGame = playerInGame + 1
                 end
             end
+
+            assassination.PossibleTraitors = traitorChoices
         
             -- no valid traitors to choose
             if traitorChoices == 0 then 
@@ -454,55 +457,92 @@ assassination.SelectTraitors = function (fast)
                 assassination.MultiTraitor = true
             end
         
+            assassination.WantedTraitors = amountTraitors
+
             -- choose and initialize traitors
-            for i = 1, amountTraitors, 1 do
-                local index = weightedRandom.Choose(clientWeight)
-            
-                if index ~= nil then
-                    Traitormod.Log("Chose " .. index.Character.Name.. " as traitor. Weight: " .. math.floor(clientWeight[index] * 100) / 100)
-                    assassination.InitTraitor(index.Character)
-                    clientWeight[index] = nil
-                    -- if traitor chosen reset stored weight to 0
-                    Traitormod.SetData(index, "Weight", 0)
-                end
-            end
-        
-            -- greet traitors afterwards, so we have all infos about existing traitors
-        
-            -- check if there are valid traitor victims
-            Traitormod.Debug("Check if there are targets...")
-            local targetsAvailable = assassination.GetValidTarget()
-        
-            for character, traitor in pairs(assassination.Traitors) do
-                local greet = ""
-
-                if not assassination.MultiTraitor or assassination.Config.TraitorMethodCommunication == "None"  then
-                    greet = string.format("%s\n\n%s", lang.TraitorWelcome, lang.AgentNoticeOnlyTraitor)
-                elseif assassination.Config.TraitorMethodCommunication == "Codewords" then
-                    greet = string.format("%s\n\n%s", lang.TraitorWelcome, lang.AgentNoticeCodewords)
-                elseif assassination.Config.TraitorMethodCommunication == "Names" then
-                    greet = string.format("%s\n\n%s", lang.TraitorWelcome, lang.AgentNoticeNoCodewords)
-                end
-            
-                local client = Traitormod.FindClientCharacter(character)
-            
-                -- if no target is available, inform player and set vanilla traitor prematurely
-                if targetsAvailable == nil then
-                    greet = greet .. "\n\n" .. lang.NoObjectivesYet .. " " .. lang.AssassinationNextTarget
-                    Traitormod.UpdateVanillaTraitor(client, true)
-                end
-                -- send greeting
-                Traitormod.SendTraitorMessageBox(client, greet)
-            end
-        
-            -- assign missions, if no targets available, will retry delayed internally
-            assassination.AssignInitialMissions(targetsAvailable)
-
+            assassination.ChooseTraitor(amountTraitors, playerInGame, clientWeight)
         end, delay * 1000)
 end
 
-assassination.SetupTraitors = function()
+assassination.ChooseTraitor = function(amountTraitors, playerInGame, clientWeight)
+    for i = 1, amountTraitors, 1 do
+        local index = weightedRandom.Choose(clientWeight)
     
+        if index ~= nil then
+            if assassination.Config.TraitorsCanChoose then
+            --  show dialog
+                textPromptUtils.Prompt(lang.TraitorOffer, {"Accept", "Decline"}, index, function (id, client)
+                    if id == 1 then
+                        assassination.OnTraitorConfirmed(index, clientWeight, playerInGame)
+                    else
+                        -- if there are more possible traitors than we asked already, ask another one
+                        if assassination.TraitorsAsked < assassination.PossibleTraitors then
+                            -- choose another traitor
+                            Traitormod.Debug(index.Name.. " chose against becoming traitor, asking next in table...")
+                            assassination.ChooseTraitor(amountTraitors, playerInGame, clientWeight)
+                        else
+                            -- if not, no other valid traitors left, start round
+                            Traitormod.Debug("No players left to ask... starting with " .. assassination.GetAmountTraitors() .. " traitors.")
+                            assassination.StartTraitor()
+                        end
+                    end
+                end, "clown")
+                
+                assassination.TraitorsAsked = assassination.TraitorsAsked + 1
+            else
+                assassination.OnTraitorConfirmed(index, clientWeight, playerInGame)
+            end
+        end
+    end
+end
+
+assassination.WantedTraitors = 0
+assassination.PossibleTraitors = 0
+assassination.TraitorsAsked = 0
+
+assassination.OnTraitorConfirmed = function(index, clientWeight)
+    Traitormod.Log("Chose " .. index.Character.Name.. " as traitor. Weight: " .. math.floor(clientWeight[index] * 100) / 100)
+    assassination.InitTraitor(index.Character)
+    clientWeight[index] = nil
+    -- if traitor chosen reset stored weight to 0
+    Traitormod.SetData(index, "Weight", 0)
+
+    if assassination.GetAmountTraitors() == assassination.WantedTraitors then
+        assassination.StartTraitor()
+    end
+end
+
+assassination.StartTraitor = function()
+    -- greet traitors afterwards, so we have all infos about existing traitors
+
+    -- check if there are valid traitor victims
+    Traitormod.Debug("Check if there are targets...")
+    local targetsAvailable = assassination.GetValidTarget()
+
+    for character, traitor in pairs(assassination.Traitors) do
+        local greet = ""
+
+        if not assassination.MultiTraitor or assassination.Config.TraitorMethodCommunication == "None"  then
+            greet = string.format("%s\n\n%s", lang.TraitorWelcome, lang.AgentNoticeOnlyTraitor)
+        elseif assassination.Config.TraitorMethodCommunication == "Codewords" then
+            greet = string.format("%s\n\n%s", lang.TraitorWelcome, lang.AgentNoticeCodewords)
+        elseif assassination.Config.TraitorMethodCommunication == "Names" then
+            greet = string.format("%s\n\n%s", lang.TraitorWelcome, lang.AgentNoticeNoCodewords)
+        end
+    
+        local client = Traitormod.FindClientCharacter(character)
+    
+        -- if no target is available, inform player and set vanilla traitor prematurely
+        if targetsAvailable == nil then
+            greet = greet .. "\n\n" .. lang.NoObjectivesYet .. " " .. lang.AssassinationNextTarget
+            Traitormod.UpdateVanillaTraitor(client, true)
+        end
+        -- send greeting
+        Traitormod.SendTraitorMessageBox(client, greet)
+    end
+
+    -- assign missions, if no targets available, will retry delayed internally
+    assassination.AssignInitialMissions(targetsAvailable)
 end
 
 assassination.GetAmountTraitors = function ()
