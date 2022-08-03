@@ -6,7 +6,7 @@ if Traitormod.Config.RagdollOnDisconnect ~= nil then
     Game.DisableDisconnectCharacter(not Traitormod.Config.RagdollOnDisconnect)
 end
 
-if Traitormod.Config.EnableControlHusk then
+if Traitormod.Config.EnableControlHusk ~= nil then
     Game.EnableControlHusk(Traitormod.Config.EnableControlHusk)
 end
 
