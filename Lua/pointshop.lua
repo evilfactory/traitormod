@@ -193,6 +193,8 @@ ps.BuyProduct = function(client, product)
 
     -- Activate the product
     ps.ActivateProduct(client, product)
+
+    Traitormod.Stats.AddClientStat("ItemsBought", "Items bought from point shop", client, 1)
 end
 
 ps.ShowCategoryItems = function(client, category)
