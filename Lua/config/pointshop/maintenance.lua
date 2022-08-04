@@ -8,7 +8,7 @@ category.Products = {
         Name = "Screwdriver",
         Price = 250,
         Limit = 1,
-        Items = {"screwdrver"}
+        Items = {"screwdriver"}
     },
 
     {
