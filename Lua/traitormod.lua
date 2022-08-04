@@ -196,8 +196,14 @@ Hook.Add("missionsEnded", "Traitormod.MissionsEnded", function (missions)
         local roundResult = ""
         if Traitormod.SelectedGamemode.Completed then
             roundResult = Traitormod.Language.TraitorsWin .. "\n\n"
+            Traitormod.Stats.AddStat("Rounds", "Traitor rounds won", 1)
         elseif crewMissionsComplete and crewReachedEnd then
             roundResult = Traitormod.Language.CrewWins .. "\n\n"
+            Traitormod.Stats.AddStat("Rounds", "Crew rounds won", 1)
+        end
+        
+        if crewReachedEnd then
+            Traitormod.Stats.AddStat("Rounds", "Crew reached end", 1)
         end
     
         endMessage = 
@@ -231,6 +237,7 @@ end)
 Hook.Add("roundEnd", "Traitormod.RoundEnd", function ()
     Traitormod.Debug("Round " .. Traitormod.RoundNumber .. " ended.")
     Traitormod.RoundNumber = Traitormod.RoundNumber + 1
+    Traitormod.Stats.AddStat("Rounds", "Rounds finished", 1)
 
     Traitormod.PointsToBeGiven = {}
     Traitormod.AbandonedCharacters = {}
@@ -271,6 +278,8 @@ Hook.Add("characterCreated", "Traitormod.CharacterCreated", function (character)
         if Traitormod.SelectedGamemode.OnCharacterCreated then
             Traitormod.SelectedGamemode.OnCharacterCreated(client, character)
         end
+
+        Traitormod.Stats.AddClientStat("Spawns", "Spawned human characters", client, 1)
 
         if client ~= nil then
             -- set experience of respawned character to stored value - note initial spawn may not call this hook (on local server)
@@ -415,6 +424,7 @@ end)
 
 dofile(Traitormod.Path .. "/Lua/commands.lua")
 dofile(Traitormod.Path .. "/Lua/pointshop.lua")
+dofile(Traitormod.Path .. "/Lua/statistics.lua")
 
 -- Round start call for reload during round 
 if Game.RoundStarted then
