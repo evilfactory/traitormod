@@ -22,7 +22,7 @@ category.Products = {
         Name = "Welding Tool",
         Price = 460,
         Limit = 1,
-        Items = {"weldingtool", "weldingfuel"}
+        Items = {"weldingtool", "weldingfueltank"}
     },
 
     {
