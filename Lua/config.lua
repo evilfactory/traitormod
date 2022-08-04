@@ -17,6 +17,10 @@ config.Codewords = {
 
 config.AmountCodeWords = 2
 
+config.OptionalTraitors = true        -- players can use !toggletraitor
+config.TraitorBroadcast = true      -- traitors can broadcast to other traitors using !tc
+config.TraitorDm = false            -- traitors can send direct messages to other players using !tdm
+
 config.FreeExperience = 50         -- temporary experience given every ExperienceTimer seconds
 config.ExperienceTimer = 120
 
@@ -95,10 +99,10 @@ config.GamemodeConfig = {
         EndOnComplete = true,           -- end round when there are no assassination targets left
         EndGameDelaySeconds = 5,
 
-        StartDelayMin = 90,
-        StartDelayMax = 180,
-        NextDelayMin = 30,
-        NextDelayMax = 90,
+        StartDelayMin = 10,
+        StartDelayMax = 10,
+        NextDelayMin = 10,
+        NextDelayMax = 10,
 
         SelectBotsAsTargets = true,
         SelectPiratesAsTargets = false,

@@ -1,8 +1,9 @@
 local language = {}
 language.Name = "English"
 
-language.Help = "!help - shows this help message.\n!helpadmin - lists all available admin commands.\n!traitor - show traitor information.\n!points - show your points and lives.\n!alive - list alive players (only while dead).\n!version - shows running version of the traitormod."
-language.HelpAdmin = "\n!traitoralive - check if all traitors died.\n!roundinfo - show round information (spoiler!).\n!allpoints - shows point amounts of all connected clients.\n!addpoint [Client] [+/-Amount] - add points to a client.\n!addlife [Client] [+/-Amount] - add life(s) to a client.\n!revive [Client] - revives a given client character."
+language.Help = "\n!help - shows this help message\n!helptraitor - shows all traitor commands\n!helpadmin - lists all admin commands\n!traitor - show traitor information\n!pointshop - opens the point shop\n!points - show your points and lives\n!alive - list alive players (only while dead)\n!version - shows running version of the traitormod"
+language.HelpTraitor = "\n!toggletraitor - toggles if the player can be selected as traitor\n!tc [msg] - sends a message to all traitors\n!tdm [Name] [msg] - sends a anonymous msg to given player"
+language.HelpAdmin = "\n!traitoralive - check if all traitors died\n!roundinfo - show round information (spoiler!)\n!allpoints - shows point amounts of all connected clients\n!addpoint [Client] [+/-Amount] - add points to a client\n!addlife [Client] [+/-Amount] - add life(s) to a client\n!revive [Client] - revives a given client character"
 
 language.NoTraitor = "You aren't a traitor."
 language.TraitorOn = "You can be selected as traitor."
@@ -19,6 +20,8 @@ language.KilledByTraitor = "Your death may be caused by a traitor on a secret mi
 
 language.TraitorWelcome = "You are a traitor!"
 language.TraitorDeath = "You have failed in your mission. As a result, the mission has been canceled and you will come back as part of the crew.\n\nYou are no longer a traitor, so play nice!"
+language.TraitorDirectMessage = "You received a message from a traitor:\n"
+language.TraitorBroadcast = "[Traitor %s]: %s"
 
 language.AgentNoticeCodewords = "There are other agents on this submarine. You dont know their names, but you do have a method of communication. Use the code words to greet the agent and code response to respond. Disguise such words in a normal-looking phrase so the crew doesn't suspect anything."
 
