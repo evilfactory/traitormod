@@ -232,6 +232,7 @@ Hook.Add("missionsEnded", "Traitormod.MissionsEnded", function (missions)
     Traitormod.SelectedRandomEvents = {}
 
     Traitormod.SaveData()
+    Traitormod.Stats.SaveData()
 end)
 
 Hook.Add("roundEnd", "Traitormod.RoundEnd", function ()

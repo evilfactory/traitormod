@@ -1,6 +1,25 @@
 local statistics = {}
 statistics.stats = {}
 
+if Traitormod.Config.PermanentStatistics and not File.Exists(Traitormod.Path .. "/Lua/stats.json") then
+    File.Write(Traitormod.Path .. "/Lua/stats.json", "{}")
+end 
+
+local json = dofile(Traitormod.Path .. "/Lua/json.lua")
+statistics.LoadData = function ()
+    if Traitormod.Config.PermanentStatistics then
+        statistics.stats = json.decode(File.Read(Traitormod.Path .. "/Lua/stats.json")) or {}
+    else
+        statistics.stats = {}
+    end
+end
+
+statistics.SaveData = function ()
+    if Traitormod.Config.PermanentStatistics then
+        File.Write(Traitormod.Path .. "/Lua/stats.json", json.encode(statistics.stats))
+    end
+end
+
 statistics.SetStat = function (category, key, value)
     if statistics.stats[category] == nil then statistics.stats[category] = {} end
     statistics.stats[category][key] = value
@@ -87,10 +106,15 @@ Traitormod.AddCommand("!stats", function (client, args)
             text = topic .. ":\n" .. text
         end
     else
-        -- list categories
-        text = "Categories:\n"
-        for key, value in pairs(statistics.stats) do
-            text = text .. "\n" .. key
+        -- list categories TODO: Make this a prompt
+        text = "Available stats:\n"
+        if statistics.stats["Spawn"] or statistics.stats["Rounds"] then
+            for key, value in pairs(statistics.stats) do
+                text = text .. "\n>> " .. key
+            end
+            text = text .. "\n\nType '!stats [option]' to show stats."
+        else
+            text = text .. "None yet. Go start a round to collect stats."
         end
     end
 
@@ -99,4 +123,5 @@ Traitormod.AddCommand("!stats", function (client, args)
     return true
 end)
 
+statistics.LoadData()
 Traitormod.Stats = statistics
