@@ -27,6 +27,14 @@ Traitormod.SaveData = function ()
     end
 end
 
+Traitormod.FindClient = function (name)
+    for key, value in pairs(Client.ClientList) do
+        if value.Name == name or tostring(value.SteamID) == name then
+            return value
+        end
+    end
+end
+
 Traitormod.FindClientCharacter = function (character)
     for key, value in pairs(Client.ClientList) do
         if character == value.Character then return value end

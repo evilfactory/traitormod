@@ -144,14 +144,7 @@ Traitormod.AddCommand("!addpoint", function (client, args)
         return true
     end
 
-    local found = nil
-
-    for key, value in pairs(Client.ClientList) do
-        if value.Name == name or tostring(value.SteamID) == name then
-            found = value
-            break
-        end
-    end
+    local found = Traitormod.FindClient(name)
 
     if found == nil then
         Traitormod.SendMessage(client, "Couldn't find a client with name / steamID " .. name)
@@ -181,14 +174,7 @@ Traitormod.AddCommand("!removepoint", function (client, args)
         return true
     end
 
-    local found = nil
-
-    for key, value in pairs(Client.ClientList) do
-        if value.Name == name or tostring(value.SteamID) == name then
-            found = value
-            break
-        end
-    end
+    local found = Traitormod.FindClient(name)
 
     if found == nil then
         Traitormod.SendMessage(client, "Couldn't find a client with name / steamID " .. name)
@@ -222,14 +208,7 @@ Traitormod.AddCommand("!addlife", function (client, args)
         return true
     end
 
-    local found = nil
-
-    for key, value in pairs(Client.ClientList) do
-        if value.Name == name or tostring(value.SteamID) == name then
-            found = value
-            break
-        end
-    end
+    local found = Traitormod.FindClient(name)
 
     if found == nil then
         Traitormod.SendMessage(client, "Couldn't find a client with name / steamID " .. name)
@@ -256,7 +235,7 @@ Traitormod.AddCommand("!revive", function (client, args)
         name = table.remove(args, 1)
         -- find character by client name
         for player in Client.ClientList do
-            if player.Name == name then
+            if player.Name == name or player.SteamID == name then
                 reviveClient = player
             end
         end
