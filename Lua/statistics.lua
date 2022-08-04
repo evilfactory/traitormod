@@ -83,7 +83,6 @@ statistics.ShowStats = function(client, category)
 
         text = topic .. ":\n" .. text
     end
-    print(text)
 
     Traitormod.SendMessage(client, text)
 end
@@ -94,7 +93,7 @@ Traitormod.AddCommand("!stats", function (client, args)
     else
         local text = "Available stats:\n"
 
-        if statistics.stats == {} then
+        if next(statistics.stats) == nil  then
             text = "No statistics available yet. Go start a round to collect stats."
         else
             local options = {}
