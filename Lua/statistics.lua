@@ -125,8 +125,7 @@ Traitormod.AddCommand("!stats", function (client, args)
                 textPromptUtils.Prompt(text, options, client, function (id, client2)
                     statistics.ShowStats(client2, options[id])
                 end)
-
-                return
+                return true
             else
                 -- else offer inconvenient cmd option
                 for key, value in pairs(statistics.stats) do
