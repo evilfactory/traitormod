@@ -118,6 +118,18 @@ ps.ValidateClient = function(client)
     return true
 end
 
+ps.DetermineCategoryDecoration = function (category)
+    if category.IsTraitorOnly then
+        return "clown", true
+    end
+
+    if category.IsDeadOnly then
+        return "huskinvite", false
+    end
+
+    return "gambler", false
+end
+
 ps.SpawnItem = function(client, item, onSpawned)
     local prefab = ItemPrefab.GetItemPrefab(item.Identifier)
     local condition = item.Condition or 100
@@ -269,7 +281,7 @@ ps.ShowCategoryItems = function(client, category)
 
                     ps.BuyProduct(client3, product)
                 end
-            end, category.IsTraitorOnly and "clown" or "gambler", category.IsTraitorOnly)
+            end, ps.DetermineCategoryDecoration(category))
         else
             if not ps.ValidateClient(client2) or not ps.CanClientAccessCategory(client2, category) then
                 return
@@ -277,7 +289,7 @@ ps.ShowCategoryItems = function(client, category)
 
             ps.BuyProduct(client2, product)
         end
-    end, category.IsTraitorOnly and "clown" or "gambler", category.IsTraitorOnly)
+    end, ps.DetermineCategoryDecoration(category))
 end
 
 ps.ShowCategory = function(client)

@@ -53,7 +53,7 @@ category.Products = {
         Items = {"sodium", "phosphorus"},
     },
 
-    
+--[[    
     {
         Name = "Make You Explode Lol",
         Price = 10,
@@ -65,6 +65,7 @@ category.Products = {
             end, 1000)
         end
     },
+--]]
 }
 
 return category
