@@ -231,7 +231,10 @@ ps.ShowCategoryItems = function(client, category)
         productsLookup[#options] = product
     end
 
-    table.insert(options, "") -- FIXME: for some reason when the bar is full, the last item is never shown?
+    local fiveLines = math.floor(#options / 4)
+    for i = 1, fiveLines, 1 do
+        table.insert(options, "") -- FIXME: some hud scaling settings will hide list items
+    end
 
     local points = Traitormod.GetData(client, "Points") or 0
 
