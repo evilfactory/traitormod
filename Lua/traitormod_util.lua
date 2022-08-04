@@ -197,7 +197,7 @@ end
 Traitormod.AddCommand = function (commandName, callback)
     local cmd = {}
 
-    Traitormod.Commands[commandName] = cmd
+    Traitormod.Commands[string.lower(commandName)] = cmd
     cmd.Callback = callback;
 end
 
