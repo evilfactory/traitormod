@@ -300,6 +300,8 @@ assassination.RenewAssassinationObjective = function(client, traitor, target)
     newObjective.Start(traitor, target)
     table.insert(traitor.MainObjectives, newObjective)
 
+    Traitormod.Stats.AddClientStat("TraitorTargets", "Chosen as target", client, 1)
+
     -- give feedback about new target
     Traitormod.SendMessage(client, string.format(lang.AssassinationNewObjective, target.Name), "GameModeIcon.pvp")
 
@@ -316,6 +318,9 @@ assassination.CheckObjectives = function (character, traitor)
             objective.Awarded = true
 
             local client = Traitormod.FindClientCharacter(character)
+            
+            Traitormod.Stats.AddClientStat("TraitorMainObjectives", "Main Objectives successful", client, 1)
+            
             if client == nil then 
                 Traitormod.Error("Couldn't award assassination points for " .. character.Name)
             else
@@ -357,6 +362,9 @@ assassination.CheckObjectives = function (character, traitor)
 
             -- award points for sub objection completion
             local client = Traitormod.FindClientCharacter(character)
+
+            Traitormod.Stats.AddClientStat("TraitorSubObjectives", "Sub Objectives successful", client, 1)
+
             if client == nil then 
                 Traitormod.Error("Couldn't award sub objective points for " .. character.Name)
             else
@@ -493,6 +501,8 @@ assassination.SelectTraitors = function (fast)
                 end
                 -- send greeting
                 Traitormod.SendTraitorMessageBox(client, greet)
+
+                Traitormod.Stats.AddClientStat("Traitor", "Chosen as traitor", client, 1)
             end
         
             -- assign missions, if no targets available, will retry delayed internally
