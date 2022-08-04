@@ -231,8 +231,8 @@ ps.ShowCategoryItems = function(client, category)
         productsLookup[#options] = product
     end
 
-    local fiveLines = math.floor(#options / 4)
-    for i = 1, fiveLines, 1 do
+    local emptyLines = math.floor(#options / 4)
+    for i = 1, emptyLines, 1 do
         table.insert(options, "") -- FIXME: some hud scaling settings will hide list items
     end
 
