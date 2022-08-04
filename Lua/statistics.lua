@@ -1,5 +1,8 @@
 local statistics = {}
 statistics.stats = {}
+local textPromptUtils = require("textpromptutils")
+
+local itemLimit = 30 -- should not be much more than 50
 
 if Traitormod.Config.PermanentStatistics and not File.Exists(Traitormod.Path .. "/Lua/stats.json") then
     File.Write(Traitormod.Path .. "/Lua/stats.json", "{}")
@@ -53,6 +56,74 @@ statistics.AddClientStat = function (category, description, client, value)
     statistics.SetClientStat(category, description, client, oldValue + value)
 end
 
+statistics.ShowStats = function(client, category)
+    local text = "No stats found."
+
+    if statistics.stats[category] then
+        local elem = statistics.stats[category]
+        local topic = ""
+        text = ""
+
+        for key, value in spairs(elem, function(t,a,b) return t[b] < t[a] end) do
+            if type(value) == "table" then
+                if topic == "" then
+                    topic = category .. " - " .. value.Topic
+                end
+                text = text .. "\n" .. value.Score .. " - " .. (value.Name or key)
+            else
+                topic = category
+                text = text .. "\n" .. value .. " - " ..  key
+            end
+
+            itemLimit = itemLimit - 1
+            if itemLimit == 0 then
+                break
+            end
+        end
+
+        text = topic .. ":\n" .. text
+    end
+    print(text)
+
+    Traitormod.SendMessage(client, text)
+end
+
+Traitormod.AddCommand("!stats", function (client, args)
+    if #args > 0 then
+        statistics.ShowStats(client, args[1])
+    else
+        local text = "Available stats:\n"
+
+        if statistics.stats == {} then
+            text = "No statistics available yet. Go start a round to collect stats."
+        else
+            local options = {}
+            if client.InGame then
+                -- if in game show convenient prompt
+                for key, value in pairs(statistics.stats) do
+                    table.insert(options, key)
+                end
+                
+                textPromptUtils.Prompt(text, options, client, function (id, client2)
+                    statistics.ShowStats(client2, options[id])
+                end)
+
+                return
+            else
+                -- else offer inconvenient cmd option
+                for key, value in pairs(statistics.stats) do
+                    text = text .. "\n>> " .. key
+                end
+                text = text .. "\n\nType '!stats [option]' to show stats or join a game to use a prompt."
+            end
+        end
+
+        Traitormod.SendMessage(client, text)
+    end
+
+    return true
+end)
+
 function spairs(t, order)
     -- collect the keys
     local keys = {}
@@ -75,53 +146,6 @@ function spairs(t, order)
         end
     end
 end
-
-Traitormod.AddCommand("!stats", function (client, args)
-    local text = "No stats found."
-
-    if #args > 0 then
-        if statistics.stats[args[1]] then
-            local itemLimit = 30 -- should not be much more than 50
-            local elem = statistics.stats[args[1]]
-            local topic = ""
-            text = ""
-
-            for key, value in spairs(elem, function(t,a,b) return t[b] < t[a] end) do
-                if type(value) == "table" then
-                    if topic == "" then
-                        topic = args[1] .. " - " .. value.Topic
-                    end
-                    text = text .. "\n" .. value.Score .. " - " .. (value.Name or key)
-                else
-                    topic = args[1]
-                    text = text .. "\n" .. value .. " - " ..  key
-                end
-
-                itemLimit = itemLimit - 1
-                if itemLimit == 0 then
-                    break
-                end
-            end
-
-            text = topic .. ":\n" .. text
-        end
-    else
-        -- list categories TODO: Make this a prompt
-        text = "Available stats:\n"
-        if statistics.stats["Spawn"] or statistics.stats["Rounds"] then
-            for key, value in pairs(statistics.stats) do
-                text = text .. "\n>> " .. key
-            end
-            text = text .. "\n\nType '!stats [option]' to show stats."
-        else
-            text = text .. "None yet. Go start a round to collect stats."
-        end
-    end
-
-    Traitormod.SendMessage(client, text)
-
-    return true
-end)
 
 statistics.LoadData()
 Traitormod.Stats = statistics
