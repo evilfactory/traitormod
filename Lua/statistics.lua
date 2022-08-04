@@ -38,50 +38,69 @@ statistics.GetStat = function (category, key)
     return statistics.stats[category][key]
 end
 
-statistics.SetClientStat = function (category, description, client, value)
-    if statistics[category] == nil then 
+statistics.SetListStat = function (category, description, key, value, name)
+    if statistics.stats[category] == nil then 
         statistics.stats[category] = {}
         --statistics.stats[category].Topic = description
     end
 
-    if statistics.stats[category][client.SteamID] == nil then statistics.stats[category][client.SteamID] = {} end
+    if statistics.stats[category][key] == nil then 
+        statistics.stats[category][key] = {} 
+    end
 
-    statistics.stats[category][client.SteamID].Name = client.Name
-    statistics.stats[category][client.SteamID].Score = value
-    statistics.stats[category][client.SteamID].Topic = description
+    statistics.stats[category][key].Name = name or key
+    statistics.stats[category][key].Score = value
+    statistics.stats[category][key].Topic = description
 end
 
-statistics.AddClientStat = function (category, description, client, value)
-    local oldValue = (statistics.stats[category] and statistics.stats[category][client.SteamID] and statistics.stats[category][client.SteamID].Score) or 0
-    statistics.SetClientStat(category, description, client, oldValue + value)
+statistics.AddListStat = function (category, description, key, value, name)
+    local oldValue = 0
+    if statistics.stats[category] and statistics.stats[category][key] then
+        oldValue = statistics.stats[category][key].Score or 0
+    end
+    statistics.SetListStat(category, description, key, (oldValue + value), name)
+end
+
+statistics.AddClientStat = function(category, description, client, value)
+    statistics.AddListStat(category, description, client.SteamID, value, client.Name)
 end
 
 statistics.ShowStats = function(client, category)
     local text = "No stats found."
+    local elem = statistics.stats[category]
 
-    if statistics.stats[category] then
-        local elem = statistics.stats[category]
-        local topic = ""
-        text = ""
+    if elem then
+        local firstKey = next(elem)
+        if firstKey ~= nil then
+            local compare = function(t,a,b) return t[b] < t[a] end
+            local isTable = false
+            local topic = ""
+            text = ""
 
-        for key, value in spairs(elem, function(t,a,b) return t[b] < t[a] end) do
-            if type(value) == "table" then
-                if topic == "" then
-                    topic = category .. " - " .. value.Topic
+            if elem[firstKey] and type(elem[firstKey]) == "table" and elem[firstKey].Score ~= nil then
+                compare = function(t,a,b) return t[b].Score < t[a].Score end
+                isTable = true
+            end
+
+            for key, value in spairs(elem, compare) do
+                if isTable then
+                    if topic == "" then
+                        topic = category .. " - " .. value.Topic
+                    end
+                    text = text .. "\n" .. value.Score .. " - " .. (value.Name or key)
+                else
+                    topic = category
+                    text = text .. "\n" .. value .. " - " ..  key
                 end
-                text = text .. "\n" .. value.Score .. " - " .. (value.Name or key)
-            else
-                topic = category
-                text = text .. "\n" .. value .. " - " ..  key
+
+                itemLimit = itemLimit - 1
+                if itemLimit == 0 then
+                    break
+                end
             end
 
-            itemLimit = itemLimit - 1
-            if itemLimit == 0 then
-                break
-            end
+            text = topic .. ":\n" .. text
         end
-
-        text = topic .. ":\n" .. text
     end
 
     Traitormod.SendMessage(client, text)
