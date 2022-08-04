@@ -106,7 +106,7 @@ category.Products = {
         Name = "Ilmenite",
         Price = 45,
         Limit = 10,
-        Items = {"llmenite"}
+        Items = {"ilmenite"}
     },
 
     {

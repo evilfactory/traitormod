@@ -8,6 +8,24 @@ local defaultLimit = 999
 ps.GlobalProductLimits = {}
 ps.LocalProductLimits = {}
 
+ps.ValidateConfig = function ()
+    for i, category in pairs(config.PointShopConfig.ItemCategories) do
+        for k, product in pairs(category.Products) do
+            if product.Items then
+                for z, item in pairs(product.Items) do
+                    if type(item) == "string" then
+                        item = {Identifier = item}
+                    end
+
+                    if ItemPrefab.GetItemPrefab(item.Identifier) == nil then
+                        Traitormod.Error(string.format("PointShop Error: Inside the Category \"%s\" theres a Product with Name \"%s\", that has an invalid item identifier \"%s\"", category.Name, product.Name, item.Identifier))
+                    end
+                end
+            end
+        end
+    end
+end
+
 ps.ResetProductLimits = function()
     ps.GlobalProductLimits = {}
     ps.LocalProductLimits = {}
@@ -299,3 +317,5 @@ end)
 Hook.Add("roundEnd", "TraitorMod.PointShop.RoundEnd", function ()
     ps.ResetProductLimits()
 end)
+
+ps.ValidateConfig()
