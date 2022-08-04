@@ -106,7 +106,7 @@ end
 
 ps.ValidateClient = function(client)
     if not config.PointShopConfig.Enabled then
-        Traitormod.SendMessage(client, "Pointshop is not enabled.")
+        Traitormod.SendMessage(client, Traitormod.Language.CommandNotActive)
         return false
     end
 

@@ -20,6 +20,7 @@ config.AmountCodeWords = 2
 config.FreeExperience = 50         -- temporary experience given every ExperienceTimer seconds
 config.ExperienceTimer = 120
 
+config.OptionalTraitors = true        -- players can use !toggletraitor
 config.RagdollOnDisconnect = false
 config.EnableControlHusk = false     -- EXPERIMENTAL: enable to control husked character after death
 
@@ -125,7 +126,7 @@ config.GamemodeConfig = {
         end,
 
         TraitorFilter = function (client)
-            if not client.character.IsHuman then return false end
+            if not client.Character.IsHuman then return false end
             if client.Character.HasJob("captain") then return false end
             if client.Character.HasJob("securityofficer") then return false end
 

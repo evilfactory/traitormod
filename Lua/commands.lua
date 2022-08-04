@@ -18,7 +18,9 @@ Traitormod.AddCommand("!version", function (client, args)
 end)
 
 Traitormod.AddCommand("!traitor", function (client, args)
-    if Game.ServerSettings.TraitorsEnabled == 0 then
+    if Traitormod.Config.OptionalTraitors and Traitormod.GetData(client, "NonTraitor") == true then
+        Traitormod.SendMessage(client, Traitormod.Language.TraitorOff)
+    elseif Game.ServerSettings.TraitorsEnabled == 0 then
         Traitormod.SendMessage(client, Traitormod.Language.NoTraitors)
     elseif Game.RoundStarted and Traitormod.SelectedGamemode and Traitormod.SelectedGamemode.GetTraitorObjectiveSummary then
         local summary = Traitormod.SelectedGamemode.GetTraitorObjectiveSummary(client.Character)
@@ -28,6 +30,33 @@ Traitormod.AddCommand("!traitor", function (client, args)
     else
         Traitormod.SendMessage(client, Traitormod.Language.RoundNotStarted)
     end
+
+    return true
+end)
+
+Traitormod.AddCommand("!toggletraitor", function (client, args)
+    local text = Traitormod.Language.CommandNotActive
+
+    if Traitormod.Config.OptionalTraitors then
+        local toggle = false
+        if #args > 0 then
+            toggle = string.lower(args[1]) == "on"
+        else
+            toggle = Traitormod.GetData(client, "NonTraitor") == true
+        end
+    
+        if toggle then
+            text = Traitormod.Language.TraitorOn
+        else
+            text = Traitormod.Language.TraitorOff
+        end
+        Traitormod.SetData(client, "NonTraitor", not toggle)
+        Traitormod.SaveData() -- move this to player disconnect someday...
+        
+        Traitormod.Log(client.Name .. " can become traitor: " .. tostring(toggle))
+    end
+
+    Traitormod.SendMessage(client, text)
 
     return true
 end)

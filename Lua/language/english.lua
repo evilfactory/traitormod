@@ -5,6 +5,8 @@ language.Help = "!help - shows this help message.\n!helpadmin - lists all availa
 language.HelpAdmin = "\n!traitoralive - check if all traitors died.\n!roundinfo - show round information (spoiler!).\n!allpoints - shows point amounts of all connected clients.\n!addpoint [Client] [+/-Amount] - add points to a client.\n!addlife [Client] [+/-Amount] - add life(s) to a client.\n!revive [Client] - revives a given client character."
 
 language.NoTraitor = "You aren't a traitor."
+language.TraitorOn = "You can be selected as traitor."
+language.TraitorOff = "You can not be chosen traitor.\n\nUse !toggletraitor to change that."
 language.RoundNotStarted = "Round not started."
 
 language.AllTraitorsDead = "All traitors dead!"
@@ -59,6 +61,7 @@ language.CodeResponses = "Code Responses: %s"
 language.OtherTraitors = "All Traitors: %s"
 
 language.CommandTip = "(Type !traitor in chat to show this message again.)"
+language.CommandNotActive = "This command is deactivated."
 
 language.Completed = " (Completed)"
 

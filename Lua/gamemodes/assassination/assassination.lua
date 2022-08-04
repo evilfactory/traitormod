@@ -428,7 +428,7 @@ assassination.SelectTraitors = function (fast)
                 -- valid traitor choices must be ingame, player was spawned before (has a character), is no spectator
                 if value.InGame and value.Character and not value.SpectateOnly then
                     -- filter by config
-                    if assassination.Config.TraitorFilter(value) then
+                    if assassination.Config.TraitorFilter(value) and Traitormod.GetData(value, "NonTraitor") ~= true then
                         -- players are alive or if respawning is on and config allows dead traitors (not supported yet)
                         if not value.Character.IsDead or (Game.ServerSettings.AllowRespawn and assassination.Config.AllowDeadTraitors) then
                             clientWeight[value] = Traitormod.GetData(value, "Weight") or 0
