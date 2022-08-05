@@ -38,6 +38,8 @@ Hook.Add("netMessageReceived", "promptResponse", function (msg, header, client)
             promptIDToCallback[id](option + 1, client)
             promptIDToCallback[id] = nil
         end
+
+        msg.BitPosition = msg.BitPosition - (8 * 3) -- rewind 3 bytes from the message, so it can be read again
     end
 end)
 

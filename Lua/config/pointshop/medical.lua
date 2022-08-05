@@ -83,15 +83,22 @@ category.Products = {
     },
 
     {
+        Name = "Swim Bladder",
+        Price = 250,
+        Limit = 5,
+        Items = {"swimbladder"}
+    },
+
+    {
         Name = "Advanced Gene Splicer",
-        Price = 2570,
+        Price = 1800,
         Limit = 2,
         Items = {"advancedgenesplicer"}
     },
 
     {
         Name = "Unresearched Genetic Material",
-        Price = 500,
+        Price = 250,
         Limit = 10,
         ItemRandom = true,
         Items = geneticMaterials

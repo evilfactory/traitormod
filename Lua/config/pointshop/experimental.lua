@@ -6,8 +6,8 @@ category.IsTraitorOnly = false
 category.Products = {
     {
         Name = "Door",
-        Price = 2400,
-        Limit = 5,
+        Price = 6000,
+        Limit = 2,
         Items = {
             {Identifier = "door", IsInstallation = true}
         }
@@ -15,7 +15,7 @@ category.Products = {
 
     {
         Name = "Supplies Cabinet",
-        Price = 600,
+        Price = 450,
         Limit = 3,
         Items = {
             {Identifier = "suppliescabinet", IsInstallation = true}
@@ -24,7 +24,7 @@ category.Products = {
 
     {
         Name = "Oxygen Generator",
-        Price = 3200,
+        Price = 1400,
         Limit = 2,
         Items = {
             {Identifier = "shuttleoxygenerator", IsInstallation = true}
@@ -33,7 +33,7 @@ category.Products = {
 
     {
         Name = "Fabricator",
-        Price = 5000,
+        Price = 1900,
         Limit = 1,
         Items = {
             {Identifier = "fabricator", IsInstallation = true}
@@ -42,7 +42,7 @@ category.Products = {
 
     {
         Name = "Deconstructor",
-        Price = 3900,
+        Price = 1600,
         Limit = 1,
         Items = {
             {Identifier = "deconstructor", IsInstallation = true}
@@ -51,7 +51,7 @@ category.Products = {
 
     {
         Name = "Medical Fabricator",
-        Price = 4600,
+        Price = 1950,
         Limit = 1,
         Items = {
             {Identifier = "medicalfabricator", IsInstallation = true}
@@ -60,7 +60,7 @@ category.Products = {
 
     {
         Name = "Research Station",
-        Price = 1700,
+        Price = 1400,
         Limit = 1,
         Items = {
             {Identifier = "op_researchterminal", IsInstallation = true}
@@ -69,7 +69,7 @@ category.Products = {
 
     {
         Name = "Junction Box",
-        Price = 1200,
+        Price = 900,
         Limit = 4,
         Items = {
             {Identifier = "junctionbox", IsInstallation = true}
@@ -78,7 +78,7 @@ category.Products = {
 
     {
         Name = "Battery",
-        Price = 2000,
+        Price = 1300,
         Limit = 3,
         Items = {
             {Identifier = "battery", IsInstallation = true}
@@ -87,7 +87,7 @@ category.Products = {
 
     {
         Name = "Super Capacitor",
-        Price = 2000,
+        Price = 1400,
         Limit = 2,
         Items = {
             {Identifier = "supercapacitor", IsInstallation = true}

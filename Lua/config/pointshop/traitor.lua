@@ -22,14 +22,6 @@ category.Products = {
     },
 
     {
-        Name = "Europan Handshake",
-        Price = 2700,
-        Limit = 1,
-        IsLimitGlobal = false,
-        Items = {"divingknifeunique"},
-    },
-
-    {
         Name = "Prototype Steam Cannon",
         Price = 1300,
         Limit = 1,
