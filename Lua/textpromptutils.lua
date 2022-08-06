@@ -44,7 +44,7 @@ Hook.Add("netMessageReceived", "promptResponse", function (msg, header, client)
 end)
 
 c.Prompt = function (message, options, client, callback, eventSprite, fadeToBlack)
-    currentPromptID = currentPromptID + 1
+    currentPromptID = math.floor(math.random(0,65535))
 
     promptIDToCallback[currentPromptID] = callback
     SendEventMessage(message, options, currentPromptID, eventSprite, fadeToBlack, client)

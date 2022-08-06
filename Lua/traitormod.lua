@@ -10,6 +10,8 @@ if Traitormod.Config.EnableControlHusk ~= nil then
     Game.EnableControlHusk(Traitormod.Config.EnableControlHusk)
 end
 
+math.randomseed(os.time())
+
 Traitormod.Gamemodes = {
     dofile(Traitormod.Path .. "/Lua/gamemodes/assassination/assassination.lua")
 }

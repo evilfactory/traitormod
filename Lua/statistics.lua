@@ -62,7 +62,11 @@ statistics.AddListStat = function (category, description, key, value, name)
 end
 
 statistics.AddClientStat = function(category, description, client, value)
-    statistics.AddListStat(category, description, client.SteamID, value, client.Name)
+    if client then
+        statistics.AddListStat(category, description, client.SteamID, value, client.Name)
+    else
+        Traitormod.Error("AddClientStat failed for " .. category .. " - " .. description  .." Client was null")
+    end
 end
 
 statistics.ShowStats = function(client, category)
