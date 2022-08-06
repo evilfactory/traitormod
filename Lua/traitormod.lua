@@ -405,8 +405,6 @@ Hook.Add("clientDisconnected", "Traitormod.ClientDisconnected", function (client
     if client.Character and not client.Character.IsDead and client.Character.IsHuman then
         Traitormod.Log(string.format("%s disconnected with an alive character. Remembering for rejoin...", client.Name))
         Traitormod.AbandonedCharacters[client.SteamID] = client.Character
-    elseif not client.Character then
-        Traitormod.Log(string.format("%s disconnected with no valid character.", client.Name))
     end
 end)
 

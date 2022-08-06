@@ -302,8 +302,8 @@ Traitormod.AdjustLives = function (client, amount)
         -- if no lives left, reduce amount of points, reset to maxLives
         Traitormod.Log("Player ".. client.Name .." lost all lives. Reducing points...")
         if not Traitormod.Config.TestMode then  
-            local oldAmount = Traitormod.GetData(client, "Points")
-            local newAmount = Traitormod.Config.PointsLostAfterNoLives(oldAmount or 0)
+            local oldAmount = Traitormod.GetData(client, "Points") or 0
+            local newAmount = Traitormod.Config.PointsLostAfterNoLives(oldAmount)
             Traitormod.SetData(client, "Points", newAmount)
             Traitormod.Stats.AddClientStat("PointsLost", "Total points lost", client, oldAmount - newAmount)
 
