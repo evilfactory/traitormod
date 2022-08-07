@@ -366,15 +366,24 @@ Traitormod.AddCommand("!pointshop", function (client, args)
         local product = ps.FindProductByName(client, args[1])
 
         if product ~= nil then
-            local result = ps.BuyProduct(client, product)
+            local amount = 1
 
-
-            if result == ps.ProductBuyFailureReason.NoPoints then
-                Traitormod.SendMessage(client, "You do not have enough points to buy this item.")
+            if args[2] ~= nil then
+                amount = tonumber(args[2]) or amount
             end
 
-            if result == ps.ProductBuyFailureReason.NoStock then
-                Traitormod.SendMessage(client, "This product is out of stock.")
+            amount = math.min(amount, 8)
+
+            for i=1, amount, 1 do
+                local result = ps.BuyProduct(client, product)
+
+                if result == ps.ProductBuyFailureReason.NoPoints then
+                    Traitormod.SendMessage(client, "You do not have enough points to buy this item.")
+                end
+
+                if result == ps.ProductBuyFailureReason.NoStock then
+                    Traitormod.SendMessage(client, "This product is out of stock.")
+                end
             end
 
             return true
