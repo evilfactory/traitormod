@@ -221,10 +221,15 @@ ps.ActivateProduct = function (client, product)
     end
 end
 
+ps.GetProductPrice = function (client, product)
+    return product.Price + (product.Limit - ps.GetProductLimit(client, product)) * (product.PricePerLimit or 0)
+end
+
 ps.BuyProduct = function(client, product)
     local points = Traitormod.GetData(client, "Points") or 0
+    local price = ps.GetProductPrice(client, product)
 
-    if product.Price > points then
+    if price > points then
         return ps.ProductBuyFailureReason.NoPoints
     end
 
@@ -233,7 +238,7 @@ ps.BuyProduct = function(client, product)
     end
 
     Traitormod.Log(string.format("PointShop: %s bought \"%s\".", client.Name, product.Name))
-    Traitormod.SetData(client, "Points", points - product.Price)
+    Traitormod.SetData(client, "Points", points - price)
 
     -- Activate the product
     ps.ActivateProduct(client, product)
@@ -252,7 +257,7 @@ ps.HandleProductBuy = function (client, product, result)
     end
 
     if result == nil then
-        textPromptUtils.Prompt(string.format("Purchased \"%s\" for %s points\n\nNew point balance is: %s points.", product.Name, product.Price, math.floor(Traitormod.GetData(client, "Points") or 0)), {}, client, function (id, client) end, "gambler")
+        textPromptUtils.Prompt(string.format("Purchased \"%s\" for %s points\n\nNew point balance is: %s points.", product.Name, ps.GetProductPrice(client, product), math.floor(Traitormod.GetData(client, "Points") or 0)), {}, client, function (id, client) end, "gambler")
     end
 end
 
@@ -265,7 +270,7 @@ ps.ShowCategoryItems = function(client, category)
 
     for key, product in pairs(category.Products) do
         local text = string.format("%s - %spt (%s/%s)",
-            product.Name, product.Price, ps.GetProductLimit(client, product), product.Limit or defaultLimit)
+            product.Name, ps.GetProductPrice(client, product), ps.GetProductLimit(client, product), product.Limit or defaultLimit)
 
         table.insert(options, text)
         productsLookup[#options] = product
