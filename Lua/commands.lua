@@ -67,7 +67,7 @@ Traitormod.AddCommand("!toggletraitor", function (client, args)
     return true
 end)
 
-Traitormod.AddCommand("!points", function (client, args)
+Traitormod.AddCommand({"!point", "!points"}, function (client, args)
     Traitormod.SendMessage(client, Traitormod.GetDataInfo(client, true))
 
     return true
@@ -80,7 +80,7 @@ Traitormod.AddCommand("!info", function (client, args)
 end)
 
 ----- TRAITOR COMMANDS -----
-Traitormod.SendMessageToTraitorCommand = function(client, args)
+Traitormod.AddCommand("!tc", function (client, args)
     local feedback = Traitormod.Language.CommandNotActive
     
     if not Traitormod.Config.TraitorBroadcast then
@@ -108,10 +108,7 @@ Traitormod.SendMessageToTraitorCommand = function(client, args)
     end
 
     Game.SendDirectChatMessage("", feedback, nil, Traitormod.Config.ChatMessageType, client)
-end
 
-Traitormod.AddCommand("!tc", function (client, args)
-    Traitormod.SendMessageToTraitorCommand(client, args)
     return true
 end)
 
@@ -187,7 +184,7 @@ Traitormod.AddCommand("!roundinfo", function (client, args)
     return true
 end)
 
-Traitormod.AddCommand("!allpoints", function (client, args)
+Traitormod.AddCommand({"!allpoint", "!allpoints"}, function (client, args)
     if not client.HasPermission(ClientPermissions.ConsoleCommands) then return end
     
     local messageToSend = ""
@@ -201,7 +198,7 @@ Traitormod.AddCommand("!allpoints", function (client, args)
     return true
 end)
 
-Traitormod.AddCommand("!addpoint", function (client, args)
+Traitormod.AddCommand({"!addpoint", "!addpoints"}, function (client, args)
     if not client.HasPermission(ClientPermissions.ConsoleCommands) then return end
     
     if #args < 2 then
@@ -231,7 +228,7 @@ Traitormod.AddCommand("!addpoint", function (client, args)
     return true
 end)
 
-Traitormod.AddCommand("!removepoint", function (client, args)
+Traitormod.AddCommand({"!removepoint", "!removepoints"}, function (client, args)
     if not client.HasPermission(ClientPermissions.ConsoleCommands) then return end
 
     if #args < 2 then
@@ -261,7 +258,7 @@ Traitormod.AddCommand("!removepoint", function (client, args)
     return true
 end)
 
-Traitormod.AddCommand("!addlife", function (client, args)
+Traitormod.AddCommand({"!addlife", "!addlive", "!addlifes", "!addlives"}, function (client, args)
     if not client.HasPermission(ClientPermissions.ConsoleCommands) then return end
 
     if #args < 1 then

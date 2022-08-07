@@ -203,10 +203,16 @@ Traitormod.ParseCommand = function (text)
 end
 
 Traitormod.AddCommand = function (commandName, callback)
-    local cmd = {}
-
-    Traitormod.Commands[string.lower(commandName)] = cmd
-    cmd.Callback = callback;
+    if type(commandName) == "table" then
+        for command in commandName do
+            Traitormod.AddCommand(command, callback)
+        end
+    else
+        local cmd = {}
+    
+        Traitormod.Commands[string.lower(commandName)] = cmd
+        cmd.Callback = callback;
+    end
 end
 
 Traitormod.RemoveCommand = function (commandName)
