@@ -94,11 +94,13 @@ ps.UseProductLimit = function (client, product)
     end
 end
 
-ps.FindProductByName = function (name)
+ps.FindProductByName = function (client, name)
     for i, category in pairs(config.PointShopConfig.ItemCategories) do
-        for k, product in pairs(category.Products) do
-            if product.Name == name then
-                return product
+        if ps.CanClientAccessCategory(client, category) then
+            for k, product in pairs(category.Products) do
+                if product.Name == name then
+                    return product
+                end
             end
         end
     end 
@@ -356,7 +358,7 @@ Traitormod.AddCommand("!pointshop", function (client, args)
     end
 
     if #args > 0 then
-        local product = ps.FindProductByName(args[1])
+        local product = ps.FindProductByName(client, args[1])
 
         if product ~= nil then
             local result = ps.BuyProduct(client, product)
