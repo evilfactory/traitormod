@@ -121,7 +121,7 @@ Traitormod.UpdateVanillaTraitor = function (client, enabled, objectiveSummary)
 end
 
 -- send feedback to the character for completing a traitor objective and update vanilla traitor state
-Traitormod.SendObjectiveCompleted = function(client, objectiveText, xp, livesText)
+Traitormod.SendObjectiveCompleted = function(client, objectiveText, points, livesText)
     if livesText then
         livesText = "\n" .. livesText
     else
@@ -130,7 +130,7 @@ Traitormod.SendObjectiveCompleted = function(client, objectiveText, xp, livesTex
 
     Traitormod.SendMessage(client, 
     string.format(Traitormod.Language.ObjectiveCompleted, objectiveText) .. " \n\n" .. 
-    string.format(Traitormod.Language.ExperienceAwarded, xp) .. livesText
+    string.format(Traitormod.Language.PointsAwarded, points) .. livesText
     , "MissionCompletedIcon") --InfoFrameTabButton.Mission
     Traitormod.UpdateVanillaTraitor(client, true)
 end
@@ -274,7 +274,7 @@ Traitormod.AwardPoints = function (client, amount, isMissionXP)
         Traitormod.AddData(client, "Points", amount)
         Traitormod.Stats.AddClientStat("PointsGained", "Total points gained", client, amount)
     end
-    return Traitormod.Config.AmountExperienceWithPoints(amount)
+    return amount
 end
 
 Traitormod.AdjustLives = function (client, amount)
