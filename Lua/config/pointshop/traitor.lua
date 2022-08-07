@@ -10,12 +10,12 @@ category.Products = {
         Limit = 1,
         IsLimitGlobal = false,
         Items = {"shotgununique", 
-        "shotgunshell", "shotgunshell", "shotgunshell", "shotgunshell", "shotgunshell", "shotgunshell", "shotgunshell", "shotgunshell"},
+        "shotgunshell", "shotgunshell", "shotgunshell", "shotgunshell", "shotgunshell", "shotgunshell", "shotgunshell", "shotgunshell","shotgunshell", "shotgunshell", "shotgunshell", "shotgunshell", "shotgunshell", "shotgunshell", "shotgunshell", "shotgunshell"},
     },
 
     {
         Name = "Deadeye Carbine",
-        Price = 3200,
+        Price = 2900,
         Limit = 1,
         IsLimitGlobal = false,
         Items = {"smgunique", "smgmagazine", "smgmagazine"},
@@ -31,18 +31,42 @@ category.Products = {
 
     {
         Name = "Detonator",
-        Price = 1350,
+        Price = 950,
         Limit = 3,
         IsLimitGlobal = false,
         Items = {"detonator"},
     },
 
     {
-        Name = "UEX Materials",
-        Price = 1500,
+        Name = "UEX",
+        Price = 700,
         Limit = 5,
         IsLimitGlobal = false,
-        Items = {"sodium", "phosphorus"},
+        Items = {"uex"},
+    },
+
+    {
+        Name = "Stun Grenade",
+        Price = 600,
+        Limit = 3,
+        IsLimitGlobal = false,
+        Items = {"stungrenade"},
+    },
+
+    {
+        Name = "Mutated Pomegrenade",
+        Price = 530,
+        Limit = 3,
+        IsLimitGlobal = false,
+        Items = {"badcreepingorange"},
+    },
+
+    {
+        Name = "Door",
+        Price = 1500,
+        Limit = 3,
+        IsLimitGlobal = false,
+        Items = {{Identifier = "door", IsInstallation = true}},
     },
 
 --[[    

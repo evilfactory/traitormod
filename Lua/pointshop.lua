@@ -5,6 +5,11 @@ local textPromptUtils = require("textpromptutils")
 
 local defaultLimit = 999
 
+ps.ProductBuyFailureReason = {
+    NoPoints = 1,
+    NoStock = 2,
+}
+
 ps.GlobalProductLimits = {}
 ps.LocalProductLimits = {}
 
@@ -17,7 +22,11 @@ ps.ValidateConfig = function ()
                         item = {Identifier = item}
                     end
 
-                    if ItemPrefab.GetItemPrefab(item.Identifier) == nil then
+                    if type(item) ~= "table" then
+                        Traitormod.Error(string.format("PointShop Error: Inside the Category \"%s\" theres a Product with Name \"%s\", that is invalid", category.Name, product.Name))
+                    elseif item.Identifier == nil then
+                        Traitormod.Error(string.format("PointShop Error: Inside the Category \"%s\" theres a Product with Name \"%s\", that has items without an Identifier", category.Name, product.Name))
+                    elseif ItemPrefab.GetItemPrefab(item.Identifier) == nil then
                         Traitormod.Error(string.format("PointShop Error: Inside the Category \"%s\" theres a Product with Name \"%s\", that has an invalid item identifier \"%s\"", category.Name, product.Name, item.Identifier))
                     end
                 end
@@ -85,6 +94,16 @@ ps.UseProductLimit = function (client, product)
     end
 end
 
+ps.FindProductByName = function (name)
+    for i, category in pairs(config.PointShopConfig.ItemCategories) do
+        for k, product in pairs(category.Products) do
+            if product.Name == name then
+                return product
+            end
+        end
+    end 
+end
+
 ps.CanClientAccessCategory = function(client, category)
     local isDead = client.Character == nil or client.Character.IsDead or not client.Character.IsHuman
 
@@ -132,7 +151,7 @@ end
 
 ps.SpawnItem = function(client, item, onSpawned)
     local prefab = ItemPrefab.GetItemPrefab(item.Identifier)
-    local condition = item.Condition or 100
+    local condition = item.Condition or item.MaxCondition
 
     if prefab == nil then
         Traitormod.SendMessage(client, "PointShop Error: Could not find item with identifier " .. item.Identifier .. " please report this error.")
@@ -204,28 +223,35 @@ ps.BuyProduct = function(client, product)
     local points = Traitormod.GetData(client, "Points") or 0
 
     if product.Price > points then
-        textPromptUtils.Prompt("You do not have enough points to buy this item.", {}, client, function (id, client) end, "gambler")
-        return
+        return ps.ProductBuyFailureReason.NoPoints
     end
 
     if not ps.UseProductLimit(client, product) then
-        textPromptUtils.Prompt("This product is out of stock.", {}, client, function (id, client) end, "gambler")
-        return
+        return ps.ProductBuyFailureReason.NoStock
     end
 
     Traitormod.Log(string.format("PointShop: %s bought \"%s\".", client.Name, product.Name))
-
     Traitormod.SetData(client, "Points", points - product.Price)
-
-    points = Traitormod.GetData(client, "Points") or 0
-
-    textPromptUtils.Prompt(string.format("Purchased \"%s\" for %s points\n\nNew point balance is: %s points.", product.Name, product.Price, math.floor(points)), {}, client, function (id, client) end, "gambler")
 
     -- Activate the product
     ps.ActivateProduct(client, product)
 
     Traitormod.Stats.AddClientStat("CrewBoughtItem", "Players bought items from point shop", client, 1)
     Traitormod.Stats.AddListStat("ItemsBought", "Items bought from point shop", product.Name, 1)
+end
+
+ps.HandleProductBuy = function (client, product, result)
+    if result == ps.ProductBuyFailureReason.NoPoints then
+        textPromptUtils.Prompt("You do not have enough points to buy this item.", {}, client, function (id, client) end, "gambler")
+    end
+
+    if result == ps.ProductBuyFailureReason.NoStock then
+        textPromptUtils.Prompt("This product is out of stock.", {}, client, function (id, client) end, "gambler")
+    end
+
+    if result == nil then
+        textPromptUtils.Prompt(string.format("Purchased \"%s\" for %s points\n\nNew point balance is: %s points.", product.Name, product.Price, math.floor(Traitormod.GetData(client, "Points") or 0)), {}, client, function (id, client) end, "gambler")
+    end
 end
 
 ps.ShowCategoryItems = function(client, category)
@@ -279,7 +305,8 @@ ps.ShowCategoryItems = function(client, category)
                         return
                     end
 
-                    ps.BuyProduct(client3, product)
+                    local result = ps.BuyProduct(client3, product)
+                    ps.HandleProductBuy(client3, product, result)
                 end
             end, ps.DetermineCategoryDecoration(category))
         else
@@ -287,7 +314,8 @@ ps.ShowCategoryItems = function(client, category)
                 return
             end
 
-            ps.BuyProduct(client2, product)
+            local result = ps.BuyProduct(client2, product)
+            ps.HandleProductBuy(client2, product, result)
         end
     end, ps.DetermineCategoryDecoration(category))
 end
@@ -325,6 +353,25 @@ end
 Traitormod.AddCommand("!pointshop", function (client, args)
     if not ps.ValidateClient(client) then
         return true
+    end
+
+    if #args > 0 then
+        local product = ps.FindProductByName(args[1])
+
+        if product ~= nil then
+            local result = ps.BuyProduct(client, product)
+
+
+            if result == ps.ProductBuyFailureReason.NoPoints then
+                Traitormod.SendMessage(client, "You do not have enough points to buy this item.")
+            end
+
+            if result == ps.ProductBuyFailureReason.NoStock then
+                Traitormod.SendMessage(client, "This product is out of stock.")
+            end
+
+            return true
+        end
     end
 
     ps.ShowCategory(client)

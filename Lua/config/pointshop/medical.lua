@@ -14,70 +14,91 @@ end
 category.Products = {
     {
         Name = "Bandage",
-        Price = 450,
+        Price = 120,
         Limit = 4,
         Items = {"bandage"}
     },
 
     {
         Name = "Opium",
-        Price = 1300,
+        Price = 130,
         Limit = 3,
         Items = {"opium"}
     },
 
     {
         Name = "Saline",
-        Price = 700,
+        Price = 125,
         Limit = 2,
         Items = {"saline"}
     },
 
     {
         Name = "Ethanol",
-        Price = 160,
+        Price = 80,
         Limit = 4,
         Items = {"ethanol"}
     },
 
     {
+        Name = "Chlorine",
+        Price = 70,
+        Limit = 4,
+        Items = {"chlorine"}
+    },
+
+    {
+        Name = "Sulphuric Acid",
+        Price = 60,
+        Limit = 4,
+        Items = {"sulphuricacid"}
+    },
+
+    {
+        Name = "Alien Blood",
+        Price = 105,
+        Limit = 4,
+        Items = {"alienblood"}
+    },
+
+    {
         Name = "Adrenaline Gland",
-        Price = 370,
+        Price = 60,
         Limit = 5,
         Items = {"adrenalinegland"}
     },
 
     {
         Name = "Aquatic Poppy",
-        Price = 300,
+        Price = 70,
         Limit = 5,
         Items = {"aquaticpoppy"}
     },
 
     {
         Name = "Elastic Plant",
-        Price = 100,
+        Price = 50,
         Limit = 5,
         Items = {"elastinplant"}
     },
 
     {
         Name = "Fiber Plant",
-        Price = 230,
+        Price = 60,
         Limit = 5,
         Items = {"fiberplant"}
     },
 
     {
         Name = "Sea Yeast Shroom",
-        Price = 175,
+        Price = 65,
         Limit = 5,
         Items = {"yeastshroom"}
     },
 
     {
         Name = "Slime Bacteria",
-        Price = 190,
+        Price = 80,
         Limit = 5,
         Items = {"slimebacteria"}
     },
@@ -87,6 +108,13 @@ category.Products = {
         Price = 250,
         Limit = 5,
         Items = {"swimbladder"}
+    },
+
+    {
+        Name = "Gardening Kit",
+        Price = 100,
+        Limit = 2,
+        Items = {"raptorbaneseed", "creepingorangevineseed", "saltvineseed", "tobaccovineseed", "smallplanter", "fertilizer", "wateringcan"}
     },
 
     {

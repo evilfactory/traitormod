@@ -334,3 +334,12 @@ Traitormod.AddCommand("!revive", function (client, args)
 
     return true
 end)
+
+Traitormod.AddCommand("!suicide", function (client, args)
+    if client.Character == nil or client.Character.IsDead then
+        Traitormod.SendMessage(client, "You are already dead!")
+        return true
+    end
+
+    client.Character.Kill(CauseOfDeathType.Unknown)
+end)

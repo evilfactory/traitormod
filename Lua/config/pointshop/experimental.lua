@@ -15,7 +15,7 @@ category.Products = {
 
     {
         Name = "Supplies Cabinet",
-        Price = 450,
+        Price = 250,
         Limit = 3,
         Items = {
             {Identifier = "suppliescabinet", IsInstallation = true}
@@ -60,7 +60,7 @@ category.Products = {
 
     {
         Name = "Research Station",
-        Price = 1400,
+        Price = 500,
         Limit = 1,
         Items = {
             {Identifier = "op_researchterminal", IsInstallation = true}
@@ -69,7 +69,7 @@ category.Products = {
 
     {
         Name = "Junction Box",
-        Price = 900,
+        Price = 800,
         Limit = 4,
         Items = {
             {Identifier = "junctionbox", IsInstallation = true}
@@ -78,7 +78,7 @@ category.Products = {
 
     {
         Name = "Battery",
-        Price = 1300,
+        Price = 1100,
         Limit = 3,
         Items = {
             {Identifier = "battery", IsInstallation = true}
@@ -87,7 +87,7 @@ category.Products = {
 
     {
         Name = "Super Capacitor",
-        Price = 1400,
+        Price = 1200,
         Limit = 2,
         Items = {
             {Identifier = "supercapacitor", IsInstallation = true}

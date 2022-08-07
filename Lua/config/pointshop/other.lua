@@ -6,9 +6,23 @@ category.IsTraitorOnly = false
 category.Products = {
     {
         Name = "Moloch Shell Fragment",
-        Price = 740,
+        Price = 340,
         Limit = 1,
         Items = {"shellshield"}
+    },
+
+    {
+        Name = "Disposable Diving Suit",
+        Price = 400,
+        Limit = 1,
+        Items = {"respawndivingsuit"}
+    },
+
+    {
+        Name = "Diving Mask",
+        Price = 280,
+        Limit = 1,
+        Items = {"divingmask"}
     },
 }
 
