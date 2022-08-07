@@ -2,7 +2,7 @@ local statistics = {}
 statistics.stats = {}
 local textPromptUtils = require("textpromptutils")
 
-local itemLimit = 30 -- should not be much more than 50
+local ItemsShown = 30 -- Sets how many lines will be shown. Should not be much more than 50
 
 if Traitormod.Config.PermanentStatistics and not File.Exists(Traitormod.Path .. "/Lua/stats.json") then
     File.Write(Traitormod.Path .. "/Lua/stats.json", "{}")
@@ -79,6 +79,7 @@ statistics.ShowStats = function(client, category)
             local compare = function(t,a,b) return t[b] < t[a] end
             local isTable = false
             local topic = ""
+            local itemLimit = ItemsShown
             text = ""
 
             if elem[firstKey] and type(elem[firstKey]) == "table" and elem[firstKey].Score ~= nil then
@@ -91,7 +92,7 @@ statistics.ShowStats = function(client, category)
                     if topic == "" then
                         topic = category .. " - " .. value.Topic
                     end
-                    text = text .. "\n" .. value.Score .. " - " .. (value.Name or key)
+                    text = text .. "\n" .. math.floor(value.Score) .. " - " .. (value.Name or key)
                 else
                     topic = category
                     text = text .. "\n" .. value .. " - " ..  key

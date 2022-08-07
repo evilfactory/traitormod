@@ -300,8 +300,6 @@ assassination.RenewAssassinationObjective = function(client, traitor, target)
     newObjective.Start(traitor, target)
     table.insert(traitor.MainObjectives, newObjective)
 
-    Traitormod.Stats.AddClientStat("TraitorTargets", "Chosen as target", client, 1)
-
     -- give feedback about new target
     Traitormod.SendMessage(client, string.format(lang.AssassinationNewObjective, target.Name), "GameModeIcon.pvp")
 
