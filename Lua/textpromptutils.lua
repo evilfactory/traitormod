@@ -28,7 +28,7 @@ local function SendEventMessage(msg, options, id, eventSprite, fadeToBlack, clie
 end
 
 
-Hook.Add("netMessageReceived", "promptResponse", function (msg, header, client)
+Hook.Add("netMessageReceived", "Traitormod.promptResponse", function (msg, header, client)
     if header == ClientPacketHeader.EVENTMANAGER_RESPONSE then 
         local id = msg.ReadUInt16()
         local option = msg.ReadByte()
