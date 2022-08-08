@@ -14,11 +14,27 @@ category.Products = {
     },
 
     {
+        Name = "Shotgun Shell (x8)",
+        Price = 320,
+        Limit = 5,
+        IsLimitGlobal = false,
+        Items = {"shotgunshell", "shotgunshell", "shotgunshell", "shotgunshell", "shotgunshell", "shotgunshell", "shotgunshell", "shotgunshell"},
+    },
+
+    {
         Name = "Deadeye Carbine",
         Price = 2900,
         Limit = 1,
         IsLimitGlobal = false,
         Items = {"smgunique", "smgmagazine", "smgmagazine"},
+    },
+
+    {
+        Name = "SMG Magazine",
+        Price = 250,
+        Limit = 5,
+        IsLimitGlobal = false,
+        Items = {"smgmagazine"},
     },
 
     {
@@ -68,20 +84,6 @@ category.Products = {
         IsLimitGlobal = false,
         Items = {{Identifier = "door", IsInstallation = true}},
     },
-
---[[    
-    {
-        Name = "Make You Explode Lol",
-        Price = 10,
-        Limit = 5,
-        Items = {"compoundn"},
-        Action = function (client, product, items)
-            Timer.Wait(function ()
-                items[1].Condition = 0
-            end, 1000)
-        end
-    },
---]]
 }
 
 return category

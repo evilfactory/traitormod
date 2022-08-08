@@ -69,9 +69,16 @@ category.Products = {
 
     {
         Name = "Titanium",
-        Price = 80,
+        Price = 100,
         Limit = 4,
         Items = {"titanium"}
+    },
+
+    {
+        Name = "Silicon",
+        Price = 90,
+        Limit = 4,
+        Items = {"silicon"}
     },
 
     {

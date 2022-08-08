@@ -24,6 +24,13 @@ category.Products = {
         Limit = 1,
         Items = {"divingmask"}
     },
+
+    {
+        Name = "Bike Horn",
+        Price = 350,
+        Limit = 10,
+        Items = {"bikehorn"}
+    },
 }
 
 return category
