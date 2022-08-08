@@ -121,22 +121,25 @@ Traitormod.AddCommand("!stats", function (client, args)
             text = "No statistics available yet. Go start a round to collect stats."
         else
             local options = {}
-            if client.InGame then
+            if not client.InGame then
+                for key, value in pairs(statistics.stats) do
+                    text = text .. "\n>> " .. key
+                end
+                text = text .. "\n\nType '!stats [option]' to show statistics."
+            elseif client.HasPermission(ClientPermissions.ConsoleCommands) then
                 -- if in game show convenient prompt
                 for key, value in pairs(statistics.stats) do
                     table.insert(options, key)
                 end
+                table.insert(options, "")
+                table.insert(options, "")
                 
                 textPromptUtils.Prompt(text, options, client, function (id, client2)
                     statistics.ShowStats(client2, options[id])
                 end)
                 return true
             else
-                -- else offer inconvenient cmd option
-                for key, value in pairs(statistics.stats) do
-                    text = text .. "\n>> " .. key
-                end
-                text = text .. "\n\nType '!stats [option]' to show stats or join a game to use a prompt."
+                text = "Statistics are not available in game. Use this command in the lobby."
             end
         end
 
