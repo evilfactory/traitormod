@@ -79,6 +79,15 @@ Traitormod.AddCommand("!info", function (client, args)
     return true
 end)
 
+Traitormod.AddCommand({"!suicide", "!kill", "!death"}, function (client, args)
+    if client.Character == nil or client.Character.IsDead then
+        Traitormod.SendMessage(client, "You are already dead!")
+        return true
+    end
+
+    client.Character.Kill(CauseOfDeathType.Unknown)
+end)
+
 ----- TRAITOR COMMANDS -----
 Traitormod.AddCommand("!tc", function (client, args)
     local feedback = Traitormod.Language.CommandNotActive
@@ -330,13 +339,4 @@ Traitormod.AddCommand("!revive", function (client, args)
     end
 
     return true
-end)
-
-Traitormod.AddCommand("!suicide", function (client, args)
-    if client.Character == nil or client.Character.IsDead then
-        Traitormod.SendMessage(client, "You are already dead!")
-        return true
-    end
-
-    client.Character.Kill(CauseOfDeathType.Unknown)
 end)
