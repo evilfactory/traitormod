@@ -41,7 +41,6 @@ end
 statistics.SetListStat = function (category, description, key, value, name)
     if statistics.stats[category] == nil then 
         statistics.stats[category] = {}
-        --statistics.stats[category].Topic = description
     end
 
     if statistics.stats[category][key] == nil then 
@@ -50,7 +49,6 @@ statistics.SetListStat = function (category, description, key, value, name)
 
     statistics.stats[category][key].Name = name or key
     statistics.stats[category][key].Score = value
-    statistics.stats[category][key].Topic = description
 end
 
 statistics.AddListStat = function (category, description, key, value, name)
@@ -76,10 +74,10 @@ statistics.ShowStats = function(client, category)
     if elem then
         local firstKey = next(elem)
         if firstKey ~= nil then
+            local itemLimit = ItemsShown
             local compare = function(t,a,b) return t[b] < t[a] end
             local isTable = false
-            local topic = ""
-            local itemLimit = ItemsShown
+            local topic = category .. " - " .. Traitormod.Language[category] or "Stats"
             text = ""
 
             if elem[firstKey] and type(elem[firstKey]) == "table" and elem[firstKey].Score ~= nil then
@@ -89,12 +87,8 @@ statistics.ShowStats = function(client, category)
 
             for key, value in spairs(elem, compare) do
                 if isTable then
-                    if topic == "" then
-                        topic = category .. " - " .. value.Topic
-                    end
                     text = text .. "\n" .. math.floor(value.Score) .. " - " .. (value.Name or key)
                 else
-                    topic = category
                     text = text .. "\n" .. value .. " - " ..  key
                 end
 

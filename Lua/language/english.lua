@@ -88,4 +88,15 @@ language.AssassinationNextTarget = "Stay low until further instructions."
 language.AssassinationNewObjective = "Your next assassination target is %s."
 language.AssassinationEveryoneDead = "Good job agent, you did it!"
 
+language.ItemsBought = "Items bought from point shop"
+language.CrewBoughtItem = "Players bought items from point shop"
+language.PointsGained = "Total points gained"
+language.PointsLost = "Total points lost"
+language.Spawns = "Spawned human characters"
+language.TraitorMainObjectives ="Main Objectives successful"
+language.TraitorSubObjectives = "Sub Objectives successful"
+language.TraitorDeaths = "Died as traitor"
+language.CrewDeaths = "Deaths"
+language.Rounds = "General Round stats"
+
 return language
