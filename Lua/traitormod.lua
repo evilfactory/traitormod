@@ -135,7 +135,7 @@ Hook.Add("missionsEnded", "Traitormod.MissionsEnded", function (missions)
         -- add weight according to points and config conversion
         Traitormod.AddData(value, "Weight", Traitormod.Config.AmountWeightWithPoints(Traitormod.GetData(value, "Points") or 0))
     
-        if value.Character ~= nil and not value.SpectateOnly then
+        if value.Character ~= nil and value.Character.IsHuman and not value.SpectateOnly then
             local wasTraitor = nil
 
             if Traitormod.SelectedGamemode then
