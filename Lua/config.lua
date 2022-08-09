@@ -162,6 +162,7 @@ config.PointShopConfig = {
     Enabled = true,
     ItemCategories = {
         dofile(Traitormod.Path .. "/Lua/config/pointshop/traitor.lua"),
+        dofile(Traitormod.Path .. "/Lua/config/pointshop/security.lua"),
         dofile(Traitormod.Path .. "/Lua/config/pointshop/maintenance.lua"),
         dofile(Traitormod.Path .. "/Lua/config/pointshop/materials.lua"),
         dofile(Traitormod.Path .. "/Lua/config/pointshop/medical.lua"),

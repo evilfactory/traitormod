@@ -1,7 +1,6 @@
 local category = {}
 
 category.Name = "Other"
-category.IsTraitorOnly = false
 
 category.Products = {
     {
