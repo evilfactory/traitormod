@@ -77,7 +77,7 @@ statistics.ShowStats = function(client, category)
             local itemLimit = ItemsShown
             local compare = function(t,a,b) return t[b] < t[a] end
             local isTable = false
-            local topic = category .. " - " .. Traitormod.Language[category] or "Stats"
+            local topic = category .. " - " .. (Traitormod.Language[category] or "Stats")
             text = ""
 
             if elem[firstKey] and type(elem[firstKey]) == "table" and elem[firstKey].Score ~= nil then
