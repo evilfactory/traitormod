@@ -92,7 +92,7 @@ category.Products = {
 
     {
         Name = "Spawn as Charybdis",
-        Price = 250000,
+        Price = 300000,
         Limit = 1,
         IsLimitGlobal = true,
         PricePerLimit = 50000,
