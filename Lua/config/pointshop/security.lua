@@ -1,7 +1,7 @@
 local category = {}
 
 category.Name = "Security"
---category.Decoration = "clown"
+category.Decoration = "security"
 
 category.CanAccess = function(client)
     return client.Character and not client.Character.IsDead and 
