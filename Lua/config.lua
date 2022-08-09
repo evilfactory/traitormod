@@ -118,8 +118,8 @@ config.GamemodeConfig = {
         AmountTraitors = function (amountPlayers)
             config.TestMode = false
             if amountPlayers > 12 then return 3 end
-            if amountPlayers > 6 then return 2 end            
-            if amountPlayers > 2 then return 1 end
+            if amountPlayers > 7 then return 2 end            
+            if amountPlayers > 3 then return 1 end
             if amountPlayers == 1 then 
                 Traitormod.Log("1P testing mode - no points can be gained or lost") 
                 config.TestMode = true

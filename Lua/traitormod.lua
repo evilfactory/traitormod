@@ -345,8 +345,8 @@ Hook.Add("think", "Traitormod.Think", function ()
     if pointsGiveTimer and Timer.GetTime() > pointsGiveTimer then
         for key, value in pairs(Traitormod.PointsToBeGiven) do
             if value > 100 then
-                local points = Traitormod.AwardPoints(key, Traitormod.Config.AmountExperienceWithPoints(value))
-                if Traitormod.GiveExperience(key.Character, points) then
+                local points = Traitormod.AwardPoints(key, value)
+                if Traitormod.GiveExperience(key.Character, Traitormod.Config.AmountExperienceWithPoints(points)) then
                     local text = Traitormod.Language.SkillsIncreased .. "\n" .. string.format(Traitormod.Language.PointsAwarded, math.floor(points))
                     Game.SendDirectChatMessage("", text, nil, Traitormod.Config.ChatMessageType, key)
 
