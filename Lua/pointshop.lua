@@ -222,8 +222,8 @@ ps.BuyProduct = function(client, product)
     -- Activate the product
     ps.ActivateProduct(client, product)
 
-    Traitormod.Stats.AddClientStat("CrewBoughtItem", "Players bought items from point shop", client, 1)
-    Traitormod.Stats.AddListStat("ItemsBought", "Items bought from point shop", product.Name, 1)
+    Traitormod.Stats.AddClientStat("CrewBoughtItem", client, 1)
+    Traitormod.Stats.AddListStat("ItemsBought", product.Name, 1)
 end
 
 ps.HandleProductBuy = function (client, product, result)

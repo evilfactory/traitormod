@@ -282,7 +282,7 @@ Hook.Add("characterCreated", "Traitormod.CharacterCreated", function (character)
             Traitormod.SelectedGamemode.OnCharacterCreated(client, character)
         end
 
-        Traitormod.Stats.AddClientStat("Spawns", "Spawned human characters", client, 1)
+        Traitormod.Stats.AddClientStat("Spawns", client, 1)
 
         if client ~= nil then
             -- set experience of respawned character to stored value - note initial spawn may not call this hook (on local server)

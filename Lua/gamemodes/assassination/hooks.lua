@@ -34,10 +34,10 @@ assassination.OnCharacterDied = function (client, affliction)
             victimTraitor.Failed = true
         end
 
-        Traitormod.Stats.AddClientStat("TraitorDeaths", "Died as traitor", client, 1)
+        Traitormod.Stats.AddClientStat("TraitorDeaths", client, 1)
     end
 
-    Traitormod.Stats.AddClientStat("CrewDeaths", "Deaths", client, 1)
+    Traitormod.Stats.AddClientStat("CrewDeaths", client, 1)
 
     Traitormod.Log(string.format("%s %s died. Cause: %s Killer: %s", victimType, character.Name, cause, attackerName))
 

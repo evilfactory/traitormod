@@ -38,7 +38,7 @@ statistics.GetStat = function (category, key)
     return statistics.stats[category][key]
 end
 
-statistics.SetListStat = function (category, description, key, value, name)
+statistics.SetListStat = function (category, key, value, name)
     if statistics.stats[category] == nil then 
         statistics.stats[category] = {}
     end
@@ -51,19 +51,19 @@ statistics.SetListStat = function (category, description, key, value, name)
     statistics.stats[category][key].Score = value
 end
 
-statistics.AddListStat = function (category, description, key, value, name)
+statistics.AddListStat = function (category, key, value, name)
     local oldValue = 0
     if statistics.stats[category] and statistics.stats[category][key] then
         oldValue = statistics.stats[category][key].Score or 0
     end
-    statistics.SetListStat(category, description, key, (oldValue + value), name)
+    statistics.SetListStat(category, key, (oldValue + value), name)
 end
 
-statistics.AddClientStat = function(category, description, client, value)
+statistics.AddClientStat = function(category, client, value)
     if client then
-        statistics.AddListStat(category, description, client.SteamID, value, client.Name)
+        statistics.AddListStat(category, client.SteamID, value, client.Name)
     else
-        Traitormod.Error("AddClientStat failed for " .. category .. " - " .. description  .." Client was null")
+        Traitormod.Error("AddClientStat failed for " .. category .. " - Client was null")
     end
 end
 

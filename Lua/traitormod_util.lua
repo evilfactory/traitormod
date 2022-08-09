@@ -278,7 +278,7 @@ end
 Traitormod.AwardPoints = function (client, amount, isMissionXP)
     if not Traitormod.Config.TestMode then
         Traitormod.AddData(client, "Points", amount)
-        Traitormod.Stats.AddClientStat("PointsGained", "Total points gained", client, amount)
+        Traitormod.Stats.AddClientStat("PointsGained", client, amount)
     end
     return amount
 end
@@ -311,7 +311,7 @@ Traitormod.AdjustLives = function (client, amount)
             local oldAmount = Traitormod.GetData(client, "Points") or 0
             local newAmount = Traitormod.Config.PointsLostAfterNoLives(oldAmount)
             Traitormod.SetData(client, "Points", newAmount)
-            Traitormod.Stats.AddClientStat("PointsLost", "Total points lost", client, oldAmount - newAmount)
+            Traitormod.Stats.AddClientStat("PointsLost", client, oldAmount - newAmount)
 
             Traitormod.LoadExperience(client)
         end
