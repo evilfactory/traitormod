@@ -1,7 +1,6 @@
 local category = {}
 
 category.Name = "Death Spawn"
-category.IsTraitorOnly = false
 category.Decoration = "huskinvite"
 
 category.CanAccess = function(client)

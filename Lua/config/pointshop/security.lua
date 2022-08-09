@@ -34,53 +34,35 @@ category.Products = {
     },
 
     {
-        Name = "Revolver",
-        Price = 1000,
+        Name = "Stun Gun Ammo (x4)",
+        Price = 100,
         Limit = 1,
         IsLimitGlobal = false,
-        Items = {"revolver", 
-        "revolverround", "revolverround", "revolverround", "revolverround", "revolverround", "revolverround", "revolverround", "revolverround","revolverround", "revolverround", "revolverround", "revolverround"},
+        Items = {"stungundart", "stungundart", "stungundart", "stungundart"},
     },
 
     {
-        Name = "SMG",
-        Price = 1500,
+        Name = "Revolver Ammo (x6)",
+        Price = 100,
         Limit = 1,
         IsLimitGlobal = false,
-        Items = {"smg", "smgmagazine", "smgmagazine"},
+        Items = {"revolverround", "revolverround","revolverround", "revolverround", "revolverround", "revolverround"},
     },
 
     {
-        Name = "SMG Magazine",
+        Name = "SMG Magazine (x2)",
         Price = 150,
         Limit = 5,
         IsLimitGlobal = false,
-        Items = {"smgmagazine"},
+        Items = {"smgmagazine", "smgmagazine"},
     },
 
     {
-        Name = "Shotgun",
-        Price = 2000,
-        Limit = 1,
-        IsLimitGlobal = false,
-        Items = {"shotgun", 
-        "shotgunshell", "shotgunshell", "shotgunshell", "shotgunshell", "shotgunshell", "shotgunshell", "shotgunshell", "shotgunshell","shotgunshell", "shotgunshell", "shotgunshell","shotgunshell"},
-    },
-
-    {
-        Name = "Shotgun Shell (x8)",
+        Name = "Shotgun Shells (x8)",
         Price = 250,
         Limit = 5,
         IsLimitGlobal = false,
         Items = {"shotgunshell", "shotgunshell", "shotgunshell", "shotgunshell", "shotgunshell", "shotgunshell", "shotgunshell", "shotgunshell"},
-    },
-
-    {
-        Name = "Flamer Cannon",
-        Price = 800,
-        Limit = 1,
-        IsLimitGlobal = false,
-        Items = {"flamer", "incendiumfueltank"},
     },
 
     {
@@ -89,6 +71,14 @@ category.Products = {
         Limit = 3,
         IsLimitGlobal = false,
         Items = {"stungrenade"},
+    },
+
+    {
+        Name = "Flamer",
+        Price = 800,
+        Limit = 1,
+        IsLimitGlobal = false,
+        Items = {"flamer", "incendiumfueltank"},
     },
 
 }
