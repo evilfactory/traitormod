@@ -107,18 +107,9 @@ ps.FindProductByName = function (client, name)
 end
 
 ps.CanClientAccessCategory = function(client, category)
-    local isDead = client.Character == nil or client.Character.IsDead or not client.Character.IsHuman
-
-    if isDead and not category.IsDeadOnly then
-        return false
-    end
-
-    if not isDead and category.IsDeadOnly then
-        return false
-    end
-
-    -- FIXME: Is this correct?
-    if category.IsTraitorOnly and not client.Character.IsTraitor then
+    if category.CanAccess ~= nil then
+        return category.CanAccess(client)
+    elseif client.Character == nil or client.Character.IsDead or not client.Character.IsHuman then
         return false
     end
 
@@ -137,18 +128,6 @@ ps.ValidateClient = function(client)
     end
 
     return true
-end
-
-ps.DetermineCategoryDecoration = function (category)
-    if category.IsTraitorOnly then
-        return "clown", true
-    end
-
-    if category.IsDeadOnly then
-        return "huskinvite", false
-    end
-
-    return "gambler", false
 end
 
 ps.SpawnItem = function(client, item, onSpawned)
@@ -315,7 +294,7 @@ ps.ShowCategoryItems = function(client, category)
                     local result = ps.BuyProduct(client3, product)
                     ps.HandleProductBuy(client3, product, result)
                 end
-            end, ps.DetermineCategoryDecoration(category))
+            end, category.Decoration or "gambler", category.FadeToBlack)
         else
             if not ps.ValidateClient(client2) or not ps.CanClientAccessCategory(client2, category) then
                 return
@@ -324,7 +303,7 @@ ps.ShowCategoryItems = function(client, category)
             local result = ps.BuyProduct(client2, product)
             ps.HandleProductBuy(client2, product, result)
         end
-    end, ps.DetermineCategoryDecoration(category))
+    end, category.Decoration or "gambler", category.FadeToBlack)
 end
 
 ps.ShowCategory = function(client)

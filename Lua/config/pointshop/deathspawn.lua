@@ -2,7 +2,11 @@ local category = {}
 
 category.Name = "Death Spawn"
 category.IsTraitorOnly = false
-category.IsDeadOnly = true
+category.Decoration = "huskinvite"
+
+category.CanAccess = function(client)
+    return client.Character == nil or client.Character.IsDead or not client.Character.IsHuman
+end
 
 local function SpawnCreature(species, client, insideHuman)
     local waypoints = Submarine.MainSub.GetWaypoints(true)
@@ -84,6 +88,18 @@ category.Products = {
 
         Action = function (client, product, items)
             SpawnCreature("fractalguardian", client)
+        end
+    },
+
+    {
+        Name = "Spawn as Charybdis",
+        Price = 250000,
+        Limit = 1,
+        IsLimitGlobal = true,
+        PricePerLimit = 50000,
+
+        Action = function (client, product, items)
+            SpawnCreature("charybdis", client)
         end
     },
 

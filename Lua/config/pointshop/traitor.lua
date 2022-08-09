@@ -1,7 +1,12 @@
 local category = {}
 
 category.Name = "Traitor"
-category.IsTraitorOnly = true
+category.Decoration = "clown"
+category.FadeToBlack = true
+
+category.CanAccess = function(client)
+    return client.Character and not client.Character.IsDead and client.Character.IsTraitor
+end
 
 category.Products = {
     {
