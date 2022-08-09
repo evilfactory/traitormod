@@ -19,6 +19,7 @@ config.AmountCodeWords = 2
 
 config.OptionalTraitors = true        -- players can use !toggletraitor
 config.TraitorBroadcast = true      -- traitors can broadcast to other traitors using !tc
+config.TraitorBroadcastHearable = false      -- if true, !tc will be hearable in the vicinity via local chat
 config.TraitorDm = false            -- traitors can send direct messages to other players using !tdm
 
 config.FreeExperience = 50         -- temporary experience given every ExperienceTimer seconds

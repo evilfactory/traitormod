@@ -110,7 +110,7 @@ Traitormod.AddCommand("!tc", function (client, args)
                 end
             end
         
-            return
+            return (not Traitomod.Config.TraitorBroadcastHearable)
         else
             feedback = "Usage: !tc [Message]"
         end
