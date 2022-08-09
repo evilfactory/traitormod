@@ -12,7 +12,7 @@ category.Products = {
     {
         Name = "Handcuffs",
         Price = 100,
-        Limit = 2,
+        Limit = 5,
         IsLimitGlobal = false,
         Items = {"handcuffs"},
     },
@@ -20,7 +20,7 @@ category.Products = {
     {
         Name = "Stun Baton",
         Price = 200,
-        Limit = 1,
+        Limit = 2,
         IsLimitGlobal = false,
         Items = {"stunbaton", "batterycell"},
     },
@@ -43,7 +43,7 @@ category.Products = {
 
     {
         Name = "Revolver Ammo (x6)",
-        Price = 100,
+        Price = 250,
         Limit = 1,
         IsLimitGlobal = false,
         Items = {"revolverround", "revolverround","revolverround", "revolverround", "revolverround", "revolverround"},
@@ -51,7 +51,7 @@ category.Products = {
 
     {
         Name = "SMG Magazine (x2)",
-        Price = 150,
+        Price = 350,
         Limit = 5,
         IsLimitGlobal = false,
         Items = {"smgmagazine", "smgmagazine"},
@@ -59,7 +59,7 @@ category.Products = {
 
     {
         Name = "Shotgun Shells (x8)",
-        Price = 250,
+        Price = 300,
         Limit = 5,
         IsLimitGlobal = false,
         Items = {"shotgunshell", "shotgunshell", "shotgunshell", "shotgunshell", "shotgunshell", "shotgunshell", "shotgunshell", "shotgunshell"},
