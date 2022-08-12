@@ -55,6 +55,42 @@ category.Products = {
     },
 
     {
+        Name = "Spawn as Crawler Baby",
+        Price = 500,
+        Limit = 5,
+        IsLimitGlobal = true,
+        PricePerLimit = 200,
+
+        Action = function (client, product, items)
+            SpawnCreature("crawler_hatchling", client)
+        end
+    },
+
+    {
+        Name = "Spawn as Mudraptor Baby",
+        Price = 1000,
+        Limit = 5,
+        IsLimitGlobal = true,
+        PricePerLimit = 1000,
+
+        Action = function (client, product, items)
+            SpawnCreature("mudraptor_hatchling", client)
+        end
+    },
+
+    {
+        Name = "Spawn as Thresher Baby",
+        Price = 1000,
+        Limit = 5,
+        IsLimitGlobal = true,
+        PricePerLimit = 1000,
+
+        Action = function (client, product, items)
+            SpawnCreature("tigerthresher_hatchling", client)
+        end
+    },
+
+    {
         Name = "Spawn as Mudraptor",
         Price = 2500,
         Limit = 2,
@@ -75,6 +111,19 @@ category.Products = {
 
         Action = function (client, product, items)
             SpawnCreature("husk", client)
+        end
+    },
+
+    {
+        Name = "Spawn as Hammerhead",
+        Price = 3000,
+        Limit = 2,
+        IsLimitGlobal = true,
+        PricePerLimit = 2000,
+        Enabled = false,
+
+        Action = function (client, product, items)
+            SpawnCreature("hammerhead", client)
         end
     },
 
