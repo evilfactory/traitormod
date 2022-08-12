@@ -208,7 +208,10 @@ Traitormod.AddCommand({"!allpoint", "!allpoints"}, function (client, args)
 end)
 
 Traitormod.AddCommand({"!addpoint", "!addpoints"}, function (client, args)
-    if not client.HasPermission(ClientPermissions.ConsoleCommands) then return end
+    if not client.HasPermission(ClientPermissions.All) then
+        Traitormod.SendMessage(client, "You do not have permissions to add points.")
+        return
+    end
     
     if #args < 2 then
         Traitormod.SendMessage(client, "Incorrect amount of arguments. usage: !addpoint \"Client Name\" 500")
@@ -232,7 +235,10 @@ Traitormod.AddCommand({"!addpoint", "!addpoints"}, function (client, args)
     end
 
     Traitormod.AddData(found, "Points", amount)
-    Traitormod.SendMessage(client, string.format("Gave %s points to %s.", amount, found.Name))
+
+    local msg = string.format("Gave %s points to %s.", amount, found.Name)
+    Traitormod.SendMessage(client, msg)
+    Traitormod.Log(client.Name .. " " .. msg)
 
     return true
 end)
