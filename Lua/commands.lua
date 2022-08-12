@@ -329,7 +329,7 @@ Traitormod.AddCommand("!revive", function (client, args)
 
     if reviveClient.Character and reviveClient.Character.IsDead then
         reviveClient.Character.Revive()
-        client.SetClientCharacter(reviveClient.Character);
+        reviveClient.SetClientCharacter(reviveClient.Character);
         local lifeMsg, lifeIcon = Traitormod.AdjustLives(reviveClient, 1)
 
         if lifeMsg then
