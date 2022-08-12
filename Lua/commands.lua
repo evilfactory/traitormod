@@ -294,17 +294,27 @@ Traitormod.AddCommand({"!addlife", "!addlive", "!addlifes", "!addlives"}, functi
         return true
     end
 
-    local found = Traitormod.FindClient(name)
+    local gainLifeClients = {}
+    if string.lower(name) == "all" then
+        gainLifeClients = Client.ClientList
+    else
+        local found = Traitormod.FindClient(name)
 
-    if found == nil then
-        Traitormod.SendMessage(client, "Couldn't find a client with name / steamID " .. name)
-        return true
+        if found == nil then
+            Traitormod.SendMessage(client, "Couldn't find a client with name / steamID " .. name)
+            return true
+        end
+        table.insert(gainLifeClients, found)
     end
 
-    local lifeMsg, lifeIcon = Traitormod.AdjustLives(found, amount)
+    for _, lifeClient in gainLifeClients do
+        local lifeMsg, lifeIcon = Traitormod.AdjustLives(lifeClient, amount)
 
-    if lifeMsg then
-        Traitormod.SendMessage(found, lifeMsg, lifeIcon)
+        Game.SendDirectChatMessage("", lifeClient.Name .. " got lives +"..amount, nil, Traitormod.Config.ChatMessageType, client)
+
+        if lifeMsg then
+            Traitormod.SendMessage(lifeClient, lifeMsg, lifeIcon)
+        end
     end
 
     return true

@@ -248,11 +248,13 @@ ps.ShowCategoryItems = function(client, category)
     table.insert(options, ">> Cancel <<")
 
     for key, product in pairs(category.Products) do
-        local text = string.format("%s - %spt (%s/%s)",
-            product.Name, ps.GetProductPrice(client, product), ps.GetProductLimit(client, product), product.Limit or defaultLimit)
+        if product.Enabled ~= false then
+            local text = string.format("%s - %spt (%s/%s)",
+                product.Name, ps.GetProductPrice(client, product), ps.GetProductLimit(client, product), product.Limit or defaultLimit)
 
-        table.insert(options, text)
-        productsLookup[#options] = product
+            table.insert(options, text)
+            productsLookup[#options] = product
+        end
     end
 
     local emptyLines = math.floor(#options / 4)
