@@ -31,7 +31,7 @@ end
 
 local function IsCloseToOtherSubmarines(position)
     for key, value in pairs(Submarine.Loaded) do
-        if Vector2.Distance(value.WorldPosition, position) < 10000 then
+        if Vector2.Distance(value.WorldPosition, position) < 50000 then
             return true
         end
     end

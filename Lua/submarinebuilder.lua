@@ -47,6 +47,7 @@ sb.ResetSubmarineSteering = function (submarine)
         if steering then
             steering.AutoPilot = true
             steering.MaintainPos = true
+            steering.PosToMaintain = submarine.WorldPosition
             steering.UnsentChanges = true
         end
     end
