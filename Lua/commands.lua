@@ -307,7 +307,7 @@ Traitormod.AddCommand({"!addlife", "!addlive", "!addlifes", "!addlives"}, functi
         table.insert(gainLifeClients, found)
     end
 
-    for _, lifeClient in gainLifeClients do
+    for lifeClient in gainLifeClients do
         local lifeMsg, lifeIcon = Traitormod.AdjustLives(lifeClient, amount)
 
         Game.SendDirectChatMessage("", lifeClient.Name .. " got lives +"..amount, nil, Traitormod.Config.ChatMessageType, client)
