@@ -33,19 +33,21 @@ sb.AddSubmarine = function (name, path)
     table.insert(sb.Submarines, {Name = name, Data = File.Read(path)})
 end
 
-sb.UseSubmarine = function (name)
-    Game.DispatchRespawnSub()
-
-    for key, value in pairs(Game.GetRespawnSub().GetItems(true)) do
-        local dockingPort = value.GetComponentString("DockingPort")
-        if dockingPort then
-            dockingPort.Undock()
-        end
-    end
-
+sb.FindSubmarine = function (name)
     for _, submarine in pairs(Submarine.Loaded) do
         if submarine.Info.Name == name then
             return submarine
+        end
+    end
+end
+
+sb.ResetSubmarineSteering = function (submarine)
+    for _, item in pairs(submarine.GetItems(true)) do
+        local steering = item.GetComponentString("Steering")
+        if steering then
+            steering.AutoPilot = true
+            steering.MaintainPos = true
+            steering.UnsentChanges = true
         end
     end
 end
@@ -71,6 +73,29 @@ end
 
 Hook.HookMethod("Barotrauma.Networking.GameServer", "StartGame", {}, function ()
     sb.BuildSubmarines()
+end)
+
+Hook.Add("roundStart", "SubmarineBuilder.RoundStart", function ()
+    for _, item in pairs(Game.GetRespawnSub().GetItems(false)) do
+        local dockingPort = item.GetComponentString("DockingPort")
+        if dockingPort then
+            dockingPort.Undock()
+        end
+    end
+
+    local yPosition = Level.Loaded.BottomPos
+
+    for _, value in pairs(sb.Submarines) do
+        local submarine = sb.FindSubmarine(value.Name)
+
+        if submarine then
+            yPosition = yPosition + submarine.Borders.Height * 2
+            submarine.SetPosition(Vector2(-5000, yPosition))
+            submarine.GodMode = true
+        end
+
+        sb.ResetSubmarineSteering(submarine)
+    end
 end)
 
 return sb

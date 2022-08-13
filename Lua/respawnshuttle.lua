@@ -5,10 +5,18 @@ sb.AddSubmarine("Respawn Shuttle", Traitormod.Path .. "/Submarines/testsubmarine
 
 local timerActive = false
 local transporting = false
-local respawnTimer = -1
-local transportTimer = -1
+local respawnTimer = 0
+local transportTimer = 0
 
 local lastTimerDisplay = 0
+
+local function RespawnMessage(msg)
+    for key, client in pairs(Client.ClientList) do
+        local chatMessage = ChatMessage.Create("", msg, ChatMessageType.Default, nil, nil)
+        chatMessage.Color = Color(178, 35, 199, 255)
+        Game.SendDirectChatMessage(chatMessage, client)
+    end
+end
 
 local function GetRespawnClients()
     local clients = {}
@@ -21,18 +29,42 @@ local function GetRespawnClients()
     return clients
 end
 
+local function IsCloseToOtherSubmarines(position)
+    for key, value in pairs(Submarine.Loaded) do
+        if Vector2.Distance(value.WorldPosition, position) < 10000 then
+            return true
+        end
+    end
+
+    return false
+end
+
 local function FindSpawnPosition()
     local potentialSpawnPositions = {}
 
     for _, spawnPosition in pairs(Level.Loaded.PositionsOfInterest) do
         if spawnPosition.PositionType == Level.PositionType.MainPath then
-            table.insert(potentialSpawnPositions, spawnPosition)
+            local position = spawnPosition.Position.ToVector2()
+            if not IsCloseToOtherSubmarines(position) then
+                table.insert(potentialSpawnPositions, position)
+            end
         end
     end
 
-    local spawnPosition = potentialSpawnPositions[math.random(1, #potentialSpawnPositions)]
+    local bestPosition = potentialSpawnPositions[1]
 
-    return spawnPosition.Position.ToVector2()
+    if bestPosition == nil then
+        Traitormod.Error("Couldn't find a good spawn position for the respawn shuttle!")
+        return Vector2(Level.Loaded.Size.X / 2, Level.Loaded.Size.Y / 2)
+    end
+
+    for key, value in pairs(potentialSpawnPositions) do
+        if Vector2.Distance(Submarine.MainSub.WorldPosition, value) < Vector2.Distance(Submarine.MainSub.WorldPosition, bestPosition) then
+            bestPosition = value
+        end
+    end
+
+    return bestPosition
 end
 
 local function SpawnCharacter(client, submarine)
@@ -107,6 +139,7 @@ Hook.Add("think", "RespawnShuttle.Think", function ()
             timerActive = true
             respawnTimer = Game.ServerSettings.RespawnInterval
             lastTimerDisplay = respawnTimer
+            RespawnMessage("Respawn in " .. math.floor(respawnTimer) .. " seconds.")
         end
     else
         timerActive = false
@@ -128,11 +161,7 @@ Hook.Add("think", "RespawnShuttle.Think", function ()
 
     if (lastTimerDisplay - respawnTimer) > timerDisplayMax then
         lastTimerDisplay = respawnTimer
-        for key, client in pairs(Client.ClientList) do
-            local chatMessage = ChatMessage.Create("", "Respawn in " .. math.floor(respawnTimer) .. " seconds", ChatMessageType.Default, nil, nil)
-            chatMessage.Color = Color(178, 35, 199, 255)
-            Game.SendDirectChatMessage(chatMessage, client)
-        end
+        RespawnMessage("Respawn in " .. math.floor(respawnTimer) .. " seconds.")
     end
 
     if transportTimer <= 0 and not timerActive and transporting then
@@ -143,10 +172,14 @@ Hook.Add("think", "RespawnShuttle.Think", function ()
     if respawnTimer <= 0 and timerActive and not transporting then
         transporting = true
 
-        local submarine = sb.UseSubmarine("Respawn Shuttle")
+        local submarine = sb.FindSubmarine("Respawn Shuttle")
+        submarine.GodMode = false
+
         ResetSubmarine(submarine)
         local position = FindSpawnPosition()
         submarine.SetPosition(position)
+
+        sb.ResetSubmarineSteering(submarine)
 
         local clients = GetRespawnClients()
 
@@ -156,4 +189,12 @@ Hook.Add("think", "RespawnShuttle.Think", function ()
 
         transportTimer = Game.ServerSettings.MaxTransportTime
     end
+end)
+
+Hook.Add("roundEnd", "RespawnShuttle.RoundEnd", function ()
+    timerActive = false
+    transporting = false
+    respawnTimer = 0
+    transportTimer = 0
+    lastTimerDisplay = 0
 end)
