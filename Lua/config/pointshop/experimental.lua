@@ -14,7 +14,7 @@ category.Products = {
 
     {
         Name = "Supplies Cabinet",
-        Price = 250,
+        Price = 200,
         Limit = 3,
         Items = {
             {Identifier = "suppliescabinet", IsInstallation = true}
@@ -23,7 +23,7 @@ category.Products = {
 
     {
         Name = "Oxygen Generator",
-        Price = 1400,
+        Price = 400,
         Limit = 2,
         Items = {
             {Identifier = "shuttleoxygenerator", IsInstallation = true}
@@ -32,7 +32,7 @@ category.Products = {
 
     {
         Name = "Fabricator",
-        Price = 1900,
+        Price = 560,
         Limit = 1,
         Items = {
             {Identifier = "fabricator", IsInstallation = true}
@@ -41,7 +41,7 @@ category.Products = {
 
     {
         Name = "Deconstructor",
-        Price = 1600,
+        Price = 470,
         Limit = 1,
         Items = {
             {Identifier = "deconstructor", IsInstallation = true}
@@ -50,7 +50,7 @@ category.Products = {
 
     {
         Name = "Medical Fabricator",
-        Price = 1950,
+        Price = 600,
         Limit = 1,
         Items = {
             {Identifier = "medicalfabricator", IsInstallation = true}
@@ -59,7 +59,7 @@ category.Products = {
 
     {
         Name = "Research Station",
-        Price = 500,
+        Price = 390,
         Limit = 1,
         Items = {
             {Identifier = "op_researchterminal", IsInstallation = true}
@@ -68,7 +68,7 @@ category.Products = {
 
     {
         Name = "Junction Box",
-        Price = 800,
+        Price = 300,
         Limit = 4,
         Items = {
             {Identifier = "junctionbox", IsInstallation = true}
@@ -77,7 +77,7 @@ category.Products = {
 
     {
         Name = "Battery",
-        Price = 1100,
+        Price = 400,
         Limit = 3,
         Items = {
             {Identifier = "battery", IsInstallation = true}
@@ -86,10 +86,37 @@ category.Products = {
 
     {
         Name = "Super Capacitor",
-        Price = 1200,
+        Price = 400,
         Limit = 2,
         Items = {
             {Identifier = "supercapacitor", IsInstallation = true}
+        }
+    },
+
+    {
+        Name = "Shuttle Engine",
+        Price = 600,
+        Limit = 2,
+        Items = {
+            {Identifier = "shuttleengine", IsInstallation = true}
+        }
+    },
+
+    {
+        Name = "Small Pump",
+        Price = 500,
+        Limit = 2,
+        Items = {
+            {Identifier = "smallpump", IsInstallation = true}
+        }
+    },
+
+    {
+        Name = "Wire",
+        Price = 60,
+        Limit = 8,
+        Items = {
+            {Identifier = "wire"}
         }
     },
 }
