@@ -426,6 +426,7 @@ end)
 dofile(Traitormod.Path .. "/Lua/commands.lua")
 dofile(Traitormod.Path .. "/Lua/pointshop.lua")
 dofile(Traitormod.Path .. "/Lua/statistics.lua")
+dofile(Traitormod.Path .. "/Lua/respawnshuttle.lua")
 
 -- Round start call for reload during round 
 if Game.RoundStarted then

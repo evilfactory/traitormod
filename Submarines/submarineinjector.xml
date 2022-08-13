@@ -1,0 +1,21 @@
+<Submarine description="" checkval="552518890" price="1000" initialsuppliesspawned="false" type="Player" class="Undefined" tags="0" gameversion="0.17.12.0" dimensions="0,0" cargocapacity="0" recommendedcrewsizemin="1" recommendedcrewsizemax="2" recommendedcrewexperience="" requiredcontentpackages="" name="submarineinjector">
+  <Structure name="Platform Basic (Wrecked)" identifier="platformwrecked" ID="1" rect="-160,40,240,27" MaxHealth="100" CrushDepth="0" SpriteColor="255,255,255,255" UseDropShadow="False" DropShadowOffset="0,0" Scale="1" TextureScale="1,1" TextureOffset="0,0" NoAITarget="False" DisallowedUpgrades="" SpriteDepth="0.89" HiddenInGame="False" />
+  <Hull ID="2" rect="-160,168,240,128" water="0" backgroundsections="" AmbientLight="0,0,0,0" Oxygen="30720" IsWetRoom="False" AvoidStaying="False" DisallowedUpgrades="" SpriteDepth="0" Scale="0" HiddenInGame="False" />
+  <WayPoint ID="3" x="-48" y="104" spawn="Human" />
+  <Item name="" identifier="dockinghatch" ID="4" rect="-112,-8,128,112" linked="5" NonInteractable="False" NonPlayerTeamInteractable="False" AllowSwapping="True" Rotation="0" Scale="0.5" SpriteColor="255,255,255,255" InventoryIconColor="255,255,255,255" ContainerColor="255,255,255,255" Condition="100" InvulnerableToDamage="False" Tags="dock,light" DisplaySideBySideWhenLinked="False" DisallowedUpgrades="" SpriteDepth="0.94" HiddenInGame="False">
+    <DockingPort MainDockingPort="False" ApplyEffectsOnDocking="True" ForceDockingDirection="None" PickingTime="0" CanBePicked="False" AllowInGameEditing="True" Msg="" />
+    <PowerTransfer CanBeOverloaded="False" OverloadVoltage="2" FireProbability="0" IsActive="True" MinVoltage="0" PowerConsumption="0" VulnerableToEMP="True" PickingTime="0" CanBePicked="False" AllowInGameEditing="True" Msg="" />
+    <Wire NoAutoLock="False" UseSpriteDepth="False" PickingTime="0" CanBePicked="False" AllowInGameEditing="True" Msg="" />
+    <LightComponent Range="10" CastShadows="False" DrawBehindSubs="False" IsOn="False" Flicker="0" FlickerSpeed="1" PulseFrequency="0" PulseAmount="0" BlinkFrequency="0" LightColor="255,0,0,0" MinVoltage="0" PowerConsumption="0" VulnerableToEMP="True" PickingTime="0" CanBePicked="False" AllowInGameEditing="False" Msg="" />
+    <LightComponent Range="10" CastShadows="False" DrawBehindSubs="False" IsOn="False" Flicker="0" FlickerSpeed="1" PulseFrequency="0" PulseAmount="0" BlinkFrequency="0" LightColor="0,255,0,0" MinVoltage="0" PowerConsumption="0" VulnerableToEMP="True" PickingTime="0" CanBePicked="False" AllowInGameEditing="False" Msg="" />
+    <ConnectionPanel Locked="False" PickingTime="0" CanBePicked="False" AllowInGameEditing="True" Msg="ItemMsgRewireScrewdriver">
+      <requireditem items="screwdriver" type="Equipped" optional="false" ignoreineditor="false" excludebroken="true" targetslot="-1" allowvariants="true" />
+      <input name="toggle" />
+      <input name="set_state" />
+      <output name="power" />
+      <output name="state_out" />
+      <output name="proximity_sensor" />
+    </ConnectionPanel>
+  </Item>
+  %s
+</Submarine>

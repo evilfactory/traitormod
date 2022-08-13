@@ -1,0 +1,159 @@
+Game.OverrideRespawnSub(true) -- remove respawn submarine logic
+
+local sb = require("submarinebuilder")
+sb.AddSubmarine("Respawn Shuttle", Traitormod.Path .. "/Submarines/testsubmarine.xml")
+
+local timerActive = false
+local transporting = false
+local respawnTimer = -1
+local transportTimer = -1
+
+local lastTimerDisplay = 0
+
+local function GetRespawnClients()
+    local clients = {}
+    for key, value in pairs(Client.ClientList) do
+        if value.Character == nil or value.Character.IsDead then
+            table.insert(clients, value)
+        end
+    end
+
+    return clients
+end
+
+local function FindSpawnPosition()
+    local potentialSpawnPositions = {}
+
+    for _, spawnPosition in pairs(Level.Loaded.PositionsOfInterest) do
+        if spawnPosition.PositionType == Level.PositionType.MainPath then
+            table.insert(potentialSpawnPositions, spawnPosition)
+        end
+    end
+
+    local spawnPosition = potentialSpawnPositions[math.random(1, #potentialSpawnPositions)]
+
+    return spawnPosition.Position.ToVector2()
+end
+
+local function SpawnCharacter(client, submarine)
+    local spawnWayPoints = WayPoint.SelectCrewSpawnPoints({client.CharacterInfo}, submarine)
+
+    local potentialPosition = submarine.WorldPosition
+
+    if spawnWayPoints[1] == nil then
+        for i, waypoint in pairs(WayPoint.WayPointList) do
+            if waypoint.Submarine == submarine and waypoint.CurrentHull ~= nil then
+                potentialPosition = waypoint.WorldPosition
+                break
+            end
+        end
+    else
+        potentialPosition = spawnWayPoints[1].WorldPosition
+    end
+
+    local chararacter = Character.Create(client.CharacterInfo, potentialPosition, client.CharacterInfo.Name, 0, true, true)
+
+    chararacter.TeamID = CharacterTeamType.Team1
+
+    client.SetClientCharacter(chararacter)
+
+    chararacter.GiveJobItems()
+    chararacter.LoadTalents()
+end
+
+local function ResetSubmarine(submarine)
+    for key, item in pairs(submarine.GetItems(true)) do
+        item.Condition = item.MaxCondition
+
+        local repairable = item.GetComponentString("Repairable")
+        if repairable then repairable.ResetDeterioration() end
+
+        local powerContainer = item.GetComponentString("PowerContainer")
+        if powerContainer then powerContainer.Charge = powerContainer.Capacity end
+    end
+
+    for key, hull in pairs(Hull.HullList) do
+        if hull.Submarine == submarine then
+            hull.OxygenPercentage = 100
+            hull.WaterVolume = 0
+            if hull.BallastFlora then
+                hull.BallastFlora.Remove()
+            end
+        end
+    end
+
+    for key, wall in pairs(Structure.WallList) do
+        if wall.Submarine == submarine then
+            for i = 0, wall.SectionCount, 1 do
+                wall.AddDamage(i, -1000000)
+            end
+        end
+    end
+
+    for key, character in pairs(Character.CharacterList) do
+        if character.Submarine == submarine then
+            Entity.Spawner.AddEntityToRemoveQueue(character)            
+        end
+    end
+end
+
+Hook.Add("think", "RespawnShuttle.Think", function ()
+    if not Game.RoundStarted then return end
+
+    local ratio = #GetRespawnClients() / #Client.ClientList
+
+    if ratio > Game.ServerSettings.MinRespawnRatio then
+        if not timerActive and not transporting then
+            timerActive = true
+            respawnTimer = Game.ServerSettings.RespawnInterval
+            lastTimerDisplay = respawnTimer
+        end
+    else
+        timerActive = false
+    end
+
+    if timerActive then
+        respawnTimer = respawnTimer - (1 / 60)
+    end
+
+    if transporting then
+        transportTimer = transportTimer - (1 / 60)
+    end
+
+    local timerDisplayMax = 15
+
+    if respawnTimer < 10 then
+        timerDisplayMax = 1
+    end
+
+    if (lastTimerDisplay - respawnTimer) > timerDisplayMax then
+        lastTimerDisplay = respawnTimer
+        for key, client in pairs(Client.ClientList) do
+            local chatMessage = ChatMessage.Create("", "Respawn in " .. math.floor(respawnTimer) .. " seconds", ChatMessageType.Default, nil, nil)
+            chatMessage.Color = Color(178, 35, 199, 255)
+            Game.SendDirectChatMessage(chatMessage, client)
+        end
+    end
+
+    if transportTimer <= 0 and not timerActive and transporting then
+        transporting = false
+        timerActive = false
+    end
+
+    if respawnTimer <= 0 and timerActive and not transporting then
+        transporting = true
+
+        local submarine = sb.UseSubmarine("Respawn Shuttle")
+        ResetSubmarine(submarine)
+        local position = FindSpawnPosition()
+        submarine.SetPosition(position)
+
+        local clients = GetRespawnClients()
+
+        for key, client in pairs(clients) do
+            SpawnCharacter(client, submarine)
+        end
+
+        transportTimer = Game.ServerSettings.MaxTransportTime
+    end
+end)
