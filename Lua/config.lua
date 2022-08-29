@@ -39,11 +39,11 @@ config.DistanceToEndOutpostRequired = 5000
 config.PointsGainedFromCrewMissionsCompleted = 1000
 config.LivesGainedFromCrewMissionsCompleted = 1
 config.PointsGainedFromSkill = {
-    medical = 24,
-    weapons = 24,
-    mechanical = 18,
-    electrical = 18,
-    helm = 6,
+    medical = 30,
+    weapons = 30,
+    mechanical = 20,
+    electrical = 20,
+    helm = 8,
 }
 
 config.PointsLostAfterNoLives = function (x)

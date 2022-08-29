@@ -143,6 +143,7 @@ ps.SpawnItem = function(client, item, onSpawned)
     local function OnSpawn(item)
         local powerContainer = item.GetComponentString("PowerContainer")
         if powerContainer then
+            powerContainer.Capacity = powerContainer.Capacity * 10
             powerContainer.Charge = powerContainer.Capacity
         end
 
