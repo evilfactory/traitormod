@@ -382,3 +382,5 @@ Hook.Add("roundEnd", "TraitorMod.PointShop.RoundEnd", function ()
 end)
 
 ps.ValidateConfig()
+
+return ps
