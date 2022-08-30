@@ -6,8 +6,7 @@ re.RoundTime = 0
 re.OnGoingEvents = {}
 
 re.ThisRoundEvents = {}
-
-local eventConfigs = Traitormod.Config.RandomEventConfig
+re.EventConfigs = Traitormod.Config.RandomEventConfig
 
 re.TriggerEvent = function (eventName)
     if re.OnGoingEvents[eventName] then
@@ -16,7 +15,7 @@ re.TriggerEvent = function (eventName)
     end
 
     local event = nil
-    for _, value in pairs(eventConfigs.Events) do
+    for _, value in pairs(re.EventConfigs.Events) do
         if value.Enabled and value.Name == eventName then
             event = value
         end
@@ -77,7 +76,7 @@ Hook.Add("think", "TraitorMod.RoundEvents.Think", function ()
     re.RoundTime = re.RoundTime + 1/60
 
     if Timer.GetTime() > lastRandomEventCheck then
-        for _, event in pairs(eventConfigs.Events) do
+        for _, event in pairs(re.EventConfigs.Events) do
             if re.OnGoingEvents[event.Name] == nil and event.Enabled then
                 if not event.OnlyOncePerRound or re.ThisRoundEvents[event.Name] == nil then
                     re.CheckRandomEvent(event)
