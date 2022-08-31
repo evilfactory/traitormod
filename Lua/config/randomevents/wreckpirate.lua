@@ -2,11 +2,11 @@ local event = {}
 
 event.Enabled = true
 event.Name = "WreckPirate"
-event.MinRoundTime = 0
+event.MinRoundTime = 2
 event.MaxRoundTime = 10
 event.MinIntensity = 0
 event.MaxIntensity = 1
-event.ChancePerMinute = 0.10
+event.ChancePerMinute = 0.20
 event.OnlyOncePerRound = true
 
 event.AmountPoints = 3000
@@ -86,10 +86,10 @@ event.Start = function ()
 end
 
 
-event.End = function (isRoundEnd)
+event.End = function (isEndRound)
     Hook.Remove("think", "WreckPirate.Think")
 
-    if isRoundEnd then return end
+    if isEndRound then return end
 
     local text = "The PUCS pirate has been killed, the brave crewmate that killed the pirate has been rewarded with " .. event.AmountPoints .. " points."
     Traitormod.RoundEvents.SendEventMessage(text, "CrewWalletIconLarge")

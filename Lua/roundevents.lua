@@ -9,6 +9,11 @@ re.ThisRoundEvents = {}
 re.EventConfigs = Traitormod.Config.RandomEventConfig
 
 re.TriggerEvent = function (eventName)
+    if not Game.RoundStarted then
+        Traitormod.Error("Tried to trigger event " .. eventName .. ", but round is not started.")
+        return
+    end
+
     if re.OnGoingEvents[eventName] then
         Traitormod.Error("Event " .. eventName .. " is already running.")
         return
@@ -27,9 +32,9 @@ re.TriggerEvent = function (eventName)
     end
 
     local originalEnd = event.End
-    event.End = function ()
+    event.End = function (isRoundEnd)
         re.OnGoingEvents[eventName] = nil
-        originalEnd()
+        originalEnd(isRoundEnd)
     end
 
     Traitormod.Stats.AddStat("EventTriggered", event.Name, 1)
@@ -103,7 +108,7 @@ end)
 
 Hook.Add("roundEnd", "TraitorMod.RoundEvents.RoundEnd", function ()
     for key, value in pairs(re.OnGoingEvents) do
-        value.End()
+        value.End(true)
         re.OnGoingEvents[key] = nil
     end
 
