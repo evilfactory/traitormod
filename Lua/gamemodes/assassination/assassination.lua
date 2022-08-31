@@ -182,7 +182,7 @@ assassination.GetValidTarget = function (roleFilter, sideObjective)
         -- if character is not a traitor, is a human and is not dead and matches the rolefilter
         if value ~= botGod and assassination.Traitors[value] == nil and value.IsHuman and not value.IsDead and 
         (roleFilter == nil or roleFilter[value.Info.Job.Prefab.Identifier.Value]) then
-            if assassination.Config.SelectPiratesAsTargets or value.TeamID ~= CharacterTeamType.None then
+            if value.TeamID == CharacterTeamType.Team1 or assassination.Config.SelectPiratesAsTargets then
                 if assassination.Config.SelectBotsAsTargets or not value.IsBot then
                     -- if the character has not already been killed or it is a side objective target
                     if not assassination.Config.SelectUniqueTargets or sideObjective or not assassination.KilledTargets[value] then

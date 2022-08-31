@@ -25,7 +25,7 @@ event.Start = function ()
             local interface = item.GetComponentString("CustomInterface")
 
             interface.customInterfaceElementList[1].State = true
-            interface.customInterfaceElementList[2].Signal = "Last known wreck investigation team position"
+            interface.customInterfaceElementList[2].Signal = "Last known pirate position"
 
             item.CreateServerEvent(interface, interface)
 
@@ -70,8 +70,8 @@ event.Start = function ()
 
     Hook.Add("think", "WreckPirate.Think", function ()
         if event.ItemReward.ParentInventory == nil then return end
-        
-        local owner = event.ItemReward.ParentInventory.owner
+
+        local owner = event.ItemReward.ParentInventory.Owner
 
         if tostring(owner) == "Human" then
             local client = Traitormod.FindClientCharacter(owner)
@@ -79,6 +79,7 @@ event.Start = function ()
             if client ~= nil then
                 Traitormod.AwardPoints(client, event.AmountPoints)
                 Traitormod.SendMessage(client, "You have received " .. event.AmountPoints .. " points.", "InfoFrameTabButton.Mission")
+                
                 event.End()
             end
         end
