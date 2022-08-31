@@ -5,7 +5,7 @@ event.Name = "ElectricalFixDischarge"
 event.MinRoundTime = 0
 event.MinIntensity = 0.8
 event.MaxIntensity = 1
-event.ChancePerMinute = 0.07
+event.ChancePerMinute = 0.05
 event.OnlyOncePerRound = false
 
 local allowedItems = {"junctionbox", "supercapacitor", "battery"}
@@ -18,6 +18,8 @@ event.Start = function ()
             end
         end
     end
+
+    event.End()
 end
 
 

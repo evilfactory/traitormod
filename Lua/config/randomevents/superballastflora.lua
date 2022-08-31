@@ -5,10 +5,10 @@ event.Name = "SuperBallastFlora"
 event.MinRoundTime = 0
 event.MinIntensity = 0
 event.MaxIntensity = 0.3
-event.ChancePerMinute = 0.01
+event.ChancePerMinute = 0.07
 event.OnlyOncePerRound = true
 
-event.PumpsToInfect = 8
+event.PumpsToInfect = 5
 
 event.Start = function ()
     local pumps = {}
@@ -29,6 +29,8 @@ event.Start = function ()
             pump.Item.CreateServerEvent(pump, pump)
         end
     end
+
+    event.End()
 end
 
 

@@ -366,6 +366,8 @@ Traitormod.AddCommand("!ongoingevents", function (client, args)
     end
 
     Traitormod.SendMessage(client, text)
+
+    return true
 end)
 
 Traitormod.AddCommand("!triggerevent", function (client, args)

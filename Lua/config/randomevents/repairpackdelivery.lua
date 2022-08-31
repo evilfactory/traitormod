@@ -3,9 +3,9 @@ local event = {}
 event.Enabled = true
 event.Name = "RepairPackDelivery"
 event.MinRoundTime = 0
-event.MinIntensity = 0.7
+event.MinIntensity = 0.5
 event.MaxIntensity = 1
-event.ChancePerMinute = 0.08
+event.ChancePerMinute = 0.05
 event.OnlyOncePerRound = false
 
 local repairPackPrefab = ItemPrefab.GetItemPrefab("repairpack")
@@ -36,16 +36,9 @@ event.Start = function ()
     end)
 
     local text = "A delivery of Repair Packs has been made into the cargo area of the ship, the Repair Packs are inside a blue crate."
+    Traitormod.RoundEvents.SendEventMessage(text, "GameModeIcon.sandbox")
 
-    for key, value in pairs(Client.ClientList) do
-        local messageChat = ChatMessage.Create("", text, ChatMessageType.Default, nil, nil)
-        messageChat.Color = Color(200, 30, 241, 255)
-        Game.SendDirectChatMessage(messageChat, value)
-
-        local messageBox = ChatMessage.Create("", text, ChatMessageType.ServerMessageBoxInGame, nil, nil)
-        messageBox.IconStyle = "GameModeIcon.sandbox"
-        Game.SendDirectChatMessage(messageBox, value)
-    end
+    event.End()
 end
 
 

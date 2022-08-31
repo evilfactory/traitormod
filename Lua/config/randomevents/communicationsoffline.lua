@@ -11,7 +11,7 @@ event.Name = "CommunicationsOffline"
 event.MinRoundTime = 10
 event.MinIntensity = 0
 event.MaxIntensity = 0.2
-event.ChancePerMinute = 0.01
+event.ChancePerMinute = 0.03
 event.OnlyOncePerRound = true
 
 event.AmountTime = 5 -- Communications are offline for 5 minutes
@@ -21,15 +21,7 @@ event.Start = function ()
 
     local text = "Something is interfering with all our communications systems. It's been estimated that communications will be offline for atleast " .. event.AmountTime .. " minutes."
 
-    for key, value in pairs(Client.ClientList) do
-        local messageChat = ChatMessage.Create("", text, ChatMessageType.Default, nil, nil)
-        messageChat.Color = Color(200, 30, 241, 255)
-        Game.SendDirectChatMessage(messageChat, value)
-
-        local messageBox = ChatMessage.Create("", text, ChatMessageType.ServerMessageBoxInGame, nil, nil)
-        messageBox.IconStyle = "GameModeIcon.multiplayercampaign"
-        Game.SendDirectChatMessage(messageBox, value)
-    end
+    Traitormod.RoundEvents.SendEventMessage(text, "GameModeIcon.multiplayercampaign")
 
     for key, item in pairs(Item.ItemList) do
         if item ~= nil and item.Prefab.Identifier == "headset" then
@@ -58,15 +50,7 @@ event.End = function (isEndRound)
     if not isEndRound then
         local text = "Communications are back online."
 
-        for key, value in pairs(Client.ClientList) do
-            local messageChat = ChatMessage.Create("", text, ChatMessageType.Default, nil, nil)
-            messageChat.Color = Color(200, 30, 241, 255)
-            Game.SendDirectChatMessage(messageChat, value)
-
-            local messageBox = ChatMessage.Create("", text, ChatMessageType.ServerMessageBoxInGame, nil, nil)
-            messageBox.IconStyle = "GameModeIcon.multiplayercampaign"
-            Game.SendDirectChatMessage(messageBox, value)
-        end
+        Traitormod.RoundEvents.SendEventMessage(text, "GameModeIcon.multiplayercampaign")
     end
 end
 

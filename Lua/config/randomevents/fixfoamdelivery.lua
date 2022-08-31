@@ -5,7 +5,7 @@ event.Name = "FixFoamDelivery"
 event.MinRoundTime = 0
 event.MinIntensity = 0.6
 event.MaxIntensity = 1
-event.ChancePerMinute = 0.05
+event.ChancePerMinute = 0.06
 event.OnlyOncePerRound = false
 
 local fixFoamPrefab = ItemPrefab.GetItemPrefab("fixfoamgrenade")
@@ -36,16 +36,9 @@ event.Start = function ()
     end)
 
     local text = "A delivery of Fix Foam Grenades has been made into the cargo area of the ship, the Fix Foam Grenades are inside a yellow crate."
+    Traitormod.RoundEvents.SendEventMessage(text, "GameModeIcon.sandbox")
 
-    for key, value in pairs(Client.ClientList) do
-        local messageChat = ChatMessage.Create("", text, ChatMessageType.Default, nil, nil)
-        messageChat.Color = Color(200, 30, 241, 255)
-        Game.SendDirectChatMessage(messageChat, value)
-
-        local messageBox = ChatMessage.Create("", text, ChatMessageType.ServerMessageBoxInGame, nil, nil)
-        messageBox.IconStyle = "GameModeIcon.sandbox"
-        Game.SendDirectChatMessage(messageBox, value)
-    end
+    event.End()
 end
 
 

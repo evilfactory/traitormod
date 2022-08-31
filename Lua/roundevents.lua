@@ -32,8 +32,10 @@ re.TriggerEvent = function (eventName)
         originalEnd()
     end
 
-    event.Start()
+    Traitormod.Stats.AddStat("EventTriggered", event.Name, 1)
+
     re.OnGoingEvents[eventName] = event
+    event.Start()
 
     if re.ThisRoundEvents[eventName] == nil then
         re.ThisRoundEvents[eventName] = 0
@@ -67,6 +69,18 @@ re.CheckRandomEvent = function (event)
     end
 
     re.TriggerEvent(event.Name)
+end
+
+re.SendEventMessage = function (text, icon)
+    for key, value in pairs(Client.ClientList) do
+        local messageChat = ChatMessage.Create("", text, ChatMessageType.Default, nil, nil)
+        messageChat.Color = Color(200, 30, 241, 255)
+        Game.SendDirectChatMessage(messageChat, value)
+
+        local messageBox = ChatMessage.Create("", text, ChatMessageType.ServerMessageBoxInGame, nil, nil)
+        messageBox.IconStyle = icon
+        Game.SendDirectChatMessage(messageBox, value)
+    end 
 end
 
 local lastRandomEventCheck = 0
