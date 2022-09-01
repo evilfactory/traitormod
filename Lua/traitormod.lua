@@ -27,14 +27,6 @@ Traitormod.Objectives = {
     Traitormod.Path .. "/Lua/objectives/poisoncaptain.lua",
 }
 
-Traitormod.RandomEvents = {
-    dofile(Traitormod.Path .. "/Lua/randomevents/communicationsoffline.lua"),
-    dofile(Traitormod.Path .. "/Lua/randomevents/superballastflora.lua"),
-}
-
-Traitormod.EnabledRandomEvents = {}
-Traitormod.SelectedRandomEvents = {}
-
 if not File.Exists(Traitormod.Path .. "/Lua/data.json") then
     File.Write(Traitormod.Path .. "/Lua/data.json", "{}")
 end
@@ -47,15 +39,6 @@ for gmName, _ in pairs(Traitormod.Config.GamemodeConfig) do
         if Traitormod.Config.GamemodeConfig[gmName].Enabled and gmName == gamemode.Name then
             gamemode.Config = Traitormod.Config.GamemodeConfig[gmName]
             table.insert(Traitormod.EnabledGamemodes, gamemode)
-        end
-    end
-end
-
-for eventName, _ in pairs(Traitormod.Config.RandomEventConfig) do
-    for _, event in pairs(Traitormod.RandomEvents) do
-        if type(Traitormod.Config.RandomEventConfig[eventName]) == "table" and Traitormod.Config.RandomEventConfig[eventName].Enabled and eventName == event.Name then
-            event.Config = Traitormod.Config.RandomEventConfig[eventName]
-            table.insert(Traitormod.EnabledRandomEvents, event)
         end
     end
 end
@@ -106,17 +89,6 @@ Traitormod.OnRoundStart = function()
     Traitormod.SelectedGamemode = Traitormod.EnabledGamemodes[result]
     Traitormod.Log("Starting gamemode " .. Traitormod.SelectedGamemode.Name)
     Traitormod.SelectedGamemode.Start()
-
-    -- check for event
-    if Random.Range(0, 100) < Traitormod.Config.RandomEventConfig.AnyRandomEventChance then
-        local result = weightedRandom.Choose(Traitormod.EnabledRandomEvents, "Config", "WeightChance")
-
-        if result ~= nil then
-            Traitormod.Log("Starting event " .. Traitormod.EnabledRandomEvents[result].Name)
-            table.insert(Traitormod.SelectedRandomEvents, Traitormod.EnabledRandomEvents[result])
-            Traitormod.EnabledRandomEvents[result].Start()
-        end
-    end
 end
 
 Hook.Add("roundStart", "Traitormod.RoundStart", function ()
@@ -184,16 +156,6 @@ Hook.Add("missionsEnded", "Traitormod.MissionsEnded", function (missions)
     else
         local gameModeMessage = Traitormod.SelectedGamemode.GetRoundSummary()
         Traitormod.Debug(string.format("Round %d ended | traitorsEnabled = %d | crewMissionsComplete = %s | endReached = %s", Traitormod.RoundNumber, traitorsEnabled, tostring(crewMissionsComplete), tostring(crewReachedEnd)))
-
-        local eventMessage = ""
-    
-        for key, value in pairs(Traitormod.SelectedRandomEvents) do
-            eventMessage = eventMessage .. "\"" .. value.Name .. "\" "
-        end
-    
-        if #Traitormod.SelectedRandomEvents == 0 then
-            eventMessage = "None"
-        end
     
         local roundResult = ""
         if Traitormod.SelectedGamemode.Completed then
@@ -212,9 +174,7 @@ Hook.Add("missionsEnded", "Traitormod.MissionsEnded", function (missions)
         Traitormod.Language.RoundSummary .. "\n\n" ..
         roundResult .. 
         string.format(Traitormod.Language.Gamemode, Traitormod.SelectedGamemode.Name) .. "\n" ..
-        string.format(Traitormod.Language.RandomEvents, eventMessage) .. "\n\n" .. 
         gameModeMessage .. "\n"
-
     end
 
     -- show summary only if traitor mode was enabled initially
@@ -224,11 +184,6 @@ Hook.Add("missionsEnded", "Traitormod.MissionsEnded", function (missions)
     
     Traitormod.Log(endMessage)
     Traitormod.LastRoundSummary = endMessage
-    
-    -- end all events
-    for key, event in pairs(Traitormod.SelectedRandomEvents) do
-        event.End()
-    end
 
     Traitormod.SelectedGamemode = dofile(Traitormod.Path .. "/Lua/gamemodes/nogamemode.lua")
     Traitormod.SelectedRandomEvents = {}
@@ -337,10 +292,6 @@ Hook.Add("think", "Traitormod.Think", function ()
 
     Traitormod.SelectedGamemode.Think()
 
-    for key, event in pairs(Traitormod.SelectedRandomEvents) do
-        event.Think()
-    end
-
     -- every 60s, if a character has 100+ PointsToBeGiven, store added points and send feedback
     if pointsGiveTimer and Timer.GetTime() > pointsGiveTimer then
         for key, value in pairs(Traitormod.PointsToBeGiven) do
@@ -424,7 +375,8 @@ end)
 
 
 dofile(Traitormod.Path .. "/Lua/commands.lua")
-dofile(Traitormod.Path .. "/Lua/pointshop.lua")
+Traitormod.Pointshop = dofile(Traitormod.Path .. "/Lua/pointshop.lua")
+Traitormod.RoundEvents = dofile(Traitormod.Path .. "/Lua/roundevents.lua")
 dofile(Traitormod.Path .. "/Lua/statistics.lua")
 dofile(Traitormod.Path .. "/Lua/respawnshuttle.lua")
 

@@ -232,6 +232,10 @@ end
 
 Traitormod.Error = function (message)
     Game.Log("[TraitorMod-Error] " .. message, 9)
+    
+    if Traitormod.Config.DebugLogs then
+        printerror(message)
+    end
 end
 
 Traitormod.AllCrewMissionsCompleted = function (missions)

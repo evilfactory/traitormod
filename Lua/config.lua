@@ -39,11 +39,11 @@ config.DistanceToEndOutpostRequired = 5000
 config.PointsGainedFromCrewMissionsCompleted = 1000
 config.LivesGainedFromCrewMissionsCompleted = 1
 config.PointsGainedFromSkill = {
-    medical = 24,
-    weapons = 24,
-    mechanical = 18,
-    electrical = 18,
-    helm = 6,
+    medical = 30,
+    weapons = 30,
+    mechanical = 20,
+    electrical = 20,
+    helm = 8,
 }
 
 config.PointsLostAfterNoLives = function (x)
@@ -124,7 +124,7 @@ config.GamemodeConfig = {
             if amountPlayers == 1 then 
                 Traitormod.Log("1P testing mode - no points can be gained or lost") 
                 config.TestMode = true
-                return 1 
+                return 1
             end
             print("Not enough players to start traitor mode.")
             return 0
@@ -142,21 +142,17 @@ config.GamemodeConfig = {
 
 ----- EVENTS -----
 config.RandomEventConfig = {
-    AnyRandomEventChance = 10, -- percentage
+    Enabled = true,
 
-    CommunicationsOffline = {
-        Enabled = false,
-        WeightChance = 10,
-    },
-
-    SuperBallastFlora = {
-        Enabled = true,
-        WeightChance = 10,
-
-        BallastFloraInitialDelay = 150,
-        BallastFloraDelay = 20,
-        BallastFloraEndDelay = 50
-    },
+    Events = {
+        dofile(Traitormod.Path .. "/Lua/config/randomevents/communicationsoffline.lua"),
+        dofile(Traitormod.Path .. "/Lua/config/randomevents/superballastflora.lua"),
+        dofile(Traitormod.Path .. "/Lua/config/randomevents/fixfoamdelivery.lua"),
+        dofile(Traitormod.Path .. "/Lua/config/randomevents/hiddenpirate.lua"),
+        dofile(Traitormod.Path .. "/Lua/config/randomevents/electricalfixdischarge.lua"),
+        dofile(Traitormod.Path .. "/Lua/config/randomevents/repairpackdelivery.lua"),
+        dofile(Traitormod.Path .. "/Lua/config/randomevents/wreckpirate.lua"),
+    }
 }
 
 config.PointShopConfig = {

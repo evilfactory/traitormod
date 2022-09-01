@@ -44,10 +44,10 @@ end
 category.Products = {
     {
         Name = "Spawn as Crawler",
-        Price = 700,
+        Price = 650,
         Limit = 4,
         IsLimitGlobal = true,
-        PricePerLimit = 1000,
+        PricePerLimit = 600,
 
         Action = function (client, product, items)
             SpawnCreature("crawler", client)
@@ -55,8 +55,20 @@ category.Products = {
     },
 
     {
+        Name = "Spawn as Legacy Crawler",
+        Price = 600,
+        Limit = 4,
+        IsLimitGlobal = true,
+        PricePerLimit = 600,
+
+        Action = function (client, product, items)
+            SpawnCreature("legacycrawler", client)
+        end
+    },
+
+    {
         Name = "Spawn as Crawler Baby",
-        Price = 500,
+        Price = 300,
         Limit = 5,
         IsLimitGlobal = true,
         PricePerLimit = 200,
@@ -68,10 +80,10 @@ category.Products = {
 
     {
         Name = "Spawn as Mudraptor Baby",
-        Price = 1000,
+        Price = 500,
         Limit = 5,
         IsLimitGlobal = true,
-        PricePerLimit = 1000,
+        PricePerLimit = 300,
 
         Action = function (client, product, items)
             SpawnCreature("mudraptor_hatchling", client)
@@ -83,7 +95,7 @@ category.Products = {
         Price = 1000,
         Limit = 5,
         IsLimitGlobal = true,
-        PricePerLimit = 1000,
+        PricePerLimit = 500,
 
         Action = function (client, product, items)
             SpawnCreature("tigerthresher_hatchling", client)
@@ -92,7 +104,7 @@ category.Products = {
 
     {
         Name = "Spawn as Mudraptor",
-        Price = 2500,
+        Price = 1900,
         Limit = 2,
         IsLimitGlobal = true,
         PricePerLimit = 1500,
@@ -104,7 +116,7 @@ category.Products = {
 
     {
         Name = "Spawn as Husk",
-        Price = 3000,
+        Price = 2600,
         Limit = 2,
         IsLimitGlobal = true,
         PricePerLimit = 2000,
@@ -116,11 +128,11 @@ category.Products = {
 
     {
         Name = "Spawn as Hammerhead",
-        Price = 3000,
+        Price = 50000,
         Limit = 2,
         IsLimitGlobal = true,
         PricePerLimit = 2000,
-        Enabled = false,
+        Enabled = true,
 
         Action = function (client, product, items)
             SpawnCreature("hammerhead", client)
@@ -141,7 +153,7 @@ category.Products = {
 
     {
         Name = "Spawn as Charybdis",
-        Price = 300000,
+        Price = 150000,
         Limit = 1,
         IsLimitGlobal = true,
         PricePerLimit = 50000,

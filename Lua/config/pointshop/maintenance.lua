@@ -5,14 +5,14 @@ category.Name = "Maintenance"
 category.Products = {
     {
         Name = "Screwdriver",
-        Price = 100,
+        Price = 90,
         Limit = 1,
         Items = {"screwdriver"}
     },
 
     {
         Name = "Wrench",
-        Price = 100,
+        Price = 90,
         Limit = 1,
         Items = {"wrench"}
     },
@@ -26,9 +26,16 @@ category.Products = {
 
     {
         Name = "Fixfoam Grenade",
-        Price = 200,
+        Price = 190,
         Limit = 4,
-        Items = {"fixfoamgrenade"}
+        Items = {"fixfoamgrenade", "fixfoamgrenade"}
+    },
+
+    {
+        Name = "Repair Pack",
+        Price = 140,
+        Limit = 4,
+        Items = {"repairpack", "repairpack", "repairpack", "repairpack"}
     },
 
     {

@@ -6,7 +6,7 @@ category.Products = {
     {
         Name = "Door",
         Price = 6000,
-        Limit = 2,
+        Limit = 4,
         Items = {
             {Identifier = "door", IsInstallation = true}
         }
@@ -14,8 +14,8 @@ category.Products = {
 
     {
         Name = "Supplies Cabinet",
-        Price = 250,
-        Limit = 3,
+        Price = 100,
+        Limit = 6,
         Items = {
             {Identifier = "suppliescabinet", IsInstallation = true}
         }
@@ -23,8 +23,8 @@ category.Products = {
 
     {
         Name = "Oxygen Generator",
-        Price = 1400,
-        Limit = 2,
+        Price = 200,
+        Limit = 6,
         Items = {
             {Identifier = "shuttleoxygenerator", IsInstallation = true}
         }
@@ -32,8 +32,8 @@ category.Products = {
 
     {
         Name = "Fabricator",
-        Price = 1900,
-        Limit = 1,
+        Price = 230,
+        Limit = 4,
         Items = {
             {Identifier = "fabricator", IsInstallation = true}
         }
@@ -41,8 +41,8 @@ category.Products = {
 
     {
         Name = "Deconstructor",
-        Price = 1600,
-        Limit = 1,
+        Price = 235,
+        Limit = 4,
         Items = {
             {Identifier = "deconstructor", IsInstallation = true}
         }
@@ -50,8 +50,8 @@ category.Products = {
 
     {
         Name = "Medical Fabricator",
-        Price = 1950,
-        Limit = 1,
+        Price = 300,
+        Limit = 4,
         Items = {
             {Identifier = "medicalfabricator", IsInstallation = true}
         }
@@ -59,8 +59,8 @@ category.Products = {
 
     {
         Name = "Research Station",
-        Price = 500,
-        Limit = 1,
+        Price = 290,
+        Limit = 4,
         Items = {
             {Identifier = "op_researchterminal", IsInstallation = true}
         }
@@ -68,8 +68,8 @@ category.Products = {
 
     {
         Name = "Junction Box",
-        Price = 800,
-        Limit = 4,
+        Price = 180,
+        Limit = 8,
         Items = {
             {Identifier = "junctionbox", IsInstallation = true}
         }
@@ -77,8 +77,8 @@ category.Products = {
 
     {
         Name = "Battery",
-        Price = 1100,
-        Limit = 3,
+        Price = 300,
+        Limit = 6,
         Items = {
             {Identifier = "battery", IsInstallation = true}
         }
@@ -86,10 +86,55 @@ category.Products = {
 
     {
         Name = "Super Capacitor",
-        Price = 1200,
-        Limit = 2,
+        Price = 300,
+        Limit = 4,
         Items = {
             {Identifier = "supercapacitor", IsInstallation = true}
+        }
+    },
+
+    {
+        Name = "Shuttle Engine",
+        Price = 400,
+        Limit = 3,
+        Items = {
+            {Identifier = "shuttleengine", IsInstallation = true}
+        }
+    },
+
+    {
+        Name = "Small Pump",
+        Price = 300,
+        Limit = 3,
+        Items = {
+            {Identifier = "smallpump", IsInstallation = true}
+        }
+    },
+
+    {
+        Name = "Nuclear Reactor",
+        Price = 10000,
+        Limit = 1,
+        Items = {
+            {Identifier = "reactor1", IsInstallation = true}
+        }
+    },
+
+    {
+        Name = "Navigation Terminal",
+        Price = 370,
+        Limit = 2,
+        Items = {
+            {Identifier = "navterminal", IsInstallation = true}
+        }
+    },
+
+    {
+        Name = "Wire",
+        Price = 40,
+        Limit = 8,
+        Items = {
+            {Identifier = "wire"}
         }
     },
 }

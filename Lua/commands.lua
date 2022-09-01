@@ -307,7 +307,7 @@ Traitormod.AddCommand({"!addlife", "!addlive", "!addlifes", "!addlives"}, functi
         table.insert(gainLifeClients, found)
     end
 
-    for _, lifeClient in gainLifeClients do
+    for lifeClient in gainLifeClients do
         local lifeMsg, lifeIcon = Traitormod.AdjustLives(lifeClient, amount)
 
         Game.SendDirectChatMessage("", lifeClient.Name .. " got lives +"..amount, nil, Traitormod.Config.ChatMessageType, client)
@@ -353,6 +353,45 @@ Traitormod.AddCommand("!revive", function (client, args)
     else
         Game.SendDirectChatMessage("", "Character of " .. name .. " not found.", nil, ChatMessageType.Error, client)
     end
+
+    return true
+end)
+
+Traitormod.AddCommand("!ongoingevents", function (client, args)
+    if not client.HasPermission(ClientPermissions.ConsoleCommands) then return end
+
+    local text = "On Going Events: "
+    for key, value in pairs(Traitormod.RoundEvents.OnGoingEvents) do
+        text = text .. "\"" .. value.Name .. "\" "
+    end
+
+    Traitormod.SendMessage(client, text)
+
+    return true
+end)
+
+Traitormod.AddCommand("!triggerevent", function (client, args)
+    if not client.HasPermission(ClientPermissions.ConsoleCommands) then return end
+
+    if #args < 1 then
+        Traitormod.SendMessage(client, "Usage: !triggerevent <event name>")
+        return
+    end
+
+    local event = nil
+    for _, value in pairs(Traitormod.RoundEvents.EventConfigs.Events) do
+        if value.Name == args[1] then
+            event = value
+        end
+    end
+
+    if event == nil then
+        Traitormod.SendMessage(client, "Event " .. args[1] .. " doesnt exist.")
+        return true
+    end
+
+    Traitormod.RoundEvents.TriggerEvent(event.Name)
+    Traitormod.SendMessage(client, "Triggered event " .. event.Name)
 
     return true
 end)
