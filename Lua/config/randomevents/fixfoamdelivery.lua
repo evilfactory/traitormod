@@ -2,10 +2,10 @@ local event = {}
 
 event.Enabled = true
 event.Name = "FixFoamDelivery"
-event.MinRoundTime = 0
+event.MinRoundTime = 5
 event.MinIntensity = 0.6
 event.MaxIntensity = 1
-event.ChancePerMinute = 0.06
+event.ChancePerMinute = 0.03
 event.OnlyOncePerRound = false
 
 local fixFoamPrefab = ItemPrefab.GetItemPrefab("fixfoamgrenade")
