@@ -2,8 +2,6 @@ local sb = {}
 
 local linkedSubmarineHeader = [[<LinkedSubmarine description="" checkval="2040186250" price="1000" initialsuppliesspawned="false" type="Player" tags="Shuttle" gameversion="0.17.4.0" dimensions="1270,451" cargocapacity="0" recommendedcrewsizemin="1" recommendedcrewsizemax="2" recommendedcrewexperience="Unknown" requiredcontentpackages="Vanilla" name="%s" filepath="Content/Submarines/Selkie.sub" pos="-64,-392.5" linkedto="4" originallinkedto="0" originalmyport="0">%s</LinkedSubmarine>]]
 
-local submarineSpawned = false
-
 sb.UpdateLobby = function(submarineInfo)
     local submarines = Game.NetLobbyScreen.subs
 
@@ -27,10 +25,25 @@ sb.UpdateLobby = function(submarineInfo)
     Game.SendMessage("Submarines Updated", 1)
 end
 
+LuaUserData.RegisterType("System.Xml.Linq.XElement")
+
 sb.Submarines = {}
 
-sb.AddSubmarine = function (name, path)
-    table.insert(sb.Submarines, {Name = name, Data = File.Read(path)})
+sb.AddSubmarine = function (path, name)
+    local submarineInfo = SubmarineInfo(path)
+
+    name = name or submarineInfo.Name
+
+    local xml = tostring(submarineInfo.SubmarineElement)
+
+    local _, endPos = string.find(xml, ">")
+    local startPos, _ = string.find(xml, "</Submarine>")
+
+    local data = string.sub(xml, endPos + 1, startPos - 1)
+
+    table.insert(sb.Submarines, {Name = name, Data = data})
+
+    return name
 end
 
 sb.FindSubmarine = function (name)
@@ -84,14 +97,14 @@ Hook.Add("roundStart", "SubmarineBuilder.RoundStart", function ()
         end
     end
 
-    local yPosition = Level.Loaded.BottomPos
+    local yPosition = Level.Loaded.Size.Y + 1000
 
     for _, value in pairs(sb.Submarines) do
         local submarine = sb.FindSubmarine(value.Name)
 
         if submarine then
-            yPosition = yPosition + submarine.Borders.Height * 2
-            submarine.SetPosition(Vector2(-5000, yPosition))
+            yPosition = yPosition + submarine.Borders.Height
+            submarine.SetPosition(Vector2(0, yPosition))
             submarine.GodMode = true
         end
 

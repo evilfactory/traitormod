@@ -1,7 +1,11 @@
+if Traitormod.SubmarineBuilder == nil then
+    return
+end
+
 Game.OverrideRespawnSub(true) -- remove respawn submarine logic
 
-local sb = require("submarinebuilder")
-sb.AddSubmarine("Respawn Shuttle", Traitormod.Path .. "/Submarines/testsubmarine.xml")
+local sb = Traitormod.SubmarineBuilder
+local submarineId = sb.AddSubmarine(Traitormod.Config.RespawnSubmarineFile)
 
 local timerActive = false
 local transporting = false
@@ -31,7 +35,7 @@ end
 
 local function IsCloseToOtherSubmarines(position)
     for key, value in pairs(Submarine.Loaded) do
-        if Vector2.Distance(value.WorldPosition, position) < 50000 then
+        if Vector2.Distance(value.WorldPosition, position) < 10000 then
             return true
         end
     end
@@ -172,7 +176,7 @@ Hook.Add("think", "RespawnShuttle.Think", function ()
     if respawnTimer <= 0 and timerActive and not transporting then
         transporting = true
 
-        local submarine = sb.FindSubmarine("Respawn Shuttle")
+        local submarine = sb.FindSubmarine(submarineId)
         submarine.GodMode = false
 
         ResetSubmarine(submarine)
