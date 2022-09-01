@@ -51,11 +51,11 @@ re.TriggerEvent = function (eventName)
 end
 
 re.CheckRandomEvent = function (event)
-    if event.MinRoundTime ~= nil and re.RoundTime < event.MinRoundTime * 60 then
+    if event.MinRoundTime ~= nil and re.RoundTime * 60 < event.MinRoundTime then
         return
     end
 
-    if event.MaxRoundTime ~= nil and re.RoundTime > event.MaxRoundTime * 60 then
+    if event.MaxRoundTime ~= nil and re.RoundTime * 60 > event.MaxRoundTime then
         return
     end
 

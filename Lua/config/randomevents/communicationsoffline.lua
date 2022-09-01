@@ -35,7 +35,7 @@ event.Start = function ()
         end
     end)
 
-    Timer.Wait(event.End, event.AmountTime * 60 * 1000)
+    Timer.Wait(event.End, event.AmountTime * 57 * 1000)
 end
 
 event.End = function (isEndRound)

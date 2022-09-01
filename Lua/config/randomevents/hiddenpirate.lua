@@ -5,7 +5,7 @@ event.Name = "HiddenPirate"
 event.MinRoundTime = 5
 event.MinIntensity = 0
 event.MaxIntensity = 0.3
-event.ChancePerMinute = 0.03
+event.ChancePerMinute = 0.018
 event.OnlyOncePerRound = true
 
 LuaUserData.MakeMethodAccessible(Descriptors["Barotrauma.CharacterInventory"], "set_AccessibleWhenAlive")
@@ -47,8 +47,8 @@ event.Start = function ()
         character.Inventory.TryPutItem(item, character.Inventory.FindLimbSlot(InvSlotType.InnerClothes), true, false, character)
     end)
 
-    local text = "An enemy pirate has been detected near the pumps."
-    Traitormod.RoundEvents.SendEventMessage(text, "GameModeIcon.sandbox")
+    --local text = "An enemy pirate has been detected near the pumps."
+    --Traitormod.RoundEvents.SendEventMessage(text, "GameModeIcon.sandbox")
 
     event.End()
 end
