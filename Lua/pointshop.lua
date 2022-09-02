@@ -209,6 +209,13 @@ ps.BuyProduct = function(client, product)
     local points = Traitormod.GetData(client, "Points") or 0
     local price = ps.GetProductPrice(client, product)
 
+    if product.CanBuy then
+        local success, result = product.CanBuy(client, product)
+        if not success then
+            return result
+        end
+    end
+
     if price > points then
         return ps.ProductBuyFailureReason.NoPoints
     end
@@ -230,14 +237,12 @@ end
 ps.HandleProductBuy = function (client, product, result)
     if result == ps.ProductBuyFailureReason.NoPoints then
         textPromptUtils.Prompt("You do not have enough points to buy this item.", {}, client, function (id, client) end, "gambler")
-    end
-
-    if result == ps.ProductBuyFailureReason.NoStock then
+    elseif result == ps.ProductBuyFailureReason.NoStock then
         textPromptUtils.Prompt("This product is out of stock.", {}, client, function (id, client) end, "gambler")
-    end
-
-    if result == nil then
+    elseif result == nil then
         textPromptUtils.Prompt(string.format("Purchased \"%s\" for %s points\n\nNew point balance is: %s points.", product.Name, ps.GetProductPrice(client, product), math.floor(Traitormod.GetData(client, "Points") or 0)), {}, client, function (id, client) end, "gambler")
+    else
+        textPromptUtils.Prompt(result, {}, client, function (id, client) end, "gambler")
     end
 end
 
@@ -284,7 +289,7 @@ ps.ShowCategoryItems = function(client, category)
                 end
             end
         end
-        
+
         if productHasInstallation then
             textPromptUtils.Prompt(
             "The product that you are about to buy will spawn an installation in your exact location, you won't be able to move it else where, do you wish to continue?\n",
