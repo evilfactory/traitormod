@@ -78,7 +78,7 @@ language.ObjectiveAssassinate = "Assassinate %s."
 
 language.ObjectiveSurvive = "Kill targets and survive the shift."
 language.ObjectiveStealCaptainID = "Steal the captain's ID."
-language.ObjectiveKidnapSecurity = "Handcuff %s for %s seconds."
+language.ObjectiveKidnap = "Handcuff %s for %s seconds."
 language.ObjectivePoisonCaptain = "Poison %s with %s."
 language.ObjectiveWreckGift = "Grab the gift"
 

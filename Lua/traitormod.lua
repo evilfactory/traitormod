@@ -23,7 +23,7 @@ Traitormod.Objectives = {
     Traitormod.Path .. "/Lua/objectives/assassinate.lua",
     Traitormod.Path .. "/Lua/objectives/stealcaptainid.lua",
     Traitormod.Path .. "/Lua/objectives/survive.lua",
-    Traitormod.Path .. "/Lua/objectives/kidnapsecurity.lua",
+    Traitormod.Path .. "/Lua/objectives/kidnap.lua",
     Traitormod.Path .. "/Lua/objectives/poisoncaptain.lua",
 }
 

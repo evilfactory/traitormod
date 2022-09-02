@@ -70,7 +70,7 @@ end
 config.ObjectiveConfig = {
     Assassinate = {
         Enabled = true,
-        AmountPoints = 700,
+        AmountPoints = 600,
     },
 
     Survive = {
@@ -82,18 +82,18 @@ config.ObjectiveConfig = {
 
     StealCaptainID = {
         Enabled = true,
-        AmountPoints = 1500,
+        AmountPoints = 1300,
     },
 
-    KidnapSecurity = {
+    Kidnap = {
         Enabled = true,
-        AmountPoints = 4500,
-        Seconds = 300,
+        AmountPoints = 3500,
+        Seconds = 100,
     },
 
     PoisonCaptain = {
         Enabled = true,
-        AmountPoints = 1500,
+        AmountPoints = 1600,
     },
 }
 
@@ -105,8 +105,8 @@ config.GamemodeConfig = {
         EndOnComplete = true,           -- end round when there are no assassination targets left
         EndGameDelaySeconds = 5,
 
-        StartDelayMin = 120,
-        StartDelayMax = 150,
+        StartDelayMin = 0,
+        StartDelayMax = 0,
         NextDelayMin = 30,
         NextDelayMax = 60,
 
@@ -119,7 +119,7 @@ config.GamemodeConfig = {
 
         MinSubObjectives = 1,
         MaxSubObjectives = 3,
-        SubObjectives = {"StealCaptainID", "Survive", "KidnapSecurity", "PoisonCaptain"},
+        SubObjectives = {"StealCaptainID", "Survive", "Kidnap", "PoisonCaptain"},
 
         AmountTraitors = function (amountPlayers)
             config.TestMode = false

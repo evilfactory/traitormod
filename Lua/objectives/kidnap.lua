@@ -1,7 +1,6 @@
 local objective = {}
 
-objective.Name = "KidnapSecurity"
-objective.RoleFilter = {["securityofficer"] = true}
+objective.Name = "Kidnap"
 
 objective.Start = function (character, target)
     objective.Target = target
@@ -9,10 +8,10 @@ objective.Start = function (character, target)
     if objective.Target == nil then
         return false
     end
-    
+
     objective.TargetName = Traitormod.GetJobString(target) .. " " .. target.Name
 
-    objective.ObjectiveText = string.format(Traitormod.Language.ObjectiveKidnapSecurity, objective.TargetName, objective.Config.Seconds)
+    objective.ObjectiveText = string.format(Traitormod.Language.ObjectiveKidnap, objective.TargetName, objective.Config.Seconds)
 
     objective.SecondsLeft = objective.Config.Seconds
 
@@ -21,7 +20,7 @@ end
 
 objective.IsCompleted = function ()
     if objective.SecondsLeft <= 0 then
-        objective.ObjectiveText = string.format(Traitormod.Language.ObjectiveKidnapSecurity, objective.TargetName, objective.Config.Seconds)
+        objective.ObjectiveText = string.format(Traitormod.Language.ObjectiveKidnap, objective.TargetName, objective.Config.Seconds)
 
         return true
     end
@@ -39,7 +38,7 @@ objective.IsCompleted = function ()
         
         objective.SecondsLeft = math.max(0, objective.SecondsLeft - (Timer.GetTime() - objective.lastTimer))
 
-        objective.ObjectiveText = string.format(Traitormod.Language.ObjectiveKidnapSecurity, objective.TargetName, math.floor(objective.SecondsLeft))
+        objective.ObjectiveText = string.format(Traitormod.Language.ObjectiveKidnap, objective.TargetName, math.floor(objective.SecondsLeft))
 
         objective.lastTimer = Timer.GetTime()
 
