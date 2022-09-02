@@ -7,6 +7,11 @@ Game.OverrideRespawnSub(true) -- remove respawn submarine logic
 local sb = Traitormod.SubmarineBuilder
 local submarineId = sb.AddSubmarine(Traitormod.Config.RespawnSubmarineFile)
 
+sb.AddSubmarine(Traitormod.Config.RespawnSubmarineFile, "custom")
+sb.AddSubmarine(Traitormod.Config.RespawnSubmarineFile, "custom2")
+sb.AddSubmarine(Traitormod.Config.RespawnSubmarineFile, "custom3")
+sb.AddSubmarine(Traitormod.Config.RespawnSubmarineFile, "custom4")
+
 local timerActive = false
 local transporting = false
 local respawnTimer = 0
