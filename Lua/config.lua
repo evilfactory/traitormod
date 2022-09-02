@@ -29,6 +29,11 @@ config.OptionalTraitors = true        -- players can use !toggletraitor
 config.RagdollOnDisconnect = false
 config.EnableControlHusk = false     -- EXPERIMENTAL: enable to control husked character after death
 
+-- This overrides the game's respawn shuttle, and uses it as a submarine injector, to spawn submarines in game easily. Respawn should still work as expected, but the shuttle submarine file needs to be manually added here.
+-- Note: If this is disabled, traitormod will disable all functions related to submarine spawning.
+config.OverrideRespawnSubmarine = false
+config.RespawnSubmarineFile = "Content/Submarines/Selkie.sub"
+
 ----- POINTS + LIVES -----
 config.PermanentPoints = true      -- sets if points and lives will be stored in and loaded from a file
 config.PermanentStatistics = true  -- sets if statistics be stored in and loaded from a file

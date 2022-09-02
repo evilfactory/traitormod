@@ -373,11 +373,15 @@ Hook.Add("chatMessage", "Traitormod.ChatMessage", function (message, client)
     end
 end)
 
+if Traitormod.Config.OverrideRespawnSubmarine then
+    Traitormod.SubmarineBuilder = dofile(Traitormod.Path .. "/Lua/submarinebuilder.lua")
+end
 
-dofile(Traitormod.Path .. "/Lua/commands.lua")
 Traitormod.Pointshop = dofile(Traitormod.Path .. "/Lua/pointshop.lua")
 Traitormod.RoundEvents = dofile(Traitormod.Path .. "/Lua/roundevents.lua")
+dofile(Traitormod.Path .. "/Lua/commands.lua")
 dofile(Traitormod.Path .. "/Lua/statistics.lua")
+dofile(Traitormod.Path .. "/Lua/respawnshuttle.lua")
 
 -- Round start call for reload during round 
 if Game.RoundStarted then
