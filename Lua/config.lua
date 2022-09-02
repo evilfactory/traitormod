@@ -105,8 +105,8 @@ config.GamemodeConfig = {
         EndOnComplete = true,           -- end round when there are no assassination targets left
         EndGameDelaySeconds = 5,
 
-        StartDelayMin = 0,
-        StartDelayMax = 0,
+        StartDelayMin = 120,
+        StartDelayMax = 150,
         NextDelayMin = 30,
         NextDelayMax = 60,
 
