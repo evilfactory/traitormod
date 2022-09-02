@@ -388,4 +388,8 @@ end)
 
 ps.ValidateConfig()
 
+for i, category in pairs(config.PointShopConfig.ItemCategories) do
+    if category.Init then category.Init() end
+end
+
 return ps

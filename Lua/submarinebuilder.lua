@@ -21,11 +21,10 @@ sb.UpdateLobby = function(submarineInfo)
         client.LastRecvLobbyUpdate = 0
         Networking.ClientWriteLobby(client)
     end
-
-    Game.SendMessage("Submarines Updated", 1)
 end
 
 LuaUserData.RegisterType("System.Xml.Linq.XElement")
+LuaUserData.RegisterType("Voronoi2.VoronoiCell")
 
 sb.Submarines = {}
 
