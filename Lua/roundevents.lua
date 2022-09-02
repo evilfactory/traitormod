@@ -90,6 +90,7 @@ end
 
 local lastRandomEventCheck = 0
 Hook.Add("think", "TraitorMod.RoundEvents.Think", function ()
+    if not re.EventConfigs.Enabled then return end
     if not Game.RoundStarted then return end
 
     re.RoundTime = re.RoundTime + 1/60
