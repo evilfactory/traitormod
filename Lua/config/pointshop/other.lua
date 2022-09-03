@@ -30,6 +30,27 @@ category.Products = {
         Limit = 10,
         Items = {"bikehorn"}
     },
+
+    {
+        Name = "Guitar",
+        Price = 50,
+        Limit = 2,
+        Items = {"guitar"}
+    },
+
+    {
+        Name = "Harmonica",
+        Price = 50,
+        Limit = 2,
+        Items = {"harmonica"}
+    },
+
+    {
+        Name = "Accordion",
+        Price = 50,
+        Limit = 2,
+        Items = {"accordion"}
+    },
 }
 
 return category

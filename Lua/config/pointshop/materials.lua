@@ -86,6 +86,13 @@ category.Products = {
         Limit = 4,
         Items = {"fulgurium"}
     },
+
+    {
+        Name = "Physicorium",
+        Price = 200,
+        Limit = 4,
+        Items = {"physicorium"}
+    }
 }
 
 return category
