@@ -36,6 +36,7 @@ category.Products = {
             local submarine = Traitormod.SubmarineBuilder.FindSubmarine(category.HemulenID)
 
             submarine.SetPosition(client.Character.WorldPosition + Vector2(0, 300))
+            submarine.GodMode = false
         end,
 
         CanBuy = function (client, product)
