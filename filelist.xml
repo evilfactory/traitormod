@@ -1,4 +1,4 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<contentpackage name="traitormod2" modversion="2.1.0" corepackage="False" gameversion="0.17.12.0" altnames="traitormod">
-
-</contentpackage>
+<ContentPackage name="traitormod2" modversion="2.1.2" corepackage="False" gameversion="0.18.15.0" altnames="traitormod">
+    <Submarine file="%ModDir%/Submarines/Stream Chalk.sub" />
+</ContentPackage>

@@ -7,49 +7,54 @@ end
 
 category.Init = function ()
     if Traitormod.SubmarineBuilder then
-        category.HemulenID = Traitormod.SubmarineBuilder.AddSubmarine("Content/Submarines/Hemulen.sub", "[P]Hemulen")
+        category.StreamChalkID = Traitormod.SubmarineBuilder.AddSubmarine(Traitormod.Path .. "/Submarines/Stream Chalk.sub", "[P]Stream Chalk")
     end
 end
 
-local function CheckSpawnPosition(position, size)
-    local levelWalls = Level.Loaded.GetTooCloseCells(position, size)
+local function CanBuy(id, client)
+    local submarine = Traitormod.SubmarineBuilder.FindSubmarine(id)
+    local position = client.Character.WorldPosition + Vector2(0, -submarine.Borders.Height)
+
+    local levelWalls = Level.Loaded.GetTooCloseCells(position, submarine.Borders.Width)
     if #levelWalls > 0 then
-        return "Cannot spawn ship, position is too close to a level wall."
+        return false, "Cannot spawn ship, position is too close to a level wall."
     end
 
     for key, value in pairs(Submarine.Loaded) do
-        if Vector2.Distance(value.WorldPosition, position) < 3000 then
-            return "Cannot spawn ship, position is too close to another submarine."
+        if submarine ~= value then
+            local maxDistance = (value.Borders.Width + submarine.Borders.Width) / 2
+            if Vector2.Distance(value.WorldPosition, position) < maxDistance then
+                return false, "Cannot spawn ship, position is too close to another submarine."
+            end
         end
     end
+
+    return true
+end
+
+local function SpawnSubmarine(id, client)
+    local submarine = Traitormod.SubmarineBuilder.FindSubmarine(id)
+    local position = client.Character.WorldPosition + Vector2(0, -submarine.Borders.Height)
+
+    submarine.SetPosition(position)
+    submarine.GodMode = false
+
+    Traitormod.SubmarineBuilder.ResetSubmarineSteering(submarine)
 end
 
 category.Products = {
     {
-        Name = "Hemulen",
+        Name = "Stream Chalk",
         Price = 2000,
         Limit = 1,
         IsLimitGlobal = true,
 
         Action = function (client, product, items)
-            local position = client.Character.WorldPosition + Vector2(0, 300)
-            local submarine = Traitormod.SubmarineBuilder.FindSubmarine(category.HemulenID)
-
-            submarine.SetPosition(client.Character.WorldPosition + Vector2(0, 300))
-            submarine.GodMode = false
+            SpawnSubmarine(category.StreamChalkID, client)
         end,
 
         CanBuy = function (client, product)
-            local position = client.Character.WorldPosition + Vector2(0, 300)
-            local submarine = Traitormod.SubmarineBuilder.FindSubmarine(category.HemulenID)
-
-            local result = CheckSpawnPosition(position, submarine.Borders.Width)
-
-            if result then
-                return false, result
-            end
-
-            return true
+            return CanBuy(category.StreamChalkID, client)
         end
     },
 }
