@@ -2,10 +2,10 @@ local event = {}
 
 event.Enabled = true
 event.Name = "SuperBallastFlora"
-event.MinRoundTime = 5
+event.MinRoundTime = 10
 event.MinIntensity = 0
-event.MaxIntensity = 0.3
-event.ChancePerMinute = 0.035
+event.MaxIntensity = 0.2
+event.ChancePerMinute = 0.025
 event.OnlyOncePerRound = true
 
 event.PumpsToInfect = 5
