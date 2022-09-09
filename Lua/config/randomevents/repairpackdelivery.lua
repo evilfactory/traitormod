@@ -5,7 +5,7 @@ event.Name = "RepairPackDelivery"
 event.MinRoundTime = 0
 event.MinIntensity = 0.5
 event.MaxIntensity = 1
-event.ChancePerMinute = 0.035
+event.ChancePerMinute = 0.02
 event.OnlyOncePerRound = false
 
 local repairPackPrefab = ItemPrefab.GetItemPrefab("repairpack")
