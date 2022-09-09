@@ -40,8 +40,6 @@ event.Start = function ()
     character.TeamID = CharacterTeamType.Team2
     character.GiveJobItems(nil)
 
-    --character.Inventory.set_AccessibleWhenAlive(false)
-
     for i = 1, 4, 1 do
         Entity.Spawner.AddItemToSpawnQueue(ItemPrefab.GetItemPrefab("shotgun"), character.Inventory, nil, nil, function (item)
             for i = 1, 6, 1 do

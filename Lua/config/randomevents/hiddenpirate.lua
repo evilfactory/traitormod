@@ -8,8 +8,6 @@ event.MaxIntensity = 0.3
 event.ChancePerMinute = 0.018
 event.OnlyOncePerRound = true
 
-LuaUserData.MakeMethodAccessible(Descriptors["Barotrauma.CharacterInventory"], "set_AccessibleWhenAlive")
-
 event.Start = function ()
     local areas = {}
     
@@ -30,8 +28,6 @@ event.Start = function ()
 
     character.TeamID = CharacterTeamType.Team2
     character.GiveJobItems(nil)
-
-    character.Inventory.set_AccessibleWhenAlive(false)
 
     Entity.Spawner.AddItemToSpawnQueue(ItemPrefab.GetItemPrefab("revolver"), character.Inventory, nil, nil, function (item)
         for i = 1, 6, 1 do
