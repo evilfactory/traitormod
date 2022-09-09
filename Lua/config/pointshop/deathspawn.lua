@@ -44,7 +44,7 @@ end
 category.Products = {
     {
         Name = "Spawn as Crawler",
-        Price = 650,
+        Price = 450,
         Limit = 4,
         IsLimitGlobal = true,
         PricePerLimit = 600,
@@ -56,7 +56,7 @@ category.Products = {
 
     {
         Name = "Spawn as Legacy Crawler",
-        Price = 600,
+        Price = 400,
         Limit = 4,
         IsLimitGlobal = true,
         PricePerLimit = 600,
@@ -68,7 +68,7 @@ category.Products = {
 
     {
         Name = "Spawn as Crawler Baby",
-        Price = 300,
+        Price = 250,
         Limit = 5,
         IsLimitGlobal = true,
         PricePerLimit = 200,
@@ -80,7 +80,7 @@ category.Products = {
 
     {
         Name = "Spawn as Mudraptor Baby",
-        Price = 500,
+        Price = 400,
         Limit = 5,
         IsLimitGlobal = true,
         PricePerLimit = 300,
@@ -92,7 +92,7 @@ category.Products = {
 
     {
         Name = "Spawn as Thresher Baby",
-        Price = 1000,
+        Price = 800,
         Limit = 5,
         IsLimitGlobal = true,
         PricePerLimit = 500,
@@ -104,7 +104,7 @@ category.Products = {
 
     {
         Name = "Spawn as Mudraptor",
-        Price = 1900,
+        Price = 1800,
         Limit = 2,
         IsLimitGlobal = true,
         PricePerLimit = 1500,
@@ -116,7 +116,7 @@ category.Products = {
 
     {
         Name = "Spawn as Husk",
-        Price = 2600,
+        Price = 2500,
         Limit = 2,
         IsLimitGlobal = true,
         PricePerLimit = 2000,
@@ -127,11 +127,23 @@ category.Products = {
     },
 
     {
-        Name = "Spawn as Hammerhead",
-        Price = 50000,
+        Name = "Spawn as Fractal Guardian",
+        Price = 2900,
         Limit = 2,
         IsLimitGlobal = true,
-        PricePerLimit = 2000,
+        PricePerLimit = 1600,
+
+        Action = function (client, product, items)
+            SpawnCreature("fractalguardian", client)
+        end
+    },
+
+    {
+        Name = "Spawn as Hammerhead",
+        Price = 25000,
+        Limit = 2,
+        IsLimitGlobal = true,
+        PricePerLimit = 1000,
         Enabled = true,
 
         Action = function (client, product, items)
@@ -140,14 +152,15 @@ category.Products = {
     },
 
     {
-        Name = "Spawn as Fractal Guardian",
-        Price = 2800,
+        Name = "Spawn as Veteran Mudraptor",
+        Price = 40000,
         Limit = 2,
         IsLimitGlobal = true,
-        PricePerLimit = 1600,
+        PricePerLimit = 1000,
+        Enabled = true,
 
         Action = function (client, product, items)
-            SpawnCreature("fractalguardian", client)
+            SpawnCreature("Mudraptor_veteran", client)
         end
     },
 
