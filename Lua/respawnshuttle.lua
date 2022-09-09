@@ -72,6 +72,8 @@ local function FindSpawnPosition()
 end
 
 local function SpawnCharacter(client, submarine)
+    if client.SpectateOnly or client.CharacterInfo == nil then return false end
+
     local spawnWayPoints = WayPoint.SelectCrewSpawnPoints({client.CharacterInfo}, submarine)
 
     local potentialPosition = submarine.WorldPosition
