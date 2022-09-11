@@ -294,6 +294,17 @@ Traitormod.AdjustLives = function (client, amount)
 
     local oldLives = Traitormod.GetData(client, "Lives") or Traitormod.Config.MaxLives
     local newLives =  oldLives + amount
+
+    if (newLives or 0) > Traitormod.Config.MaxLives then
+        -- if gained more lives than maxLives, reset to maxLives
+        newLives = Traitormod.Config.MaxLives
+    end
+
+    if newLives == oldLives then
+        -- no change in lives, no need for feedback
+        return nil, icon
+    end
+
     local amountString = Traitormod.Language.ALife
     if amount > 1 then amountString = amount .. Traitormod.Language.Lives end
 
@@ -321,10 +332,6 @@ Traitormod.AdjustLives = function (client, amount)
         end
         newLives = Traitormod.Config.MaxLives
         lifeAdjustMessage = string.format(Traitormod.Language.NoLives, newLives)
-    elseif (newLives or 0) > Traitormod.Config.MaxLives then
-        -- if gained more lives than maxLives, reset to maxLives
-        newLives = Traitormod.Config.MaxLives
-        lifeAdjustMessage = nil -- no change in lives, no need for feedback
     end
     
     Traitormod.Log("Adjusting lives of player " .. client.Name .. " by " .. amount .. ". New value: " .. newLives)
