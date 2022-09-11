@@ -59,7 +59,7 @@ Traitormod.AddCommand("!toggletraitor", function (client, args)
         Traitormod.SetData(client, "NonTraitor", not toggle)
         Traitormod.SaveData() -- move this to player disconnect someday...
         
-        Traitormod.Log(client.Name .. " can become traitor: " .. tostring(toggle))
+        Traitormod.Log(Traitormod.ClientLogName(client) .. " can become traitor: " .. tostring(toggle))
     end
 
     Traitormod.SendMessage(client, text)
@@ -106,7 +106,7 @@ Traitormod.AddCommand("!tc", function (client, args)
             for character, traitor in pairs(Traitormod.SelectedGamemode.Traitors) do
                 local traitorClient = Traitormod.FindClientCharacter(character)
                 if traitorClient then
-                    Game.SendDirectChatMessage("", string.format(Traitormod.Language.TraitorBroadcast, client.Name, msg), nil, ChatMessageType.Error, traitorClient)
+                    Game.SendDirectChatMessage("", string.format(Traitormod.Language.TraitorBroadcast, Traitormod.ClientLogName(client), msg), nil, ChatMessageType.Error, traitorClient)
                 end
             end
         
@@ -135,7 +135,7 @@ Traitormod.AddCommand("!tdm", function (client, args)
             end
             if found then
                 Traitormod.SendMessage(found, Traitormod.Language.TraitorDirectMessage .. msg)
-                feedback = string.format("[To %s]: %s", found.Name, msg)
+                feedback = string.format("[To %s]: %s", Traitormod.ClientLogName(found), msg)
                 return true
             else
                 feedback = "Name not found."
@@ -236,42 +236,12 @@ Traitormod.AddCommand({"!addpoint", "!addpoints"}, function (client, args)
 
     Traitormod.AddData(found, "Points", amount)
 
-    local msg = string.format("Admin added %s points to %s.", amount, found.Name)
-    Traitormod.SendMessageEveryone(msg)
     Traitormod.SendMessage(client, string.format(Traitormod.Language.PointsAwarded, amount), "InfoFrameTabButton.Mission")
 
-    msg = client.Name .. ": " .. msg
+    local msg = string.format("Admin added %s points to %s.", amount, Traitormod.ClientLogName(found))
+    Traitormod.SendMessageEveryone(msg)
+    msg = Traitormod.ClientLogName(client) .. ": " .. msg
     Traitormod.Log(msg)
-
-    return true
-end)
-
-Traitormod.AddCommand({"!removepoint", "!removepoints"}, function (client, args)
-    if not client.HasPermission(ClientPermissions.ConsoleCommands) then return end
-
-    if #args < 2 then
-        Traitormod.SendMessage(client, "Incorrect amount of arguments. usage: !removepoint \"Client Name\" 500")
-
-        return true
-    end
-
-    local name = table.remove(args, 1)
-    local amount = tonumber(table.remove(args, 1))
-
-    if amount == nil or amount ~= amount then
-        Traitormod.SendMessage(client, "Invalid number value.")
-        return true
-    end
-
-    local found = Traitormod.FindClient(name)
-
-    if found == nil then
-        Traitormod.SendMessage(client, "Couldn't find a client with name / steamID " .. name)
-        return true
-    end
-
-    Traitormod.AddData(found, "Points", -amount)
-    Traitormod.SendMessage(client, string.format("Removed %s points from %s.", amount, found.Name))
 
     return true
 end)
@@ -312,13 +282,13 @@ Traitormod.AddCommand({"!addlife", "!addlive", "!addlifes", "!addlives"}, functi
 
     for lifeClient in gainLifeClients do
         local lifeMsg, lifeIcon = Traitormod.AdjustLives(lifeClient, amount)
-        local msg = string.format("Admin added %s lives to %s.", amount, lifeClient.Name)
+        local msg = string.format("Admin added %s lives to %s.", amount, Traitormod.ClientLogName(lifeClient))
 
         if lifeMsg then
             Traitormod.SendMessage(lifeClient, lifeMsg, lifeIcon)
             Traitormod.SendMessageEveryone(msg)
         else
-            Game.SendDirectChatMessage("", lifeClient.Name .. " already has maximum lives.", nil, Traitormod.Config.ChatMessageType, client)
+            Game.SendDirectChatMessage("", Traitormod.ClientLogName(lifeClient) .. " already has maximum lives.", nil, Traitormod.Config.Error, client)
         end
     end
 
@@ -351,12 +321,13 @@ Traitormod.AddCommand("!revive", function (client, args)
             Traitormod.SendMessage(reviveClient, lifeMsg, lifeIcon)
         end
 
-        Game.SendDirectChatMessage("", "Character of " .. name .. " revived and given back 1 life.", nil, ChatMessageType.Error, client)
+        Game.SendDirectChatMessage("", "Character of " .. Traitormod.ClientLogName(reviveClient) .. " revived and given back 1 life.", nil, ChatMessageType.Error, client)
+        Traitormod.SendMessageEveryone(string.format("Admin revived %s", Traitormod.ClientLogName(reviveClient)))
 
     elseif reviveClient.Character then
-        Game.SendDirectChatMessage("", "Character of " .. name .. " is not dead.", nil, ChatMessageType.Error, client)
+        Game.SendDirectChatMessage("", "Character of " .. Traitormod.ClientLogName(reviveClient) .. " is not dead.", nil, ChatMessageType.Error, client)
     else
-        Game.SendDirectChatMessage("", "Character of " .. name .. " not found.", nil, ChatMessageType.Error, client)
+        Game.SendDirectChatMessage("", "Character of " .. Traitormod.ClientLogName(reviveClient) .. " not found.", nil, ChatMessageType.Error, client)
     end
 
     return true

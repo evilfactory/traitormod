@@ -266,7 +266,7 @@ Traitormod.LoadExperience = function (client)
         amount = max
     end
 
-    Traitormod.Debug("Loading experience from stored points: " .. client.Character.Name .. " -> " .. amount)
+    Traitormod.Debug("Loading experience from stored points: " .. Traitormod.ClientLogName(client) .. " -> " .. amount)
     client.Character.Info.SetExperience(amount)
 end
 
@@ -283,7 +283,7 @@ Traitormod.AwardPoints = function (client, amount, isMissionXP)
     if not Traitormod.Config.TestMode then
         Traitormod.AddData(client, "Points", amount)
         Traitormod.Stats.AddClientStat("PointsGained", client, amount)
-        Traitormod.Log(string.format("Client %s was awarded %d points.", client.Name, math.floor(amount)))
+        Traitormod.Log(string.format("Client %s was awarded %d points.", Traitormod.ClientLogName(client), math.floor(amount)))
         if Traitormod.SelectedGamemode.AwardedPoints then
             local oldValue = Traitormod.SelectedGamemode.AwardedPoints[client.SteamID] or 0
             Traitormod.SelectedGamemode.AwardedPoints[client.SteamID] = oldValue + amount
@@ -339,7 +339,7 @@ Traitormod.AdjustLives = function (client, amount)
         lifeAdjustMessage = string.format(Traitormod.Language.NoLives, newLives)
     end
     
-    Traitormod.Log("Adjusting lives of player " .. client.Name .. " by " .. amount .. ". New value: " .. newLives)
+    Traitormod.Log("Adjusting lives of player " .. Traitormod.ClientLogName(client) .. " by " .. amount .. ". New value: " .. newLives)
     Traitormod.SetData(client, "Lives", newLives)
     return lifeAdjustMessage, icon
 end
@@ -362,6 +362,15 @@ Traitormod.GetDataInfo = function(client, showWeights)
     end
 
     return string.format(Traitormod.Language.PointsInfo, math.floor(Traitormod.GetData(client, "Points") or 0), Traitormod.GetData(client, "Lives") or Traitormod.Config.MaxLives, Traitormod.Config.MaxLives) .. weightInfo
+end
+
+Traitormod.ClientLogName = function(client, name)
+    if name == nil then name = client.Name end
+
+    name = string.gsub(name, "%‖", "")
+
+    local log = "‖metadata:" .. client.SteamID .. "‖" .. name .. "‖end‖"
+    return log
 end
 
 Traitormod.GetJobString = function(character)
