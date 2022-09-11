@@ -182,7 +182,6 @@ Hook.Add("missionsEnded", "Traitormod.MissionsEnded", function (missions)
         Traitormod.SendMessageEveryone(endMessage)
     end
     
-    Traitormod.Log(endMessage)
     Traitormod.LastRoundSummary = endMessage
 
     Traitormod.SelectedGamemode = dofile(Traitormod.Path .. "/Lua/gamemodes/nogamemode.lua")
