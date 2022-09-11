@@ -16,6 +16,7 @@ assassination.Start = function ()
     assassination.Coderesponses = words[2]
 
     assassination.CurrentRoundNumber = Traitormod.RoundNumber
+    assassination.AwardedPoints = {}
 
     dofile(Traitormod.Path .. "/Lua/gamemodes/assassination/commands.lua")
     dofile(Traitormod.Path .. "/Lua/gamemodes/assassination/hooks.lua")
@@ -52,7 +53,8 @@ assassination.End = function ()
                 if client then
                     local points = Traitormod.AwardPoints(client, objective.Config.AmountPoints)
                     local lives = Traitormod.AdjustLives(client, objective.Config.AmountLives)
-                    
+                    traitor.SubObjectivesCompleted = (traitor.SubObjectivesCompleted or 0) + 1
+
                     Traitormod.SendObjectiveCompleted(client,  objective.ObjectiveText, points, lives)
                 end
                 
@@ -65,10 +67,40 @@ assassination.End = function ()
     if noTraitors then 
         message = lang.NoTraitors
     else
-        message = assassination.GetRoundSummary()
+        message = assassination.GetRoundResult()
     end
 
     return message
+end
+
+assassination.GetRoundResult = function ()
+    local summary = nil
+
+    for character, traitor in pairs(assassination.Traitors) do
+        if summary ~= nil then
+            summary = summary .. "\n\n"
+        end
+
+        local stats = "Targets killed: %d | Sub objectives: %d"
+        local traitorName = Traitormod.GetJobString(character).. " " .. character.Name
+        if traitor.Deaths > 0 then
+            traitorName = traitorName.." (Died)"
+        end
+
+        summary = (summary or "") .. string.format("> %s\n", traitorName) ..
+        string.format(stats, traitor.Kills or 0, traitor.SubObjectivesCompleted or 0)
+        
+        local client = Traitormod.FindClientCharacter(character)
+        if client and assassination.AwardedPoints then
+            summary = summary .. string.format(" | Points gained: %d", math.floor(assassination.AwardedPoints[client.SteamID] or 0))
+        end
+    end
+
+    if not summary then
+        summary = Traitormod.Language.NoTraitors
+    end
+
+    return summary
 end
 
 assassination.GetRoundSummary = function ()
@@ -360,6 +392,7 @@ assassination.CheckObjectives = function (character, traitor)
             local client = Traitormod.FindClientCharacter(character)
 
             Traitormod.Stats.AddClientStat("TraitorSubObjectives", client, 1)
+            traitor.SubObjectivesCompleted = (traitor.SubObjectivesCompleted or 0) + 1
 
             if client == nil then 
                 Traitormod.Error("Couldn't award sub objective points for " .. character.Name)

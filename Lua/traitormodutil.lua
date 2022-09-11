@@ -283,6 +283,11 @@ Traitormod.AwardPoints = function (client, amount, isMissionXP)
     if not Traitormod.Config.TestMode then
         Traitormod.AddData(client, "Points", amount)
         Traitormod.Stats.AddClientStat("PointsGained", client, amount)
+        Traitormod.Log(string.format("Client %s was awarded %d points.", client.Name, math.floor(amount)))
+        if Traitormod.SelectedGamemode.AwardedPoints then
+            local oldValue = Traitormod.SelectedGamemode.AwardedPoints[client.SteamID] or 0
+            Traitormod.SelectedGamemode.AwardedPoints[client.SteamID] = oldValue + amount
+        end
     end
     return amount
 end
