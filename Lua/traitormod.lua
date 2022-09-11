@@ -1,4 +1,4 @@
-dofile(Traitormod.Path .. "/Lua/traitormod_util.lua")
+dofile(Traitormod.Path .. "/Lua/traitormodutil.lua")
 
 Game.OverrideTraitors(true)
 

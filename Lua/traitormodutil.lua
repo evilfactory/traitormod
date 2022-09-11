@@ -1,4 +1,4 @@
-Traitormod.Config = dofile(Traitormod.Path .. "/Lua/config.lua")
+Traitormod.Config = dofile(Traitormod.Path .. "/Lua/config/config.lua")
 
 Traitormod.Languages = {
     dofile(Traitormod.Path .. "/Lua/language/english.lua")
