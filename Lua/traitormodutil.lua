@@ -256,7 +256,7 @@ Traitormod.LoadExperience = function (client)
         Traitormod.Error("Loading experience failed! Client was nil")
         return
     elseif not client.Character or not client.Character.Info then 
-        Traitormod.Error("Loading experience failed! Client.Character or .Info was null! " .. client.Name)
+        Traitormod.Error("Loading experience failed! Client.Character or .Info was null! " .. Traitormod.ClientLogName(client))
         return 
     end
     local amount = Traitormod.Config.AmountExperienceWithPoints(Traitormod.GetData(client, "Points") or 0)

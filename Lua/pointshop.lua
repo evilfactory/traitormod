@@ -225,7 +225,7 @@ ps.BuyProduct = function(client, product)
             return ps.ProductBuyFailureReason.NoStock
         end
 
-        Traitormod.Log(string.format("PointShop: %s bought \"%s\".", client.Name, product.Name))
+        Traitormod.Log(string.format("PointShop: %s bought \"%s\".", Traitormod.ClientLogName(client), product.Name))
         Traitormod.SetData(client, "Points", points - price)
 
         Traitormod.Stats.AddClientStat("CrewBoughtItem", client, 1)

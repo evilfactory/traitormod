@@ -299,11 +299,10 @@ Traitormod.AddCommand("!revive", function (client, args)
     if not client.HasPermission(ClientPermissions.ConsoleCommands) then return end
 
     local reviveClient = client
-    local name = client.Name
 
     if #args > 0 then
         -- if client name is given, revive related character
-        name = table.remove(args, 1)
+        local name = table.remove(args, 1)
         -- find character by client name
         for player in Client.ClientList do
             if player.Name == name or player.SteamID == name then
