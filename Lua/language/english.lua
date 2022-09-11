@@ -49,6 +49,7 @@ language.Experience = " (%s XP)"
 
 language.SkillsIncreased = "Good job on improving your skills."
 language.PointsAwarded = "You have been awarded %s points."
+language.PointsAwardedRound = "This round you gained:\n%s points"
 language.ExperienceAwarded = "You gained %s XP."
 
 language.LivesGained = "You gained %s. You now have %s/%s Lives."
