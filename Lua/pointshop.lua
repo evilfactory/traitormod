@@ -206,32 +206,34 @@ ps.GetProductPrice = function (client, product)
 end
 
 ps.BuyProduct = function(client, product)
-    local points = Traitormod.GetData(client, "Points") or 0
-    local price = ps.GetProductPrice(client, product)
+    if not Traitormod.Config.TestMode then
+        local points = Traitormod.GetData(client, "Points") or 0
+        local price = ps.GetProductPrice(client, product)
 
-    if product.CanBuy then
-        local success, result = product.CanBuy(client, product)
-        if not success then
-            return result
+        if product.CanBuy then
+            local success, result = product.CanBuy(client, product)
+            if not success then
+                return result
+            end
         end
-    end
 
-    if price > points then
-        return ps.ProductBuyFailureReason.NoPoints
-    end
+        if price > points then
+            return ps.ProductBuyFailureReason.NoPoints
+        end
 
-    if not ps.UseProductLimit(client, product) then
-        return ps.ProductBuyFailureReason.NoStock
-    end
+        if not ps.UseProductLimit(client, product) then
+            return ps.ProductBuyFailureReason.NoStock
+        end
 
-    Traitormod.Log(string.format("PointShop: %s bought \"%s\".", client.Name, product.Name))
-    Traitormod.SetData(client, "Points", points - price)
+        Traitormod.Log(string.format("PointShop: %s bought \"%s\".", client.Name, product.Name))
+        Traitormod.SetData(client, "Points", points - price)
+
+        Traitormod.Stats.AddClientStat("CrewBoughtItem", client, 1)
+        Traitormod.Stats.AddListStat("ItemsBought", product.Name, 1)
+    end
 
     -- Activate the product
     ps.ActivateProduct(client, product)
-
-    Traitormod.Stats.AddClientStat("CrewBoughtItem", client, 1)
-    Traitormod.Stats.AddListStat("ItemsBought", product.Name, 1)
 end
 
 ps.HandleProductBuy = function (client, product, result)
