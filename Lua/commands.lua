@@ -236,9 +236,12 @@ Traitormod.AddCommand({"!addpoint", "!addpoints"}, function (client, args)
 
     Traitormod.AddData(found, "Points", amount)
 
-    local msg = string.format("Gave %s points to %s.", amount, found.Name)
-    Traitormod.SendMessage(client, msg)
-    Traitormod.Log(client.Name .. " " .. msg)
+    local msg = string.format("Admin added %s points to %s.", amount, found.Name)
+    Traitormod.SendMessageEveryone(msg)
+    Traitormod.SendMessage(client, string.format(Traitormod.Language.PointsAwarded, amount), "InfoFrameTabButton.Mission")
+
+    msg = client.Name .. ": " .. msg
+    Traitormod.Log(msg)
 
     return true
 end)
@@ -285,7 +288,7 @@ Traitormod.AddCommand({"!addlife", "!addlive", "!addlifes", "!addlives"}, functi
     local name = table.remove(args, 1)
 
     local amount = 1
-    if #args > 1 then
+    if #args > 0 then
         amount = tonumber(table.remove(args, 1))
     end
 
@@ -309,11 +312,13 @@ Traitormod.AddCommand({"!addlife", "!addlive", "!addlifes", "!addlives"}, functi
 
     for lifeClient in gainLifeClients do
         local lifeMsg, lifeIcon = Traitormod.AdjustLives(lifeClient, amount)
-
-        Game.SendDirectChatMessage("", lifeClient.Name .. " got lives +"..amount, nil, Traitormod.Config.ChatMessageType, client)
+        local msg = string.format("Admin added %s lives to %s.", amount, lifeClient.Name)
 
         if lifeMsg then
             Traitormod.SendMessage(lifeClient, lifeMsg, lifeIcon)
+            Traitormod.SendMessageEveryone(msg)
+        else
+            Game.SendDirectChatMessage("", lifeClient.Name .. " already has maximum lives.", nil, Traitormod.Config.ChatMessageType, client)
         end
     end
 
