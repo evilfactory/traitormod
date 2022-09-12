@@ -305,6 +305,7 @@ Traitormod.AdjustLives = function (client, amount)
         newLives = Traitormod.Config.MaxLives
     end
 
+    local icon = "InfoFrameTabButton.Mission"
     if newLives == oldLives then
         -- no change in lives, no need for feedback
         return nil, icon
@@ -313,7 +314,6 @@ Traitormod.AdjustLives = function (client, amount)
     local amountString = Traitormod.Language.ALife
     if amount > 1 then amountString = amount .. Traitormod.Language.Lives end
 
-    local icon = "InfoFrameTabButton.Mission"
     local lifeAdjustMessage = string.format(Traitormod.Language.LivesGained, amountString, newLives, Traitormod.Config.MaxLives)
     if amount < 0 then
         icon = "GameModeIcon.pvp"
