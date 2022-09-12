@@ -2,11 +2,11 @@ local event = {}
 
 event.Enabled = true
 event.Name = "BeaconPirate"
-event.MinRoundTime = 2
-event.MaxRoundTime = 15
+event.MinRoundTime = 5
+event.MaxRoundTime = 20
 event.MinIntensity = 0
 event.MaxIntensity = 1
-event.ChancePerMinute = 0.13
+event.ChancePerMinute = 0.08
 event.OnlyOncePerRound = true
 
 event.AmountPoints = 1500
