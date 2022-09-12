@@ -64,7 +64,7 @@ assassination.End = function ()
     end
 
     for key, client in pairs(Client.ClientList) do
-        local amount = assassination.AwardedPoints[client.SteamID] or 0
+        local amount = math.floor(assassination.AwardedPoints[client.SteamID] or 0)
         Game.SendDirectChatMessage("", string.format(Traitormod.Language.PointsAwardedRound, amount), nil, ChatMessageType.Server, client)
     end
 
