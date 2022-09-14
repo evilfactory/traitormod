@@ -118,4 +118,8 @@ Hook.Add("roundEnd", "TraitorMod.RoundEvents.RoundEnd", function ()
     RoundTime = 0
 end)
 
+for _, value in pairs(re.EventConfigs.Events) do
+    if value.Init then value.Init() end
+end
+
 return re
