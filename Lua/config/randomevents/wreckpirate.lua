@@ -6,10 +6,10 @@ event.MinRoundTime = 4
 event.MaxRoundTime = 20
 event.MinIntensity = 0
 event.MaxIntensity = 1
-event.ChancePerMinute = 0.15
+event.ChancePerMinute = 0.09
 event.OnlyOncePerRound = true
 
-event.AmountPoints = 3000
+event.AmountPoints = 2300
 
 event.Start = function ()
     if #Level.Loaded.Wrecks == 0 then

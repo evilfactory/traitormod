@@ -6,10 +6,10 @@ event.MinRoundTime = 5
 event.MaxRoundTime = 20
 event.MinIntensity = 0
 event.MaxIntensity = 1
-event.ChancePerMinute = 0.08
+event.ChancePerMinute = 0.10
 event.OnlyOncePerRound = true
 
-event.AmountPoints = 1500
+event.AmountPoints = 1200
 
 event.Start = function ()
     local beacon = Level.Loaded.BeaconStation
@@ -77,7 +77,7 @@ event.Start = function ()
             if client ~= nil then
                 Traitormod.AwardPoints(client, event.AmountPoints)
                 Traitormod.SendMessage(client, "You have received " .. event.AmountPoints .. " points.", "InfoFrameTabButton.Mission")
-                
+
                 event.End()
             end
         end
