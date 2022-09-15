@@ -51,6 +51,13 @@ category.Products = {
         Limit = 2,
         Items = {"accordion"}
     },
+
+    {
+        Name = "Pet Name Tag",
+        Price = 30,
+        Limit = 5,
+        Items = {"petnametag"}
+    },
 }
 
 return category
