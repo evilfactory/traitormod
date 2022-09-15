@@ -60,15 +60,21 @@ event.Start = function ()
     event.Phase = 1
 
     Hook.Add("think", "AbyssHelp.Check", function ()
+        if character == nil then return end
+        
         if character.IsDead then
             local failurePoints = points / 2
             Traitormod.SpawnPointItem(character.Inventory, failurePoints, "I guess that's how it ends...\n\n This PDA contains " .. failurePoints .. " points.")
 
             event.End()
+            character = nil
+            
             return
         end
 
         if event.Phase == 2 and character.WorldPosition.Y > Level.Loaded.AbyssStart - 500 then
+            event.Phase = 3
+
             character.Speak("I can't believe we made out alive, thank you so much! Here is the points i promised, i dropped for you a cargo scooter with a PDA inside, containing the points i promised.", nil, 0, '', 0)
 
             Entity.Spawner.AddItemToSpawnQueue(ItemPrefab.GetItemPrefab("cargoscooter"), character.Inventory, nil, nil, function (item)
@@ -77,21 +83,19 @@ event.Start = function ()
                 Timer.Wait(function() item.Drop() end, 3000)
             end)
 
-            event.Phase = 3
-
             event.End()
             return
         end
 
         for key, value in pairs(Client.ClientList) do
             if value.Character ~= nil and not value.Character.IsDead and event.Phase == 1 and Vector2.Distance(value.Character.WorldPosition, character.WorldPosition) < 500 then
+                event.Phase = 2
+
                 character.Speak("Holy shit! Someone came! Thank you so much! Please find a way to get us out here, i'm gonna give you " .. points .. " of my points if i get out alive.", nil, 0, '', 0)
 
                 local orderPrefab = OrderPrefab.Prefabs["follow"]
                 local order = Order(orderPrefab, nil, value.Character).WithManualPriority(CharacterInfo.HighestManualOrderPriority)
                 character.SetOrder(order, true, false, true)
-
-                event.Phase = 2
                 break
             end
 
