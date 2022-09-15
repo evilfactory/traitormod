@@ -12,7 +12,7 @@ event.OnlyOncePerRound = true
 event.Init = function ()
     if Traitormod.SubmarineBuilder == nil then return end
 
-    event.SubmarineID = Traitormod.SubmarineBuilder.AddSubmarine(Traitormod.Path .. "/Submarines/Borebug.sub", "???")
+    event.SubmarineID = Traitormod.SubmarineBuilder.AddSubmarine(Traitormod.Path .. "/Submarines/BulblitKeras.sub", "???")
 end
 
 
@@ -25,6 +25,9 @@ event.Start = function ()
     submarine.SetPosition(Vector2(-5000, Level.Loaded.BottomPos + 10000))
     submarine.RealWorldCrushDepth = 10000
     Traitormod.SubmarineBuilder.ResetSubmarineSteering(submarine)
+
+    local boom = Explosion(1000, 15, 20, 40, 20, 0)
+    boom.Explode(submarine.WorldPosition)
 
     local info = CharacterInfo(Identifier("human"))
     info.Job = Job(JobPrefab.Get("captain"))
@@ -50,7 +53,7 @@ event.Start = function ()
         Entity.Spawner.AddItemToSpawnQueue(ItemPrefab.GetItemPrefab("oxygenitetank"), character.Inventory)   
     end
 
-    local points = math.floor(submarine.RealWorldDepth)
+    local points = math.floor(submarine.RealWorldDepth) * 1.25
 
     local text = "Incoming Distress Call... H---! -e-----uck i- --e abys-- W- n--d -e-- A l--her dr---e- us d--- her-. ---se -e a-e of--ring ----thing w- -ave, inclu--- our ---0 -o------"
     Traitormod.RoundEvents.SendEventMessage(text, "UnlockPathIcon")
@@ -58,17 +61,18 @@ event.Start = function ()
     Traitormod.RoundEvents.SendEventMessage("The transmission cuts out right after.", "UnlockPathIcon")
 
     event.Phase = 1
+    event.Timer = Timer.GetTime()
 
     Hook.Add("think", "AbyssHelp.Check", function ()
         if character == nil then return end
-        
+
         if character.IsDead then
             local failurePoints = points / 2
             Traitormod.SpawnPointItem(character.Inventory, failurePoints, "I guess that's how it ends...\n\n This PDA contains " .. failurePoints .. " points.")
 
             event.End()
             character = nil
-            
+
             return
         end
 
@@ -87,19 +91,34 @@ event.Start = function ()
             return
         end
 
+        local closestCharacter = nil
+
         for key, value in pairs(Client.ClientList) do
-            if value.Character ~= nil and not value.Character.IsDead and event.Phase == 1 and Vector2.Distance(value.Character.WorldPosition, character.WorldPosition) < 500 then
+            if value.Character ~= nil and not value.Character.IsDead and event.Phase == 1 and Vector2.Distance(value.Character.WorldPosition, character.WorldPosition) < 400 then
                 event.Phase = 2
 
                 character.Speak("Holy shit! Someone came! Thank you so much! Please find a way to get us out here, i'm gonna give you " .. points .. " of my points if i get out alive.", nil, 0, '', 0)
 
-                local orderPrefab = OrderPrefab.Prefabs["follow"]
-                local order = Order(orderPrefab, nil, value.Character).WithManualPriority(CharacterInfo.HighestManualOrderPriority)
-                character.SetOrder(order, true, false, true)
+                Timer.Wait(function ()
+                    character.Speak("Maybe you could try to get a new battery for this submarine and fix it up.", nil, 0, '', 0)
+                end, 4000)
+
                 break
             end
 
+            if event.Phase == 2 and value.Character ~= nil and not value.Character.IsDead then
+                if closestCharacter == nil or Vector2.Distance(value.Character.WorldPosition, character.WorldPosition) < Vector2.Distance(closestCharacter.WorldPosition, character.WorldPosition) then
+                    closestCharacter = value.Character
+                end
+            end
+        end
 
+        if event.Phase == 2 and closestCharacter ~= nil and Timer.GetTime() > event.Timer then
+            local orderPrefab = OrderPrefab.Prefabs["follow"]
+            local order = Order(orderPrefab, nil, closestCharacter).WithManualPriority(CharacterInfo.HighestManualOrderPriority)
+            character.SetOrder(order, true, false, true)
+
+            event.Timer = Timer.GetTime() + 10
         end
     end)
 end
