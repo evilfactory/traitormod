@@ -72,7 +72,7 @@ event.Start = function ()
             character.Speak("I can't believe we made out alive, thank you so much! Here is the points i promised, i dropped for you a cargo scooter with a PDA inside, containing the points i promised.", nil, 0, '', 0)
 
             Entity.Spawner.AddItemToSpawnQueue(ItemPrefab.GetItemPrefab("cargoscooter"), character.Inventory, nil, nil, function (item)
-                Traitormod.SpawnPointItem(item.OwnInventory, points, "This PDA contains " .. points .. " points.")
+                Traitormod.SpawnPointItem(item.OwnInventory, points)
                 
                 Timer.Wait(function() item.Drop() end, 3000)
             end)

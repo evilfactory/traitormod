@@ -350,7 +350,7 @@ Traitormod.AddCommand("!triggerevent", function (client, args)
 
     if #args < 1 then
         Traitormod.SendMessage(client, "Usage: !triggerevent <event name>")
-        return
+        return true
     end
 
     local event = nil
@@ -367,6 +367,46 @@ Traitormod.AddCommand("!triggerevent", function (client, args)
 
     Traitormod.RoundEvents.TriggerEvent(event.Name)
     Traitormod.SendMessage(client, "Triggered event " .. event.Name)
+
+    return true
+end)
+
+
+local preventSpam = {}
+Traitormod.AddCommand({"!droppoints", "!droppoint", "!dropoint", "!dropoints"}, function (client, args)
+    if preventSpam[client] ~= nil and Timer.GetTime() < preventSpam[client] then
+        Traitormod.SendMessage(client, "Please wait a bit before using this command again.")
+        return true
+    end
+
+    if client.Character == nil or client.Character.IsDead or client.Character.Inventory == nil then
+        Traitormod.SendMessage(client, "You must be alive to use this command.")
+        return true
+    end
+
+    if #args < 1 then
+        Traitormod.SendMessage(client, "Usage: !droppoints amount")
+        return true
+    end
+
+    local amount = tonumber(args[1])
+
+    if amount == nil or amount ~= amount or amount < 100 or amount > 100000 then
+        Traitormod.SendMessage(client, "Please specify a valid number between 100 and 100000.")
+        return true
+    end
+
+    local availablePoints = Traitormod.GetData(client, "Points") or 0
+
+    if amount > availablePoints then
+        Traitormod.SendMessage(client, "You don't have enough points to drop.")
+        return true
+    end
+
+    Traitormod.SpawnPointItem(client.Character.Inventory, tonumber(amount))
+    Traitormod.SetData(client, "Points", availablePoints - amount)
+
+    preventSpam[client] = Timer.GetTime() + 5
 
     return true
 end)
