@@ -198,6 +198,7 @@ Hook.Add("roundEnd", "Traitormod.RoundEnd", function ()
 
     Traitormod.PointsToBeGiven = {}
     Traitormod.AbandonedCharacters = {}
+    Traitormod.PointItems = {}
 
     local gameModeMessage = Traitormod.SelectedGamemode.End()
 
@@ -289,6 +290,8 @@ Hook.Add("think", "Traitormod.Think", function ()
         return
     end
 
+    Traitormod.CheckPointItems()
+
     Traitormod.SelectedGamemode.Think()
 
     -- every 60s, if a character has 100+ PointsToBeGiven, store added points and send feedback
@@ -371,6 +374,63 @@ Hook.Add("chatMessage", "Traitormod.ChatMessage", function (message, client)
         return Traitormod.Commands[command].Callback(client, split)
     end
 end)
+
+
+Traitormod.PointItems = {}
+Traitormod.SpawnPointItem = function (inventory, amount, text, onSpawn, onUsed)
+    Entity.Spawner.AddItemToSpawnQueue(ItemPrefab.GetItemPrefab("logbook"), inventory, nil, nil, function (item)
+        Traitormod.PointItems[item] = {}
+        Traitormod.PointItems[item].Amount = amount
+        Traitormod.PointItems[item].OnUsed = onUsed
+
+        if text then
+            local terminal = item.GetComponentString("Terminal")
+            terminal.ShowMessage = text
+            terminal.SyncHistory()
+        end
+
+        item.SpriteColor = Color(0, 0, 255, 255)
+        item.Scale = 0.7
+
+        local color = item.SerializableProperties[Identifier("SpriteColor")]
+        Networking.CreateEntityEvent(item, Item.ChangePropertyEventData(color))
+
+        local scale = item.SerializableProperties[Identifier("Scale")]
+        Networking.CreateEntityEvent(item, Item.ChangePropertyEventData(scale))
+
+        if onSpawn then
+            onSpawn(item)
+        end
+    end)
+end
+
+Traitormod.CheckPointItems = function ()
+    for key, value in pairs(Traitormod.PointItems) do
+        if key.ParentInventory == nil then return end
+
+        local owner = key.ParentInventory.Owner
+
+        if tostring(owner) == "Human" then
+            local client = Traitormod.FindClientCharacter(owner)
+
+            if client ~= nil then
+                Traitormod.AwardPoints(client, value.Amount)
+                Traitormod.SendMessage(client, "You have received " .. value.Amount .. " points.", "InfoFrameTabButton.Mission")
+
+                if value.OnUsed then
+                    value.OnUsed(client)
+                end
+
+                local terminal = key.GetComponentString("Terminal")
+                terminal.ShowMessage = "Claimed by " .. client.Name
+                terminal.SyncHistory()
+
+                Traitormod.PointItems[key] = nil
+            end
+        end
+    end
+end
+
 
 if Traitormod.Config.OverrideRespawnSubmarine then
     Traitormod.SubmarineBuilder = dofile(Traitormod.Path .. "/Lua/submarinebuilder.lua")

@@ -158,6 +158,7 @@ config.RandomEventConfig = {
         dofile(Traitormod.Path .. "/Lua/config/randomevents/repairpackdelivery.lua"),
         dofile(Traitormod.Path .. "/Lua/config/randomevents/wreckpirate.lua"),
         dofile(Traitormod.Path .. "/Lua/config/randomevents/beaconpirate.lua"),
+        dofile(Traitormod.Path .. "/Lua/config/randomevents/abysshelp.lua"),
     }
 }
 
