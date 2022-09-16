@@ -76,7 +76,7 @@ event.Start = function ()
             return
         end
 
-        if event.Phase == 2 and character.WorldPosition.Y > Level.Loaded.AbyssStart - 500 then
+        if event.Phase == 2 and character.WorldPosition.Y > Level.Loaded.AbyssStart - 500 and character.CanSpeak then
             event.Phase = 3
 
             character.Speak("I can't believe we made out alive, thank you so much! Here is the points i promised, i dropped for you a cargo scooter with a PDA inside, containing the points i promised.", nil, 0, '', 0)
@@ -94,7 +94,7 @@ event.Start = function ()
         local closestCharacter = nil
 
         for key, value in pairs(Client.ClientList) do
-            if value.Character ~= nil and not value.Character.IsDead and event.Phase == 1 and Vector2.Distance(value.Character.WorldPosition, character.WorldPosition) < 400 then
+            if value.Character ~= nil and not value.Character.IsDead and event.Phase == 1 and Vector2.Distance(value.Character.WorldPosition, character.WorldPosition) < 400 and character.CanSpeak then
                 event.Phase = 2
 
                 character.Speak("Holy shit! Someone came! Thank you so much! Please find a way to get us out here, i'm gonna give you " .. points .. " of my points if i get out alive.", nil, 0, '', 0)
