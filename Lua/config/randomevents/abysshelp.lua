@@ -53,7 +53,7 @@ event.Start = function ()
         Entity.Spawner.AddItemToSpawnQueue(ItemPrefab.GetItemPrefab("oxygenitetank"), character.Inventory)   
     end
 
-    local points = math.floor(submarine.RealWorldDepth) * 1.25
+    local points = math.floor(submarine.RealWorldDepth) * 3
 
     local text = "Incoming Distress Call... H---! -e-----uck i- --e abys-- W- n--d -e-- A l--her dr---e- us d--- her-. ---se -e a-e of--ring ----thing w- -ave, inclu--- our ---0 -o------"
     Traitormod.RoundEvents.SendEventMessage(text, "UnlockPathIcon")
