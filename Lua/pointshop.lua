@@ -151,10 +151,11 @@ ps.SpawnItem = function(client, item, onSpawned)
     end
 
     if item.IsInstallation then
+        local position = client.Character.AnimController.GetLimb(LimbType.Torso).WorldPosition
         if client.Character.Submarine == nil then
-            Entity.Spawner.AddItemToSpawnQueue(prefab, client.Character.WorldPosition, condition, nil, OnSpawn)
+            Entity.Spawner.AddItemToSpawnQueue(prefab, position, condition, nil, OnSpawn)
         else
-            Entity.Spawner.AddItemToSpawnQueue(prefab, client.Character.WorldPosition - client.Character.Submarine.Position, client.Character.Submarine, condition, nil, OnSpawn)
+            Entity.Spawner.AddItemToSpawnQueue(prefab, position - client.Character.Submarine.Position, client.Character.Submarine, condition, nil, OnSpawn)
         end
     else
         Entity.Spawner.AddItemToSpawnQueue(prefab, client.Character.Inventory, condition, nil, OnSpawn)
