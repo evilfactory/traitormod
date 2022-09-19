@@ -39,6 +39,8 @@ re.TriggerEvent = function (eventName)
 
     Traitormod.Stats.AddStat("EventTriggered", event.Name, 1)
 
+    Traitormod.UserDataCorruptionWorkaround() -- TODO: get rid
+
     re.OnGoingEvents[eventName] = event
     Timer.Wait(event.Start, 0)
 
