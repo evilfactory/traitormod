@@ -8,7 +8,8 @@
 
 		"Lua.diagnostics.libraryFiles": "Enable",
     	"Lua.workspace.library": [
-        	"B:/programming/BLua/bluadocs"
+        	"B:/programming/BLua/btlua-docs/types/server",
+			"B:/programming/BLua/btlua-docs/types/shared"
 		],
 		"Lua.diagnostics.globals": [
 			"ServerLogMessageType"
