@@ -130,6 +130,24 @@ category.Products = {
     },
 
     {
+        Name = "Camera",
+        Price = 110,
+        Limit = 5,
+        Items = {
+            {Identifier = "camera", IsInstallation = true}
+        }
+    },
+
+    {
+        Name = "Periscope",
+        Price = 180,
+        Limit = 5,
+        Items = {
+            {Identifier = "periscope", IsInstallation = true}
+        }
+    },
+
+    {
         Name = "Wire",
         Price = 40,
         Limit = 8,
