@@ -81,14 +81,6 @@ category.Products = {
         IsLimitGlobal = false,
         Items = {"badcreepingorange"},
     },
-
-    {
-        Name = "Door",
-        Price = 500,
-        Limit = 3,
-        IsLimitGlobal = false,
-        Items = {{Identifier = "door", IsInstallation = true}},
-    },
 }
 
 return category

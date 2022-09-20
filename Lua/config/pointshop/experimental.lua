@@ -5,7 +5,7 @@ category.Name = "Experimental"
 category.Products = {
     {
         Name = "Door",
-        Price = 6000,
+        Price = 400,
         Limit = 4,
         Items = {
             {Identifier = "door", IsInstallation = true}
