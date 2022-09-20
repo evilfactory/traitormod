@@ -2,13 +2,13 @@ local event = {}
 
 event.Enabled = true
 event.Name = "SuperBallastFlora"
-event.MinRoundTime = 10
+event.MinRoundTime = 25
 event.MinIntensity = 0
-event.MaxIntensity = 0.2
-event.ChancePerMinute = 0.025
+event.MaxIntensity = 0.15
+event.ChancePerMinute = 0.005
 event.OnlyOncePerRound = true
 
-event.PumpsToInfect = 5
+event.PumpsToInfect = 6
 
 event.Start = function ()
     local pumps = {}
@@ -29,6 +29,9 @@ event.Start = function ()
             pump.Item.CreateServerEvent(pump, pump)
         end
     end
+
+    local text = "High concentration of ballast flora spores has been detected in this area, it's advised to search pumps for ballast flora!"
+    Traitormod.RoundEvents.SendEventMessage(text, "EndRoundButton")
 
     event.End()
 end
