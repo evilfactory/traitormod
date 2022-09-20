@@ -68,7 +68,7 @@ event.Start = function ()
 
         if character.IsDead then
             local failurePoints = points / 2
-            Traitormod.SpawnPointItem(character.Inventory, failurePoints, "I guess that's how it ends...\n\n This PDA contains " .. failurePoints .. " points.")
+            Traitormod.SpawnPointItem(character.Inventory, failurePoints, "I guess that's how it ends....")
 
             event.End()
             character = nil
@@ -83,7 +83,22 @@ event.Start = function ()
 
             Entity.Spawner.AddItemToSpawnQueue(ItemPrefab.GetItemPrefab("cargoscooter"), character.Inventory, nil, nil, function (item)
                 Traitormod.SpawnPointItem(item.OwnInventory, points)
-                
+
+                local randomLoot = {}
+                for prefab in ItemPrefab.Prefabs do
+                    if prefab.CanBeBought then
+                        table.insert(randomLoot, prefab)
+                    end
+                end
+
+                local size = #randomLoot
+                for i = 1, 10, 1 do
+                    local prefab = randomLoot[math.random(size)]
+                    for i = 1, math.random(1, prefab.MaxStackSize), 1 do
+                        Entity.Spawner.AddItemToSpawnQueue(prefab, item.OwnInventory)
+                    end
+                end
+
                 Timer.Wait(function() item.Drop() end, 3000)
             end)
 

@@ -374,6 +374,8 @@ Hook.Add("chatMessage", "Traitormod.ChatMessage", function (message, client)
 end)
 
 
+LuaUserData.MakeMethodAccessible(Descriptors["Barotrauma.Item"], "set_InventoryIconColor")
+
 Traitormod.PointItems = {}
 Traitormod.SpawnPointItem = function (inventory, amount, text, onSpawn, onUsed)
     text = text or ""
@@ -387,6 +389,7 @@ Traitormod.SpawnPointItem = function (inventory, amount, text, onSpawn, onUsed)
         terminal.ShowMessage = text .. "\nThis LogBook contains " .. amount .. " points. Type \"claim\" into it to claim the points."
         terminal.SyncHistory()
 
+        item.set_InventoryIconColor(Color(0, 0, 255))
         item.SpriteColor = Color(0, 0, 255, 255)
         item.Scale = 0.5
 
@@ -395,6 +398,9 @@ Traitormod.SpawnPointItem = function (inventory, amount, text, onSpawn, onUsed)
 
         local scale = item.SerializableProperties[Identifier("Scale")]
         Networking.CreateEntityEvent(item, Item.ChangePropertyEventData(scale))
+
+        local invColor = item.SerializableProperties[Identifier("InventoryIconColor")]
+        Networking.CreateEntityEvent(item, Item.ChangePropertyEventData(invColor))
 
         if onSpawn then
             onSpawn(item)
