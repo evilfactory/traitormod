@@ -79,7 +79,7 @@ event.Start = function ()
         if event.Phase == 2 and character.WorldPosition.Y > Level.Loaded.AbyssStart - 500 and character.CanSpeak then
             event.Phase = 3
 
-            character.Speak("I can't believe we made out alive, thank you so much! Here is the points i promised, i dropped for you a cargo scooter with a PDA inside, containing the points i promised.", nil, 0, '', 0)
+            character.Speak("I can't believe we made it out alive, thank you so much! Here are the points I promised, take this cargo scooter and the LogBook inside. The LogBook should contain the points I promised.", nil, 0, '', 0)
 
             Entity.Spawner.AddItemToSpawnQueue(ItemPrefab.GetItemPrefab("cargoscooter"), character.Inventory, nil, nil, function (item)
                 Traitormod.SpawnPointItem(item.OwnInventory, points)
@@ -97,10 +97,10 @@ event.Start = function ()
             if value.Character ~= nil and not value.Character.IsDead and event.Phase == 1 and Vector2.Distance(value.Character.WorldPosition, character.WorldPosition) < 400 and character.CanSpeak then
                 event.Phase = 2
 
-                character.Speak("Holy shit! Someone came! Thank you so much! Please find a way to get us out here, i'm gonna give you " .. points .. " of my points if i get out alive.", nil, 0, '', 0)
+                character.Speak("Holy shit! Someone came! Thank you so much! Please find a way to get us out here, I'll give you " .. points .. " of my points if you can get me out alive.", nil, 0, '', 0)
 
                 Timer.Wait(function ()
-                    character.Speak("Maybe you could try to get a new battery for this submarine and fix it up.", nil, 0, '', 0)
+                    character.Speak("You could try to get a new battery for this submarine and fix it up.", nil, 0, '', 0)
                 end, 4000)
 
                 break
