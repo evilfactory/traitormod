@@ -399,6 +399,14 @@ Hook.Add("roundEnd", "TraitorMod.PointShop.RoundEnd", function ()
     ps.ResetProductLimits()
 end)
 
+Hook.Add("characterDeath", "Traitormod.Pointshop.Death", function (character)
+    if character.IsPet then return end
+    local client = Traitormod.FindClientCharacter(character)
+    if client == nil then return end
+
+    ps.Timeouts[client.SteamID] = Timer.GetTime() + config.PointShopConfig.DeathTimeoutTime
+end)
+
 ps.ValidateConfig()
 
 for i, category in pairs(config.PointShopConfig.ItemCategories) do
