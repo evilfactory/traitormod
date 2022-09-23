@@ -2,7 +2,7 @@ local category = {}
 
 category.Name = "Ships"
 category.CanAccess = function(client)
-    return client.Character and not client.Character.IsDead and Traitormod.SubmarineBuilder ~= nil
+    return client.Character and not client.Character.IsDead and client.Character.IsHuman and Traitormod.SubmarineBuilder ~= nil
 end
 
 category.Init = function ()

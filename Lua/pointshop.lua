@@ -12,6 +12,7 @@ ps.ProductBuyFailureReason = {
 
 ps.GlobalProductLimits = {}
 ps.LocalProductLimits = {}
+ps.Timeouts = {}
 
 ps.ValidateConfig = function ()
     for i, category in pairs(config.PointShopConfig.ItemCategories) do
@@ -224,6 +225,15 @@ ps.BuyProduct = function(client, product)
 
         if not ps.UseProductLimit(client, product) then
             return ps.ProductBuyFailureReason.NoStock
+        end
+
+        if product.Timeout ~= nil then
+            if ps.Timeouts[client.SteamID] ~= nil and Timer.GetTime() < ps.Timeouts[client.SteamID] then
+                local time = math.ceil(ps.Timeouts[client.SteamID] - Timer.GetTime())
+                return "You have to wait " .. time .. " seconds before you can use this product."
+            end
+
+            ps.Timeouts[client.SteamID] = Timer.GetTime() + product.Timeout
         end
 
         Traitormod.Log(string.format("PointShop: %s bought \"%s\".", Traitormod.ClientLogName(client), product.Name))
