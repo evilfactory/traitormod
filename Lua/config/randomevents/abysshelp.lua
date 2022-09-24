@@ -6,7 +6,7 @@ event.MinRoundTime = 2
 event.MaxRoundTime = 20
 event.MinIntensity = 0
 event.MaxIntensity = 1
-event.ChancePerMinute = 0.01
+event.ChancePerMinute = 0.03
 event.OnlyOncePerRound = true
 
 event.Init = function ()

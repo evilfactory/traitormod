@@ -2,14 +2,14 @@ local event = {}
 
 event.Enabled = true
 event.Name = "BeaconPirate"
-event.MinRoundTime = 10
+event.MinRoundTime = 5
 event.MaxRoundTime = 20
 event.MinIntensity = 0
 event.MaxIntensity = 1
 event.ChancePerMinute = 0.10
 event.OnlyOncePerRound = true
 
-event.AmountPoints = 1200
+event.AmountPoints = 2000
 
 event.Start = function ()
     local beacon = Level.Loaded.BeaconStation
