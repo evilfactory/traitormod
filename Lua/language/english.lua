@@ -35,6 +35,7 @@ language.RandomEvents = "Random Events: %s"
 language.ObjectiveCompleted = "Objective completed: %s"
 
 language.CrewWins = "The crew successfully completed their mission!"
+language.TraitorHandcuffed = "The crew handcuffed %s traitor(s)!"
 language.TraitorsWin = "The traitors succeeded in completing their objectives!"
 
 language.TraitorsRound = "Traitors of the round:"

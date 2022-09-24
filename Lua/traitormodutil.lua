@@ -251,6 +251,19 @@ Traitormod.AllCrewMissionsCompleted = function (missions)
     return true
 end
 
+Traitormod.AllTraitorsHandcuffed = function (traitors)
+    local num = 0
+    for character, traitor in pairs(traitors) do
+        local item = character.Inventory.GetItemInLimbSlot(InvSlotType.RightHand)
+
+        if item ~= nil and item.Prefab.Identifier == "handcuffs" then
+            num = num + 1
+        end
+    end
+
+    return num
+end
+
 Traitormod.LoadExperience = function (client)
     if client == nil then
         Traitormod.Error("Loading experience failed! Client was nil")

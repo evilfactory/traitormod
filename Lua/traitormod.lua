@@ -101,7 +101,8 @@ Hook.Add("missionsEnded", "Traitormod.MissionsEnded", function (missions)
     local endMessage
     local crewReachedEnd = false
     local crewMissionsComplete = Traitormod.AllCrewMissionsCompleted(missions)
-    
+    local traitorsHandcuffed = Traitormod.AllTraitorsHandcuffed(Traitormod.SelectedGamemode.Traitors)
+
     -- handle stored player lives and weight
     for key, value in pairs(Client.ClientList) do
         -- add weight according to points and config conversion
@@ -131,21 +132,28 @@ Hook.Add("missionsEnded", "Traitormod.MissionsEnded", function (missions)
             if wasTraitor == nil and Traitormod.EndReached(value.Character) then
                 crewReachedEnd = true
 
-                local msg = nil
+                local msg = ""
+
+                if traitorsHandcuffed > 0 then
+                    local points = Traitormod.AwardPoints(value, Traitormod.Config.PointsGainedFromHandcuffedTraitors * traitorsHandcuffed, true)
+
+                    msg = msg .. string.format(Traitormod.Language.TraitorHandcuffed, traitorsHandcuffed) .. " " .. string.format(Traitormod.Language.PointsAwarded, points) .. "\n\n"
+                end
 
                 -- award points for mission completion
                 if crewMissionsComplete then
                     local points = Traitormod.AwardPoints(value, Traitormod.Config.PointsGainedFromCrewMissionsCompleted, true)
-                    msg = Traitormod.Language.CrewWins .. " \n\n" .. string.format(Traitormod.Language.PointsAwarded, points)
+                    msg = msg .. Traitormod.Language.CrewWins .. " " .. string.format(Traitormod.Language.PointsAwarded, points) .. "\n\n"
                 end
-                
+
                 local lifeMsg, icon = Traitormod.AdjustLives(value, (Traitormod.Config.LivesGainedFromCrewMissionsCompleted or 1))
-                if msg and lifeMsg then
-                    msg = msg .. "\n" .. lifeMsg
-                elseif lifeMsg then
-                    msg = lifeMsg
+                if lifeMsg then
+                    msg = msg .. lifeMsg .. "\n\n"
                 end
-                Traitormod.SendMessage(value, msg, icon)
+
+                if msg ~= "" then
+                    Traitormod.SendMessage(value, msg, icon)
+                end
             end
         end
     end
