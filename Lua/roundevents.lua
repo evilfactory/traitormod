@@ -8,6 +8,13 @@ re.OnGoingEvents = {}
 re.ThisRoundEvents = {}
 re.EventConfigs = Traitormod.Config.RandomEventConfig
 
+re.IsEventActive = function (eventName)
+    if re.OnGoingEvents[eventName] then
+        return true
+    end
+    return false
+end
+
 re.TriggerEvent = function (eventName)
     if not Game.RoundStarted then
         Traitormod.Error("Tried to trigger event " .. eventName .. ", but round is not started.")

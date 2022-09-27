@@ -198,7 +198,7 @@ ps.ActivateProduct = function (client, product)
         end
     end
 
-    if product.Items == nil or #product.Items == 0 and product.Action then
+    if (product.Items == nil or #product.Items == 0) and product.Action then
         product.Action(client, product)
     end
 end
@@ -215,7 +215,7 @@ ps.BuyProduct = function(client, product)
         if product.CanBuy then
             local success, result = product.CanBuy(client, product)
             if not success then
-                return result
+                return result or "This product cannot be used at the moment."
             end
         end
 

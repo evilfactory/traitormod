@@ -81,6 +81,36 @@ category.Products = {
         IsLimitGlobal = false,
         Items = {"badcreepingorange"},
     },
+
+    {
+        Name = "Turn Off Lights For 3 Minutes",
+        Price = 350,
+        Limit = 1,
+        IsLimitGlobal = true,
+
+        CanBuy = function (client, product)
+            return not Traitormod.RoundEvents.IsEventActive("LightsOff")
+        end,
+
+        Action = function ()
+            Traitormod.RoundEvents.TriggerEvent("LightsOff")
+        end
+    },
+
+    {
+        Name = "Turn Off Communications For 5 Minutes",
+        Price = 400,
+        Limit = 1,
+        IsLimitGlobal = true,
+
+        CanBuy = function (client, product)
+            return not Traitormod.RoundEvents.IsEventActive("CommunicationsOffline")
+        end,
+
+        Action = function ()
+            Traitormod.RoundEvents.TriggerEvent("CommunicationsOffline")
+        end
+    },
 }
 
 return category
