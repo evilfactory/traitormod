@@ -8,7 +8,7 @@ event.MaxIntensity = 0.1
 event.ChancePerMinute = 0.0005
 event.OnlyOncePerRound = true
 
-event.Time = 1
+event.Time = 3
 
 event.ColorsToRevert = {}
 
