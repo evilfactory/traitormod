@@ -42,7 +42,7 @@ config.MaxExperienceFromPoints = 50000     -- if not nil, this amount is the max
 
 config.DistanceToEndOutpostRequired = 5000
 config.PointsGainedFromCrewMissionsCompleted = 1000
-config.PointsGainedFromHandcuffedTraitors = 500
+config.PointsGainedFromHandcuffedTraitors = 1000
 config.LivesGainedFromCrewMissionsCompleted = 1
 config.PointsGainedFromSkill = {
     medical = 30,
