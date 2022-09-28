@@ -129,7 +129,7 @@ Hook.Add("missionsEnded", "Traitormod.MissionsEnded", function (missions)
             end
         
             -- if client was no traitor, and in reach of end position, gain a live
-            if wasTraitor == nil and Traitormod.EndReached(value.Character) then
+            if wasTraitor == nil and Traitormod.EndReached(value.Character) and not value.Character.IsDead then
                 crewReachedEnd = true
 
                 local msg = ""
