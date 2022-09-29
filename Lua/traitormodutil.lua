@@ -252,6 +252,8 @@ Traitormod.AllCrewMissionsCompleted = function (missions)
 end
 
 Traitormod.AllTraitorsHandcuffed = function (traitors)
+    if traitors == nil then return 0 end
+    
     local num = 0
     for character, traitor in pairs(traitors) do
         local item = character.Inventory.GetItemInLimbSlot(InvSlotType.RightHand)
