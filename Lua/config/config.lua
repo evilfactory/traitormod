@@ -114,6 +114,7 @@ config.GamemodeConfig = {
         SelectBotsAsTargets = true,
         SelectPiratesAsTargets = false,
         SelectUniqueTargets = true,     -- every traitor target can only be chosen once per traitor (respawn+false -> no end)
+        PointsPerAssassination = 100,
 
         -- Codewords, Names, None
         TraitorMethodCommunication = "Names",
