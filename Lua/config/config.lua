@@ -88,7 +88,7 @@ config.ObjectiveConfig = {
 
     Kidnap = {
         Enabled = true,
-        AmountPoints = 3500,
+        AmountPoints = 2500,
         Seconds = 100,
     },
 

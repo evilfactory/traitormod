@@ -333,7 +333,10 @@ assassination.RenewAssassinationObjective = function(client, traitor, target)
     end
     local newObjective = Traitormod.GetObjective("Assassinate")
     local objectivesCompleted = #traitor.MainObjectives
-    newObjective.Config.AmountPoints = newObjective.Config.AmountPoints + objectivesCompleted * assassination.Config.PointsPerAssassination
+    if not newObjective.Config.BaseAmountPoints then 
+        newObjective.Config.BaseAmountPoints = newObjective.Config.AmountPoints
+    end
+    newObjective.Config.AmountPoints = newObjective.Config.BaseAmountPoints + objectivesCompleted * assassination.Config.PointsPerAssassination
     newObjective.Start(traitor, target)
     table.insert(traitor.MainObjectives, newObjective)
 
