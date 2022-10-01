@@ -46,10 +46,10 @@ config.PointsGainedFromHandcuffedTraitors = 1000
 config.LivesGainedFromCrewMissionsCompleted = 1
 config.PointsGainedFromSkill = {
     medical = 30,
-    weapons = 25,
-    mechanical = 20,
-    electrical = 20,
-    helm = 10,
+    weapons = 20,
+    mechanical = 19,
+    electrical = 19,
+    helm = 9,
 }
 
 config.PointsLostAfterNoLives = function (x)
