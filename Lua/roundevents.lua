@@ -82,6 +82,8 @@ re.CheckRandomEvent = function (event)
         return
     end
 
+    Traitormod.Log("Selected random event to trigger \"" .. event.Name .. "\" with intensity " .. intensity .. " and round time " .. re.RoundTime / 60 .. " minutes.")
+
     re.TriggerEvent(event.Name)
 end
 
