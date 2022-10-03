@@ -167,7 +167,7 @@ config.RandomEventConfig = {
 
 config.PointShopConfig = {
     Enabled = true,
-    DeathTimeoutTime = 300,
+    DeathTimeoutTime = 120,
     ItemCategories = {
         dofile(Traitormod.Path .. "/Lua/config/pointshop/traitor.lua"),
         dofile(Traitormod.Path .. "/Lua/config/pointshop/security.lua"),
