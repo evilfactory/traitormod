@@ -4,24 +4,24 @@ local promptIDToCallback = {}
 
 local function SendEventMessage(msg, options, id, eventSprite, fadeToBlack, client)
     local message = Networking.Start()
-    message.Write(Byte(18)) -- net header
-    message.Write(Byte(0)) -- conversation
+    message.WriteByte(Byte(18)) -- net header
+    message.WriteByte(Byte(0)) -- conversation
 
-    message.Write(UShort(id)) -- ushort identifier 0
-    message.Write(eventSprite) -- event sprite
-    message.Write(Byte(0)) -- dialog Type
-    message.Write(false) -- continue conversation
+    message.WriteUInt16(UShort(id)) -- ushort identifier 0
+    message.WriteString(eventSprite) -- event sprite
+    message.WriteByte(Byte(0)) -- dialog Type
+    message.WriteBoolean(false) -- continue conversation
 
-    message.Write(UShort(0)) -- speak Id
-    message.Write(msg)
-    message.Write(fadeToBlack or false) -- fade to black
-    message.Write(Byte(#options))
+    message.WriteUInt16(UShort(0)) -- speak Id
+    message.WriteString(msg)
+    message.WriteBoolean(fadeToBlack or false) -- fade to black
+    message.WriteByte(Byte(#options))
     for key, value in pairs(options) do
-        message.Write(value)
+        message.WriteString(value)
     end
-    message.Write(Byte(#options))
+    message.WriteByte(Byte(#options))
     for i = 0, #options - 1, 1 do
-        message.Write(Byte(i))
+        message.WriteByte(Byte(i))
     end
 
     Networking.Send(message, client.Connection, DeliveryMethod.Reliable)
