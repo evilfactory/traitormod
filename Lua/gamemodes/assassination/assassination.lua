@@ -281,6 +281,7 @@ assassination.AssignInitialMissions = function (targetsAvailable)
             local target = assassination.GetValidTarget()
             Traitormod.Log("Chose assassination target " .. target.Name)
             traitor.MainObjectives[1] = Traitormod.GetObjective("Assassinate")
+            traitor.MainObjectives[1].Config.AmountPoints = traitor.MainObjectives[1].Config.BaseAmountPoints or traitor.MainObjectives[1].Config.AmountPoints
             traitor.MainObjectives[1].Start(character, target)
     
             local objectivesAvaiable = {}
