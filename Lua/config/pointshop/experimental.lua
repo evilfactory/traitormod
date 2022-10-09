@@ -113,7 +113,7 @@ category.Products = {
 
     {
         Name = "Nuclear Reactor",
-        Price = 10000,
+        Price = 1500,
         Limit = 1,
         Items = {
             {Identifier = "reactor1", IsInstallation = true}
@@ -148,12 +148,44 @@ category.Products = {
     },
 
     {
+        Name = "Lamp",
+        Price = 50,
+        Limit = 5,
+        Items = {
+            {Identifier = "lamp", IsInstallation = true}
+        },
+        Action = function (client, product, items)
+            for key, value in pairs(items) do
+                value.GetComponentString("LightComponent").IsOn = true
+            end
+        end
+    },
+
+    {
+        Name = "Chair",
+        Price = 25,
+        Limit = 5,
+        Items = {
+            {Identifier = "opdeco_officechair", IsInstallation = true}
+        },
+    },
+
+    {
+        Name = "Bunk Beds",
+        Price = 50,
+        Limit = 5,
+        Items = {
+            {Identifier = "opdeco_bunkbeds", IsInstallation = true}
+        },
+    },
+
+    {
         Name = "Wire",
         Price = 40,
         Limit = 8,
         Items = {
             {Identifier = "wire"}
-        }
+        },
     },
 }
 
