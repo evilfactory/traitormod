@@ -69,7 +69,18 @@ Traitormod.OnRoundStart = function()
         -- Send Welcome message
         Traitormod.SendWelcome(value)
     end
-    
+
+    local function startsWith(String,Start)
+        return string.sub(String,1,string.len(Start))==Start
+    end
+    if Traitormod.Config.RemoveSkillBooks then
+        for key, value in pairs(Item.ItemList) do
+            if startsWith(value.Prefab.Identifier.Value, "skillbook") then
+                Entity.Spawner.AddEntityToRemoveQueue(value)
+            end
+        end
+    end
+
     traitorsEnabled = Game.ServerSettings.TraitorsEnabled
     if traitorsEnabled == 0 then
         Traitormod.Log("Traitors are disabled.")
