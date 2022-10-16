@@ -81,6 +81,13 @@ category.Products = {
     },
 
     {
+        Name = "Scrap",
+        Price = 95,
+        Limit = 6,
+        Items = {"scrap"}
+    },
+
+    {
         Name = "Fulgurium",
         Price = 180,
         Limit = 4,

@@ -58,6 +58,14 @@ category.Products = {
         Limit = 5,
         Items = {"petnametag"}
     },
+
+    {
+        Name = "Random Egg",
+        Price = 50,
+        Limit = 5,
+        Items = {"smallmudraptoregg", "tigerthresheregg", "crawleregg", "peanutegg", "psilotoadegg", "orangeboyegg", "balloonegg"},
+        ItemRandom = true
+    },
 }
 
 return category

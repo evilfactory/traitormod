@@ -147,6 +147,48 @@ category.Products = {
     },
 
     {
+        Name = "Spawn as Bone Thresher",
+        Price = 2400,
+        Limit = 2,
+        IsLimitGlobal = true,
+        PricePerLimit = 500,
+        Enabled = true,
+        Timeout = 120,
+
+        Action = function (client, product, items)
+            SpawnCreature("Bonethresher", client)
+        end
+    },
+
+    {
+        Name = "Spawn as Tiger Thresher",
+        Price = 3000,
+        Limit = 2,
+        IsLimitGlobal = true,
+        PricePerLimit = 500,
+        Enabled = true,
+        Timeout = 120,
+
+        Action = function (client, product, items)
+            SpawnCreature("Tigerthresher", client)
+        end
+    },
+
+    {
+        Name = "Spawn as Hammerhead",
+        Price = 5000,
+        Limit = 2,
+        IsLimitGlobal = true,
+        PricePerLimit = 1000,
+        Enabled = true,
+        Timeout = 120,
+
+        Action = function (client, product, items)
+            SpawnCreature("hammerhead", client)
+        end
+    },
+
+    {
         Name = "Spawn as Fractal Guardian",
         Price = 6500,
         Limit = 1,
@@ -156,20 +198,6 @@ category.Products = {
 
         Action = function (client, product, items)
             SpawnCreature("fractalguardian", client)
-        end
-    },
-
-    {
-        Name = "Spawn as Hammerhead",
-        Price = 7500,
-        Limit = 2,
-        IsLimitGlobal = true,
-        PricePerLimit = 1000,
-        Enabled = true,
-        Timeout = 120,
-
-        Action = function (client, product, items)
-            SpawnCreature("hammerhead", client)
         end
     },
 

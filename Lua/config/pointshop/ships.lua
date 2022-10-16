@@ -45,7 +45,7 @@ end
 category.Products = {
     {
         Name = "Stream Chalk",
-        Price = 2000,
+        Price = 300,
         Limit = 1,
         IsLimitGlobal = true,
 
