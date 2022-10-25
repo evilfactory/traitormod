@@ -13,16 +13,16 @@ end
 category.Products = {
     {
         Name = "Bandage",
-        Price = 120,
+        Price = 130,
         Limit = 4,
-        Items = {"bandage"}
+        Items = {"bandage", "bandage"}
     },
 
     {
         Name = "Opium",
         Price = 130,
         Limit = 3,
-        Items = {"opium"}
+        Items = {"opium", "opium"}
     },
 
     {

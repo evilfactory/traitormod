@@ -13,6 +13,15 @@ category.Products = {
     },
 
     {
+        Name = "Hatch",
+        Price = 400,
+        Limit = 4,
+        Items = {
+            {Identifier = "hatch", IsInstallation = true}
+        }
+    },
+
+    {
         Name = "Supplies Cabinet",
         Price = 100,
         Limit = 6,

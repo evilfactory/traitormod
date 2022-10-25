@@ -66,6 +66,19 @@ category.Products = {
         Items = {"smallmudraptoregg", "tigerthresheregg", "crawleregg", "peanutegg", "psilotoadegg", "orangeboyegg", "balloonegg"},
         ItemRandom = true
     },
+
+    {
+        Name = "Assistant Bot",
+        Price = 400,
+        Limit = 5,
+        Action = function (client, product, items)
+            local info = CharacterInfo(Identifier("human"))
+            info.Job = Job(JobPrefab.Get("assistant"))
+            local character = Character.Create(info, client.Character.WorldPosition, info.Name, 0, false, true)
+            character.TeamID = CharacterTeamType.Team1
+            character.GiveJobItems(nil)
+        end
+    },
 }
 
 return category

@@ -134,6 +134,19 @@ category.Products = {
     },
 
     {
+        Name = "Spawn as Mantis",
+        Price = 1600,
+        Limit = 2,
+        IsLimitGlobal = true,
+        PricePerLimit = 400,
+        Timeout = 120,
+
+        Action = function (client, product, items)
+            SpawnCreature("mantis", client)
+        end
+    },
+
+    {
         Name = "Spawn as Husk",
         Price = 2300,
         Limit = 2,
