@@ -45,6 +45,8 @@ end
 
 Traitormod.LoadData()
 
+Hook.Call("Traitormod.InitialConfig")
+
 local weightedRandom = dofile(Traitormod.Path .. "/Lua/weightedrandom.lua")
 
 local traitorsEnabled = -1
