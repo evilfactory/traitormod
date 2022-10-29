@@ -16,7 +16,7 @@ event.Start = function ()
 
     for key, value in pairs(Submarine.MainSub.GetWaypoints(true)) do
         if value.SpawnType == SpawnType.Cargo then
-            cargoPosition = value.WorldPosition
+            position = value.WorldPosition
             break
         end
     end
