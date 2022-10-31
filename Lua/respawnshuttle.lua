@@ -97,6 +97,10 @@ local function SpawnCharacter(client, submarine)
 
     chararacter.GiveJobItems()
     chararacter.LoadTalents()
+
+    if Traitormod.Config.RespawnedPlayersDontLooseLives then
+        Traitormod.LostLivesThisRound[client.SteamID] = true
+    end
 end
 
 local function ResetSubmarine(submarine)

@@ -36,6 +36,7 @@ config.PermanentPoints = true      -- sets if points and lives will be stored in
 config.PermanentStatistics = true  -- sets if statistics be stored in and loaded from a file
 config.MaxLives = 5
 config.MinRoundTimeToLooseLives = 180
+config.RespawnedPlayersDontLooseLives = true
 config.MaxExperienceFromPoints = 50000     -- if not nil, this amount is the maximum experience players gain from stored points (30k = lvl 10 | 38400 = lvl 12)
 config.RemoveSkillBooks = true
 
