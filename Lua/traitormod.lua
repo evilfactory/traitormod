@@ -32,6 +32,8 @@ if not File.Exists(Traitormod.Path .. "/Lua/data.json") then
 end
 
 Traitormod.RoundNumber = 0
+Traitormod.RoundTime = 0
+Traitormod.LostLivesThisRound = {}
 Traitormod.Commands = {}
 
 for gmName, _ in pairs(Traitormod.Config.GamemodeConfig) do
@@ -220,6 +222,8 @@ Hook.Add("roundEnd", "Traitormod.RoundEnd", function ()
     Traitormod.PointsToBeGiven = {}
     Traitormod.AbandonedCharacters = {}
     Traitormod.PointItems = {}
+    Traitormod.RoundTime = 0
+    Traitormod.LostLivesThisRound = {}
 
     local gameModeMessage = Traitormod.SelectedGamemode.End()
 
@@ -289,7 +293,17 @@ Hook.Add("characterDeath", "Traitormod.DeathByTraitor", function (character, aff
     if Traitormod.SelectedGamemode.OnCharacterDied then
         deathMsg, deathIcon = Traitormod.SelectedGamemode.OnCharacterDied(client, affliction)
     end
-    
+
+    if Traitormod.RoundTime < Traitormod.Config.MinRoundTimeToLooseLives then
+        return
+    end
+
+    if Traitormod.LostLivesThisRound[client.SteamID] == nil then
+        Traitormod.LostLivesThisRound[client.SteamID] = true
+    else
+        return
+    end
+
     -- loose one live. if gamemode provided no icon, use icon from life adjustment
     local lifeMsg, lifeIcon = Traitormod.AdjustLives(client, -1)
     if not deathIcon then
@@ -310,6 +324,8 @@ Hook.Add("think", "Traitormod.Think", function ()
     if not Game.RoundStarted or Traitormod.SelectedGamemode == nil then
         return
     end
+
+    Traitormod.RoundTime = Traitormod.RoundTime + 1/60
 
     Traitormod.SelectedGamemode.Think()
 

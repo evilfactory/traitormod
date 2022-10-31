@@ -416,8 +416,3 @@ Traitormod.SendWelcome = function(client)
         Game.SendDirectChatMessage("", "| Traitor Mod v" .. Traitormod.VERSION .. " |\n" .. Traitormod.GetDataInfo(client), nil, ChatMessageType.Server, client)
     end
 end
-
-Traitormod.UserDataCorruptionWorkaround = function ()
-    LuaUserData.UnregisterType('Barotrauma.EntitySpawner')
-    LuaUserData.RegisterType('Barotrauma.EntitySpawner')
-end

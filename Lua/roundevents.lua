@@ -2,7 +2,6 @@ local re = {}
 
 LuaUserData.RegisterType("Barotrauma.EventManager") -- temporary
 
-re.RoundTime = 0
 re.OnGoingEvents = {}
 
 re.ThisRoundEvents = {}
@@ -46,8 +45,6 @@ re.TriggerEvent = function (eventName)
 
     Traitormod.Stats.AddStat("EventTriggered", event.Name, 1)
 
-    Traitormod.UserDataCorruptionWorkaround() -- TODO: get rid
-
     re.OnGoingEvents[eventName] = event
     Timer.Wait(event.Start, 0)
 
@@ -60,11 +57,11 @@ re.TriggerEvent = function (eventName)
 end
 
 re.CheckRandomEvent = function (event)
-    if event.MinRoundTime ~= nil and re.RoundTime / 60 < event.MinRoundTime then
+    if event.MinRoundTime ~= nil and Traitormod.RoundTime / 60 < event.MinRoundTime then
         return
     end
 
-    if event.MaxRoundTime ~= nil and re.RoundTime / 60 > event.MaxRoundTime then
+    if event.MaxRoundTime ~= nil and Traitormod.RoundTime / 60 > event.MaxRoundTime then
         return
     end
 
@@ -82,7 +79,7 @@ re.CheckRandomEvent = function (event)
         return
     end
 
-    Traitormod.Log("Selected random event to trigger \"" .. event.Name .. "\" with intensity " .. intensity .. " and round time " .. re.RoundTime / 60 .. " minutes.")
+    Traitormod.Log("Selected random event to trigger \"" .. event.Name .. "\" with intensity " .. intensity .. " and round time " .. Traitormod.RoundTime / 60 .. " minutes.")
 
     re.TriggerEvent(event.Name)
 end
@@ -104,8 +101,6 @@ Hook.Add("think", "TraitorMod.RoundEvents.Think", function ()
     if not re.EventConfigs.Enabled then return end
     if not Game.RoundStarted then return end
 
-    re.RoundTime = re.RoundTime + 1/60
-
     if Timer.GetTime() > lastRandomEventCheck then
         for _, event in pairs(re.EventConfigs.Events) do
             if re.OnGoingEvents[event.Name] == nil and event.Enabled then
@@ -125,8 +120,6 @@ Hook.Add("roundEnd", "TraitorMod.RoundEvents.RoundEnd", function ()
     end
 
     re.ThisRoundEvents = {}
-
-    RoundTime = 0
 end)
 
 for _, value in pairs(re.EventConfigs.Events) do
