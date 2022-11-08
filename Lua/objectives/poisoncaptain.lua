@@ -1,36 +1,38 @@
-local objective = {}
+local objective = Traitormod.RoleManager.Objectives.Objective:new()
 
 objective.Name = "PoisonCaptain"
-objective.RoleFilter = {["captain"] = true}
+objective.RoleFilter = { ["captain"] = true }
+objective.AmountPoints = 1600
 
-objective.Start = function (character, target)
-    objective.Character = character
-    objective.Target = target
+function objective:Start(character, target)
+    self.Character = character
+    self.Target = target
 
-    if objective.Target == nil then
+    if self.Target == nil then
         return false
     end
 
-    if not objective.Character.IsMedic then
+    if not self.Character.IsMedic then
         Traitormod.Debug("PoisonCaptain is only available for medics.")
         return false
     end
 
-    objective.TargetName = Traitormod.GetJobString(objective.Target)
+    self.TargetName = Traitormod.GetJobString(self.Target)
 
-    objective.Poison = "Sufforin"
+    self.Poison = "Sufforin"
 
-    objective.ObjectiveText = string.format(Traitormod.Language.ObjectivePoisonCaptain, objective.TargetName, objective.Poison)
+    self.ObjectiveText = string.format(Traitormod.Language.ObjectivePoisonCaptain, self.TargetName,
+        self.Poison)
 
     return true
 end
 
-objective.IsCompleted = function ()
-    if objective.Target == nil then
+function objective:IsCompleted()
+    if self.Target == nil then
         return
     end
 
-    local aff = objective.Target.CharacterHealth.GetAffliction("sufforinpoisoning", true)
+    local aff = self.Target.CharacterHealth.GetAffliction("sufforinpoisoning", true)
 
     if aff ~= nil and aff.Strength > 10 then
         return true

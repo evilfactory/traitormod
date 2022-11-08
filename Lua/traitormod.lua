@@ -12,20 +12,17 @@ end
 
 math.randomseed(os.time())
 
-Traitormod.Gamemodes = {
-    dofile(Traitormod.Path .. "/Lua/gamemodes/assassination/assassination.lua")
-}
+Traitormod.Gamemodes = {}
 
-Traitormod.EnabledGamemodes = {}
-Traitormod.SelectedGamemode = dofile(Traitormod.Path .. "/Lua/gamemodes/nogamemode.lua")
+Traitormod.AddGamemode = function (gamemode)
+    Traitormod.Gamemodes[gamemode.Name] = gamemode
 
-Traitormod.Objectives = {
-    Traitormod.Path .. "/Lua/objectives/assassinate.lua",
-    Traitormod.Path .. "/Lua/objectives/stealcaptainid.lua",
-    Traitormod.Path .. "/Lua/objectives/survive.lua",
-    Traitormod.Path .. "/Lua/objectives/kidnap.lua",
-    Traitormod.Path .. "/Lua/objectives/poisoncaptain.lua",
-}
+    if Traitormod.Config.GamemodeConfig[gamemode.Name] ~= nil then
+        for key, value in pairs(Traitormod.Config.GamemodeConfig[gamemode.Name]) do
+            gamemode[key] = value
+        end
+    end
+end
 
 if not File.Exists(Traitormod.Path .. "/Lua/data.json") then
     File.Write(Traitormod.Path .. "/Lua/data.json", "{}")
@@ -36,14 +33,7 @@ Traitormod.RoundTime = 0
 Traitormod.LostLivesThisRound = {}
 Traitormod.Commands = {}
 
-for gmName, _ in pairs(Traitormod.Config.GamemodeConfig) do
-    for _, gamemode in pairs(Traitormod.Gamemodes) do
-        if Traitormod.Config.GamemodeConfig[gmName].Enabled and gmName == gamemode.Name then
-            gamemode.Config = Traitormod.Config.GamemodeConfig[gmName]
-            table.insert(Traitormod.EnabledGamemodes, gamemode)
-        end
-    end
-end
+local pointsGiveTimer = -1
 
 Traitormod.LoadData()
 
@@ -53,14 +43,7 @@ if Traitormod.Config.RemotePoints then
     end
 end
 
-Hook.Call("Traitormod.InitialConfig")
-
-local weightedRandom = dofile(Traitormod.Path .. "/Lua/weightedrandom.lua")
-
-local traitorsEnabled = -1
-local pointsGiveTimer = -1
-
-Traitormod.OnRoundStart = function()
+Traitormod.RoundStart = function()
     Traitormod.Log("Starting traitor round - Traitor Mod v" .. Traitormod.VERSION)
     pointsGiveTimer = Timer.GetTime() + Traitormod.Config.ExperienceTimer
 
@@ -91,29 +74,17 @@ Traitormod.OnRoundStart = function()
         end
     end
 
-    traitorsEnabled = Game.ServerSettings.TraitorsEnabled
-    if traitorsEnabled == 0 then
-        Traitormod.Log("Traitors are disabled.")
-        return
-    elseif traitorsEnabled == 1 then
-        local rng = math.random()
-        if rng < 0.5 then
-            traitorsEnabled = 0
-            Traitormod.Log("No traitors on this mission...")
-            return
-        end
-    end
 
-    -- choose a gamemode
-    if #Traitormod.EnabledGamemodes == 0 then return end
-    local result = weightedRandom.Choose(Traitormod.EnabledGamemodes, "Config", "WeightChance")
-    Traitormod.SelectedGamemode = Traitormod.EnabledGamemodes[result]
+    Traitormod.SelectedGamemode = Traitormod.Gamemodes.Assassination:new()
     Traitormod.Log("Starting gamemode " .. Traitormod.SelectedGamemode.Name)
-    Traitormod.SelectedGamemode.Start()
+
+    if Traitormod.SelectedGamemode then
+        Traitormod.SelectedGamemode.Start()
+    end
 end
 
 Hook.Add("roundStart", "Traitormod.RoundStart", function ()
-    Traitormod.OnRoundStart()
+    Traitormod.RoundStart()
 end)
 
 Hook.Add("missionsEnded", "Traitormod.MissionsEnded", function (missions)
@@ -128,7 +99,7 @@ Hook.Add("missionsEnded", "Traitormod.MissionsEnded", function (missions)
     for key, value in pairs(Client.ClientList) do
         -- add weight according to points and config conversion
         Traitormod.AddData(value, "Weight", Traitormod.Config.AmountWeightWithPoints(Traitormod.GetData(value, "Points") or 0))
-    
+
         if value.Character ~= nil and value.Character.IsHuman and not value.SpectateOnly then
             local wasTraitor = nil
 
@@ -237,7 +208,9 @@ Hook.Add("roundEnd", "Traitormod.RoundEnd", function ()
     Traitormod.RoundTime = 0
     Traitormod.LostLivesThisRound = {}
 
-    local gameModeMessage = Traitormod.SelectedGamemode.End()
+    if Traitormod.SelectedGamemode then
+        local gameModeMessage = Traitormod.SelectedGamemode.End()
+    end
 
     -- show vanilla round summary
     local traitorMissionResult = nil
@@ -264,13 +237,13 @@ Hook.Add("characterCreated", "Traitormod.CharacterCreated", function (character)
     character.ClientDisconnected == true then
         return
     end
-    
+
     -- delay handling, otherwise client won't be found
     Timer.Wait(function ()
         local client = Traitormod.FindClientCharacter(character)
         --Traitormod.Debug("Character spawned: " .. character.Name .. " client: " .. tostring(client))
 
-        if Traitormod.SelectedGamemode.OnCharacterCreated then
+        if Traitormod.SelectedGamemode and Traitormod.SelectedGamemode.OnCharacterCreated then
             Traitormod.SelectedGamemode.OnCharacterCreated(client, character)
         end
 
@@ -339,7 +312,9 @@ Hook.Add("think", "Traitormod.Think", function ()
 
     Traitormod.RoundTime = Traitormod.RoundTime + 1/60
 
-    Traitormod.SelectedGamemode.Think()
+    if Traitormod.SelectedGamemode then
+        Traitormod.SelectedGamemode.Think()
+    end
 
     -- every 60s, if a character has 100+ PointsToBeGiven, store added points and send feedback
     if pointsGiveTimer and Timer.GetTime() > pointsGiveTimer then
@@ -503,6 +478,7 @@ if Traitormod.Config.OverrideRespawnSubmarine then
     Traitormod.SubmarineBuilder = dofile(Traitormod.Path .. "/Lua/submarinebuilder.lua")
 end
 
+Traitormod.RoleManager = dofile(Traitormod.Path .. "/Lua/rolemanager.lua")
 Traitormod.Pointshop = dofile(Traitormod.Path .. "/Lua/pointshop.lua")
 Traitormod.RoundEvents = dofile(Traitormod.Path .. "/Lua/roundevents.lua")
 Traitormod.GhostRoles = dofile(Traitormod.Path .. "/Lua/ghostroles.lua")
@@ -511,7 +487,20 @@ dofile(Traitormod.Path .. "/Lua/statistics.lua")
 dofile(Traitormod.Path .. "/Lua/respawnshuttle.lua")
 dofile(Traitormod.Path .. "/Lua/traitormodmisc.lua")
 
+Traitormod.AddGamemode(dofile(Traitormod.Path .. "/Lua/gamemodes/gamemode.lua"))
+Traitormod.AddGamemode(dofile(Traitormod.Path .. "/Lua/gamemodes/assassination.lua"))
+
+Traitormod.RoleManager.AddObjective(dofile(Traitormod.Path .. "/Lua/objectives/objective.lua"))
+Traitormod.RoleManager.AddObjective(dofile(Traitormod.Path .. "/Lua/objectives/assassinate.lua"))
+Traitormod.RoleManager.AddObjective(dofile(Traitormod.Path .. "/Lua/objectives/kidnap.lua"))
+Traitormod.RoleManager.AddObjective(dofile(Traitormod.Path .. "/Lua/objectives/poisoncaptain.lua"))
+Traitormod.RoleManager.AddObjective(dofile(Traitormod.Path .. "/Lua/objectives/stealcaptainid.lua"))
+Traitormod.RoleManager.AddObjective(dofile(Traitormod.Path .. "/Lua/objectives/survive.lua"))
+
+Traitormod.RoleManager.AddRole(dofile(Traitormod.Path .. "/Lua/roles/role.lua"))
+Traitormod.RoleManager.AddRole(dofile(Traitormod.Path .. "/Lua/roles/traitor.lua"))
+
 -- Round start call for reload during round 
 if Game.RoundStarted then
-    Traitormod.OnRoundStart()
+    Traitormod.RoundStart()
 end

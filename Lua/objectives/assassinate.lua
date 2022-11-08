@@ -1,17 +1,20 @@
-local objective = {}
+local objective = Traitormod.RoleManager.Objectives.Objective:new()
 
 objective.Name = "Assassinate"
+objective.AmountPoints = 600
 
-objective.Start = function (character, toKill)
-    objective.ToKill = toKill
+function objective:Start(character, target)
+    self.Target = target
 
-    objective.ObjectiveText = string.format(Traitormod.Language.ObjectiveAssassinate, objective.ToKill.Name)
-    
+    if self.Target == nil then return false end
+
+    self.ObjectiveText = string.format(Traitormod.Language.ObjectiveAssassinate, self.Target.Name)
+
     return true
 end
 
-objective.IsCompleted = function ()
-    return objective.ToKill.IsDead
+function objective:IsCompleted()
+    return self.Target.IsDead
 end
 
 return objective

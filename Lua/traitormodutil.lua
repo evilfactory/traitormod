@@ -198,31 +198,6 @@ Traitormod.SelectCodeWords = function ()
     return {selected, selected2}
 end
 
-Traitormod.GetObjective = function (name)
-    for _, value in pairs(Traitormod.Objectives) do
-        local obj = dofile(value)
-        obj.Config = Traitormod.Config.ObjectiveConfig[obj.Name]
-        if obj.Name == name then return obj end
-    end
-end
-
-Traitormod.GetRandomObjective = function (allowedObjectives)
-    if allowedObjectives == nil then
-        return Traitormod.Objectives[Random.Range(1, #Traitormod.Objectives + 1)]
-    else
-        local objectives = {}
-        for _, objectivePath in pairs(Traitormod.Objectives) do
-            for _, allowedName in pairs(allowedObjectives) do
-                local obj = dofile(objectivePath)
-                obj.Config = Traitormod.Config.ObjectiveConfig[obj.Name]
-                if obj.Name == allowedName and obj.Enabled then table.insert(objectives, obj) end
-            end
-        end
-        
-        return objectives[Random.Range(1, #objectives + 1)]
-    end
-end
-
 Traitormod.ParseCommand = function (text)
     local result = {}
 
@@ -265,10 +240,12 @@ end
 
 -- type: 6 = Server message, 7 = Console usage, 9 error
 Traitormod.Log = function (message)
+    print(message)
     Game.Log("[TraitorMod] " .. message, 6)
 end
 
 Traitormod.Debug = function (message)
+    print(message)
     if Traitormod.Config.DebugLogs then
         Game.Log("[TraitorMod-Debug] " .. message, 6)
     end

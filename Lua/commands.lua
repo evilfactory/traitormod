@@ -23,6 +23,20 @@ Traitormod.AddCommand("!version", function (client, args)
     return true
 end)
 
+Traitormod.AddCommand("!role", function (client, args)
+    if client.Character == nil or client.Character.IsDead then
+        Traitormod.SendMessage(client, "You need to be alive to use this command.")
+        return true
+    end
+
+    local role = Traitormod.RoleManager.FindRoleByCharacter(client.Character)
+    if role == nil then
+        Traitormod.SendMessage(client, "You have no special role.")
+    else
+        role:Greet()
+    end
+end)
+
 Traitormod.AddCommand("!traitor", function (client, args)
     if Traitormod.Config.OptionalTraitors and Traitormod.GetData(client, "NonTraitor") == true then
         Traitormod.SendMessage(client, Traitormod.Language.TraitorOff)
@@ -199,8 +213,8 @@ end)
 Traitormod.AddCommand("!roundinfo", function (client, args)
     if not client.HasPermission(ClientPermissions.ConsoleCommands) then return end
 
-    if Game.RoundStarted and Traitormod.SelectedGamemode and Traitormod.SelectedGamemode.GetRoundSummary then
-        Traitormod.SendMessage(client, Traitormod.SelectedGamemode.GetRoundSummary())
+    if Game.RoundStarted and Traitormod.SelectedGamemode and Traitormod.SelectedGamemode.RoundSummary then
+        Traitormod.SendMessage(client, Traitormod.SelectedGamemode:RoundSummary())
     elseif Traitormod.LastRoundSummary ~= nil then
         Traitormod.SendMessage(client, Traitormod.LastRoundSummary)
     else

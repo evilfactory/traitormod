@@ -1,49 +1,53 @@
-local objective = {}
+local objective = Traitormod.RoleManager.Objectives.Objective:new()
 
 objective.Name = "Kidnap"
+objective.AmountPoints = 2500
 
-objective.Start = function (character, target)
-    objective.Target = target
+function objective:Start(character, target)
+    self.Target = target
 
-    if objective.Target == nil then
+    if self.Target == nil then
         return false
     end
 
-    objective.TargetName = Traitormod.GetJobString(target) .. " " .. target.Name
+    self.TargetName = Traitormod.GetJobString(target) .. " " .. target.Name
 
-    objective.ObjectiveText = string.format(Traitormod.Language.ObjectiveKidnap, objective.TargetName, objective.Config.Seconds)
+    self.ObjectiveText = string.format(Traitormod.Language.ObjectiveKidnap, self.TargetName,
+    self.Seconds)
 
-    objective.SecondsLeft = objective.Config.Seconds
+    self.SecondsLeft = self.Seconds
 
     return true
 end
 
-objective.IsCompleted = function ()
-    if objective.SecondsLeft <= 0 then
-        objective.ObjectiveText = string.format(Traitormod.Language.ObjectiveKidnap, objective.TargetName, objective.Config.Seconds)
+function objective:IsCompleted()
+    if self.SecondsLeft <= 0 then
+        self.ObjectiveText = string.format(Traitormod.Language.ObjectiveKidnap, self.TargetName,
+        self.Seconds)
 
         return true
     end
 
-    local char = objective.Target
+    local char = self.Target
 
     if char == nil or char.IsDead then return false end
 
     local item = char.Inventory.GetItemInLimbSlot(InvSlotType.RightHand)
 
     if item ~= nil and item.Prefab.Identifier == "handcuffs" then
-        if objective.lastTimer == nil then
-            objective.lastTimer = Timer.GetTime()
+        if self.lastTimer == nil then
+            self.lastTimer = Timer.GetTime()
         end
-        
-        objective.SecondsLeft = math.max(0, objective.SecondsLeft - (Timer.GetTime() - objective.lastTimer))
 
-        objective.ObjectiveText = string.format(Traitormod.Language.ObjectiveKidnap, objective.TargetName, math.floor(objective.SecondsLeft))
+        self.SecondsLeft = math.max(0, self.SecondsLeft - (Timer.GetTime() - self.lastTimer))
 
-        objective.lastTimer = Timer.GetTime()
+        self.ObjectiveText = string.format(Traitormod.Language.ObjectiveKidnap, self.TargetName,
+            math.floor(self.SecondsLeft))
+
+        self.lastTimer = Timer.GetTime()
 
     else
-        objective.lastTimer = Timer.GetTime()
+        self.lastTimer = Timer.GetTime()
     end
 
     return false

@@ -73,61 +73,14 @@ config.AmountWeightWithPoints = function (x)
     return math.log(x + 10) -- add 1 because log of 0 is -infinity
 end
 
------ OBJECTIVES -----
-config.ObjectiveConfig = {
-    Assassinate = {
-        Enabled = true,
-        AmountPoints = 600,
-    },
-
-    Survive = {
-        Enabled = true,
-        AlwaysActive = true,
-        AmountPoints = 500,
-        AmountLives = 1,
-    },
-
-    StealCaptainID = {
-        Enabled = true,
-        AmountPoints = 1300,
-    },
-
-    Kidnap = {
-        Enabled = true,
-        AmountPoints = 2500,
-        Seconds = 100,
-    },
-
-    PoisonCaptain = {
-        Enabled = true,
-        AmountPoints = 1600,
-    },
-}
-
 ----- GAMEMODE -----
 config.GamemodeConfig = {
     Assassination = {
-        Enabled = true,
-        WeightChance = 50,
         EndOnComplete = true,           -- end round when there are no assassination targets left
         EndGameDelaySeconds = 5,
 
-        StartDelayMin = 120,
-        StartDelayMax = 150,
-        NextDelayMin = 30,
-        NextDelayMax = 60,
-
-        SelectBotsAsTargets = true,
-        SelectPiratesAsTargets = false,
-        SelectUniqueTargets = true,     -- every traitor target can only be chosen once per traitor (respawn+false -> no end)
-        PointsPerAssassination = 100,
-
-        -- Codewords, Names, None
-        TraitorMethodCommunication = "Names",
-
-        MinSubObjectives = 1,
-        MaxSubObjectives = 3,
-        SubObjectives = {"StealCaptainID", "Survive", "Kidnap", "PoisonCaptain"},
+        TraitorSelectDelayMin = 120,
+        TraitorSelectDelayMax = 150,
 
         AmountTraitors = function (amountPlayers)
             config.TestMode = false
@@ -152,6 +105,50 @@ config.GamemodeConfig = {
             return true
         end
     }
+}
+
+config.RoleConfig = {
+    Traitor = {
+        SubObjectives = {"StealCaptainID", "Survive", "Kidnap", "PoisonCaptain"},
+        MinSubObjectives = 1,
+        MaxSubObjectives = 3,
+
+        NextAssassinateDelayMin = 30,
+        NextAssassinateDelayMax = 60,
+
+        -- Codewords, Names, None
+        TraitorMethodCommunication = "Names",
+
+        SelectBotsAsTargets = true,
+        SelectPiratesAsTargets = false,
+        SelectUniqueTargets = true,     -- every traitor target can only be chosen once per traitor (respawn+false -> no end)
+        PointsPerAssassination = 100,
+    },
+}
+
+config.ObjectiveConfig = {
+    Assassinate = {
+        AmountPoints = 600,
+    },
+
+    Survive = {
+        AlwaysActive = true,
+        AmountPoints = 500,
+        AmountLives = 1,
+    },
+
+    StealCaptainID = {
+        AmountPoints = 1300,
+    },
+
+    Kidnap = {
+        AmountPoints = 2500,
+        Seconds = 100,
+    },
+
+    PoisonCaptain = {
+        AmountPoints = 1600,
+    },
 }
 
 ----- EVENTS -----

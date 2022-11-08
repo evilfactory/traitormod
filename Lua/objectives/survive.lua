@@ -1,21 +1,25 @@
-local assassination = Traitormod.SelectedGamemode
-local objective = {}
+local objective = Traitormod.RoleManager.Objectives.Objective:new()
 
 objective.Name = "Survive"
 objective.EndRoundObjective = true
+objective.AlwaysActive = true
+objective.AmountPoints = 500
+objective.AmountLives = 1
 
-objective.Start = function (character)
-    objective.Character = character
 
-    objective.ObjectiveText = Traitormod.Language.ObjectiveSurvive
-    
+function objective:Start(character)
+    self.Character = character
+
+    self.ObjectiveText = Traitormod.Language.ObjectiveSurvive
 
     return true
 end
 
-objective.IsCompleted = function ()
-    local traitor = assassination.Traitors[objective.Character]
-    return traitor.Kills > 0 and traitor.Deaths == 0
+function objective:IsCompleted()
+    return not self.Character.IsDead
+
+    --local traitor = assassination.Traitors[objective.Character]
+    --return traitor.Kills > 0 and traitor.Deaths == 0
 end
 
 return objective

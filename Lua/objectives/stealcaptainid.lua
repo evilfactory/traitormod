@@ -1,23 +1,24 @@
-local objective = {}
+local objective = Traitormod.RoleManager.Objectives.Objective:new()
 
 objective.Name = "StealCaptainID"
 objective.RoleFilter = {["captain"] = true}
+objective.AmountPoints = 1300
 
-objective.Start = function (character, target)
-    objective.Character = character
+function objective:Start(character, target)
+    self.Character = character
 
     -- if no valid captain found, abort
     if not target then
         return false
     end
 
-    objective.ObjectiveText = Traitormod.Language.ObjectiveStealCaptainID
+    self.ObjectiveText = Traitormod.Language.ObjectiveStealCaptainID
 
     return true
 end
 
-objective.IsCompleted = function ()
-    for item in objective.Character.Inventory.AllItems do
+function objective:IsCompleted()
+    for item in self.Character.Inventory.AllItems do
         if item.Prefab.Identifier == "idcard" and item.GetComponentString("IdCard").OwnerJobId == "captain" then
             return true
         end
