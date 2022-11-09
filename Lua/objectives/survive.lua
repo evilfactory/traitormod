@@ -7,10 +7,8 @@ objective.AmountPoints = 500
 objective.AmountLives = 1
 
 
-function objective:Start(character)
-    self.Character = character
-
-    self.ObjectiveText = Traitormod.Language.ObjectiveSurvive
+function objective:Start()
+    self.Text = Traitormod.Language.ObjectiveSurvive
 
     return true
 end

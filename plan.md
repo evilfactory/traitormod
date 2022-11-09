@@ -92,3 +92,7 @@ Engineer: Do as the captain tells you or you will deal with security next you gr
 Mechanical: Your is an easy job and for some odd reason captain picks you as the favorite, don't let this go to your head!
 Medic: Keep the crew alive, and remember your priorities, captain comes first
 Assistant: Do as you are told... or else.
+
+
+gamemode-objective refactor missing stuff:
+- give points to crew for handcuffed antagonists

@@ -156,12 +156,8 @@ Traitormod.UpdateVanillaTraitor = function (client, enabled, objectiveSummary)
         return
     end
     client.Character.IsTraitor = enabled
-    local msg = nil
-    if enabled and Traitormod.SelectedGamemode then
-        msg = objectiveSummary or Traitormod.SelectedGamemode.GetTraitorObjectiveSummary(client.Character)
-    end
-    client.Character.TraitorCurrentObjective = msg
-    Game.SendTraitorMessage(client, msg, Traitormod.MissionIdentifier, TraitorMessageType.Objective)
+    client.Character.TraitorCurrentObjective = objectiveSummary
+    Game.SendTraitorMessage(client, objectiveSummary, Traitormod.MissionIdentifier, TraitorMessageType.Objective)
 end
 
 -- send feedback to the character for completing a traitor objective and update vanilla traitor state
@@ -176,7 +172,12 @@ Traitormod.SendObjectiveCompleted = function(client, objectiveText, points, live
     string.format(Traitormod.Language.ObjectiveCompleted, objectiveText) .. " \n\n" .. 
     string.format(Traitormod.Language.PointsAwarded, points) .. livesText
     , "MissionCompletedIcon") --InfoFrameTabButton.Mission
-    Traitormod.UpdateVanillaTraitor(client, true)
+
+    local role = Traitormod.RoleManager.GetRoleByCharacter(client.Character)
+
+    if role then
+        Traitormod.UpdateVanillaTraitor(client, true, role:Greet())
+    end
 end
 
 Traitormod.SelectCodeWords = function ()

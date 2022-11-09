@@ -15,15 +15,13 @@ function gm:End()
 end
 
 function gm:RoundSummary()
-    local text = ""
-
-    text = text .. "Gamemode: " .. self.Name
-
+    local sb = Traitormod.StringBuilder:new()
+    
     for character, role in pairs(Traitormod.RoleManager.RoundRoles) do
-        text = text .. string.format("%s: %s\n", character.Name, role.Name)
+        sb("%s\n", role:OtherGreet())
     end
 
-    return text
+    return sb:concat()
 end
 
 function gm:new(o)

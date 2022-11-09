@@ -75,12 +75,12 @@ end
 
 ----- GAMEMODE -----
 config.GamemodeConfig = {
-    Assassination = {
+    Secret = {
         EndOnComplete = true,           -- end round when there are no assassination targets left
         EndGameDelaySeconds = 5,
 
-        TraitorSelectDelayMin = 120,
-        TraitorSelectDelayMax = 150,
+        TraitorSelectDelayMin = 1,
+        TraitorSelectDelayMax = 4,
 
         AmountTraitors = function (amountPlayers)
             config.TestMode = false
@@ -113,8 +113,8 @@ config.RoleConfig = {
         MinSubObjectives = 1,
         MaxSubObjectives = 3,
 
-        NextAssassinateDelayMin = 30,
-        NextAssassinateDelayMax = 60,
+        NextAssassinateDelayMin = 1,
+        NextAssassinateDelayMax = 4,
 
         -- Codewords, Names, None
         TraitorMethodCommunication = "Names",

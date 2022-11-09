@@ -23,32 +23,17 @@ Traitormod.AddCommand("!version", function (client, args)
     return true
 end)
 
-Traitormod.AddCommand("!role", function (client, args)
+Traitormod.AddCommand({"!role", "!traitor"}, function (client, args)
     if client.Character == nil or client.Character.IsDead then
         Traitormod.SendMessage(client, "You need to be alive to use this command.")
         return true
     end
 
-    local role = Traitormod.RoleManager.FindRoleByCharacter(client.Character)
+    local role = Traitormod.RoleManager.GetRoleByCharacter(client.Character)
     if role == nil then
         Traitormod.SendMessage(client, "You have no special role.")
     else
-        role:Greet()
-    end
-end)
-
-Traitormod.AddCommand("!traitor", function (client, args)
-    if Traitormod.Config.OptionalTraitors and Traitormod.GetData(client, "NonTraitor") == true then
-        Traitormod.SendMessage(client, Traitormod.Language.TraitorOff)
-    elseif Game.ServerSettings.TraitorsEnabled == 0 then
-        Traitormod.SendMessage(client, Traitormod.Language.NoTraitors)
-    elseif Game.RoundStarted and Traitormod.SelectedGamemode and Traitormod.SelectedGamemode.GetTraitorObjectiveSummary then
-        local summary = Traitormod.SelectedGamemode.GetTraitorObjectiveSummary(client.Character)
-        Traitormod.SendMessage(client, summary)
-    elseif Game.RoundStarted then
-        Traitormod.SendMessage(client, Traitormod.Language.NoTraitor)
-    else
-        Traitormod.SendMessage(client, Traitormod.Language.RoundNotStarted)
+        Traitormod.SendMessage(client, role:Greet())
     end
 
     return true
@@ -214,7 +199,10 @@ Traitormod.AddCommand("!roundinfo", function (client, args)
     if not client.HasPermission(ClientPermissions.ConsoleCommands) then return end
 
     if Game.RoundStarted and Traitormod.SelectedGamemode and Traitormod.SelectedGamemode.RoundSummary then
-        Traitormod.SendMessage(client, Traitormod.SelectedGamemode:RoundSummary())
+        local summary = "Gamemode: " .. Traitormod.SelectedGamemode.Name .. "\n\n"
+        summary = summary .. Traitormod.SelectedGamemode:RoundSummary()
+        Traitormod.SendMessage(client, summary)
+
     elseif Traitormod.LastRoundSummary ~= nil then
         Traitormod.SendMessage(client, Traitormod.LastRoundSummary)
     else

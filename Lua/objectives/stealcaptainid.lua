@@ -4,15 +4,13 @@ objective.Name = "StealCaptainID"
 objective.RoleFilter = {["captain"] = true}
 objective.AmountPoints = 1300
 
-function objective:Start(character, target)
-    self.Character = character
-
+function objective:Start(target)
     -- if no valid captain found, abort
     if not target then
         return false
     end
 
-    self.ObjectiveText = Traitormod.Language.ObjectiveStealCaptainID
+    self.Text = Traitormod.Language.ObjectiveStealCaptainID
 
     return true
 end

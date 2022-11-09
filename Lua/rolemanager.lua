@@ -139,6 +139,8 @@ Hook.Add("think", "Traitormod.RoleManager.Think", function()
 end)
 
 Hook.Add("roundEnd", "Traitormod.RoleManager.RoundEnd", function()
+    rm.CheckObjectives(true)
+
     rm.RoundRoles = {}
 end)
 

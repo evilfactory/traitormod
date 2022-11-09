@@ -7,8 +7,11 @@ objective.EndRoundObjective = false
 
 objective.Awarded = false
 
-function objective:Start(character)
-    self.Character = Character
+function objective:Init(character)
+    self.Character = character
+end
+
+function objective:Start()
     return true
 end
 
@@ -20,7 +23,7 @@ function objective:Award()
     self.Awarded = true
 
     if self.OnAwarded ~= nil then
-        self.OnAwarded(self)
+        self:OnAwarded()
     end
 
     local client = Traitormod.FindClientCharacter(self.Character)

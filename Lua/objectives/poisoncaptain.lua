@@ -4,8 +4,7 @@ objective.Name = "PoisonCaptain"
 objective.RoleFilter = { ["captain"] = true }
 objective.AmountPoints = 1600
 
-function objective:Start(character, target)
-    self.Character = character
+function objective:Start(target)
     self.Target = target
 
     if self.Target == nil then
@@ -21,7 +20,7 @@ function objective:Start(character, target)
 
     self.Poison = "Sufforin"
 
-    self.ObjectiveText = string.format(Traitormod.Language.ObjectivePoisonCaptain, self.TargetName,
+    self.text = string.format(Traitormod.Language.ObjectivePoisonCaptain, self.TargetName,
         self.Poison)
 
     return true

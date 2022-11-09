@@ -1,18 +1,29 @@
-local gm = Traitormod.Gamemodes.Gamemode:new()
 local weightedRandom = dofile(Traitormod.Path .. "/Lua/weightedrandom.lua")
+local gm = Traitormod.Gamemodes.Gamemode:new()
 
-gm.Name = "Assassination"
+gm.Name = "Secret"
 
 function gm:Start()
-    print(gm.Config)
     gm:SelectTraitors()
+end
+
+function gm:End()
+    local traitors = {}
+    for character, role in pairs(Traitormod.RoleManager.RoundRoles) do
+        if role.Name == "Traitor" then
+            table.insert(traitors, character)
+        end
+    end
+
+    -- first arg = mission id, second = message, third = completed, forth = list of characters
+    return {TraitorMissionResult(Traitormod.MissionIdentifier, "Cool", false, traitors)}
 end
 
 function gm:SelectTraitors()
     local this = self
     local thisRoundNumber = Traitormod.RoundNumber
 
-    local delay = 1
+    local delay = math.random(self.TraitorSelectDelayMin, self.TraitorSelectDelayMax)
 
     Timer.Wait(function()
         if thisRoundNumber ~= Traitormod.RoundNumber or not Game.RoundStarted then return end
