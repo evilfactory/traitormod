@@ -39,6 +39,35 @@ Traitormod.AddCommand({"!role", "!traitor"}, function (client, args)
     return true
 end)
 
+Traitormod.AddCommand({"!roles", "!traitors"}, function (client, args)
+    if not client.HasPermission(ClientPermissions.ConsoleCommands) then return end
+
+    local roles = {}
+
+    for character, role in pairs(Traitormod.RoleManager.RoundRoles) do
+        if not roles[role.Name] then
+            roles[role.Name] = {}
+        end
+
+        table.insert(roles[role.Name], character.Name)
+    end
+
+    local message = ""
+
+    for roleName, r in pairs(roles) do
+        message = message .. "\""  .. roleName .. ": "
+        for _, name in pairs(r) do
+            message = message .. "\"" .. name .. "\" "
+        end
+    end
+
+    if message == "" then message = "None." end
+
+    Traitormod.SendMessage(client, message)
+
+    return true
+end)
+
 Traitormod.AddCommand("!toggletraitor", function (client, args)
     local text = Traitormod.Language.CommandNotActive
 

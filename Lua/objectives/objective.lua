@@ -22,16 +22,16 @@ end
 function objective:Award()
     self.Awarded = true
 
+    local client = Traitormod.FindClientCharacter(self.Character)
+
+    if client then 
+        local points = Traitormod.AwardPoints(client, self.AmountPoints)
+        Traitormod.SendObjectiveCompleted(client, self.Text, points)        
+    end
+
     if self.OnAwarded ~= nil then
         self:OnAwarded()
     end
-
-    local client = Traitormod.FindClientCharacter(self.Character)
-
-    if client == nil then return end
-
-    local points = Traitormod.AwardPoints(client, self.AmountPoints)
-    Traitormod.SendObjectiveCompleted(client, self.Text, points)
 end
 
 function objective:new(o)

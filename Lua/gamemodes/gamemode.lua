@@ -18,7 +18,7 @@ function gm:RoundSummary()
     local sb = Traitormod.StringBuilder:new()
     
     for character, role in pairs(Traitormod.RoleManager.RoundRoles) do
-        sb("%s\n", role:OtherGreet())
+        sb("\n%s\n", role:OtherGreet())
     end
 
     return sb:concat()

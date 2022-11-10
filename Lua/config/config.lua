@@ -116,7 +116,7 @@ config.RoleConfig = {
         NextAssassinateDelayMin = 1,
         NextAssassinateDelayMax = 4,
 
-        -- Codewords, Names, None
+        -- Names, None
         TraitorMethodCommunication = "Names",
 
         SelectBotsAsTargets = true,

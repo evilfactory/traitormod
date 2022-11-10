@@ -2,6 +2,16 @@ local role = Traitormod.RoleManager.Roles.Role:new()
 role.Name = "Traitor"
 role.Antagonist = true
 
+function role:CompletedObjectives(name)
+    local num = 0
+    for key, value in pairs(self.Objectives) do
+        if value.Name == name then
+            num = num + 1
+        end
+    end
+    return num
+end
+
 function role:AssasinationLoop(first)
     local this = self
     
@@ -11,14 +21,24 @@ function role:AssasinationLoop(first)
     if assassinate:Start(target) then
         self:AssignObjective(assassinate)
 
+        local num = self:CompletedObjectives()
+        assassinate.AmountPoints = assassinate.AmountPoints + (num * self.PointsPerAssassination)
+
+        local client = Traitormod.FindClientCharacter(self.Character)
+
         assassinate.OnAwarded = function ()
-            local delay = math.random(this.NextDelayMin, this.NextDelayMax)
+            if client then
+                Traitormod.SendMessage(client, Traitormod.Language.AssassinationNextTarget, "")
+            end
+
+            Traitormod.SendMessageCharacter(assassinate.Target, Traitormod.Language.KilledByTraitor, "InfoFrameTabButton.Traitor")
+
+            local delay = math.random(this.NextAssassinateDelayMin, this.NextAssassinateDelayMax) * 1000
             Timer.Wait(function (...)
                 this:AssasinationLoop()
             end, delay)
         end
 
-        local client = Traitormod.FindClientCharacter(self.Character)
 
         if client and not first then
             Traitormod.SendMessage(client, string.format(Traitormod.Language.AssassinationNewObjective, target.Name), "GameModeIcon.pvp")
@@ -59,7 +79,7 @@ function role:Start()
         objective:Init(self.Character)
         local target = self:FindValidTarget(objective)
 
-        if objective:Start(self.Character, target) then
+        if objective:Start(target) then
             self:AssignObjective(objective)
             for key, value in pairs(pool) do
                 if value == objective.Name then
@@ -85,7 +105,12 @@ function role:ObjectivesToString()
     for _, objective in pairs(self.Objectives) do
         -- Assassinate objectives are primary
         local buf = objective.Name == "Assassinate" and primary or secondary
-        buf:append(" > ", objective.Text)
+
+        if objective:IsCompleted() then
+            buf:append(" > ", objective.Text, Traitormod.Language.Completed)
+        else
+            buf:append(" > ", objective.Text, string.format(Traitormod.Language.Points, objective.AmountPoints))
+        end
     end
     if #primary == 0 then
         primary(" > No objectives yet... Stay furtile.")
@@ -93,6 +118,7 @@ function role:ObjectivesToString()
 
     return primary:concat("\n"), secondary:concat("\n")
 end
+
 function role:Greet()
     local partners = Traitormod.StringBuilder:new()
     local traitors = Traitormod.RoleManager.FindCharactersByRole("Traitor")
@@ -129,6 +155,28 @@ function role:OtherGreet()
     sb("\nTheir secondary objectives were:\n")
     sb(secondary)
     return sb:concat()
+end
+
+function role:FilterTarget(objective, character)
+    if not self.SelectBotsAsTargets and character.IsBot then return false end
+
+    if objective.Name == "Assassinate" and self.SelectUniqueTargets then
+        for key, value in pairs(Traitormod.RoleManager.FindCharactersByRole("Traitor")) do
+            local role = Traitormod.RoleManager.GetRoleByCharacter(value)
+
+            for key, obj in pairs(role.Objectives) do
+                if obj.Name == "Assassinate" and obj.Target == character then
+                    return false
+                end
+            end
+        end
+    end
+
+    if character.TeamID ~= CharacterTeamType.Team1 and not self.SelectPiratesAsTargets then
+        return false
+    end
+
+    return Traitormod.RoleManager.Roles.Role.FilterTarget(self, objective, character)
 end
 
 return role

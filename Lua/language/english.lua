@@ -78,7 +78,7 @@ language.NoObjectivesYet = "No targets yet..."
 
 language.ObjectiveAssassinate = "Assassinate %s."
 
-language.ObjectiveSurvive = "Kill targets and survive the shift."
+language.ObjectiveSurvive = "Complete at least one objective and survive the shift."
 language.ObjectiveStealCaptainID = "Steal the captain's ID."
 language.ObjectiveKidnap = "Handcuff %s for %s seconds."
 language.ObjectivePoisonCaptain = "Poison %s with %s."

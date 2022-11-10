@@ -3,11 +3,9 @@ local role = {}
 role.Name = "Role"
 role.IsAntagonist = false
 
-role.Character = nil
-role.Objectives = {}
-
 function role:Init(character)
     self.Character = character
+    self.Objectives = {}
 end
 
 function role:Start()
@@ -56,7 +54,6 @@ function role:FilterTarget(objective, character)
         return false
     end
 
-    if character.TeamID ~= CharacterTeamType.Team1 then return false end
     if Traitormod.RoleManager.IsSameRole(self, character) then return false end
 
     return true

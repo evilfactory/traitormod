@@ -1,6 +1,7 @@
 local objective = Traitormod.RoleManager.Objectives.Objective:new()
 
 objective.Name = "Survive"
+objective.Text = Traitormod.Language.ObjectiveSurvive
 objective.EndRoundObjective = true
 objective.AlwaysActive = true
 objective.AmountPoints = 500
@@ -8,16 +9,20 @@ objective.AmountLives = 1
 
 
 function objective:Start()
-    self.Text = Traitormod.Language.ObjectiveSurvive
-
     return true
 end
 
 function objective:IsCompleted()
-    return not self.Character.IsDead
+    local role = Traitormod.RoleManager.GetRoleByCharacter(self.Character)
 
-    --local traitor = assassination.Traitors[objective.Character]
-    --return traitor.Kills > 0 and traitor.Deaths == 0
+    if role == nil then return false end
+
+    local anyObjective = false
+    for key, value in pairs(role.Objectives) do
+        if value.Awarded then anyObjective = true end
+    end
+
+    return anyObjective and not self.Character.IsDead
 end
 
 return objective

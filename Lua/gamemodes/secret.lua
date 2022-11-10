@@ -8,15 +8,41 @@ function gm:Start()
 end
 
 function gm:End()
+    local success = false
+
+    local sb = Traitormod.StringBuilder:new()
+
     local traitors = {}
     for character, role in pairs(Traitormod.RoleManager.RoundRoles) do
         if role.Name == "Traitor" then
             table.insert(traitors, character)
+
+            sb(character.Name)
+            sb("\n")
+
+            local assassinateObjectives = 0
+            local otherObjectives = 0
+            local pointsGained = 0
+
+            for key, value in pairs(role.Objectives) do
+                if value:IsCompleted() then
+                    if value.Name == "Assassinate" then
+                        assassinateObjectives = assassinateObjectives + 1
+                    else
+                        otherObjectives = otherObjectives + 1
+                    end
+                    pointsGained = pointsGained + value.AmountPoints
+                end
+            end
+
+            sb("Assassinations: %s\n", assassinateObjectives)
+            sb("Other objectives: %s\n", otherObjectives)
+            sb("Points Gained: %s\n", pointsGained)
         end
     end
 
     -- first arg = mission id, second = message, third = completed, forth = list of characters
-    return {TraitorMissionResult(Traitormod.MissionIdentifier, "Cool", false, traitors)}
+    return {TraitorMissionResult(Traitormod.MissionIdentifier, sb:concat(), success, traitors)}
 end
 
 function gm:SelectTraitors()

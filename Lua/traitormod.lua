@@ -140,21 +140,9 @@ Hook.Add("missionsEnded", "Traitormod.MissionsEnded", function(missions)
         end
     end
 
-    local endMessage = ""
-
-    if Traitormod.SelectedGamemode then
-        endMessage = endMessage .. "Gamemode: " .. Traitormod.SelectedGamemode.Name .. "\n\n"
-
-        endMessage = Traitormod.SelectedGamemode:RoundSummary()
-
-        Traitormod.SendMessageEveryone(endMessage)
-    end
-
     if crewReachedEnd then
         Traitormod.Stats.AddStat("Rounds", "Crew reached end", 1)
     end
-        
-    Traitormod.LastRoundSummary = endMessage
 
     Traitormod.SelectedGamemode = nil
     Traitormod.SelectedRandomEvents = {}
@@ -180,6 +168,15 @@ Hook.Add("roundEnd", "Traitormod.RoundEnd", function()
     Traitormod.RoundTime = 0
     Traitormod.LostLivesThisRound = {}
 
+    local endMessage = ""
+    if Traitormod.SelectedGamemode then
+        endMessage = endMessage .. "Gamemode: " .. Traitormod.SelectedGamemode.Name .. "\n\n"
+
+        endMessage = Traitormod.SelectedGamemode:RoundSummary()
+
+        Traitormod.SendMessageEveryone(endMessage)
+    end
+    Traitormod.LastRoundSummary = endMessage
 
     if Traitormod.SelectedGamemode then
         return Traitormod.SelectedGamemode.End()
