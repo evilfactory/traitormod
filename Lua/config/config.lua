@@ -18,11 +18,6 @@ config.Codewords = {
 config.AmountCodeWords = 2
 
 config.OptionalTraitors = true        -- players can use !toggletraitor
-config.TraitorBroadcast = true      -- traitors can broadcast to other traitors using !tc
-config.TraitorBroadcastHearable = false      -- if true, !tc will be hearable in the vicinity via local chat
-config.TraitorDm = false            -- traitors can send direct messages to other players using !tdm
-
-config.OptionalTraitors = true        -- players can use !toggletraitor
 config.RagdollOnDisconnect = false
 config.EnableControlHusk = false     -- EXPERIMENTAL: enable to control husked character after death
 
@@ -115,6 +110,10 @@ config.RoleConfig = {
 
         NextAssassinateDelayMin = 1,
         NextAssassinateDelayMax = 4,
+
+        TraitorBroadcast = true,           -- traitors can broadcast to other traitors using !tc
+        TraitorBroadcastHearable = false,  -- if true, !tc will be hearable in the vicinity via local chat
+        TraitorDm = true,                  -- traitors can send direct messages to other players using !tdm
 
         -- Names, None
         TraitorMethodCommunication = "Names",

@@ -55,10 +55,11 @@ Traitormod.AddCommand({"!roles", "!traitors"}, function (client, args)
     local message = ""
 
     for roleName, r in pairs(roles) do
-        message = message .. "\""  .. roleName .. ": "
+        message = message .. roleName .. ": "
         for _, name in pairs(r) do
             message = message .. "\"" .. name .. "\" "
         end
+        message = message .. "\n\n"
     end
 
     if message == "" then message = "None." end
@@ -131,71 +132,6 @@ Traitormod.AddCommand({"!suicide", "!kill", "!death"}, function (client, args)
     else
         client.Character.Kill(CauseOfDeathType.Unknown)
     end
-end)
-
------ TRAITOR COMMANDS -----
-Traitormod.AddCommand("!tc", function (client, args)
-    local feedback = Traitormod.Language.CommandNotActive
-    
-    if not Traitormod.Config.TraitorBroadcast then
-        feedback = Traitormod.Language.CommandNotActive
-    elseif not client.InGame or not client.Character or not client.Character.IsTraitor then
-        feedback = Traitormod.Language.NoTraitor
-    elseif Traitormod.SelectedGamemode and Traitormod.SelectedGamemode.Traitors then
-        if #args > 0 then
-            local msg = ""
-            for word in args do
-                msg = msg .. " " .. word
-            end
-
-            for character, traitor in pairs(Traitormod.SelectedGamemode.Traitors) do
-                local traitorClient = Traitormod.FindClientCharacter(character)
-                if traitorClient then
-                    Game.SendDirectChatMessage("", string.format(Traitormod.Language.TraitorBroadcast, Traitormod.ClientLogName(client), msg), nil, ChatMessageType.Error, traitorClient)
-                end
-            end
-        
-            return (not Traitormod.Config.TraitorBroadcastHearable)
-        else
-            feedback = "Usage: !tc [Message]"
-        end
-    end
-
-    Game.SendDirectChatMessage("", feedback, nil, Traitormod.Config.ChatMessageType, client)
-
-    return true
-end)
-
-Traitormod.AddCommand("!tdm", function (client, args)
-    local feedback = ""
-    if not Traitormod.Config.TraitorDm then
-        feedback = Traitormod.Language.CommandNotActive
-    elseif client.Character.IsTraitor then
-        print(#args)
-        if #args > 1 then
-            local found = Traitormod.FindClient(table.remove(args, 1))
-            local msg = ""
-            for word in args do
-                msg = msg .. " " .. word
-            end
-            if found then
-                Traitormod.SendMessage(found, Traitormod.Language.TraitorDirectMessage .. msg)
-                feedback = string.format("[To %s]: %s", Traitormod.ClientLogName(found), msg)
-                return true
-            else
-                feedback = "Name not found."
-            end
-        else
-            feedback = "Usage: !tdm [Name] [Message]"
-        end
-    else
-        feedback = Traitormod.Language.NoTraitor
-        Traitormod.SendMessage(client, Traitormod.Language.NoTraitor)
-        return true
-    end
-
-    Game.SendDirectChatMessage("", feedback, nil, Traitormod.Config.ChatMessageType, client)
-    return true
 end)
 
 ----- ADMIN COMMANDS -----

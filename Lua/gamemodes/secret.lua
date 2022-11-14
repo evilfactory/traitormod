@@ -115,4 +115,26 @@ function gm:SelectTraitors()
     end, delay * 1000)
 end
 
+function gm:Think()
+    local ended = true
+
+    for key, value in pairs(Character.CharacterList) do
+        local role = Traitormod.RoleManager.GetRoleByCharacter(value)
+        if role == nil or not role.Antagonist then
+            ended = false
+        end
+    end
+
+    if self.EndOnComplete and ended then
+        local delay = self.EndGameDelaySeconds or 0
+
+        Traitormod.SendMessageEveryone(Traitormod.Language.TraitorsWin)
+        Traitormod.Log("Secret gamemode complete. Ending round in " .. delay)
+
+        Timer.Wait(function ()
+            Game.EndGame()
+        end, delay * 1000)
+    end
+end
+
 return gm

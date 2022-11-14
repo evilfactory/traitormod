@@ -14,7 +14,7 @@ end
 
 function role:AssasinationLoop(first)
     local this = self
-    
+
     local assassinate = Traitormod.RoleManager.Objectives.Assassinate:new()
     assassinate:Init(self.Character)
     local target = self:FindValidTarget(assassinate)
@@ -26,26 +26,28 @@ function role:AssasinationLoop(first)
 
         local client = Traitormod.FindClientCharacter(self.Character)
 
-        assassinate.OnAwarded = function ()
+        assassinate.OnAwarded = function()
             if client then
                 Traitormod.SendMessage(client, Traitormod.Language.AssassinationNextTarget, "")
             end
 
-            Traitormod.SendMessageCharacter(assassinate.Target, Traitormod.Language.KilledByTraitor, "InfoFrameTabButton.Traitor")
+            Traitormod.SendMessageCharacter(assassinate.Target, Traitormod.Language.KilledByTraitor,
+                "InfoFrameTabButton.Traitor")
 
             local delay = math.random(this.NextAssassinateDelayMin, this.NextAssassinateDelayMax) * 1000
-            Timer.Wait(function (...)
+            Timer.Wait(function(...)
                 this:AssasinationLoop()
             end, delay)
         end
 
 
         if client and not first then
-            Traitormod.SendMessage(client, string.format(Traitormod.Language.AssassinationNewObjective, target.Name), "GameModeIcon.pvp")
-            Traitormod.UpdateVanillaTraitor(client, true, self:Greet())  
+            Traitormod.SendMessage(client, string.format(Traitormod.Language.AssassinationNewObjective, target.Name),
+                "GameModeIcon.pvp")
+            Traitormod.UpdateVanillaTraitor(client, true, self:Greet())
         end
     else
-        Timer.Wait(function ()
+        Timer.Wait(function()
             this:AssasinationLoop()
         end, 5000)
     end
@@ -142,7 +144,12 @@ function role:Greet()
     else
         sb("Partners: ")
         sb(partners)
+
+        if self.TraitorBroadcast then
+            sb("\nUse !tc to communicate with your partners.")
+        end
     end
+
     return sb:concat()
 end
 
@@ -178,5 +185,70 @@ function role:FilterTarget(objective, character)
 
     return Traitormod.RoleManager.Roles.Role.FilterTarget(self, objective, character)
 end
+
+Traitormod.AddCommand("!tc", function(client, args)
+    local feedback = Traitormod.Language.CommandNotActive
+
+    if not role.TraitorBroadcast then
+        feedback = Traitormod.Language.CommandNotActive
+    elseif not client.InGame or not client.Character or not client.Character.IsTraitor then
+        feedback = Traitormod.Language.NoTraitor
+    elseif #args > 0 then
+        local msg = ""
+        for word in args do
+            msg = msg .. " " .. word
+        end
+
+        for _, character in pairs(Traitormod.RoleManager.FindCharactersByRole(role.Name)) do
+            local targetClient = Traitormod.FindClientCharacter(character)
+
+            if targetClient then
+                Game.SendDirectChatMessage("",
+                    string.format(Traitormod.Language.TraitorBroadcast, Traitormod.ClientLogName(client), msg), nil,
+                    ChatMessageType.Error, targetClient)
+            end
+        end
+
+        return not role.TraitorBroadcastHearable
+    else
+        feedback = "Usage: !tc [Message]"
+    end
+
+    Game.SendDirectChatMessage("", feedback, nil, Traitormod.Config.ChatMessageType, client)
+
+    return true
+end)
+
+Traitormod.AddCommand("!tdm", function(client, args)
+    local feedback = ""
+    if not role.TraitorDm then
+        feedback = Traitormod.Language.CommandNotActive
+    elseif Traitormod.RoleManager.GetRoleByCharacter(client.Character).Name == "Traitor" then
+        if #args > 1 then
+            local found = Traitormod.FindClient(table.remove(args, 1))
+            local msg = ""
+            for word in args do
+                msg = msg .. " " .. word
+            end
+            if found then
+                Traitormod.SendMessage(found, Traitormod.Language.TraitorDirectMessage .. msg)
+                feedback = string.format("[To %s]: %s", Traitormod.ClientLogName(found), msg)
+                return true
+            else
+                feedback = "Name not found."
+            end
+        else
+            feedback = "Usage: !tdm [Name] [Message]"
+        end
+    else
+        feedback = Traitormod.Language.NoTraitor
+        Traitormod.SendMessage(client, Traitormod.Language.NoTraitor)
+        return true
+    end
+
+    Game.SendDirectChatMessage("", feedback, nil, Traitormod.Config.ChatMessageType, client)
+    return true
+end)
+
 
 return role

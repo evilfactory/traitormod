@@ -267,7 +267,7 @@ Hook.Add("think", "Traitormod.Think", function()
     Traitormod.RoundTime = Traitormod.RoundTime + 1 / 60
 
     if Traitormod.SelectedGamemode then
-        Traitormod.SelectedGamemode.Think()
+        Traitormod.SelectedGamemode:Think()
     end
 
     -- every 60s, if a character has 100+ PointsToBeGiven, store added points and send feedback
