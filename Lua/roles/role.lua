@@ -6,9 +6,14 @@ role.IsAntagonist = false
 function role:Init(character)
     self.Character = character
     self.Objectives = {}
+    self.RoundNumber = Traitormod.RoundNumber
 end
 
 function role:Start()
+
+end
+
+function role:End(roundEnd)
 
 end
 
@@ -26,6 +31,16 @@ end
 
 function role:AssignObjective(objective)
     table.insert(self.Objectives, objective)
+end
+
+function role:CompletedObjectives(name)
+    local num = 0
+    for key, value in pairs(self.Objectives) do
+        if value.Name == name then
+            num = num + 1
+        end
+    end
+    return num
 end
 
 function role:FindValidTarget(objective)

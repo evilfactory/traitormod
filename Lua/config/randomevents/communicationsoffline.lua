@@ -6,7 +6,6 @@ local event = {}
 -- ChancePerMinute, Every minute, this will roll a random to number to check if the event should be triggered.
 
 
-event.Enabled = true
 event.Name = "CommunicationsOffline"
 event.MinRoundTime = 10
 event.MinIntensity = 0

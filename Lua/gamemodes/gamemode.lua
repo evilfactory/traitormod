@@ -3,7 +3,7 @@ local gm = {}
 gm.Name = "Gamemode"
 
 function gm:Start()
-    
+
 end
 
 function gm:Think()

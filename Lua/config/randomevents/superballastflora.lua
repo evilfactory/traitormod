@@ -1,6 +1,5 @@
 local event = {}
 
-event.Enabled = true
 event.Name = "SuperBallastFlora"
 event.MinRoundTime = 15
 event.MinIntensity = 0

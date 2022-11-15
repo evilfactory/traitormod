@@ -41,10 +41,6 @@ config.RemoveSkillBooks = true
 config.FreeExperience = 50         -- temporary experience given every ExperienceTimer seconds
 config.ExperienceTimer = 120
 
-config.DistanceToEndOutpostRequired = 5000
-config.PointsGainedFromCrewMissionsCompleted = 1000
-config.PointsGainedFromHandcuffedTraitors = 1000
-config.LivesGainedFromCrewMissionsCompleted = 1
 config.PointsGainedFromSkill = {
     medical = 30,
     weapons = 20,
@@ -72,10 +68,17 @@ end
 config.GamemodeConfig = {
     Secret = {
         EndOnComplete = true,           -- end round when there are no assassination targets left
+        EnableRandomEvents = true,
         EndGameDelaySeconds = 5,
 
         TraitorSelectDelayMin = 1,
         TraitorSelectDelayMax = 4,
+
+        PointsGainedFromHandcuffedTraitors = 1000,
+        DistanceToEndOutpostRequired = 5000,
+        PointsGainedFromCrewMissionsCompleted = 1000,
+        LivesGainedFromCrewMissionsCompleted = 1,
+
 
         AmountTraitors = function (amountPlayers)
             config.TestMode = false
@@ -152,8 +155,6 @@ config.ObjectiveConfig = {
 
 ----- EVENTS -----
 config.RandomEventConfig = {
-    Enabled = true,
-
     Events = {
         dofile(Traitormod.Path .. "/Lua/config/randomevents/communicationsoffline.lua"),
         dofile(Traitormod.Path .. "/Lua/config/randomevents/superballastflora.lua"),

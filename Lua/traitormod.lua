@@ -80,7 +80,7 @@ Traitormod.RoundStart = function()
     Traitormod.Log("Starting gamemode " .. Traitormod.SelectedGamemode.Name)
 
     if Traitormod.SelectedGamemode then
-        Traitormod.SelectedGamemode.Start()
+        Traitormod.SelectedGamemode:Start()
     end
 end
 
@@ -89,75 +89,16 @@ Hook.Add("roundStart", "Traitormod.RoundStart", function()
 end)
 
 Hook.Add("missionsEnded", "Traitormod.MissionsEnded", function(missions)
-    Traitormod.Debug("missionsEnded with " .. #missions .. " missions.")
-    -- send LastRoundSummary
-    local crewReachedEnd = false
-    local crewMissionsComplete = Traitormod.AllCrewMissionsCompleted(missions)
-
-    -- handle stored player lives and weight
-    for key, value in pairs(Client.ClientList) do
-        -- add weight according to points and config conversion
-        Traitormod.AddData(value, "Weight",
-            Traitormod.Config.AmountWeightWithPoints(Traitormod.GetData(value, "Points") or 0))
-
-        if value.Character ~= nil
-            and value.Character.IsHuman
-            and not value.SpectateOnly
-            and not value.Character.IsDead
-        then
-            local role = Traitormod.RoleManager.GetRoleByCharacter(value.Character)
-
-            local wasAntagonist = false
-            if role ~= nil then
-                wasAntagonist = role.IsAntagonist
-            end
-
-            -- if client was no traitor, and in reach of end position, gain a live
-            if not wasAntagonist and Traitormod.EndReached(value.Character) then
-                crewReachedEnd = true
-
-                local msg = ""
-
-                -- award points for mission completion
-                if crewMissionsComplete then
-                    local points = Traitormod.AwardPoints(value, Traitormod.Config.PointsGainedFromCrewMissionsCompleted
-                        , true)
-                    msg = msg ..
-                        Traitormod.Language.CrewWins ..
-                        " " .. string.format(Traitormod.Language.PointsAwarded, points) .. "\n\n"
-                end
-
-                local lifeMsg, icon = Traitormod.AdjustLives(value,
-                    (Traitormod.Config.LivesGainedFromCrewMissionsCompleted or 1))
-                if lifeMsg then
-                    msg = msg .. lifeMsg .. "\n\n"
-                end
-
-                if msg ~= "" then
-                    Traitormod.SendMessage(value, msg, icon)
-                end
-            end
-        end
-    end
-
-    if crewReachedEnd then
-        Traitormod.Stats.AddStat("Rounds", "Crew reached end", 1)
-    end
-
-    Traitormod.SelectedGamemode = nil
-    Traitormod.SelectedRandomEvents = {}
-
-    Traitormod.SaveData()
-    Traitormod.Stats.SaveData()
-
-    if Traitormod.Config.RemotePoints then
-        for key, value in pairs(Client.ClientList) do
-            Traitormod.PublishRemoteData(value)
-        end
-    end
+    Traitormod.RoundMissions = missions
+    Traitormod.Debug("missionsEnded with " .. #Traitormod.RoundMissions .. " missions.")
 end)
 
 Hook.Add("roundEnd", "Traitormod.RoundEnd", function()
+    for key, value in pairs(Client.ClientList) do
+        -- add weight according to points and config conversion
+        Traitormod.AddData(value, "Weight", Traitormod.Config.AmountWeightWithPoints(Traitormod.GetData(value, "Points") or 0))
+    end
+
     Traitormod.Debug("Round " .. Traitormod.RoundNumber .. " ended.")
     Traitormod.RoundNumber = Traitormod.RoundNumber + 1
     Traitormod.Stats.AddStat("Rounds", "Rounds finished", 1)
@@ -179,8 +120,24 @@ Hook.Add("roundEnd", "Traitormod.RoundEnd", function()
     Traitormod.LastRoundSummary = endMessage
 
     if Traitormod.SelectedGamemode then
-        return Traitormod.SelectedGamemode.End()
+        Traitormod.TraitorResults = Traitormod.SelectedGamemode:End()
     end
+
+    Traitormod.RoleManager.EndRound()
+    Traitormod.RoundEvents.EndRound()
+
+    Traitormod.SelectedGamemode = nil
+
+    Traitormod.SaveData()
+    Traitormod.Stats.SaveData()
+
+    if Traitormod.Config.RemotePoints then
+        for key, value in pairs(Client.ClientList) do
+            Traitormod.PublishRemoteData(value)
+        end
+    end
+
+    return Traitormod.TraitorResults
 end)
 
 Hook.Add("characterCreated", "Traitormod.CharacterCreated", function(character)
@@ -195,12 +152,7 @@ Hook.Add("characterCreated", "Traitormod.CharacterCreated", function(character)
     -- delay handling, otherwise client won't be found
     Timer.Wait(function()
         local client = Traitormod.FindClientCharacter(character)
-        --Traitormod.Debug("Character spawned: " .. character.Name .. " client: " .. tostring(client))
-
-        if Traitormod.SelectedGamemode and Traitormod.SelectedGamemode.OnCharacterCreated then
-            Traitormod.SelectedGamemode.OnCharacterCreated(client, character)
-        end
-
+        
         Traitormod.Stats.AddClientStat("Spawns", client, 1)
 
         if client ~= nil then
@@ -212,51 +164,6 @@ Hook.Add("characterCreated", "Traitormod.CharacterCreated", function(character)
     end, 1000)
 end)
 
-Hook.Add("characterDeath", "Traitormod.DeathByTraitor", function(character, affliction)
-    if Traitormod.SelectedGamemode == nil then
-        return
-    end
-
-    local client = Traitormod.FindClientCharacter(character)
-
-    -- if character is valid player
-    if client == nil or
-        character == nil or
-        character.IsHuman == false or
-        character.ClientDisconnected == true or
-        character.TeamID == 0 then
-        return
-    end
-
-    local deathMsg, deathIcon
-    if Traitormod.SelectedGamemode.OnCharacterDied then
-        deathMsg, deathIcon = Traitormod.SelectedGamemode.OnCharacterDied(client, affliction)
-    end
-
-    if Traitormod.RoundTime < Traitormod.Config.MinRoundTimeToLooseLives then
-        return
-    end
-
-    if Traitormod.LostLivesThisRound[client.SteamID] == nil then
-        Traitormod.LostLivesThisRound[client.SteamID] = true
-    else
-        return
-    end
-
-    -- loose one live. if gamemode provided no icon, use icon from life adjustment
-    local lifeMsg, lifeIcon = Traitormod.AdjustLives(client, -1)
-    if not deathIcon then
-        deathIcon = lifeIcon
-    end
-
-    if deathMsg and lifeMsg then
-        deathMsg = deathMsg .. "\n\n" .. lifeMsg
-    elseif lifeMsg then
-        deathMsg = lifeMsg
-    end
-
-    Traitormod.SendMessage(client, deathMsg, deathIcon)
-end)
 
 -- register tick
 Hook.Add("think", "Traitormod.Think", function()

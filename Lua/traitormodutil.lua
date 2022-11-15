@@ -273,21 +273,6 @@ Traitormod.AllCrewMissionsCompleted = function (missions)
     return true
 end
 
-Traitormod.AllTraitorsHandcuffed = function (traitors)
-    if traitors == nil then return 0 end
-    
-    local num = 0
-    for character, traitor in pairs(traitors) do
-        local item = character.Inventory.GetItemInLimbSlot(InvSlotType.RightHand)
-
-        if item ~= nil and item.Prefab.Identifier == "handcuffs" then
-            num = num + 1
-        end
-    end
-
-    return num
-end
-
 Traitormod.LoadExperience = function (client)
     if client == nil then
         Traitormod.Error("Loading experience failed! Client was nil")
@@ -419,7 +404,7 @@ Traitormod.GetJobString = function(character)
 end
 
 -- returns true if character has reached the end of the level
-Traitormod.EndReached = function(character)
+Traitormod.EndReached = function(character, distance)
     if LevelData and LevelData.LevelType and LevelData.LevelType.Outpost then
         return true
     end
@@ -430,7 +415,7 @@ Traitormod.EndReached = function(character)
 
     local characterInsideOutpost = not character.IsDead and character.Submarine == Level.Loaded.EndOutpost
     -- character is inside or docked to outpost 
-    return characterInsideOutpost or Vector2.Distance(character.WorldPosition, Level.Loaded.EndPosition) < Traitormod.Config.DistanceToEndOutpostRequired
+    return characterInsideOutpost or Vector2.Distance(character.WorldPosition, Level.Loaded.EndPosition) < distance
 end
 
 Traitormod.SendWelcome = function(client)

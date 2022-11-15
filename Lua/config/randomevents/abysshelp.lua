@@ -1,6 +1,5 @@
 local event = {}
 
-event.Enabled = true
 event.Name = "AbyssHelp"
 event.MinRoundTime = 2
 event.MaxRoundTime = 10

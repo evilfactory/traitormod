@@ -2,23 +2,16 @@ local role = Traitormod.RoleManager.Roles.Role:new()
 role.Name = "Traitor"
 role.Antagonist = true
 
-function role:CompletedObjectives(name)
-    local num = 0
-    for key, value in pairs(self.Objectives) do
-        if value.Name == name then
-            num = num + 1
-        end
-    end
-    return num
-end
-
 function role:AssasinationLoop(first)
+    if not Game.RoundStarted then return end
+    if self.RoundNumber ~= Traitormod.RoundNumber then return end
+
     local this = self
 
     local assassinate = Traitormod.RoleManager.Objectives.Assassinate:new()
     assassinate:Init(self.Character)
     local target = self:FindValidTarget(assassinate)
-    if assassinate:Start(target) then
+    if not self.Character.IsDead and assassinate:Start(target) then
         self:AssignObjective(assassinate)
 
         local num = self:CompletedObjectives()
@@ -96,6 +89,15 @@ function role:Start()
     if client then
         Traitormod.SendTraitorMessageBox(client, text)
         Traitormod.UpdateVanillaTraitor(client, true, text)
+    end
+end
+
+
+function role:End(roundEnd)
+    local client = Traitormod.FindClientCharacter(self.Character)
+    if not roundEnd and client then
+        Traitormod.SendMessage(client, Traitormod.Language.TraitorDeath, "InfoFrameTabButton.Traitor")
+        Traitormod.UpdateVanillaTraitor(client, false)
     end
 end
 

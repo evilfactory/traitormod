@@ -1,7 +1,5 @@
 local rm = {}
 
-local config = Traitormod.Config
-
 rm.Roles = {}
 rm.Objectives = {}
 
@@ -42,10 +40,12 @@ rm.AddObjective = function(objective)
 end
 
 rm.CheckObjectives = function(endRound)
-    for name, role in pairs(rm.RoundRoles) do
-        for _, objective in pairs(role.Objectives) do
-            if objective:IsCompleted() and objective.EndRoundObjective == endRound and not objective.Awarded then
-                objective:Award()
+    for character, role in pairs(rm.RoundRoles) do
+        if not character.IsDead then
+            for _, objective in pairs(role.Objectives) do
+                if objective:IsCompleted() and objective.EndRoundObjective == endRound and not objective.Awarded then
+                    objective:Award()
+                end
             end
         end
     end
@@ -66,6 +66,10 @@ rm.AddRole = function(role)
 end
 
 rm.AssignRole = function(character, newRole)
+    if rm.RoundRoles[character] ~= nil then
+        error("character" .. character.Name .. " already has a role.", 2)
+    end
+
     for key, role in pairs(rm.RoundRoles) do
         if role.Name == newRole.Name then
             role:NewMember(key)
@@ -79,6 +83,12 @@ rm.AssignRole = function(character, newRole)
 end
 
 rm.AssignRoles = function(characters, newRoles)
+    for key, value in pairs(characters) do
+        if rm.RoundRoles[value] ~= nil then
+            error("character" .. value.Name .. " already has a role.", 2)
+        end
+    end
+
     for i = 1, #characters, 1 do
         for character, role in pairs(rm.RoundRoles) do
             if newRoles[i].Name == role.Name then
@@ -110,6 +120,8 @@ rm.FindCharactersByRole = function(name)
 end
 
 rm.GetRoleByCharacter = function(character)
+    if character == nil then return nil end
+
     return rm.RoundRoles[character]
 end
 
@@ -138,10 +150,21 @@ Hook.Add("think", "Traitormod.RoleManager.Think", function()
     rm.CheckObjectives(false)
 end)
 
-Hook.Add("roundEnd", "Traitormod.RoleManager.RoundEnd", function()
+Hook.Add("characterDeath", "Traitormod.RoleManager.CharacterDeath", function(character)
+    local role = rm.GetRoleByCharacter(character)
+    if role then
+        role:End()
+    end
+end)
+
+rm.EndRound = function ()
     rm.CheckObjectives(true)
 
+    for key, role in pairs(rm.RoundRoles) do
+        role:End(true)
+    end
+
     rm.RoundRoles = {}
-end)
+end
 
 return rm

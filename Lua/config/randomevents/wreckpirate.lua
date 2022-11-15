@@ -1,6 +1,5 @@
 local event = {}
 
-event.Enabled = true
 event.Name = "WreckPirate"
 event.MinRoundTime = 1
 event.MaxRoundTime = 15

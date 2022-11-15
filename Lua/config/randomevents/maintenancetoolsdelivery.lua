@@ -1,6 +1,5 @@
 local event = {}
 
-event.Enabled = true
 event.Name = "MaintenanceToolsDelivery"
 event.MinRoundTime = 5
 event.MinIntensity = 0.6

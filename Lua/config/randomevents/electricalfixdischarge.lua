@@ -1,6 +1,5 @@
 local event = {}
 
-event.Enabled = true
 event.Name = "ElectricalFixDischarge"
 event.MinRoundTime = 0
 event.MinIntensity = 0.8

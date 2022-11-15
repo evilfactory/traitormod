@@ -3,8 +3,103 @@ local gm = Traitormod.Gamemodes.Gamemode:new()
 
 gm.Name = "Secret"
 
+function gm:CharacterDeath(character)
+    local client = Traitormod.FindClientCharacter(character)
+
+    -- if character is valid player
+    if client == nil or
+        character == nil or
+        character.IsHuman == false or
+        character.ClientDisconnected == true or
+        character.TeamID == 0 then
+        return
+    end
+
+    if Traitormod.RoundTime < Traitormod.Config.MinRoundTimeToLooseLives then
+        return
+    end
+
+    if Traitormod.LostLivesThisRound[client.SteamID] == nil then
+        Traitormod.LostLivesThisRound[client.SteamID] = true
+    else
+        return
+    end
+
+    local liveMsg, liveIcon = Traitormod.AdjustLives(client, -1)
+
+    Traitormod.SendMessage(client, liveMsg, liveIcon)
+end
+
 function gm:Start()
-    gm:SelectTraitors()
+    local this = self
+
+    if self.EnableRandomEvents then
+        Traitormod.RoundEvents.Initialize()
+    end
+
+    Hook.Add("characterDeath", "Traitormod.Secret.CharacterDeath", function(character, affliction)
+        this:CharacterDeath(character)
+    end)
+
+    gm:SelectAntagonists(Traitormod.RoleManager.Roles.Traitor)
+end
+
+function gm:AwardCrew()
+    local crewMissionsComplete = Traitormod.AllCrewMissionsCompleted(Traitormod.RoundMissions)
+
+    for key, value in pairs(Client.ClientList) do
+        if value.Character ~= nil
+            and value.Character.IsHuman
+            and not value.SpectateOnly
+            and not value.Character.IsDead
+        then
+            local role = Traitormod.RoleManager.GetRoleByCharacter(value.Character)
+
+            local wasAntagonist = false
+            if role ~= nil then
+                wasAntagonist = role.IsAntagonist
+            end
+
+            -- if client was no traitor, and in reach of end position, gain a live
+            if not wasAntagonist and Traitormod.EndReached(value.Character, self.DistanceToEndOutpostRequired) then
+                local msg = ""
+
+                -- award points for mission completion
+                if crewMissionsComplete then
+                    local points = Traitormod.AwardPoints(value, self.PointsGainedFromCrewMissionsCompleted
+                        , true)
+                    msg = msg ..
+                        Traitormod.Language.CrewWins ..
+                        " " .. string.format(Traitormod.Language.PointsAwarded, points) .. "\n\n"
+                end
+
+                local lifeMsg, icon = Traitormod.AdjustLives(value,
+                    (self.LivesGainedFromCrewMissionsCompleted or 1))
+                if lifeMsg then
+                    msg = msg .. lifeMsg .. "\n\n"
+                end
+
+                if msg ~= "" then
+                    Traitormod.SendMessage(value, msg, icon)
+                end
+            end
+        end
+    end
+end
+
+function gm:CheckHandcuffedTraitors(character)
+    local item = character.Inventory.GetItemInLimbSlot(InvSlotType.RightHand)
+    if item ~= nil and item.Prefab.Identifier == "handcuffs" then
+        for key, value in pairs(Client.ClientList) do
+            local role = Traitormod.RoleManager.GetRoleByCharacter(value.Character)
+            if role == nil or role.Name ~= "Traitor" then
+                local points = Traitormod.AwardPoints(value, self.PointsGainedFromHandcuffedTraitors)
+                local text = string.format(Traitormod.Language.TraitorHandcuffed, character.Name)
+                text = text .. "\n\n" .. string.format(Traitormod.Language.PointsAwarded, points)
+                Traitormod.SendMessage(value, text, "InfoFrameTabButton.Mission")
+            end
+        end
+    end
 end
 
 function gm:End()
@@ -12,11 +107,13 @@ function gm:End()
 
     local sb = Traitormod.StringBuilder:new()
 
-    local traitors = {}
+    local antagonists = {}
     for character, role in pairs(Traitormod.RoleManager.RoundRoles) do
-        if role.Name == "Traitor" then
-            table.insert(traitors, character)
+        if role.IsAntagonist then
+            table.insert(antagonists, character)
+        end
 
+        if role.Name == "Traitor" then
             sb(character.Name)
             sb("\n")
 
@@ -35,17 +132,29 @@ function gm:End()
                 end
             end
 
+            if assassinateObjectives > 0 or otherObjectives > 0 then
+                success = true
+            end
+
             sb("Assassinations: %s\n", assassinateObjectives)
             sb("Other objectives: %s\n", otherObjectives)
             sb("Points Gained: %s\n", pointsGained)
         end
     end
 
+    for key, character in pairs(Traitormod.RoleManager.FindCharactersByRole("Traitor")) do
+        self:CheckHandcuffedTraitors(character)
+    end
+
+    gm:AwardCrew()
+
+    Hook.Remove("characterDeath", "Traitormod.Secret.CharacterDeath");
+
     -- first arg = mission id, second = message, third = completed, forth = list of characters
-    return {TraitorMissionResult(Traitormod.MissionIdentifier, sb:concat(), success, traitors)}
+    return {TraitorMissionResult(Traitormod.MissionIdentifier, sb:concat(), success, antagonists)}
 end
 
-function gm:SelectTraitors()
+function gm:SelectAntagonists(role)
     local this = self
     local thisRoundNumber = Traitormod.RoundNumber
 
@@ -76,7 +185,7 @@ function gm:SelectTraitors()
             if Game.ServerSettings.AllowRespawn or MidRoundSpawn then
                 -- if more players to come, retry
                 Traitormod.Debug("Currently no valid player characters to assign traitors. Retrying...")
-                this:SelectTraitors()
+                this:SelectAntagonists(role)
             else
                 -- else this will never change, abort
                 Traitormod.Log("No players to assign traitors")
@@ -91,7 +200,7 @@ function gm:SelectTraitors()
             Traitormod.Log("Not enough valid players to assign all traitors... New amount: " .. tostring(amountTraitors))
         end
 
-        local traitors = {}
+        local antagonists = {}
         local roles = {}
 
         for i = 1, amountTraitors, 1 do
@@ -101,8 +210,8 @@ function gm:SelectTraitors()
                 Traitormod.Log("Chose " ..
                     index.Character.Name .. " as traitor. Weight: " .. math.floor(clientWeight[index] * 100) / 100)
 
-                table.insert(traitors, index.Character)
-                table.insert(roles, Traitormod.RoleManager.Roles.Traitor:new())
+                table.insert(antagonists, index.Character)
+                table.insert(roles, role:new())
 
                 clientWeight[index] = nil
 
@@ -110,22 +219,35 @@ function gm:SelectTraitors()
             end
         end
 
-        Traitormod.RoleManager.AssignRoles(traitors, roles)
+        Traitormod.RoleManager.AssignRoles(antagonists, roles)
 
     end, delay * 1000)
 end
 
 function gm:Think()
     local ended = true
+    local anyTraitorMission = false
 
     for key, value in pairs(Character.CharacterList) do
-        local role = Traitormod.RoleManager.GetRoleByCharacter(value)
-        if role == nil or not role.Antagonist then
-            ended = false
+        if not value.IsDead and value.IsOnPlayerTeam then
+            local role = Traitormod.RoleManager.GetRoleByCharacter(value)
+            if role == nil or role.Name ~= "Traitor" then
+                ended = false
+            else
+                for key, objective in pairs(role.Objectives) do
+                    if objective.Name == "Assassinate" then
+                        anyTraitorMission = true
+                    end
+                end
+            end
         end
     end
 
-    if self.EndOnComplete and ended then
+    if not anyTraitorMission then
+        ended = false
+    end
+
+    if not self.Ending and Game.RoundStarted and self.EndOnComplete and ended then
         local delay = self.EndGameDelaySeconds or 0
 
         Traitormod.SendMessageEveryone(Traitormod.Language.TraitorsWin)
@@ -134,6 +256,8 @@ function gm:Think()
         Timer.Wait(function ()
             Game.EndGame()
         end, delay * 1000)
+
+        self.Ending = true
     end
 end
 

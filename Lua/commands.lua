@@ -348,10 +348,10 @@ Traitormod.AddCommand("!revive", function (client, args)
     if reviveClient.Character and reviveClient.Character.IsDead then
         reviveClient.Character.Revive()
         reviveClient.SetClientCharacter(reviveClient.Character);
-        local lifeMsg, lifeIcon = Traitormod.AdjustLives(reviveClient, 1)
+        local liveMsg, liveIcon = Traitormod.AdjustLives(reviveClient, 1)
 
-        if lifeMsg then
-            Traitormod.SendMessage(reviveClient, lifeMsg, lifeIcon)
+        if liveMsg then
+            Traitormod.SendMessage(reviveClient, liveMsg, liveIcon)
         end
 
         Game.SendDirectChatMessage("", "Character of " .. Traitormod.ClientLogName(reviveClient) .. " revived and given back 1 life.", nil, ChatMessageType.Error, client)
