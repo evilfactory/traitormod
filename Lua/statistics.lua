@@ -67,6 +67,13 @@ statistics.AddClientStat = function(category, client, value)
     end
 end
 
+statistics.AddCharacterStat = function(category, character, value)
+    local client = Traitormod.FindClientCharacter(character)
+    if client ~= nil then
+        statistics.AddClientStat(category, client, value)
+    end
+end
+
 statistics.ShowStats = function(client, category)
     local text = "No stats found."
     local elem = statistics.stats[category]

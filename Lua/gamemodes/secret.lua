@@ -148,6 +148,12 @@ function gm:End()
 
     gm:AwardCrew()
 
+    if (success) then
+        Traitormod.Stats.AddStat("Rounds", "Traitor rounds won", 1)
+    else
+        Traitormod.Stats.AddStat("Rounds", "Crew rounds won", 1)
+    end
+
     Hook.Remove("characterDeath", "Traitormod.Secret.CharacterDeath");
 
     -- first arg = mission id, second = message, third = completed, forth = list of characters

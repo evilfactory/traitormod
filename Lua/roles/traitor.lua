@@ -22,10 +22,8 @@ function role:AssasinationLoop(first)
         assassinate.OnAwarded = function()
             if client then
                 Traitormod.SendMessage(client, Traitormod.Language.AssassinationNextTarget, "")
+                Traitormod.Stats.AddClientStat("TraitorMainObjectives", client, 1)
             end
-
-            Traitormod.SendMessageCharacter(assassinate.Target, Traitormod.Language.KilledByTraitor,
-                "InfoFrameTabButton.Traitor")
 
             local delay = math.random(this.NextAssassinateDelayMin, this.NextAssassinateDelayMax) * 1000
             Timer.Wait(function(...)
@@ -47,6 +45,8 @@ function role:AssasinationLoop(first)
 end
 
 function role:Start()
+    Traitormod.Stats.AddCharacterStat("Traitor", self.Character, 1)
+
     self:AssasinationLoop(true)
 
     local pool = {}
@@ -55,10 +55,17 @@ function role:Start()
     local toRemove = {}
     for key, value in pairs(pool) do
         local objective = Traitormod.RoleManager.FindObjective(value)
-        if objective ~= nil then
+        if objective ~= nil and objective.AlwaysActive then
             objective = objective:new()
-            objective:Init(self.Character)
-            if objective.AlwaysActive and objective:Start(self.Character) then
+
+            local character = self.Character
+
+            objective:Init(character)
+            objective.OnAwarded = function ()
+                Traitormod.Stats.AddCharacterStat("TraitorSubObjectives", character, 1)
+            end
+
+            if objective:Start(character) then
                 self:AssignObjective(objective)
                 table.insert(toRemove, key)
             end
@@ -71,8 +78,15 @@ function role:Start()
         if objective == nil then break end
 
         objective = objective:new()
-        objective:Init(self.Character)
+
+        local character = self.Character
+
+        objective:Init(character)
         local target = self:FindValidTarget(objective)
+
+        objective.OnAwarded = function ()
+            Traitormod.Stats.AddCharacterStat("TraitorSubObjectives", character, 1)
+        end
 
         if objective:Start(target) then
             self:AssignObjective(objective)
