@@ -10,6 +10,57 @@ end
 
 category.Products = {
     {
+        Name = "Explosive Auto-Injector",
+        Price = 2500,
+        Limit = 1,
+        IsLimitGlobal = false,
+        Action = function (client)
+            local prefabInjector = ItemPrefab.GetItemPrefab("autoinjectorheadset")
+            local prefabUEX = ItemPrefab.GetItemPrefab("uex")
+            Entity.Spawner.AddItemToSpawnQueue(prefabInjector, client.Character.Inventory, nil, nil, function (item)
+                Entity.Spawner.AddItemToSpawnQueue(prefabUEX, client.Character.Inventory, nil, nil, function (item2)
+                    item2.Tags = "medical"
+                    item2.Description = "A modified UEX that can be put inside an Auto-Injector headset."
+                    item2.set_InventoryIconColor(Color(0, 0, 255))
+                    item2.SpriteColor = Color(0, 0, 255, 255)
+
+                    local color = item2.SerializableProperties[Identifier("SpriteColor")]
+                    Networking.CreateEntityEvent(item2, Item.ChangePropertyEventData(color))            
+                    local invColor = item2.SerializableProperties[Identifier("InventoryIconColor")]
+                    Networking.CreateEntityEvent(item2, Item.ChangePropertyEventData(invColor))
+                end)
+            end)
+        end
+    },
+
+    {
+        Name = "Invisible Suit (protip: hide your id card and keep your health full)",
+        Price = 800,
+        Limit = 1,
+        IsLimitGlobal = false,
+        Action = function (client)
+            local suit = ItemPrefab.GetItemPrefab("divingsuit")
+            Entity.Spawner.AddItemToSpawnQueue(suit, client.Character.Inventory, nil, nil, function (item)
+                local light = item.GetComponentString("LightComponent")
+
+                item.set_InventoryIconColor(Color(255, 255, 255, 50))
+                item.SpriteColor = Color(0, 0, 0, 0)
+                item.Tags = "smallitem"
+                light.LightColor = Color(0, 0, 0, 0)
+
+                local color = item.SerializableProperties[Identifier("SpriteColor")]
+                Networking.CreateEntityEvent(item, Item.ChangePropertyEventData(color))            
+                local invColor = item.SerializableProperties[Identifier("InventoryIconColor")]
+                Networking.CreateEntityEvent(item, Item.ChangePropertyEventData(invColor))
+                local lightColor = light.SerializableProperties[Identifier("LightColor")]
+                Networking.CreateEntityEvent(item, Item.ChangePropertyEventData(lightColor))
+
+                Entity.Spawner.AddItemToSpawnQueue(ItemPrefab.GetItemPrefab("oxygentank"), item.OwnInventory)
+            end)
+        end
+    },
+
+    {
         Name = "Boom Stick",
         Price = 3200,
         Limit = 1,
