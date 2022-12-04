@@ -312,6 +312,56 @@ Traitormod.AddCommand({"!addlife", "!addlive", "!addlifes", "!addlives"}, functi
     return true
 end)
 
+local voidPos = {}
+
+Traitormod.AddCommand("!void", function (client, args)
+    if not client.HasPermission(ClientPermissions.ConsoleCommands) then return end
+
+    local target = Traitormod.FindClient(args[1])
+
+    if not target then
+        Traitormod.SendMessage(client, "Couldn't find a client with specified name / steamID")
+        return true
+    end
+
+    if target.Character == nil or target.Character.IsDead then
+        Traitormod.SendMessage(client, "Client's character is dead or non-existent.")
+        return true
+    end
+
+    voidPos[target.Character] = target.Character.WorldPosition
+    target.Character.TeleportTo(Vector2(0, Level.Loaded.Size.Y + 100000))
+    target.Character.GodMode = true
+
+    Traitormod.SendMessage(client, "Sent the character to the void.")
+
+    return true
+end)
+
+Traitormod.AddCommand("!unvoid", function (client, args)
+    if not client.HasPermission(ClientPermissions.ConsoleCommands) then return end
+
+    local target = Traitormod.FindClient(args[1])
+
+    if not target then
+        Traitormod.SendMessage(client, "Couldn't find a client with specified name / steamID")
+        return true
+    end
+
+    if target.Character == nil or target.Character.IsDead then
+        Traitormod.SendMessage(client, "Client's character is dead or non-existent.")
+        return true
+    end
+
+    target.Character.TeleportTo(voidPos[target.Character])
+    target.Character.GodMode = false
+    voidPos[target.Character] = nil
+    
+    Traitormod.SendMessage(client, "Remove character from the void.")
+
+    return true
+end)
+
 Traitormod.AddCommand("!revive", function (client, args)
     if not client.HasPermission(ClientPermissions.ConsoleCommands) then return end
 
@@ -361,6 +411,7 @@ Traitormod.AddCommand("!ongoingevents", function (client, args)
 
     return true
 end)
+
 
 Traitormod.AddCommand("!triggerevent", function (client, args)
     if not client.HasPermission(ClientPermissions.ConsoleCommands) then return end
