@@ -28,7 +28,7 @@ event.Start = function ()
     Entity.Spawner.AddItemToSpawnQueue(cratePrefab, position, nil, nil, function(item)
         item.SpriteColor = Color(255, 0, 0, 255)
         local property = item.SerializableProperties[Identifier("SpriteColor")]
-        Networking.CreateEntityEvent(item, Item.ChangePropertyEventData(property))
+        Networking.CreateEntityEvent(item, Item.ChangePropertyEventData(property, item))
 
         for key, value in pairs(items) do
             Entity.Spawner.AddItemToSpawnQueue(ItemPrefab.GetItemPrefab(value), item.OwnInventory)

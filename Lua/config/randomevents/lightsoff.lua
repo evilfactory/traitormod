@@ -20,7 +20,7 @@ event.Start = function ()
                 event.ColorsToRevert[v] = c.LightColor
                 c.LightColor = Color(0, 0, 0, 128)
                 local prop = c.SerializableProperties[Identifier("LightColor")]
-                Networking.CreateEntityEvent(v, Item.ChangePropertyEventData(prop))    
+                Networking.CreateEntityEvent(v, Item.ChangePropertyEventData(prop, c))    
             end, math.random(1000, 5000))
         end
     end
@@ -40,7 +40,7 @@ event.End = function ()
             local c = k.GetComponentString('LightComponent')
             c.LightColor = v
             local prop = c.SerializableProperties[Identifier("LightColor")]
-            Networking.CreateEntityEvent(k, Item.ChangePropertyEventData(prop))
+            Networking.CreateEntityEvent(k, Item.ChangePropertyEventData(prop, c))
         end, math.random(1000, 5000))
 
         event.ColorsToRevert[k] = nil

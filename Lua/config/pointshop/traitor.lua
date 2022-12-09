@@ -25,9 +25,9 @@ category.Products = {
                     item2.SpriteColor = Color(0, 0, 255, 255)
 
                     local color = item2.SerializableProperties[Identifier("SpriteColor")]
-                    Networking.CreateEntityEvent(item2, Item.ChangePropertyEventData(color))            
+                    Networking.CreateEntityEvent(item2, Item.ChangePropertyEventData(color, item2))            
                     local invColor = item2.SerializableProperties[Identifier("InventoryIconColor")]
-                    Networking.CreateEntityEvent(item2, Item.ChangePropertyEventData(invColor))
+                    Networking.CreateEntityEvent(item2, Item.ChangePropertyEventData(invColor, item2))
                 end)
             end)
         end
@@ -49,11 +49,11 @@ category.Products = {
                 light.LightColor = Color(0, 0, 0, 0)
 
                 local color = item.SerializableProperties[Identifier("SpriteColor")]
-                Networking.CreateEntityEvent(item, Item.ChangePropertyEventData(color))            
+                Networking.CreateEntityEvent(item, Item.ChangePropertyEventData(color, item))            
                 local invColor = item.SerializableProperties[Identifier("InventoryIconColor")]
-                Networking.CreateEntityEvent(item, Item.ChangePropertyEventData(invColor))
+                Networking.CreateEntityEvent(item, Item.ChangePropertyEventData(invColor, item))
                 local lightColor = light.SerializableProperties[Identifier("LightColor")]
-                Networking.CreateEntityEvent(item, Item.ChangePropertyEventData(lightColor))
+                Networking.CreateEntityEvent(item, Item.ChangePropertyEventData(lightColor, light))
 
                 Entity.Spawner.AddItemToSpawnQueue(ItemPrefab.GetItemPrefab("oxygentank"), item.OwnInventory)
             end)

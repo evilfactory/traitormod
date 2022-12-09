@@ -431,13 +431,13 @@ Traitormod.SpawnPointItem = function (inventory, amount, text, onSpawn, onUsed)
         item.Scale = 0.5
 
         local color = item.SerializableProperties[Identifier("SpriteColor")]
-        Networking.CreateEntityEvent(item, Item.ChangePropertyEventData(color))
+        Networking.CreateEntityEvent(item, Item.ChangePropertyEventData(color, item))
 
         local scale = item.SerializableProperties[Identifier("Scale")]
-        Networking.CreateEntityEvent(item, Item.ChangePropertyEventData(scale))
+        Networking.CreateEntityEvent(item, Item.ChangePropertyEventData(scale, item))
 
         local invColor = item.SerializableProperties[Identifier("InventoryIconColor")]
-        Networking.CreateEntityEvent(item, Item.ChangePropertyEventData(invColor))
+        Networking.CreateEntityEvent(item, Item.ChangePropertyEventData(invColor, item))
 
         if onSpawn then
             onSpawn(item)
