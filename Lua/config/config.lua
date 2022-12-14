@@ -60,7 +60,7 @@ config.PointsLostAfterNoLives = function (x)
 end
 
 config.AmountExperienceWithPoints = function (x)
-    return x * 0.5
+    return x
 end
 
 -- Give weight based on the logarithm of experience
