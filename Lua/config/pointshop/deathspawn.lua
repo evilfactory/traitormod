@@ -96,7 +96,7 @@ category.Products = {
 
     {
         Name = "Spawn as Thresher Baby",
-        Price = 800,
+        Price = 700,
         Limit = 5,
         IsLimitGlobal = true,
         PricePerLimit = 250,
@@ -109,8 +109,8 @@ category.Products = {
 
     {
         Name = "Spawn as Spineling",
-        Price = 400,
-        Limit = 4,
+        Price = 1000,
+        Limit = 1,
         IsLimitGlobal = true,
         PricePerLimit = 250,
         Timeout = 120,
@@ -122,7 +122,7 @@ category.Products = {
 
     {
         Name = "Spawn as Mudraptor",
-        Price = 1200,
+        Price = 1000,
         Limit = 3,
         IsLimitGlobal = true,
         PricePerLimit = 400,
@@ -135,7 +135,7 @@ category.Products = {
 
     {
         Name = "Spawn as Mantis",
-        Price = 1600,
+        Price = 1100,
         Limit = 2,
         IsLimitGlobal = true,
         PricePerLimit = 400,
@@ -148,7 +148,7 @@ category.Products = {
 
     {
         Name = "Spawn as Husk",
-        Price = 2300,
+        Price = 2000,
         Limit = 2,
         IsLimitGlobal = true,
         PricePerLimit = 400,
@@ -161,7 +161,7 @@ category.Products = {
 
     {
         Name = "Spawn as Bone Thresher",
-        Price = 2400,
+        Price = 2000,
         Limit = 2,
         IsLimitGlobal = true,
         PricePerLimit = 500,
@@ -189,7 +189,7 @@ category.Products = {
 
     {
         Name = "Spawn as Hammerhead",
-        Price = 5000,
+        Price = 2700,
         Limit = 2,
         IsLimitGlobal = true,
         PricePerLimit = 1000,
@@ -203,7 +203,7 @@ category.Products = {
 
     {
         Name = "Spawn as Fractal Guardian",
-        Price = 6500,
+        Price = 5500,
         Limit = 1,
         IsLimitGlobal = true,
         PricePerLimit = 3000,
@@ -216,7 +216,7 @@ category.Products = {
 
     {
         Name = "Spawn as Veteran Mudraptor",
-        Price = 10000,
+        Price = 8000,
         Limit = 2,
         IsLimitGlobal = true,
         PricePerLimit = 1000,
@@ -230,7 +230,7 @@ category.Products = {
 
     {
         Name = "Spawn as Charybdis",
-        Price = 150000,
+        Price = 100000,
         Limit = 1,
         IsLimitGlobal = true,
         PricePerLimit = 50000,
