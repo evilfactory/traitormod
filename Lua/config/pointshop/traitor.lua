@@ -8,6 +8,26 @@ category.CanAccess = function(client)
     return client.Character and not client.Character.IsDead and client.Character.IsTraitor
 end
 
+Hook.Patch("Barotrauma.Items.Components.Projectile", "HandleProjectileCollision", function (instance, ptable)
+    local target = ptable["target"]
+
+    if not instance.Launcher then return end
+    if not instance.Launcher.HasTag("teleporter") then return end
+    if instance.User == nil then return end
+    if target == nil then return end
+    if target.Body == nil then return end
+
+    if tostring(target.Body.UserData) == "Barotrauma.Limb" then
+        local character = target.Body.UserData.character
+
+        local oldPosition = instance.User.WorldPosition
+        instance.User.TeleportTo(character.WorldPosition)
+        character.TeleportTo(oldPosition)
+    else
+        instance.User.TeleportTo(instance.Item.WorldPosition)
+    end
+end)
+
 category.Products = {
     {
         Name = "Explosive Auto-Injector",
@@ -56,6 +76,32 @@ category.Products = {
                 Networking.CreateEntityEvent(item, Item.ChangePropertyEventData(lightColor, light))
 
                 Entity.Spawner.AddItemToSpawnQueue(ItemPrefab.GetItemPrefab("oxygentank"), item.OwnInventory)
+            end)
+        end
+    },
+
+    {
+        Name = "Teleporter Revolver",
+        Price = 1200,
+        Limit = 1,
+        IsLimitGlobal = false,
+        Action = function (client)
+            local revolver = ItemPrefab.GetItemPrefab("revolver")
+            Entity.Spawner.AddItemToSpawnQueue(revolver, client.Character.Inventory, nil, nil, function (item)
+                item.Tags = "teleporter"
+                item.Description = "‖color:gui.red‖A special revolver with teleportation features...‖color:end‖"
+
+                item.set_InventoryIconColor(Color(0, 0, 255, 255))
+                item.SpriteColor = Color(0, 0, 255, 255)
+
+                local color = item.SerializableProperties[Identifier("SpriteColor")]
+                Networking.CreateEntityEvent(item, Item.ChangePropertyEventData(color, item))            
+                local invColor = item.SerializableProperties[Identifier("InventoryIconColor")]
+                Networking.CreateEntityEvent(item, Item.ChangePropertyEventData(invColor, item))
+
+                for i = 1, 6, 1 do
+                    Entity.Spawner.AddItemToSpawnQueue(ItemPrefab.GetItemPrefab("revolverround"), item.OwnInventory)
+                end
             end)
         end
     },
