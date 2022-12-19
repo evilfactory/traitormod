@@ -67,19 +67,8 @@ event.Start = function ()
     Traitormod.RoundEvents.SendEventMessage(text, "CrewWalletIconLarge")
 
     Hook.Add("think", "BeaconPirate.Think", function ()
-        if event.ItemReward.ParentInventory == nil then return end
-
-        local owner = event.ItemReward.ParentInventory.Owner
-
-        if tostring(owner) == "Human" then
-            local client = Traitormod.FindClientCharacter(owner)
-
-            if client ~= nil then
-                Traitormod.AwardPoints(client, event.AmountPoints)
-                Traitormod.SendMessage(client, "You have received " .. event.AmountPoints .. " points.", "InfoFrameTabButton.Mission")
-
-                event.End()
-            end
+        if character.IsDead then
+            event.End()
         end
     end)
 end
@@ -90,8 +79,16 @@ event.End = function (isEndRound)
 
     if isEndRound then return end
 
-    local text = "The PUCS pirate has been killed, the brave crewmate that killed the pirate has been rewarded with " .. event.AmountPoints .. " points."
+    local text = "The PUCS pirate has been killed, the crew has received a reward of " .. event.AmountPoints .. " points."
+
     Traitormod.RoundEvents.SendEventMessage(text, "CrewWalletIconLarge")
+
+    for _, client in pairs(Character.Controlled) do
+        if client.Character and not client.Character.IsDead then
+            Traitormod.AwardPoints(client, event.AmountPoints)
+            Traitormod.SendMessage(client, "You have received " .. event.AmountPoints .. " points.", "InfoFrameTabButton.Mission")
+        end
+    end
 end
 
 return event

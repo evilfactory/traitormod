@@ -2,14 +2,14 @@ local event = {}
 
 event.Enabled = true
 event.Name = "WreckPirate"
-event.MinRoundTime = 2
-event.MaxRoundTime = 10
+event.MinRoundTime = 4
+event.MaxRoundTime = 15
 event.MinIntensity = 0
 event.MaxIntensity = 1
-event.ChancePerMinute = 0.15
+event.ChancePerMinute = 0.13
 event.OnlyOncePerRound = true
 
-event.AmountPoints = 2900
+event.AmountPoints = 1200
 
 event.Start = function ()
     if #Level.Loaded.Wrecks == 0 then
@@ -61,25 +61,12 @@ event.Start = function ()
         Entity.Spawner.AddItemToSpawnQueue(ItemPrefab.GetItemPrefab("oxygenitetank"), item.OwnInventory)
     end)
 
-    event.ItemReward = character.Inventory.GetItemInLimbSlot(InvSlotType.Card)
-
-    local text = "There have been reports about a notorious pirate with a PUCS suit terrorizing these waters, the pirate was detected recently inside a wrecked submarine - eliminate the pirate and collect their identification card to claim a reward of " .. event.AmountPoints .. " points."
+    local text = "There have been reports about a notorious pirate with a PUCS suit terrorizing these waters, the pirate was detected recently inside a wrecked submarine - eliminate the pirate and the crew shall claim a reward of " .. event.AmountPoints .. " points."
     Traitormod.RoundEvents.SendEventMessage(text, "CrewWalletIconLarge")
 
     Hook.Add("think", "WreckPirate.Think", function ()
-        if event.ItemReward.ParentInventory == nil then return end
-
-        local owner = event.ItemReward.ParentInventory.Owner
-
-        if tostring(owner) == "Human" then
-            local client = Traitormod.FindClientCharacter(owner)
-
-            if client ~= nil then
-                Traitormod.AwardPoints(client, event.AmountPoints)
-                Traitormod.SendMessage(client, "You have received " .. event.AmountPoints .. " points.", "InfoFrameTabButton.Mission")
-                
-                event.End()
-            end
+        if character.IsDead then
+            event.End()
         end
     end)
 end
@@ -90,8 +77,16 @@ event.End = function (isEndRound)
 
     if isEndRound then return end
 
-    local text = "The PUCS pirate has been killed, the brave crewmate that killed the pirate has been rewarded with " .. event.AmountPoints .. " points."
+    local text = "The PUCS pirate has been killed, the crew has received a reward of " .. event.AmountPoints .. " points."
+
     Traitormod.RoundEvents.SendEventMessage(text, "CrewWalletIconLarge")
+
+    for _, client in pairs(Character.Controlled) do
+        if client.Character and not client.Character.IsDead then
+            Traitormod.AwardPoints(client, event.AmountPoints)
+            Traitormod.SendMessage(client, "You have received " .. event.AmountPoints .. " points.", "InfoFrameTabButton.Mission")
+        end
+    end
 end
 
 return event
