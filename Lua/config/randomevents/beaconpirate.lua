@@ -83,7 +83,7 @@ event.End = function (isEndRound)
 
     Traitormod.RoundEvents.SendEventMessage(text, "CrewWalletIconLarge")
 
-    for _, client in pairs(Character.Controlled) do
+    for _, client in pairs(Client.ClientList) do
         if client.Character and not client.Character.IsDead then
             Traitormod.AwardPoints(client, event.AmountPoints)
             Traitormod.SendMessage(client, "You have received " .. event.AmountPoints .. " points.", "InfoFrameTabButton.Mission")
