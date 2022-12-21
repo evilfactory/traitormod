@@ -20,6 +20,8 @@ gr.Ask = function (name, callback)
             Game.SendDirectChatMessage(chatMessage, client)
         end
     end
+
+    ghostRolesAnnounceTimer = Timer.GetTime() + 80
 end
 
 Traitormod.AddCommand("!ghostrole", function(client, args)
@@ -66,7 +68,7 @@ end)
 
 Hook.Add("think", "Traitormod.GhostRoles.Think", function (...)
     if Timer.GetTime() < ghostRolesAnnounceTimer then return end
-    ghostRolesAnnounceTimer = Timer.GetTime() + 80
+    ghostRolesAnnounceTimer = Timer.GetTime() + 200
 
     local roles = ""
     for key, value in pairs(gr.Roles) do
