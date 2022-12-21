@@ -9,8 +9,8 @@ event.MaxIntensity = 1
 event.ChancePerMinute = 0.10
 event.OnlyOncePerRound = true
 
-event.AmountPoints = 1100
-event.AmountPointsPirate = 700
+event.AmountPoints = 1500
+event.AmountPointsPirate = 1300
 
 event.Start = function ()
     local beacon = Level.Loaded.BeaconStation
