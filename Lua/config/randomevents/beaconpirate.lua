@@ -24,10 +24,10 @@ event.Start = function ()
     info.Job = Job(JobPrefab.Get("mechanic"))
 
     local character = Character.Create(info, beacon.WorldPosition, info.Name, 0, false, true)
-
     event.Character = character
     event.Beacon = beacon
 
+    character.CanSpeak = false
     character.TeamID = CharacterTeamType.Team2
     character.GiveJobItems(nil)
 
