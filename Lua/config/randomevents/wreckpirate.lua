@@ -74,7 +74,7 @@ event.Start = function ()
         Entity.Spawner.AddItemToSpawnQueue(ItemPrefab.GetItemPrefab("oxygenitetank"), item.OwnInventory)
     end)
 
-    local text = "There have been reports about a notorious pirate with a PUCS suit terrorizing these waters, the pirate was detected recently inside a wrecked submarine - eliminate the pirate and the crew shall claim a reward of " .. event.AmountPoints .. " points."
+    local text = "There have been reports about a notorious pirate with a PUCS suit terrorizing these waters, the pirate was detected recently inside a wrecked submarine - eliminate the pirate to claim a reward of " .. event.AmountPoints .. " points for the entire crew."
     Traitormod.RoundEvents.SendEventMessage(text, "CrewWalletIconLarge")
 
     Traitormod.GhostRoles.Ask("Wreck Pirate", function (client)
