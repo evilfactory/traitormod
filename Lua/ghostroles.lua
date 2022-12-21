@@ -63,6 +63,8 @@ Traitormod.AddCommand("!ghostrole", function(client, args)
 
     gr.Roles[name].Callback(client)
     gr.Roles[name].Taken = true
+
+    return true
 end)
 
 
