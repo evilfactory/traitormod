@@ -99,7 +99,7 @@ event.Start = function ()
         client.SetClientCharacter(character)
 
         Traitormod.SendMessageCharacter(character, "You are a pirate! Protect the wreck from any filthy coalitions, it will be eventually home to our center of operations! \n\nSurviving inside the wreck until the end of the round will grant you " .. event.AmountPointsPirate .." points.", "InfoFrameTabButton.Mission")
-    end)
+    end, character)
 
     Hook.Add("think", "WreckPirate.Think", function ()
         if character.IsDead then

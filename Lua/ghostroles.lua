@@ -4,8 +4,9 @@ local gr = {}
 local ghostRolesAnnounceTimer = 0
 
 gr.Roles = {}
+gr.Characters = {}
 
-gr.Ask = function (name, callback)
+gr.Ask = function (name, callback, character)
     name = string.lower(name)
     gr.Roles[name] = {Callback = callback, Taken = false}
 
@@ -21,7 +22,23 @@ gr.Ask = function (name, callback)
         end
     end
 
+    if character then
+        gr.Characters[character] = name
+    end
+
     ghostRolesAnnounceTimer = Timer.GetTime() + 80
+end
+
+gr.ReturnGhostRole = function (character)
+    if character == nil then return false end
+
+    if gr.Characters[character] and gr.Roles[gr.Characters[character]] then
+        gr.Roles[gr.Characters[character]].Taken = false
+
+        return true
+    end
+
+    return false
 end
 
 Traitormod.AddCommand("!ghostrole", function(client, args)
@@ -92,6 +109,7 @@ end)
 
 Hook.Add("roundEnd", "TraitorMod.GhostRoles.RoundEnd", function ()
     gr.Roles = {}
+    gr.Characters = {}
 end)
 
 return gr

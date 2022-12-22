@@ -85,7 +85,24 @@ Traitormod.AddCommand({"!suicide", "!kill", "!death"}, function (client, args)
         return true
     end
 
-    client.Character.Kill(CauseOfDeathType.Unknown)
+    if client.Character.IsHuman then
+        local item = client.Character.Inventory.GetItemInLimbSlot(InvSlotType.RightHand)
+        if item ~= nil and item.Prefab.Identifier == "handcuffs" then
+            Traitormod.SendMessage(client, "You cant use this command while handcuffed.")
+            return true
+        end
+
+        if client.Character.IsKnockedDown then
+            Traitormod.SendMessage(client, "You cant this command while knocked down.")
+            return true
+        end
+    end
+
+    if Traitormod.GhostRoles.ReturnGhostRole(client.Character) then
+        client.SetClientCharacter(nil)
+    else
+        client.Character.Kill(CauseOfDeathType.Unknown)
+    end
 end)
 
 ----- TRAITOR COMMANDS -----
