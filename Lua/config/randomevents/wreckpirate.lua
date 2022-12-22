@@ -2,11 +2,11 @@ local event = {}
 
 event.Enabled = true
 event.Name = "WreckPirate"
-event.MinRoundTime = 4
+event.MinRoundTime = 1
 event.MaxRoundTime = 15
 event.MinIntensity = 0
 event.MaxIntensity = 1
-event.ChancePerMinute = 0.13
+event.ChancePerMinute = 0.2
 event.OnlyOncePerRound = true
 
 event.AmountPoints = 1200
