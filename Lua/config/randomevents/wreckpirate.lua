@@ -61,6 +61,23 @@ event.Start = function ()
         end)
     end
 
+    for i = 1, 4, 1 do
+        Entity.Spawner.AddItemToSpawnQueue(ItemPrefab.GetItemPrefab("antibiotics"), character.Inventory)
+    end
+    local toolbelt = character.Inventory.GetItemInLimbSlot(InvSlotType.Bag)
+    Entity.Spawner.AddItemToSpawnQueue(ItemPrefab.GetItemPrefab("antidama1"), toolbelt.OwnInventory)
+    for i = 1, 4, 1 do
+        Entity.Spawner.AddItemToSpawnQueue(ItemPrefab.GetItemPrefab("antibleeding1"), toolbelt.OwnInventory)
+    end
+    Entity.Spawner.AddItemToSpawnQueue(ItemPrefab.GetItemPrefab("alienblood"), toolbelt.OwnInventory)
+    Entity.Spawner.AddItemToSpawnQueue(ItemPrefab.GetItemPrefab("fuelrod"), toolbelt.OwnInventory)
+    Entity.Spawner.AddItemToSpawnQueue(ItemPrefab.GetItemPrefab("underwaterscooter"), toolbelt.OwnInventory, nil, nil, function (item)
+        Entity.Spawner.AddItemToSpawnQueue(ItemPrefab.GetItemPrefab("batterycell"), item.OwnInventory)
+    end)
+    Entity.Spawner.AddItemToSpawnQueue(ItemPrefab.GetItemPrefab("handheldsonar"), toolbelt.OwnInventory, nil, nil, function (item)
+        Entity.Spawner.AddItemToSpawnQueue(ItemPrefab.GetItemPrefab("batterycell"), item.OwnInventory)
+    end)
+
     local oldClothes = character.Inventory.GetItemInLimbSlot(InvSlotType.InnerClothes)
     oldClothes.Drop()
     Entity.Spawner.AddEntityToRemoveQueue(oldClothes)
@@ -78,6 +95,7 @@ event.Start = function ()
     Traitormod.RoundEvents.SendEventMessage(text, "CrewWalletIconLarge")
 
     Traitormod.GhostRoles.Ask("Wreck Pirate", function (client)
+        Traitormod.LostLivesThisRound[client.SteamID] = true
         client.SetClientCharacter(character)
 
         Traitormod.SendMessageCharacter(character, "You are a pirate! Protect the wreck from any filthy coalitions, it will be eventually home to our center of operations! \n\nSurviving inside the wreck until the end of the round will grant you " .. event.AmountPointsPirate .." points.", "InfoFrameTabButton.Mission")
