@@ -2,7 +2,7 @@ local event = {}
 
 event.Enabled = true
 event.Name = "BeaconPirate"
-event.MinRoundTime = 1
+event.MinRoundTime = 3
 event.MaxRoundTime = 20
 event.MinIntensity = 0
 event.MaxIntensity = 1
