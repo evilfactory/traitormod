@@ -229,6 +229,19 @@ category.Products = {
     },
 
     {
+        Name = "Spawn as Latcher",
+        Price = 60000,
+        Limit = 1,
+        IsLimitGlobal = true,
+        PricePerLimit = 50000,
+        Timeout = 120,
+
+        Action = function (client, product, items)
+            SpawnCreature("latcher", client)
+        end
+    },
+
+    {
         Name = "Spawn as Charybdis",
         Price = 100000,
         Limit = 1,
