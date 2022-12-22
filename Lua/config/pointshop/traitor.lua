@@ -82,7 +82,7 @@ category.Products = {
 
     {
         Name = "Teleporter Revolver",
-        Price = 1200,
+        Price = 1800,
         Limit = 1,
         IsLimitGlobal = false,
         Action = function (client)
