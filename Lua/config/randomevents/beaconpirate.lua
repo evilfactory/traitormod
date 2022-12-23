@@ -31,6 +31,14 @@ event.Start = function ()
     character.TeamID = CharacterTeamType.Team2
     character.GiveJobItems(nil)
 
+    local headset = character.Inventory.GetItemInLimbSlot(InvSlotType.Headset)
+    if headset then
+       local wifi = headset.GetComponentString("WifiComponent")
+       if wifi then
+            wifi.TeamID = CharacterTeamType.Team1
+       end
+    end
+
     Entity.Spawner.AddItemToSpawnQueue(ItemPrefab.Prefabs["sonarbeacon"], beacon.WorldPosition, nil, nil, function(item)
         item.NonInteractable = true
 
