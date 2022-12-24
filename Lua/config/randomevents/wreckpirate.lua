@@ -32,6 +32,13 @@ event.Start = function ()
     character.TeamID = CharacterTeamType.Team2
     character.GiveJobItems(nil)
 
+    local idCard = character.Inventory.GetItemInLimbSlot(InvSlotType.Card)
+    if idCard then
+        idCard.NonPlayerTeamInteractable = true
+        local prop = idCard.SerializableProperties[Identifier("NonPlayerTeamInteractable")]
+        Networking.CreateEntityEvent(idCard, Item.ChangePropertyEventData(prop, idCard))
+    end
+
     local headset = character.Inventory.GetItemInLimbSlot(InvSlotType.Headset)
     if headset then
        local wifi = headset.GetComponentString("WifiComponent")
