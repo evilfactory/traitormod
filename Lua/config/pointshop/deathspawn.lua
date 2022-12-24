@@ -13,7 +13,7 @@ local function SpawnCreature(species, client, insideHuman)
 
     if insideHuman then
         for key, value in pairs(Character.CharacterList) do
-            if value.IsHuman and not value.IsDead then
+            if value.IsHuman and not value.IsDead and value.TeamID == CharacterTeamType.Team1 then
                 table.insert(spawnPositions, value.WorldPosition)
             end
         end
