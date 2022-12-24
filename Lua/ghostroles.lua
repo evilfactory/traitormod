@@ -41,7 +41,7 @@ gr.ReturnGhostRole = function (character)
     return false
 end
 
-Traitormod.AddCommand("!ghostrole", function(client, args)
+Traitormod.AddCommand({"!ghostrole", "!ghostroles"}, function(client, args)
     if client.Character ~= nil and not client.Character.IsDead then
         Traitormod.SendMessage(client, "Only spectators can use ghost roles.")
         return true

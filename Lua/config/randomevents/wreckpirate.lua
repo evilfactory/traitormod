@@ -10,7 +10,7 @@ event.ChancePerMinute = 0.2
 event.OnlyOncePerRound = true
 
 event.AmountPoints = 1200
-event.AmountPointsPirate = 1300
+event.AmountPointsPirate = 500
 
 event.Start = function ()
     if #Level.Loaded.Wrecks == 0 then
