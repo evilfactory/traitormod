@@ -212,6 +212,12 @@ Hook.Add("missionsEnded", "Traitormod.MissionsEnded", function (missions)
 
     Traitormod.SaveData()
     Traitormod.Stats.SaveData()
+
+    for key, value in pairs(Client.ClientList) do
+        if Traitormod.Config.RemotePoints then
+            Traitormod.PublishRemoteData(value)
+        end
+    end
 end)
 
 Hook.Add("roundEnd", "Traitormod.RoundEnd", function ()
@@ -375,7 +381,13 @@ end)
 Traitormod.AbandonedCharacters = {}
 -- new player connected to the server
 Hook.Add("clientConnected", "Traitormod.ClientConnected", function (client)
-    Traitormod.SendWelcome(client)
+    if Traitormod.Config.RemotePoints then
+        Traitormod.LoadRemoteData(client, function ()
+            Traitormod.SendWelcome(client)
+        end)
+    else
+        Traitormod.SendWelcome(client)
+    end
 
     if Traitormod.AbandonedCharacters[client.SteamID] and Traitormod.AbandonedCharacters[client.SteamID].IsDead then
         -- client left while char was alive -> but char is dead, so adjust life
@@ -388,6 +400,9 @@ end)
 
 -- player disconnected from server
 Hook.Add("clientDisconnected", "Traitormod.ClientDisconnected", function (client)
+    if Traitormod.Config.RemotePoints then
+        Traitormod.PublishRemoteData(client)
+    end
 
     -- if character was alive while disconnecting, make sure player looses live if he rejoins the round
     if client.Character and not client.Character.IsDead and client.Character.IsHuman then

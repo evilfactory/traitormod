@@ -33,6 +33,8 @@ config.RespawnSubmarineFile = "Content/Submarines/Selkie.sub"
 
 ----- POINTS + LIVES -----
 config.PermanentPoints = true      -- sets if points and lives will be stored in and loaded from a file
+config.RemotePoints = nil
+config.RemoteServerAuth = {}
 config.PermanentStatistics = true  -- sets if statistics be stored in and loaded from a file
 config.MaxLives = 5
 config.MinRoundTimeToLooseLives = 180

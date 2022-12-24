@@ -13,6 +13,46 @@ for key, value in pairs(Traitormod.Languages) do
 end
 
 local json = dofile(Traitormod.Path .. "/Lua/json.lua")
+
+Traitormod.LoadRemoteData = function (client, loaded)
+    local data = {
+        Account = client.SteamID,
+    }
+
+    for key, value in pairs(Traitormod.Config.RemoteServerAuth) do
+        data[key] = value
+    end
+
+    Networking.HttpPost(Traitormod.Config.RemotePoints, function (res) 
+        local success, result = pcall(json.decode, res)
+        if not success then
+            Traitormod.Log("Failed to retrieve points from server: " .. res)
+            return
+        end
+
+        if result.Points then
+            Traitormod.SetData(client, "Points", result.Points)
+        end
+
+        if loaded then loaded() end
+    end, json.encode(data))
+end
+
+Traitormod.PublishRemoteData = function (client)
+    local data = {
+        Account = client.SteamID,
+        Points = Traitormod.GetData(client, "Points")
+    }
+
+    if data.Points == nil then return end
+
+    for key, value in pairs(Traitormod.Config.RemoteServerAuth) do
+        data[key] = value
+    end
+
+    Networking.HttpPost(Traitormod.Config.RemotePoints, function (res) end, json.encode(data))
+end
+
 Traitormod.LoadData = function ()
     if Traitormod.Config.PermanentPoints then
         Traitormod.ClientData = json.decode(File.Read(Traitormod.Path .. "/Lua/data.json")) or {}
@@ -25,22 +65,6 @@ Traitormod.SaveData = function ()
     if Traitormod.Config.PermanentPoints then
         File.Write(Traitormod.Path .. "/Lua/data.json", json.encode(Traitormod.ClientData))
     end
-end
-
-Traitormod.FindClient = function (name)
-    for key, value in pairs(Client.ClientList) do
-        if value.Name == name or tostring(value.SteamID) == name then
-            return value
-        end
-    end
-end
-
-Traitormod.FindClientCharacter = function (character)
-    for key, value in pairs(Client.ClientList) do
-        if character == value.Character then return value end
-    end
-
-    return nil
 end
 
 Traitormod.SetData = function (client, name, amount)
@@ -61,6 +85,22 @@ end
 
 Traitormod.AddData = function(client, name, amount)
     Traitormod.SetData(client, name, math.max((Traitormod.GetData(client, name) or 0) + amount, 0))
+end
+
+Traitormod.FindClient = function (name)
+    for key, value in pairs(Client.ClientList) do
+        if value.Name == name or tostring(value.SteamID) == name then
+            return value
+        end
+    end
+end
+
+Traitormod.FindClientCharacter = function (character)
+    for key, value in pairs(Client.ClientList) do
+        if character == value.Character then return value end
+    end
+
+    return nil
 end
 
 Traitormod.SendMessageEveryone = function (text, popup)
