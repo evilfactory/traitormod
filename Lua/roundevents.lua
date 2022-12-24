@@ -46,7 +46,7 @@ re.TriggerEvent = function (eventName)
     Traitormod.Stats.AddStat("EventTriggered", event.Name, 1)
 
     re.OnGoingEvents[eventName] = event
-    Timer.Wait(event.Start, 0)
+    event.Start()
 
     if re.ThisRoundEvents[eventName] == nil then
         re.ThisRoundEvents[eventName] = 0
