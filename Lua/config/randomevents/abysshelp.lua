@@ -109,7 +109,7 @@ event.Start = function ()
         local closestCharacter = nil
 
         for key, value in pairs(Client.ClientList) do
-            if value.Character ~= nil and not value.Character.IsDead and event.Phase == 1 and Vector2.Distance(value.Character.WorldPosition, character.WorldPosition) < 400 and character.CanSpeak then
+            if value.Character ~= nil and not value.Character.IsDead and value.Character.IsHuman and event.Phase == 1 and Vector2.Distance(value.Character.WorldPosition, character.WorldPosition) < 400 and character.CanSpeak then
                 event.Phase = 2
 
                 character.Speak("Holy shit! Someone came! Thank you so much! Please find a way to get us out here, I'll give you " .. points .. " of my points if you can get me out alive.", nil, 0, '', 0)
@@ -121,7 +121,7 @@ event.Start = function ()
                 break
             end
 
-            if event.Phase == 2 and value.Character ~= nil and not value.Character.IsDead then
+            if event.Phase == 2 and value.Character ~= nil and not value.Character.IsDead and value.Character.IsHuman then
                 if closestCharacter == nil or Vector2.Distance(value.Character.WorldPosition, character.WorldPosition) < Vector2.Distance(closestCharacter.WorldPosition, character.WorldPosition) then
                     closestCharacter = value.Character
                 end
