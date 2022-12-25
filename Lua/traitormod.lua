@@ -47,6 +47,12 @@ end
 
 Traitormod.LoadData()
 
+if Traitormod.Config.RemotePoints then
+    for key, value in pairs(Client.ClientList) do
+        Traitormod.LoadRemoteData(value)
+    end
+end
+
 Hook.Call("Traitormod.InitialConfig")
 
 local weightedRandom = dofile(Traitormod.Path .. "/Lua/weightedrandom.lua")
@@ -213,8 +219,8 @@ Hook.Add("missionsEnded", "Traitormod.MissionsEnded", function (missions)
     Traitormod.SaveData()
     Traitormod.Stats.SaveData()
 
-    for key, value in pairs(Client.ClientList) do
-        if Traitormod.Config.RemotePoints then
+    if Traitormod.Config.RemotePoints then
+        for key, value in pairs(Client.ClientList) do
             Traitormod.PublishRemoteData(value)
         end
     end

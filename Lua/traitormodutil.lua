@@ -31,6 +31,8 @@ Traitormod.LoadRemoteData = function (client, loaded)
         end
 
         if result.Points then
+            local originalPoints = Traitormod.GetData(client, "Points") or 0
+            Traitormod.Log("Retrieved points from server for " .. client.SteamID .. ": " .. originalPoints .. " -> " .. result.Points)
             Traitormod.SetData(client, "Points", result.Points)
         end
 
@@ -45,6 +47,8 @@ Traitormod.PublishRemoteData = function (client)
     }
 
     if data.Points == nil then return end
+
+    Traitormod.Log("Published points from server for " .. client.SteamID .. ": " .. data.Points)
 
     for key, value in pairs(Traitormod.Config.RemoteServerAuth) do
         data[key] = value
