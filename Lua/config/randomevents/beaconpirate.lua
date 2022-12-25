@@ -9,7 +9,7 @@ event.MaxIntensity = 1
 event.ChancePerMinute = 0.15
 event.OnlyOncePerRound = true
 
-event.AmountPoints = 1500
+event.AmountPoints = 950
 event.AmountPointsPirate = 500
 
 event.Start = function ()
