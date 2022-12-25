@@ -110,7 +110,7 @@ event.Start = function ()
     Traitormod.RoundEvents.SendEventMessage(text, "CrewWalletIconLarge")
 
     Traitormod.GhostRoles.Ask("Wreck Pirate", function (client)
-        Traitormod.LostLivesThisRound[client.SteamID] = true
+        Traitormod.LostLivesThisRound[client.SteamID] = false
         client.SetClientCharacter(character)
 
         Traitormod.SendMessageCharacter(character, "You are a pirate! Protect the wreck from any filthy coalitions, it will be eventually home to our center of operations! \n\nSurviving inside the wreck until the end of the round will grant you " .. event.AmountPointsPirate .." points.", "InfoFrameTabButton.Mission")
