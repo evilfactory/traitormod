@@ -507,6 +507,7 @@ Traitormod.GhostRoles = dofile(Traitormod.Path .. "/Lua/ghostroles.lua")
 dofile(Traitormod.Path .. "/Lua/commands.lua")
 dofile(Traitormod.Path .. "/Lua/statistics.lua")
 dofile(Traitormod.Path .. "/Lua/respawnshuttle.lua")
+dofile(Traitormod.Path .. "/Lua/traitormodmisc.lua")
 
 -- Round start call for reload during round 
 if Game.RoundStarted then
