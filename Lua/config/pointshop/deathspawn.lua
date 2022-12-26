@@ -44,7 +44,7 @@ end
 category.Products = {
     {
         Name = "Spawn as Crawler",
-        Price = 450,
+        Price = 400,
         Limit = 4,
         IsLimitGlobal = true,
         PricePerLimit = 100,
@@ -69,15 +69,28 @@ category.Products = {
     },
 
     {
-        Name = "Spawn as Crawler Baby",
-        Price = 250,
-        Limit = 5,
+        Name = "Spawn as Legacy Crawler",
+        Price = 400,
+        Limit = 4,
         IsLimitGlobal = true,
-        PricePerLimit = 50,
+        PricePerLimit = 10,
         Timeout = 120,
 
         Action = function (client, product, items)
-            SpawnCreature("crawler_hatchling", client)
+            SpawnCreature("legacycrawler", client)
+        end
+    },
+
+    {
+        Name = "Spawn as Legacy Husk",
+        Price = 450,
+        Limit = 5,
+        IsLimitGlobal = true,
+        PricePerLimit = 0,
+        Timeout = 120,
+
+        Action = function (client, product, items)
+            SpawnCreature("legacyhusk", client)
         end
     },
 
@@ -125,7 +138,7 @@ category.Products = {
         Price = 1000,
         Limit = 3,
         IsLimitGlobal = true,
-        PricePerLimit = 400,
+        PricePerLimit = 100,
         Timeout = 120,
 
         Action = function (client, product, items)
@@ -138,7 +151,7 @@ category.Products = {
         Price = 1100,
         Limit = 2,
         IsLimitGlobal = true,
-        PricePerLimit = 400,
+        PricePerLimit = 200,
         Timeout = 120,
 
         Action = function (client, product, items)
@@ -148,7 +161,7 @@ category.Products = {
 
     {
         Name = "Spawn as Husk",
-        Price = 2000,
+        Price = 1800,
         Limit = 2,
         IsLimitGlobal = true,
         PricePerLimit = 400,
@@ -161,7 +174,7 @@ category.Products = {
 
     {
         Name = "Spawn as Bone Thresher",
-        Price = 2000,
+        Price = 1800,
         Limit = 2,
         IsLimitGlobal = true,
         PricePerLimit = 500,
@@ -175,7 +188,7 @@ category.Products = {
 
     {
         Name = "Spawn as Tiger Thresher",
-        Price = 3000,
+        Price = 2500,
         Limit = 2,
         IsLimitGlobal = true,
         PricePerLimit = 500,
@@ -189,7 +202,7 @@ category.Products = {
 
     {
         Name = "Spawn as Hammerhead",
-        Price = 2700,
+        Price = 2500,
         Limit = 2,
         IsLimitGlobal = true,
         PricePerLimit = 1000,
@@ -203,7 +216,7 @@ category.Products = {
 
     {
         Name = "Spawn as Fractal Guardian",
-        Price = 5500,
+        Price = 4900,
         Limit = 1,
         IsLimitGlobal = true,
         PricePerLimit = 3000,
@@ -230,7 +243,7 @@ category.Products = {
 
     {
         Name = "Spawn as Latcher",
-        Price = 60000,
+        Price = 50000,
         Limit = 1,
         IsLimitGlobal = true,
         PricePerLimit = 50000,
@@ -243,7 +256,7 @@ category.Products = {
 
     {
         Name = "Spawn as Charybdis",
-        Price = 100000,
+        Price = 80000,
         Limit = 1,
         IsLimitGlobal = true,
         PricePerLimit = 50000,
