@@ -14,7 +14,7 @@ event.MaxIntensity = 0.2
 event.ChancePerMinute = 0.02
 event.OnlyOncePerRound = true
 
-event.AmountTime = 5 -- Communications are offline for 5 minutes
+event.AmountTime = 2 -- Communications are offline for 5 minutes
 
 
 event.Start = function ()

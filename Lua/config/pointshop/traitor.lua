@@ -195,7 +195,7 @@ category.Products = {
     },
 
     {
-        Name = "Turn Off Communications For 5 Minutes",
+        Name = "Turn Off Communications For 2 Minutes",
         Price = 400,
         Limit = 1,
         IsLimitGlobal = true,
