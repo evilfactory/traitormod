@@ -27,6 +27,7 @@ event.Start = function ()
 
     event.Character = character
     event.Wreck = wreck
+    event.EnteredMainSub = false
 
     character.CanSpeak = false
     character.TeamID = CharacterTeamType.Team2
@@ -119,6 +120,11 @@ event.Start = function ()
     Hook.Add("think", "WreckPirate.Think", function ()
         if character.IsDead then
             event.End()
+        end
+
+        if character.Submarine == Submarine.MainSub and not event.EnteredMainSub then
+            event.EnteredMainSub = true
+            Traitormod.RoundEvents.SendEventMessage("Attention! A dangerous PUCS pirate has been detected inside the main submarine!")
         end
     end)
 end
