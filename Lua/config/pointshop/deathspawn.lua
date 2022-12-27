@@ -69,19 +69,6 @@ category.Products = {
     },
 
     {
-        Name = "Spawn as Legacy Crawler",
-        Price = 400,
-        Limit = 4,
-        IsLimitGlobal = true,
-        PricePerLimit = 10,
-        Timeout = 120,
-
-        Action = function (client, product, items)
-            SpawnCreature("legacycrawler", client)
-        end
-    },
-
-    {
         Name = "Spawn as Legacy Husk",
         Price = 450,
         Limit = 5,
@@ -91,6 +78,19 @@ category.Products = {
 
         Action = function (client, product, items)
             SpawnCreature("legacyhusk", client)
+        end
+    },
+
+    {
+        Name = "Spawn as Crawler Baby",
+        Price = 250,
+        Limit = 4,
+        IsLimitGlobal = true,
+        PricePerLimit = 10,
+        Timeout = 120,
+
+        Action = function (client, product, items)
+            SpawnCreature("crawler_hatchling", client)
         end
     },
 
