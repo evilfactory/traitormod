@@ -401,6 +401,8 @@ Hook.Add("clientConnected", "Traitormod.ClientConnected", function (client)
 
         local lifeMsg, lifeIcon = Traitormod.AdjustLives(client, -1)
         Traitormod.SendMessage(client, lifeMsg, lifeIcon)
+
+        Traitormod.AbandonedCharacters[client.SteamID] = nil
     end
 end)
 
