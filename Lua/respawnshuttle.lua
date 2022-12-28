@@ -20,6 +20,8 @@ local function RespawnMessage(msg)
         chatMessage.Color = Color(178, 35, 199, 255)
         Game.SendDirectChatMessage(chatMessage, client)
     end
+
+    Traitormod.Log(msg)
 end
 
 local function GetRespawnClients()
@@ -144,12 +146,16 @@ Hook.Add("think", "RespawnShuttle.Think", function ()
 
     local ratio = #GetRespawnClients() / #Client.ClientList
 
+    if #Client.ClientList == 0 then
+        ratio = 0
+    end
+
     if ratio > Game.ServerSettings.MinRespawnRatio then
         if not timerActive and not transporting then
             timerActive = true
             respawnTimer = Game.ServerSettings.RespawnInterval
             lastTimerDisplay = respawnTimer
-            RespawnMessage("Respawn in " .. math.floor(respawnTimer) .. " seconds.")
+            RespawnMessage(string.format(Traitormod.Config.RespawnText, math.floor(respawnTimer)))
         end
     else
         timerActive = false
@@ -169,9 +175,9 @@ Hook.Add("think", "RespawnShuttle.Think", function ()
         timerDisplayMax = 1
     end
 
-    if (lastTimerDisplay - respawnTimer) > timerDisplayMax then
+    if timerActive and (lastTimerDisplay - respawnTimer) > timerDisplayMax then
         lastTimerDisplay = respawnTimer
-        RespawnMessage("Respawn in " .. math.floor(respawnTimer) .. " seconds.")
+        RespawnMessage(string.format(Traitormod.Config.RespawnText, math.floor(respawnTimer)))
     end
 
     if transportTimer <= 0 and not timerActive and transporting then
@@ -181,6 +187,7 @@ Hook.Add("think", "RespawnShuttle.Think", function ()
 
     if respawnTimer <= 0 and timerActive and not transporting then
         transporting = true
+        timerActive = false
 
         local submarine = sb.FindSubmarine(submarineId)
         submarine.GodMode = false

@@ -30,6 +30,7 @@ config.EnableControlHusk = false     -- EXPERIMENTAL: enable to control husked c
 -- Note: If this is disabled, traitormod will disable all functions related to submarine spawning.
 config.OverrideRespawnSubmarine = false
 config.RespawnSubmarineFile = "Content/Submarines/Selkie.sub"
+config.RespawnText = "Respawn in %s seconds."
 
 ----- POINTS + LIVES -----
 config.PermanentPoints = true      -- sets if points and lives will be stored in and loaded from a file
