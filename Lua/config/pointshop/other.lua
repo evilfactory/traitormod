@@ -4,6 +4,13 @@ category.Name = "Other"
 
 category.Products = {
     {
+        Name = "Coilgun Ammo",
+        Price = 145,
+        Limit = 3,
+        Items = {"coilgunammobox"}
+    },
+
+    {
         Name = "Moloch Shell Fragment",
         Price = 340,
         Limit = 1,
