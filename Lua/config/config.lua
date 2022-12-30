@@ -163,12 +163,14 @@ config.RandomEventConfig = {
         dofile(Traitormod.Path .. "/Lua/config/randomevents/superballastflora.lua"),
         dofile(Traitormod.Path .. "/Lua/config/randomevents/maintenancetoolsdelivery.lua"),
         dofile(Traitormod.Path .. "/Lua/config/randomevents/medicaldelivery.lua"),
+        dofile(Traitormod.Path .. "/Lua/config/randomevents/ammodelivery.lua"),
         dofile(Traitormod.Path .. "/Lua/config/randomevents/hiddenpirate.lua"),
         dofile(Traitormod.Path .. "/Lua/config/randomevents/electricalfixdischarge.lua"),
         dofile(Traitormod.Path .. "/Lua/config/randomevents/wreckpirate.lua"),
         dofile(Traitormod.Path .. "/Lua/config/randomevents/beaconpirate.lua"),
         dofile(Traitormod.Path .. "/Lua/config/randomevents/abysshelp.lua"),
         dofile(Traitormod.Path .. "/Lua/config/randomevents/lightsoff.lua"),
+        dofile(Traitormod.Path .. "/Lua/config/randomevents/emergencyteam.lua"),
     }
 }
 
