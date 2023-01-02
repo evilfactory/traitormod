@@ -96,14 +96,15 @@ Hook.Add("roundStart", "SubmarineBuilder.RoundStart", function ()
         end
     end
 
-    local yPosition = Level.Loaded.Size.Y + 1000
+    local xPosition = 0
+    local yPosition = Level.Loaded.Size.Y + 10000
 
     for _, value in pairs(sb.Submarines) do
         local submarine = sb.FindSubmarine(value.Name)
 
         if submarine then
-            yPosition = yPosition + submarine.Borders.Height
-            submarine.SetPosition(Vector2(0, yPosition))
+            xPosition = xPosition + submarine.Borders.Width * 2
+            submarine.SetPosition(Vector2(xPosition, yPosition))
             submarine.GodMode = true
         end
 

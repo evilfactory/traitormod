@@ -22,6 +22,7 @@ event.Start = function ()
     local area = areas[math.random(#areas)]
 
     local info = CharacterInfo(Identifier("human"))
+    info.Name = "Pirate " .. info.Name
     info.Job = Job(JobPrefab.Get("securityofficer"))
 
     local character = Character.Create(info, area.WorldPosition, info.Name, 0, false, true)

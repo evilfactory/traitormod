@@ -20,7 +20,7 @@ event.Start = function ()
     end
 
     for key, value in pairs(Character.CharacterList) do
-        if value.TeamID == CharacterTeamType.None and value.Submarine == beacon then
+        if value.IsHuman and value.TeamID == CharacterTeamType.None and value.Submarine == beacon then
             value.SetOriginalTeam(CharacterTeamType.Team2)
             value.UpdateTeam()
         end

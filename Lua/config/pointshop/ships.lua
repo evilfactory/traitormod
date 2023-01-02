@@ -9,7 +9,6 @@ category.Init = function ()
     if Traitormod.SubmarineBuilder then
         category.StreamChalkId = Traitormod.SubmarineBuilder.AddSubmarine(Traitormod.Path .. "/Submarines/Stream Chalk.sub", "[P]Stream Chalk")
         category.BarsukId = Traitormod.SubmarineBuilder.AddSubmarine("Content/Submarines/Barsuk.sub", "[P]Barsuk")
-        category.CSCId = Traitormod.SubmarineBuilder.AddSubmarine(Traitormod.Path .. "/Submarines/CSC.sub", "[P]CSC")
     end
 end
 
@@ -74,22 +73,6 @@ category.Products = {
 
         CanBuy = function (client, product)
             return CanBuy(category.BarsukId, client)
-        end
-    },
-
-    {
-        Name = "C.S.C (not a ship)",
-        Price = 500,
-        Limit = 1,
-        IsLimitGlobal = true,
-
-        Action = function (client, product, items)
-            local submarine = SpawnSubmarine(category.CSCId, client)
-            AutoItemPlacer.RegenerateLoot(submarine, nil)
-        end,
-
-        CanBuy = function (client, product)
-            return CanBuy(category.CSCId, client)
         end
     },
 }
