@@ -112,6 +112,7 @@ event.Start = function ()
         end)
 
         Traitormod.GhostRoles.Ask("Pirate Crew " .. k, function (client)
+            Traitormod.LostLivesThisRound[client.SteamID] = false
             client.SetClientCharacter(character)
 
             Traitormod.SendMessageCharacter(character, "You are part of this submarine's pirate crew! Defend the submarine from any filthy coalitions trying to get what is yours!", "InfoFrameTabButton.Mission")
