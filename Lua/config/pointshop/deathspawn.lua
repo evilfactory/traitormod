@@ -228,6 +228,20 @@ category.Products = {
     },
 
     {
+        Name = "Spawn as Giant Spineling",
+        Price = 20000,
+        Limit = 1,
+        IsLimitGlobal = true,
+        PricePerLimit = 1000,
+        Enabled = true,
+        Timeout = 120,
+
+        Action = function (client, product, items)
+            SpawnCreature("Spineling_giant", client)
+        end
+    },
+
+    {
         Name = "Spawn as Veteran Mudraptor",
         Price = 8000,
         Limit = 2,
