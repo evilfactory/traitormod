@@ -112,10 +112,10 @@ rm.AssignRoles = function(characters, newRoles)
 
     for i = 1, #characters, 1 do
         rm.RoundRoles[characters[i]] = newRoles[i]
+        newRoles[i]:Init(characters[i])
     end
 
     for i = 1, #characters, 1 do
-        newRoles[i]:Init(characters[i])
         newRoles[i]:Start()
     end
 end

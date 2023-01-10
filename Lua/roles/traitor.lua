@@ -184,9 +184,9 @@ function role:FilterTarget(objective, character)
 
     if objective.Name == "Assassinate" and self.SelectUniqueTargets then
         for key, value in pairs(Traitormod.RoleManager.FindCharactersByRole("Traitor")) do
-            local role = Traitormod.RoleManager.GetRole(value)
+            local targetRole = Traitormod.RoleManager.GetRole(value)
 
-            for key, obj in pairs(role.Objectives) do
+            for key, obj in pairs(targetRole.Objectives) do
                 if obj.Name == "Assassinate" and obj.Target == character then
                     return false
                 end
