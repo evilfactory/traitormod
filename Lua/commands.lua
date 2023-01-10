@@ -167,7 +167,8 @@ Traitormod.AddCommand("!roundinfo", function (client, args)
         local summary = "Gamemode: " .. Traitormod.SelectedGamemode.Name .. "\n\n"
         summary = summary .. Traitormod.SelectedGamemode:RoundSummary()
         Traitormod.SendMessage(client, summary)
-
+    elseif Game.RoundStarted and not Traitormod.SelectedGamemode then
+        Traitormod.SendMessage(client, "Gamemode: None")
     elseif Traitormod.LastRoundSummary ~= nil then
         Traitormod.SendMessage(client, Traitormod.LastRoundSummary)
     else
