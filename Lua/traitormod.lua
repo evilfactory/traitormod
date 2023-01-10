@@ -76,7 +76,7 @@ Traitormod.RoundStart = function()
     end
 
 
-    Traitormod.SelectedGamemode = Traitormod.Gamemodes.Secret:new()
+    Traitormod.SelectedGamemode = nil
     if Game.ServerSettings.TraitorsEnabled == 1 and math.random() > 0.5 then
         Traitormod.SelectedGamemode = Traitormod.Gamemodes.Secret:new()
     elseif Game.ServerSettings.TraitorsEnabled == 2 then
