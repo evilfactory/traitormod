@@ -164,7 +164,7 @@ function gm:End()
     Hook.Remove("characterDeath", "Traitormod.Secret.CharacterDeath");
 
     -- first arg = mission id, second = message, third = completed, forth = list of characters
-    return {TraitorMissionResult(self.RoundEndIcon, sb:concat(), success, antagonists)}
+    return {TraitorMissionResult(self.RoundEndIcon or Traitormod.MissionIdentifier, sb:concat(), success, antagonists)}
 end
 
 function gm:SelectAntagonists(role)

@@ -8,15 +8,17 @@ objective.AlwaysActive = true
 function objective:Start()
     self.Text = "Turn yourself into a husk."
 
+    self.OldCharacter = self.Character
+
     return true
 end
 
 function objective:IsCompleted()
-    if self.Character == nil then
+    if self.OldCharacter == nil then
         return
     end
 
-    local aff = self.Character.CharacterHealth.GetAffliction("huskinfection", true)
+    local aff = self.OldCharacter.CharacterHealth.GetAffliction("huskinfection", true)
 
     if aff ~= nil and aff.Strength > 95 then
         return true

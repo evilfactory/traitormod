@@ -58,6 +58,28 @@ category.Products = {
             end)
         end
     },
+
+    {
+        Name = "Husked Blood Pack",
+        Price = 100,
+        Limit = 4,
+        IsLimitGlobal = false,
+        Action = function (client)
+            local prefabInjector = ItemPrefab.GetItemPrefab("antibloodloss2")
+            Entity.Spawner.AddItemToSpawnQueue(prefabInjector, client.Character.Inventory, nil, nil, function (item)
+                local holdable = item.GetComponentString("Holdable")
+
+                local husk = AfflictionPrefab.Prefabs["huskinfection"]
+
+                local effect = holdable.statusEffectLists[22][1]
+                effect.set_Afflictions({husk.Instantiate(1)})
+
+                effect = holdable.statusEffectLists[9][1]
+                effect.set_Afflictions({husk.Instantiate(1)})
+
+            end)
+        end
+    },
 }
 
 return category
