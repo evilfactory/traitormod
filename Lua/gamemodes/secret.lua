@@ -247,9 +247,11 @@ function gm:Think()
             if role == nil or not role.IsAntagonist then
                 ended = false
             else
-                for key, objective in pairs(role.Objectives) do
-                    if objective.Name == "Assassinate" or objective.Name == "Husk" then
-                        anyTraitorMission = true
+                if role.Objectives then
+                    for key, objective in pairs(role.Objectives) do
+                        if objective.Name == "Assassinate" or objective.Name == "Husk" then
+                            anyTraitorMission = true
+                        end
                     end
                 end
             end
