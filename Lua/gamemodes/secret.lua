@@ -44,7 +44,7 @@ function gm:Start()
     if math.random() > 0.5 then
         self.TraitorType = Traitormod.RoleManager.Roles.Traitor
     else
-        self.TraitorType = Traitormod.RoleManager.Roles.Traitor
+        self.TraitorType = Traitormod.RoleManager.Roles.Cultist
     end
 
     if self.TraitorType.Name == "Cultist" then
