@@ -69,7 +69,7 @@ config.GamemodeConfig = {
     Secret = {
         EndOnComplete = true,           -- end round when there are no assassination targets left
         EnableRandomEvents = true,
-        EndGameDelaySeconds = 5,
+        EndGameDelaySeconds = 15,
 
         TraitorSelectDelayMin = 120,
         TraitorSelectDelayMax = 150,
