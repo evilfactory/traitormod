@@ -33,6 +33,7 @@ language.RoundSummary = "| Round Summary |"
 language.Gamemode = "Gamemode: %s"
 language.RandomEvents = "Random Events: %s"
 language.ObjectiveCompleted = "Objective completed: %s"
+language.ObjectiveFailed = "Objective failed: %s"
 
 language.CrewWins = "The crew successfully completed their mission!"
 language.TraitorHandcuffed = "The crew handcuffed the traitor %s."

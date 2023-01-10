@@ -19,12 +19,24 @@ end
 
 function objective:IsCompleted()
     if self.Target == nil then
-        return
+        return false
     end
 
     local aff = self.Target.CharacterHealth.GetAffliction("huskinfection", true)
 
-    if aff ~= nil and aff.Strength > 95 then
+    if aff ~= nil and aff.Strength > 90 then
+        return true
+    end
+
+    return false
+end
+
+function objective:IsFailed()
+    if self.Target == nil then
+        return false
+    end
+
+    if self.Target.IsDead then
         return true
     end
 

@@ -181,6 +181,17 @@ Traitormod.SendObjectiveCompleted = function(client, objectiveText, points, live
     end
 end
 
+Traitormod.SendObjectiveFailed = function(client, objectiveText)
+    Traitormod.SendMessage(client, 
+    string.format(Traitormod.Language.ObjectiveFailed, objectiveText), "MissionFailedIcon")
+
+    local role = Traitormod.RoleManager.GetRole(client.Character)
+
+    if role then
+        Traitormod.UpdateVanillaTraitor(client, true, role:Greet())
+    end
+end
+
 Traitormod.SelectCodeWords = function ()
     local copied = {}
     for key, value in pairs(Traitormod.Config.Codewords) do

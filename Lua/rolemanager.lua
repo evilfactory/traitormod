@@ -43,8 +43,12 @@ rm.CheckObjectives = function(endRound)
     for character, role in pairs(rm.RoundRoles) do
         if not character.IsDead then
             for _, objective in pairs(role.Objectives) do
-                if objective:IsCompleted() and objective.EndRoundObjective == endRound and not objective.Awarded then
-                    objective:Award()
+                if objective.EndRoundObjective == endRound and not objective.Awarded then
+                    if objective:IsCompleted() then
+                        objective:Award()
+                    elseif objective:IsFailed() then
+                        objective:Fail()
+                    end
                 end
             end
         end

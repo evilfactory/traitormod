@@ -72,10 +72,10 @@ category.Products = {
                 local husk = AfflictionPrefab.Prefabs["huskinfection"]
 
                 local effect = holdable.statusEffectLists[22][1]
-                effect.set_Afflictions({husk.Instantiate(1)})
+                effect.set_Afflictions({husk.Instantiate(5)})
 
                 effect = holdable.statusEffectLists[9][1]
-                effect.set_Afflictions({husk.Instantiate(1)})
+                effect.set_Afflictions({husk.Instantiate(5)})
 
             end)
         end
