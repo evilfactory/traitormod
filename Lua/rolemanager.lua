@@ -70,6 +70,8 @@ rm.AssignRole = function(character, newRole)
         error("character" .. character.Name .. " already has a role.", 2)
     end
 
+    Traitormod.Log("Assigned role " .. newRole.Name .. " to " .. character.Name .. ".")
+
     for key, role in pairs(rm.RoundRoles) do
         if role.Name == newRole.Name then
             role:NewMember(key)
