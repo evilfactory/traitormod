@@ -29,7 +29,7 @@ Traitormod.AddCommand({"!role", "!traitor"}, function (client, args)
         return true
     end
 
-    local role = Traitormod.RoleManager.GetRoleByCharacter(client.Character)
+    local role = Traitormod.RoleManager.GetRole(client.Character)
     if role == nil then
         Traitormod.SendMessage(client, "You have no special role.")
     else

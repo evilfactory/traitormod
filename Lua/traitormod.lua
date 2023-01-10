@@ -77,6 +77,17 @@ Traitormod.RoundStart = function()
 
 
     Traitormod.SelectedGamemode = Traitormod.Gamemodes.Secret:new()
+    if Game.ServerSettings.TraitorsEnabled == 1 and math.random() > 0.5 then
+        Traitormod.SelectedGamemode = Traitormod.Gamemodes.Secret:new()
+    elseif Game.ServerSettings.TraitorsEnabled == 2 then
+        Traitormod.SelectedGamemode = Traitormod.Gamemodes.Secret:new()
+    end
+
+    if Traitormod.SelectedGamemode == nil then
+        Traitormod.Log("No gamemode selected!")
+        return
+    end
+
     Traitormod.Log("Starting gamemode " .. Traitormod.SelectedGamemode.Name)
 
     if Traitormod.SelectedGamemode then
@@ -115,7 +126,7 @@ Hook.Add("roundEnd", "Traitormod.RoundEnd", function()
 
         endMessage = Traitormod.SelectedGamemode:RoundSummary()
 
-        Traitormod.SendMessageEveryone(endMessage)
+        Traitormod.SendMessageEveryone(Traitormod.HighlightClientNames(endMessage, Color.Red))
     end
     Traitormod.LastRoundSummary = endMessage
 
@@ -362,9 +373,15 @@ Traitormod.RoleManager.AddObjective(dofile(Traitormod.Path .. "/Lua/objectives/k
 Traitormod.RoleManager.AddObjective(dofile(Traitormod.Path .. "/Lua/objectives/poisoncaptain.lua"))
 Traitormod.RoleManager.AddObjective(dofile(Traitormod.Path .. "/Lua/objectives/stealcaptainid.lua"))
 Traitormod.RoleManager.AddObjective(dofile(Traitormod.Path .. "/Lua/objectives/survive.lua"))
+Traitormod.RoleManager.AddObjective(dofile(Traitormod.Path .. "/Lua/objectives/husk.lua"))
+Traitormod.RoleManager.AddObjective(dofile(Traitormod.Path .. "/Lua/objectives/turnhusk.lua"))
+Traitormod.RoleManager.AddObjective(dofile(Traitormod.Path .. "/Lua/objectives/destroycaly.lua"))
 
 Traitormod.RoleManager.AddRole(dofile(Traitormod.Path .. "/Lua/roles/role.lua"))
+Traitormod.RoleManager.AddRole(dofile(Traitormod.Path .. "/Lua/roles/antagonist.lua"))
 Traitormod.RoleManager.AddRole(dofile(Traitormod.Path .. "/Lua/roles/traitor.lua"))
+Traitormod.RoleManager.AddRole(dofile(Traitormod.Path .. "/Lua/roles/cultist.lua"))
+Traitormod.RoleManager.AddRole(dofile(Traitormod.Path .. "/Lua/roles/huskservant.lua"))
 
 -- Round start call for reload during round
 if Game.RoundStarted then

@@ -41,7 +41,20 @@ function gm:Start()
         this:CharacterDeath(character)
     end)
 
-    gm:SelectAntagonists(Traitormod.RoleManager.Roles.Traitor)
+    if math.random() > 0.5 then
+        self.TraitorType = Traitormod.RoleManager.Roles.Traitor
+    else
+        self.TraitorType = Traitormod.RoleManager.Roles.Traitor
+    end
+
+    if self.TraitorType.Name == "Cultist" then
+        self.RoundEndIcon = "oneofus"
+        Game.EnableControlHusk(true)
+    else
+        Game.EnableControlHusk(false)
+    end
+
+    self:SelectAntagonists(self.TraitorType)
 end
 
 function gm:AwardCrew()
@@ -53,7 +66,7 @@ function gm:AwardCrew()
             and not value.SpectateOnly
             and not value.Character.IsDead
         then
-            local role = Traitormod.RoleManager.GetRoleByCharacter(value.Character)
+            local role = Traitormod.RoleManager.GetRole(value.Character)
 
             local wasAntagonist = false
             if role ~= nil then
@@ -91,8 +104,8 @@ function gm:CheckHandcuffedTraitors(character)
     local item = character.Inventory.GetItemInLimbSlot(InvSlotType.RightHand)
     if item ~= nil and item.Prefab.Identifier == "handcuffs" then
         for key, value in pairs(Client.ClientList) do
-            local role = Traitormod.RoleManager.GetRoleByCharacter(value.Character)
-            if role == nil or role.Name ~= "Traitor" then
+            local role = Traitormod.RoleManager.GetRole(value.Character)
+            if role == nil or not role.IsAntagonist then
                 local points = Traitormod.AwardPoints(value, self.PointsGainedFromHandcuffedTraitors)
                 local text = string.format(Traitormod.Language.TraitorHandcuffed, character.Name)
                 text = text .. "\n\n" .. string.format(Traitormod.Language.PointsAwarded, points)
@@ -113,42 +126,36 @@ function gm:End()
             table.insert(antagonists, character)
         end
 
-        if role.Name == "Traitor" then
-            sb(character.Name)
+        if role.IsAntagonist then
+            sb("%s %s", role.Name, character.Name)
             sb("\n")
 
-            local assassinateObjectives = 0
-            local otherObjectives = 0
+            local objectives = 0
             local pointsGained = 0
 
             for key, value in pairs(role.Objectives) do
                 if value:IsCompleted() then
-                    if value.Name == "Assassinate" then
-                        assassinateObjectives = assassinateObjectives + 1
-                    else
-                        otherObjectives = otherObjectives + 1
-                    end
+                    objectives = objectives + 1
                     pointsGained = pointsGained + value.AmountPoints
                 end
             end
 
-            if assassinateObjectives > 0 or otherObjectives > 0 then
+            if objectives > 0 then
                 success = true
             end
 
-            sb("Assassinations: %s\n", assassinateObjectives)
-            sb("Other objectives: %s\n", otherObjectives)
+            sb("Objectives Completed: %s\n", objectives)
             sb("Points Gained: %s\n", pointsGained)
         end
     end
 
-    for key, character in pairs(Traitormod.RoleManager.FindCharactersByRole("Traitor")) do
+    for key, character in pairs(Traitormod.RoleManager.FindAntagonists()) do
         self:CheckHandcuffedTraitors(character)
     end
 
     gm:AwardCrew()
 
-    if (success) then
+    if success then
         Traitormod.Stats.AddStat("Rounds", "Traitor rounds won", 1)
     else
         Traitormod.Stats.AddStat("Rounds", "Crew rounds won", 1)
@@ -157,7 +164,7 @@ function gm:End()
     Hook.Remove("characterDeath", "Traitormod.Secret.CharacterDeath");
 
     -- first arg = mission id, second = message, third = completed, forth = list of characters
-    return {TraitorMissionResult(Traitormod.MissionIdentifier, sb:concat(), success, antagonists)}
+    return {TraitorMissionResult(self.RoundEndIcon, sb:concat(), success, antagonists)}
 end
 
 function gm:SelectAntagonists(role)
@@ -235,13 +242,13 @@ function gm:Think()
     local anyTraitorMission = false
 
     for key, value in pairs(Character.CharacterList) do
-        if not value.IsDead and value.IsOnPlayerTeam then
-            local role = Traitormod.RoleManager.GetRoleByCharacter(value)
-            if role == nil or role.Name ~= "Traitor" then
+        if not value.IsDead and value.IsHuman and value.TeamID == CharacterTeamType.Team1 then
+            local role = Traitormod.RoleManager.GetRole(value)
+            if role == nil or not role.IsAntagonist then
                 ended = false
             else
                 for key, objective in pairs(role.Objectives) do
-                    if objective.Name == "Assassinate" then
+                    if objective.Name == "Assassinate" or objective.Name == "Husk" then
                         anyTraitorMission = true
                     end
                 end

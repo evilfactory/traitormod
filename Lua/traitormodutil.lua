@@ -143,21 +143,22 @@ Traitormod.SendMessageCharacter = function (character, text, icon)
     Traitormod.SendMessage(client, text, icon)
 end
 
-Traitormod.MissionIdentifier =  'easterbunny' -- can be any defined Traitor mission id in vanilla xml, mainly used for icon
-Traitormod.SendTraitorMessageBox = function (client, text)
-    Game.SendTraitorMessage(client, text, Traitormod.MissionIdentifier, TraitorMessageType.ServerMessageBox);
+Traitormod.MissionIdentifier =  "easterbunny" -- can be any defined Traitor mission id in vanilla xml, mainly used for icon
+Traitormod.SendTraitorMessageBox = function (client, text, icon)
+    Game.SendTraitorMessage(client, text, icon or Traitormod.MissionIdentifier, TraitorMessageType.ServerMessageBox);
     Game.SendDirectChatMessage("", text, nil, Traitormod.Config.ChatMessageType, client)
 end
 
 -- set character traitor to enable sabotage, set mission objective text then sync with session
-Traitormod.UpdateVanillaTraitor = function (client, enabled, objectiveSummary)
+Traitormod.UpdateVanillaTraitor = function (client, enabled, objectiveSummary, missionIdentifier)
     if not client or not client.Character then
         Traitormod.Error("UpdateVanillaTraitor failed! Client or Character was null!")
         return
     end
+
     client.Character.IsTraitor = enabled
     client.Character.TraitorCurrentObjective = objectiveSummary
-    Game.SendTraitorMessage(client, objectiveSummary, Traitormod.MissionIdentifier, TraitorMessageType.Objective)
+    Game.SendTraitorMessage(client, objectiveSummary, missionIdentifier or Traitormod.MissionIdentifier, TraitorMessageType.Objective)
 end
 
 -- send feedback to the character for completing a traitor objective and update vanilla traitor state
@@ -173,7 +174,7 @@ Traitormod.SendObjectiveCompleted = function(client, objectiveText, points, live
     string.format(Traitormod.Language.PointsAwarded, points) .. livesText
     , "MissionCompletedIcon") --InfoFrameTabButton.Mission
 
-    local role = Traitormod.RoleManager.GetRoleByCharacter(client.Character)
+    local role = Traitormod.RoleManager.GetRole(client.Character)
 
     if role then
         Traitormod.UpdateVanillaTraitor(client, true, role:Greet())
@@ -241,12 +242,10 @@ end
 
 -- type: 6 = Server message, 7 = Console usage, 9 error
 Traitormod.Log = function (message)
-    print(message)
     Game.Log("[TraitorMod] " .. message, 6)
 end
 
 Traitormod.Debug = function (message)
-    print(message)
     if Traitormod.Config.DebugLogs then
         Game.Log("[TraitorMod-Debug] " .. message, 6)
     end
@@ -393,6 +392,30 @@ Traitormod.ClientLogName = function(client, name)
 
     local log = "‖metadata:" .. client.SteamID .. "‖" .. name .. "‖end‖"
     return log
+end
+
+Traitormod.InsertString = function(str1, str2, pos)
+    return str1:sub(1,pos)..str2..str1:sub(pos+1)
+end
+
+Traitormod.HighlightClientNames = function (text, color)
+    for key, value in pairs(Client.ClientList) do
+        local name = value.Name
+
+        local i, j = string.find(text, name)
+
+        if i ~= nil then
+            text = Traitormod.InsertString(text, string.format("‖color:%s,%s,%s‖", color.R, color.G, color.B), i - 1)
+        end
+
+        local i, j = string.find(text, name)
+
+        if i ~= nil then
+            text = Traitormod.InsertString(text, "‖end‖", j)
+        end
+    end
+
+    return text
 end
 
 Traitormod.GetJobString = function(character)

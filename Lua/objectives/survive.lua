@@ -13,7 +13,7 @@ function objective:Start()
 end
 
 function objective:IsCompleted()
-    local role = Traitormod.RoleManager.GetRoleByCharacter(self.Character)
+    local role = Traitormod.RoleManager.GetRole(self.Character)
 
     if role == nil then return false end
 

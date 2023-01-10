@@ -9,6 +9,14 @@ function role:Init(character)
     self.RoundNumber = Traitormod.RoundNumber
 end
 
+function role:Transfer(character)
+    self.Character = character
+
+    for key, value in pairs(self.Objectives) do
+        value.Character = character
+    end
+end
+
 function role:Start()
 
 end

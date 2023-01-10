@@ -71,8 +71,8 @@ config.GamemodeConfig = {
         EnableRandomEvents = true,
         EndGameDelaySeconds = 5,
 
-        TraitorSelectDelayMin = 1,
-        TraitorSelectDelayMax = 4,
+        TraitorSelectDelayMin = 120,
+        TraitorSelectDelayMax = 150,
 
         PointsGainedFromHandcuffedTraitors = 1000,
         DistanceToEndOutpostRequired = 5000,
@@ -106,13 +106,36 @@ config.GamemodeConfig = {
 }
 
 config.RoleConfig = {
-    Traitor = {
-        SubObjectives = {"StealCaptainID", "Survive", "Kidnap", "PoisonCaptain"},
-        MinSubObjectives = 1,
+    Cultist = {
+        SubObjectives = {"Assassinate", "Kidnap", "TurnHusk", "DestroyCaly"},
+        MinSubObjectives = 2,
         MaxSubObjectives = 3,
 
-        NextAssassinateDelayMin = 1,
-        NextAssassinateDelayMax = 4,
+        NextObjectiveDelayMin = 30,
+        NextObjectiveDelayMax = 60,
+
+        TraitorBroadcast = true,           -- traitors can broadcast to other traitors using !tc
+        TraitorBroadcastHearable = false,  -- if true, !tc will be hearable in the vicinity via local chat
+        TraitorDm = true,                  -- traitors can send direct messages to other players using !tdm
+
+        -- Names, None
+        TraitorMethodCommunication = "Names",
+
+        SelectBotsAsTargets = true,
+        SelectPiratesAsTargets = false,
+    },
+
+    HuskServant = {
+        TraitorBroadcast = true,
+    },
+
+    Traitor = {
+        SubObjectives = {"StealCaptainID", "Survive", "Kidnap", "PoisonCaptain"},
+        MinSubObjectives = 2,
+        MaxSubObjectives = 3,
+
+        NextObjectiveDelayMin = 30,
+        NextObjectiveDelayMax = 60,
 
         TraitorBroadcast = true,           -- traitors can broadcast to other traitors using !tc
         TraitorBroadcastHearable = false,  -- if true, !tc will be hearable in the vicinity via local chat
@@ -151,6 +174,19 @@ config.ObjectiveConfig = {
     PoisonCaptain = {
         AmountPoints = 1600,
     },
+
+    Husk = {
+        AmountPoints = 800,
+    },
+
+    TurnHusk = {
+        AmountPoints = 500,
+        AmountLives = 2,
+    },
+
+    DestroyCaly = {
+        AmountPoints = 500,
+    },
 }
 
 ----- EVENTS -----
@@ -176,6 +212,7 @@ config.PointShopConfig = {
     Enabled = true,
     DeathTimeoutTime = 120,
     ItemCategories = {
+        dofile(Traitormod.Path .. "/Lua/config/pointshop/cultist.lua"),
         dofile(Traitormod.Path .. "/Lua/config/pointshop/traitor.lua"),
         dofile(Traitormod.Path .. "/Lua/config/pointshop/security.lua"),
         dofile(Traitormod.Path .. "/Lua/config/pointshop/maintenance.lua"),

@@ -1,24 +1,21 @@
 local role = Traitormod.RoleManager.Roles.Antagonist:new()
-role.Name = "Traitor"
+role.Name = "Cultist"
 
-function role:AssasinationLoop(first)
+function role:CultistLoop(first)
     if not Game.RoundStarted then return end
     if self.RoundNumber ~= Traitormod.RoundNumber then return end
 
     local this = self
 
-    local assassinate = Traitormod.RoleManager.Objectives.Assassinate:new()
-    assassinate:Init(self.Character)
-    local target = self:FindValidTarget(assassinate)
-    if not self.Character.IsDead and assassinate:Start(target) then
-        self:AssignObjective(assassinate)
-
-        local num = self:CompletedObjectives("Assassinate")
-        assassinate.AmountPoints = assassinate.AmountPoints + (num * self.PointsPerAssassination)
+    local husk = Traitormod.RoleManager.Objectives.Husk:new()
+    husk:Init(self.Character)
+    local target = self:FindValidTarget(husk)
+    if not self.Character.IsDead and husk:Start(target) then
+        self:AssignObjective(husk)
 
         local client = Traitormod.FindClientCharacter(self.Character)
 
-        assassinate.OnAwarded = function()
+        husk.OnAwarded = function()
             if client then
                 Traitormod.SendMessage(client, Traitormod.Language.AssassinationNextTarget, "")
                 Traitormod.Stats.AddClientStat("TraitorMainObjectives", client, 1)
@@ -26,19 +23,19 @@ function role:AssasinationLoop(first)
 
             local delay = math.random(this.NextObjectiveDelayMin, this.NextObjectiveDelayMax) * 1000
             Timer.Wait(function(...)
-                this:AssasinationLoop()
+                this:CultistLoop()
             end, delay)
         end
 
 
         if client and not first then
-            Traitormod.SendMessage(client, string.format(Traitormod.Language.AssassinationNewObjective, target.Name),
+            Traitormod.SendMessage(client, string.format(Traitormod.Language.HuskNewObjective, target.Name),
                 "GameModeIcon.pvp")
             Traitormod.UpdateVanillaTraitor(client, true, self:Greet())
         end
     else
         Timer.Wait(function()
-            this:AssasinationLoop()
+            this:CultistLoop()
         end, 5000)
     end
 end
@@ -46,7 +43,9 @@ end
 function role:Start()
     Traitormod.Stats.AddCharacterStat("Traitor", self.Character, 1)
 
-    self:AssasinationLoop(true)
+    self.Character.AddAbilityFlag(AbilityFlags.IgnoredByEnemyAI) -- husks ignore the cultists
+
+    self:CultistLoop(true)
 
     local pool = {}
     for key, value in pairs(self.SubObjectives) do pool[key] = value end
@@ -100,8 +99,8 @@ function role:Start()
     local text = self:Greet()
     local client = Traitormod.FindClientCharacter(self.Character)
     if client then
-        Traitormod.SendTraitorMessageBox(client, text)
-        Traitormod.UpdateVanillaTraitor(client, true, text)
+        Traitormod.SendTraitorMessageBox(client, text, "oneofus")
+        Traitormod.UpdateVanillaTraitor(client, true, text, "oneofus")
     end
 end
 
@@ -109,7 +108,7 @@ end
 function role:End(roundEnd)
     local client = Traitormod.FindClientCharacter(self.Character)
     if not roundEnd and client then
-        Traitormod.SendMessage(client, Traitormod.Language.TraitorDeath, "InfoFrameTabButton.Traitor")
+        --Traitormod.SendMessage(client, Traitormod.Language.TraitorDeath, "InfoFrameTabButton.Traitor")
         Traitormod.UpdateVanillaTraitor(client, false)
     end
 end
@@ -120,8 +119,8 @@ function role:ObjectivesToString()
     local secondary = Traitormod.StringBuilder:new()
 
     for _, objective in pairs(self.Objectives) do
-        -- Assassinate objectives are primary
-        local buf = objective.Name == "Assassinate" and primary or secondary
+        -- Husk objectives are primary
+        local buf = objective.Name == "Husk" and primary or secondary
 
         if objective:IsCompleted() then
             buf:append(" > ", objective.Text, Traitormod.Language.Completed)
@@ -138,7 +137,7 @@ end
 
 function role:Greet()
     local partners = Traitormod.StringBuilder:new()
-    local traitors = Traitormod.RoleManager.FindCharactersByRole("Traitor")
+    local traitors = Traitormod.RoleManager.FindCharactersByRole("Cultist")
     for _, character in pairs(traitors) do
         if character ~= self.Character then
             partners('"%s"\n', character.Name)
@@ -148,14 +147,14 @@ function role:Greet()
     local primary, secondary = self:ObjectivesToString()
 
     local sb = Traitormod.StringBuilder:new()
-    sb("You are a traitor!\n\n")
+    sb("You are a Husk Cultist!\nHumans that you manage to turn into a husk will be in your side and may help you.\n\n")
     sb("Your main objectives are:\n")
     sb(primary)
     sb("\n\nYour secondary objectives are:\n")
     sb(secondary)
     sb("\n\n")
     if #traitors < 2 then
-        sb("You are the only traitor.")
+        sb("You are the only Husk Cultist.")
     else
         sb("Partners: ")
         sb(partners)
@@ -171,7 +170,7 @@ end
 function role:OtherGreet()
     local sb = Traitormod.StringBuilder:new()
     local primary, secondary = self:ObjectivesToString()
-    sb("Traitor %s.", self.Character.Name)
+    sb("Husk Cultist %s.", self.Character.Name)
     sb("\nTheir main objectives were:\n")
     sb(primary)
     sb("\nTheir secondary objectives were:\n")
@@ -182,23 +181,33 @@ end
 function role:FilterTarget(objective, character)
     if not self.SelectBotsAsTargets and character.IsBot then return false end
 
-    if objective.Name == "Assassinate" and self.SelectUniqueTargets then
-        for key, value in pairs(Traitormod.RoleManager.FindCharactersByRole("Traitor")) do
-            local role = Traitormod.RoleManager.GetRole(value)
-
-            for key, obj in pairs(role.Objectives) do
-                if obj.Name == "Assassinate" and obj.Target == character then
-                    return false
-                end
-            end
-        end
+    if character.TeamID ~= CharacterTeamType.Team1 and not self.SelectPiratesAsTargets then
+        return false
     end
 
-    if character.TeamID ~= CharacterTeamType.Team1 and not self.SelectPiratesAsTargets then
+    local aff = character.CharacterHealth.GetAffliction("huskinfection", true)
+
+    if aff ~= nil and aff.Strength > 1 then
         return false
     end
 
     return Traitormod.RoleManager.Roles.Role.FilterTarget(self, objective, character)
 end
+
+Hook.Add("husk.clientControlHusk", "Traitormod.Cultist.HuskControl", function (client, husk)
+    local cultist
+    for _, character in pairs(Traitormod.RoleManager.FindCharactersByRole("Cultist")) do
+        if character.Name == client.Name then
+            cultist = Traitormod.RoleManager.GetRole(character)
+            break
+        end
+    end
+
+    if cultist then
+        Traitormod.RoleManager.TransferRole(client.Character, cultist)
+    else
+        Traitormod.RoleManager.AssignRole(client.Character, Traitormod.RoleManager.Roles.HuskServant)
+    end
+end)
 
 return role

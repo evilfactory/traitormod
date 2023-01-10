@@ -82,6 +82,13 @@ rm.AssignRole = function(character, newRole)
     newRole:Start()
 end
 
+rm.TransferRole = function(character, oldRole)
+    rm.RoundRoles[oldRole.Character] = nil
+    rm.RoundRoles[character] = oldRole
+
+    oldRole:Transfer(character)
+end
+
 rm.AssignRoles = function(characters, newRoles)
     for key, value in pairs(characters) do
         if rm.RoundRoles[value] ~= nil then
@@ -107,6 +114,12 @@ rm.AssignRoles = function(characters, newRoles)
     end
 end
 
+rm.HasRole = function (character, name)
+    local role = rm.GetRole(character)
+    if role == nil then return false end
+    return role.Name == name
+end
+
 rm.FindCharactersByRole = function(name)
     local characters = {}
 
@@ -119,7 +132,19 @@ rm.FindCharactersByRole = function(name)
     return characters
 end
 
-rm.GetRoleByCharacter = function(character)
+rm.FindAntagonists = function()
+    local characters = {}
+
+    for character, role in pairs(rm.RoundRoles) do
+        if role.IsAntagonist then
+            table.insert(characters, character)
+        end
+    end
+
+    return characters
+end
+
+rm.GetRole = function(character)
     if character == nil then return nil end
 
     return rm.RoundRoles[character]
@@ -131,13 +156,13 @@ rm.IsSameRole = function (character1, character2)
     if type(character1) == "table" then
         role1 = character1
     else
-        role1 = rm.GetRoleByCharacter(character1)
+        role1 = rm.GetRole(character1)
     end
 
     if type(character2) == "table" then
         role2 = character2
     else
-        role2 = rm.GetRoleByCharacter(character2)
+        role2 = rm.GetRole(character2)
     end
 
     if role1 == nil or role2 == nil then return false end
@@ -151,7 +176,7 @@ Hook.Add("think", "Traitormod.RoleManager.Think", function()
 end)
 
 Hook.Add("characterDeath", "Traitormod.RoleManager.CharacterDeath", function(character)
-    local role = rm.GetRoleByCharacter(character)
+    local role = rm.GetRole(character)
     if role then
         role:End()
     end

@@ -26,7 +26,8 @@ function objective:Award()
 
     if client then 
         local points = Traitormod.AwardPoints(client, self.AmountPoints)
-        Traitormod.SendObjectiveCompleted(client, self.Text, points)
+        local lives = Traitormod.AdjustLives(client, self.AmountLives)
+        Traitormod.SendObjectiveCompleted(client, self.Text, points, lives)
     end
 
     if self.OnAwarded ~= nil then

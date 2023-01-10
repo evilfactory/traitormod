@@ -88,6 +88,7 @@ language.ObjectiveText = "Assassinate the crew in order to complete your mission
 
 language.AssassinationNextTarget = "Stay low until further instructions."
 language.AssassinationNewObjective = "Your next assassination target is %s."
+language.HuskNewObjective = "Your next husk target is %s."
 language.AssassinationEveryoneDead = "Good job agent, you did it!"
 
 language.ItemsBought = "Items bought from point shop"
