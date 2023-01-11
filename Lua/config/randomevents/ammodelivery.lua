@@ -8,7 +8,7 @@ event.MaxIntensity = 1
 event.ChancePerMinute = 0.03
 event.OnlyOncePerRound = false
 
-local items = {"coilgunammoboxexplosive", "coilgunammoboxexplosive", "coilgunammoboxexplosive"}
+local items = {"coilgunammoboxexplosive", "coilgunammoboxexplosive", "coilgunammoboxexplosive", "railgunshell", "railgunshell", "railgunshell", "railgunshell", "railgunshell"}
 
 event.Start = function ()
     local position = nil
@@ -28,7 +28,7 @@ event.Start = function ()
         Entity.Spawner.AddItemToSpawnQueue(ItemPrefab.GetItemPrefab(value), position)
     end
 
-    local text = "A delivery of explosive coilgun ammo has been made to the armoury area of the submarine."
+    local text = "A delivery of explosive coilgun ammo and railgun shells has been made to the armoury area of the submarine."
     Traitormod.RoundEvents.SendEventMessage(text, "GameModeIcon.sandbox")
 
     event.End()

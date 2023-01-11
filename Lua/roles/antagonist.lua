@@ -30,7 +30,7 @@ Traitormod.AddCommand("!tc", function(client, args)
             end
         end
 
-        return not role.TraitorBroadcastHearable
+        return not clientRole.TraitorBroadcastHearable
     else
         feedback = "Usage: !tc [Message]"
     end
