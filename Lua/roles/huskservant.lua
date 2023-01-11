@@ -25,8 +25,7 @@ function role:Greet()
     local sb = Traitormod.StringBuilder:new()
     sb("You are now a Husk Servant!\nYou directly follow orders made by the Husk Cultists.\n")
 
-    sb("Husk Cultists: ")
-    sb(partners)
+    sb("Husk Cultists: %s\n", partners)
 
     if self.TraitorBroadcast then
         sb("\n\nYou cannot speak, but you can use !tc to communicate with the Husk Cultists.")

@@ -141,7 +141,7 @@ function role:Greet()
     local traitors = Traitormod.RoleManager.FindCharactersByRole("Traitor")
     for _, character in pairs(traitors) do
         if character ~= self.Character then
-            partners('"%s"\n', character.Name)
+            partners('"%s" ', character.Name)
         end
     end
     partners = partners:concat(" ")
@@ -157,8 +157,7 @@ function role:Greet()
     if #traitors < 2 then
         sb("You are the only traitor.")
     else
-        sb("Partners: ")
-        sb(partners)
+        sb("Partners: %s\n", partners)
 
         if self.TraitorBroadcast then
             sb("Use !tc to communicate with your partners.")

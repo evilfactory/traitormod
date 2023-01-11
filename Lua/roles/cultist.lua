@@ -156,8 +156,7 @@ function role:Greet()
     if #traitors < 2 then
         sb("You are the only Husk Cultist.")
     else
-        sb("Partners: ")
-        sb(partners)
+        sb("Partners: %s\n", partners)
 
         if self.TraitorBroadcast then
             sb("Use !tc to communicate with your partners.")
@@ -206,7 +205,7 @@ Hook.Add("husk.clientControlHusk", "Traitormod.Cultist.HuskControl", function (c
     if cultist then
         Traitormod.RoleManager.TransferRole(client.Character, cultist)
     else
-        Traitormod.RoleManager.AssignRole(client.Character, Traitormod.RoleManager.Roles.HuskServant)
+        Traitormod.RoleManager.AssignRole(client.Character, Traitormod.RoleManager.Roles.HuskServant:new())
     end
 end)
 
