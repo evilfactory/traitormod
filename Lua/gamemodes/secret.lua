@@ -144,8 +144,7 @@ function gm:End()
                 success = true
             end
 
-            sb("Objectives Completed: %s\n", objectives)
-            sb("Points Gained: %s\n", pointsGained)
+            sb("Objectives Completed: %s - Points Gained: %s\n", objectives, pointsGained)
         end
     end
 

@@ -67,6 +67,13 @@ category.Products = {
     },
 
     {
+        Name = "Poop",
+        Price = 10,
+        Limit = 16,
+        Items = {"poop"},
+    },
+
+    {
         Name = "Random Egg",
         Price = 50,
         Limit = 5,

@@ -24,7 +24,7 @@ function objective:IsCompleted()
 
     local aff = self.Target.CharacterHealth.GetAffliction("huskinfection", true)
 
-    if aff ~= nil and aff.Strength > 90 then
+    if aff ~= nil and aff.Strength > 80 then
         return true
     end
 
