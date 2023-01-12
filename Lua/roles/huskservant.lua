@@ -17,7 +17,7 @@ function role:Greet()
     local traitors = Traitormod.RoleManager.FindCharactersByRole("Cultist")
     for _, character in pairs(traitors) do
         if character ~= self.Character then
-            partners('"%s"\n', character.Name)
+            partners('"%s" ', character.Name)
         end
     end
     partners = partners:concat(" ")
