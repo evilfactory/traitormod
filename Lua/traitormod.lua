@@ -355,10 +355,12 @@ if Traitormod.Config.OverrideRespawnSubmarine then
 end
 
 Traitormod.StringBuilder = dofile(Traitormod.Path .. "/Lua/stringbuilder.lua")
+Traitormod.Voting = dofile(Traitormod.Path .. "/Lua/voting.lua")
 Traitormod.RoleManager = dofile(Traitormod.Path .. "/Lua/rolemanager.lua")
 Traitormod.Pointshop = dofile(Traitormod.Path .. "/Lua/pointshop.lua")
 Traitormod.RoundEvents = dofile(Traitormod.Path .. "/Lua/roundevents.lua")
 Traitormod.GhostRoles = dofile(Traitormod.Path .. "/Lua/ghostroles.lua")
+
 dofile(Traitormod.Path .. "/Lua/commands.lua")
 dofile(Traitormod.Path .. "/Lua/statistics.lua")
 dofile(Traitormod.Path .. "/Lua/respawnshuttle.lua")

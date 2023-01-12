@@ -212,6 +212,21 @@ Traitormod.AddCommand({"!addpoint", "!addpoints"}, function (client, args)
         return true
     end
 
+    if name == "all" then
+        for index, value in pairs(Client.ClientList) do
+            Traitormod.AddData(value, "Points", amount)
+        end
+
+        Traitormod.SendMessage(client, string.format(Traitormod.Language.PointsAwarded, amount), "InfoFrameTabButton.Mission")
+
+        local msg = string.format("Admin added %s points to everyone.", amount)
+        Traitormod.SendMessageEveryone(msg)
+        msg = Traitormod.ClientLogName(client) .. ": " .. msg
+        Traitormod.Log(msg)
+
+        return true
+    end
+
     local found = Traitormod.FindClient(name)
 
     if found == nil then
