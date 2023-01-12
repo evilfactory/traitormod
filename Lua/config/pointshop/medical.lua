@@ -61,6 +61,13 @@ category.Products = {
     },
 
     {
+        Name = "Meth",
+        Price = 80,
+        Limit = 8,
+        Items = {"meth"}
+    },
+
+    {
         Name = "Adrenaline Gland",
         Price = 60,
         Limit = 5,
