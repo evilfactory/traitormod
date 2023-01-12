@@ -24,6 +24,8 @@ vt.StartVote = function (text, options, time, completed)
     for key, client1 in pairs(Client.ClientList) do
         max = max + 1
         textPromptUtils.Prompt(text, options, client1, function (id, client2)
+            if voteData.Completed then return end
+
             local option = options[id]
 
             if option == nil then return end
@@ -34,6 +36,7 @@ vt.StartVote = function (text, options, time, completed)
 
             if amount == max then
                 voteData.OnCompleted(voteData.Results)
+                voteData.Completed = true
                 table.remove(vt.Votes, voteId)
             end
         end)
@@ -44,7 +47,7 @@ Hook.Add("think", "Traitormod.Voting.Think", function ()
     for key, voteData in pairs(vt.Votes) do
         if Timer.GetTime() > voteData.Time then
             voteData.OnCompleted(voteData.Results)
-
+            voteData.Completed = true
             table.remove(vt.Votes, key)
             break
         end
@@ -65,7 +68,7 @@ Traitormod.AddCommand("!vote", function (client, args)
 
     local text = table.remove(args, 1)
 
-    vt.StartVote(text, args, 30, function (results)
+    vt.StartVote(text, args, 25, function (results)
         local message = Traitormod.StringBuilder:new()
         message("Vote results: %s\n\n", text)
         for key, value in pairs(results) do
