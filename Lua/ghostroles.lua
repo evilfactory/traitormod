@@ -98,7 +98,7 @@ Hook.Add("think", "Traitormod.GhostRoles.Think", function (...)
 
     local roles = ""
     for key, value in pairs(gr.Roles) do
-        if not value.Taken then
+        if not value.Taken and (not value.Character or not value.Character.IsDead) then
             roles = roles .. "\"‖color:gui.orange‖" .. key .. "\"‖color:end‖ "
         end
     end
