@@ -8,7 +8,7 @@ gr.Characters = {}
 
 gr.Ask = function (name, callback, character)
     name = string.lower(name)
-    gr.Roles[name] = {Callback = callback, Taken = false}
+    gr.Roles[name] = {Callback = callback, Taken = false, Character = character}
 
     local text = "[Ghost Role] New ghost role available: %s (type in chat ‖color:gui.orange‖!ghostrole %s‖color:end‖ to accept)"
 
@@ -58,7 +58,9 @@ Traitormod.AddCommand({"!ghostrole", "!ghostroles"}, function(client, args)
     if gr.Roles[name] == nil then
         local roles = ""
         for key, value in pairs(gr.Roles) do
-            if value.Taken then
+            if value.Character and value.Character.IsDead then
+                roles = roles .. key .. "(Dead)\n"
+            elseif value.Taken then
                 roles = roles .. key .. "(Already Taken)\n"
             else
                 roles = roles .. key .. "\n"
@@ -73,6 +75,11 @@ Traitormod.AddCommand({"!ghostrole", "!ghostroles"}, function(client, args)
 
     if gr.Roles[name].Taken then
         Traitormod.SendMessage(client, "Someone already took this ghost role.")
+        return true
+    end
+
+    if gr.Roles[name].Character and gr.Roles[name].Character.IsDead then
+        Traitormod.SendMessage(client, "Seems this ghost role is already dead, too bad!")
         return true
     end
 
