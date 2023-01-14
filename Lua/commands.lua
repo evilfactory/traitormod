@@ -422,6 +422,37 @@ Traitormod.AddCommand("!triggerevent", function (client, args)
     return true
 end)
 
+Traitormod.AddCommand({"!locatesub", "!locatesubmarine"}, function (client, args)
+    if client.Character == nil or not client.InGame then
+        Traitormod.SendMessage(client, "You must be alive to use this command.")
+        return true
+    end
+
+    if client.Character.IsHuman then
+        Traitormod.SendMessage(client, "Only monsters are able to use this command.")
+        return true
+    end
+
+    local center = client.Character.WorldPosition
+    local target = Submarine.MainSub.WorldPosition
+
+    local distance = Vector2.Distance(center, target) * Physics.DisplayToRealWorldRatio
+
+    local diff = center - target
+
+    local angle = math.deg(math.atan2(diff.X, diff.Y)) + 180
+
+    local function degreeToOClock(v)
+        local oClock = math.floor(v / 30)
+        if oClock == 0 then oClock = 12 end
+        return oClock .. " o'clock"
+    end
+
+    Game.SendDirectChatMessage("", "Submarine is " .. math.floor(distance) .. "m away from you, at " .. degreeToOClock(angle) .. ".", nil, ChatMessageType.Error, client)
+
+    return true
+end)
+
 
 local preventSpam = {}
 Traitormod.AddCommand({"!droppoints", "!droppoint", "!dropoint", "!dropoints"}, function (client, args)
