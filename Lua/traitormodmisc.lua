@@ -1,14 +1,14 @@
 local n = 1
-Hook.Add("character.created", "Traitormod.MiscGhostRoles", function (character)
-    if character.SpeciesName == "Mudraptor_pet" then
-        Traitormod.GhostRoles.Ask("Mudraptor Pet " .. n, function (client)
-            client.SetClientCharacter(character)
-        end, character)
-    end
+Hook.Add("think", "Traitormod.MiscGhostRoles", function (character)
+    if not Traitormod.Config.GhostRoleConfig.Enabled then return end
 
-    if character.SpeciesName == "Watcher" then
-        Traitormod.GhostRoles.Ask("Watcher " .. n, function (client)
-            client.SetClientCharacter(character)
-        end, character)
+    for key, character in pairs(Character.CharacterList) do
+        if not Traitormod.GhostRoles.IsGhostRole(character) then
+            if Traitormod.Config.GhostRoleConfig.MiscGhostRoles[character.SpeciesName.Value] then
+                Traitormod.GhostRoles.Ask(character.Name .. " " .. n, function (client)
+                    client.SetClientCharacter(character)
+                end, character)
+            end
+        end
     end
 end)

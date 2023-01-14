@@ -226,4 +226,12 @@ config.PointShopConfig = {
     }
 }
 
+config.GhostRoleConfig = {
+    Enabled = true,
+    MiscGhostRoles = {
+        ["Watcher"] = true,
+        ["Mudraptor_pet"] = true,
+    }
+}
+
 return config

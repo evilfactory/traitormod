@@ -1,5 +1,6 @@
 local gr = {}
 
+local config = Traitormod.Config.GhostRoleConfig
 
 local ghostRolesAnnounceTimer = 0
 
@@ -7,6 +8,8 @@ gr.Roles = {}
 gr.Characters = {}
 
 gr.Ask = function (name, callback, character)
+    if not config.Enabled then return false end
+
     name = string.lower(name)
     gr.Roles[name] = {Callback = callback, Taken = false, Character = character}
 
@@ -29,6 +32,16 @@ gr.Ask = function (name, callback, character)
     ghostRolesAnnounceTimer = Timer.GetTime() + 80
 end
 
+gr.IsGhostRole = function (character)
+    if character == nil then return false end
+
+    if gr.Characters[character] and gr.Roles[gr.Characters[character]] then
+        return true
+    end
+
+    return false
+end
+
 gr.ReturnGhostRole = function (character)
     if character == nil then return false end
 
@@ -42,6 +55,11 @@ gr.ReturnGhostRole = function (character)
 end
 
 Traitormod.AddCommand({"!ghostrole", "!ghostroles"}, function(client, args)
+    if not config.Enabled then
+        Traitormod.SendMessage(client, "Ghost roles are disabled.")
+        return true
+    end
+
     if client.Character ~= nil and not client.Character.IsDead then
         Traitormod.SendMessage(client, "Only spectators can use ghost roles.")
         return true
@@ -93,6 +111,7 @@ end)
 
 
 Hook.Add("think", "Traitormod.GhostRoles.Think", function (...)
+    if not config.Enabled then return end
     if Timer.GetTime() < ghostRolesAnnounceTimer then return end
     ghostRolesAnnounceTimer = Timer.GetTime() + 200
 
