@@ -114,7 +114,7 @@ event.Start = function()
             local order = Order(orderPrefab, nil, target).WithManualPriority(CharacterInfo.HighestManualOrderPriority)
             value.SetOrder(order, true, false, true)
 
-            if Vector2.Distance(value.WorldPosition, target.WorldPosition) < 500 then
+            if Vector2.Distance(value.WorldPosition, target.WorldPosition) < 50 then
                 value.AIController.AddCombatObjective(AIObjectiveCombat.CombatMode.Offensive, target)
             end
         end
