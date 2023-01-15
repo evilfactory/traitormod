@@ -64,6 +64,8 @@ event.Start = function ()
     submarine.SetPosition(closestToOutpost)
     Traitormod.SubmarineBuilder.ResetSubmarineSteering(submarine)
 
+    event.Pirates = {}
+
     local crew = {"mechanic", "engineer", "captain", "securityofficer"}
     for k, v in pairs(crew) do
         local info = CharacterInfo(Identifier("human"))
@@ -71,6 +73,8 @@ event.Start = function ()
         info.Job = Job(JobPrefab.Get(v))
 
         local character = Character.Create(info, submarine.WorldPosition, info.Name, 0, false, true)
+
+        table.insert(event.Pirates, character)
 
         character.TeamID = CharacterTeamType.Team2
         character.GiveJobItems(nil)
@@ -119,11 +123,17 @@ event.Start = function ()
         end, character)
     end
 
-    local text = "Attention! A pirate ship has been spotted in these waters! Destroy the pirate's reactor to claim a reward of " .. event.AmountPoints .. " points for the entire crew"
+    local text = "Attention! A pirate ship has been spotted in these waters! Destroy the pirate's reactor or kill all pirates to claim a reward of " .. event.AmountPoints .. " points for the entire crew"
     Traitormod.RoundEvents.SendEventMessage(text, "CrewWalletIconLarge")
 
     Hook.Add("think", "PirateCrew.Think", function ()
-        if event.Reactor.Condition <= 0 then
+        local allDead = true
+        for key, value in pairs(event.Pirates) do
+            if not value.IsDead then
+                allDead = false
+            end
+        end
+        if event.Reactor.Condition <= 0 or allDead then
             event.End()
         end
     end)
@@ -137,7 +147,7 @@ event.End = function (isEndRound)
         return
     end
 
-    local text = "The pirate's reactor has been destroyed, the crew has received a reward of " .. event.AmountPoints .. " points."
+    local text = "The pirates have succumbed, the crew has received a reward of " .. event.AmountPoints .. " points."
 
     Traitormod.RoundEvents.SendEventMessage(text, "CrewWalletIconLarge")
 

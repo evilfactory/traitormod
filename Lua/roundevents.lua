@@ -16,6 +16,17 @@ re.IsEventActive = function (eventName)
     return false
 end
 
+re.EventExists = function (eventName)
+    local event = nil
+    for _, value in pairs(re.EventConfigs.Events) do
+        if value.Name == eventName then
+            event = value
+        end
+    end
+
+    return event ~= nil
+end
+
 re.TriggerEvent = function (eventName)
     if not Game.RoundStarted then
         Traitormod.Error("Tried to trigger event " .. eventName .. ", but round is not started.")
