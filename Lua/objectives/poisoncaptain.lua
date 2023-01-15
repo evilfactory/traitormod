@@ -20,7 +20,7 @@ function objective:Start(target)
 
     self.Poison = "Sufforin"
 
-    self.text = string.format(Traitormod.Language.ObjectivePoisonCaptain, self.TargetName,
+    self.Text = string.format(Traitormod.Language.ObjectivePoisonCaptain, self.TargetName,
         self.Poison)
 
     return true
