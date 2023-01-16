@@ -16,6 +16,7 @@ Hook.Add("think", "Traitormod.MiscThink", function ()
                     Traitormod.GhostRoles.Ask(character.Name .. " " .. n, function (client)
                         client.SetClientCharacter(character)
                     end, character)
+                    n = n + 1
                 end
             end
         end
