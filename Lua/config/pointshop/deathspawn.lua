@@ -9,6 +9,11 @@ end
 
 local function SpawnCreature(species, client, insideHuman)
     local waypoints = Submarine.MainSub.GetWaypoints(true)
+
+    if LuaUserData.IsTargetType(Game.GameSession.GameMode, "Barotrauma.PvPMode") then
+        waypoints = Submarine.MainSubs[math.random(2)].GetWaypoints(true)
+    end
+
     local spawnPositions = {}
 
     if insideHuman then

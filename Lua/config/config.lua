@@ -102,7 +102,14 @@ config.GamemodeConfig = {
 
             return true
         end
-    }
+    },
+
+    PvP = {
+        EnableRandomEvents = false, -- most events are coded to only affect the main submarine
+        WinningPoints = 2500,
+        WinningDeadPoints = 300,
+        ShowSonar = true,
+    },
 }
 
 config.RoleConfig = {

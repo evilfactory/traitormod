@@ -2,6 +2,10 @@ local sb = {}
 
 local linkedSubmarineHeader = [[<LinkedSubmarine description="" checkval="2040186250" price="1000" initialsuppliesspawned="false" type="Player" tags="Shuttle" gameversion="0.17.4.0" dimensions="1270,451" cargocapacity="0" recommendedcrewsizemin="1" recommendedcrewsizemax="2" recommendedcrewexperience="Unknown" requiredcontentpackages="Vanilla" name="%s" filepath="Content/Submarines/Selkie.sub" pos="-64,-392.5" linkedto="4" originallinkedto="0" originalmyport="0">%s</LinkedSubmarine>]]
 
+sb.IsActive = function ()
+    return Game.GetRespawnSub() ~= nil
+end
+
 sb.UpdateLobby = function(submarineInfo)
     local submarines = Game.NetLobbyScreen.subs
 
@@ -22,9 +26,6 @@ sb.UpdateLobby = function(submarineInfo)
         Networking.ClientWriteLobby(client)
     end
 end
-
-LuaUserData.RegisterType("System.Xml.Linq.XElement")
-LuaUserData.RegisterType("Voronoi2.VoronoiCell")
 
 sb.Submarines = {}
 
@@ -89,6 +90,8 @@ Hook.HookMethod("Barotrauma.Networking.GameServer", "StartGame", {}, function ()
 end)
 
 Hook.Add("roundStart", "SubmarineBuilder.RoundStart", function ()
+    if Game.GetRespawnSub() == nil then return end
+
     for _, item in pairs(Game.GetRespawnSub().GetItems(false)) do
         local dockingPort = item.GetComponentString("DockingPort")
         if dockingPort then

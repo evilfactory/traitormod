@@ -143,6 +143,7 @@ end
 
 Hook.Add("think", "RespawnShuttle.Think", function ()
     if not Game.RoundStarted then return end
+    if not Traitormod.SubmarineBuilder.IsActive() then return end
 
     local ratio = #GetRespawnClients() / #Client.ClientList
 

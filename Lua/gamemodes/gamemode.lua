@@ -16,7 +16,9 @@ end
 
 function gm:RoundSummary()
     local sb = Traitormod.StringBuilder:new()
-    
+
+    sb("Gamemode: %s\n", self.Name)
+
     for character, role in pairs(Traitormod.RoleManager.RoundRoles) do
         sb("\n%s\n", role:OtherGreet())
     end

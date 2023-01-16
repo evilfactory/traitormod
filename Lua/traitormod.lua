@@ -77,7 +77,12 @@ Traitormod.RoundStart = function()
 
 
     Traitormod.SelectedGamemode = nil
-    if Game.ServerSettings.TraitorsEnabled == 1 and math.random() > 0.5 then
+
+    if LuaUserData.IsTargetType(Game.GameSession.GameMode, "Barotrauma.PvPMode") then
+        Traitormod.SelectedGamemode = Traitormod.Gamemodes.PvP:new()
+    elseif LuaUserData.IsTargetType(Game.GameSession.GameMode, "Barotrauma.CampaignMode") then
+        Traitormod.SelectedGamemode = Traitormod.Gamemodes.Gamemode:new()
+    elseif Game.ServerSettings.TraitorsEnabled == 1 and math.random() > 0.5 then
         Traitormod.SelectedGamemode = Traitormod.Gamemodes.Secret:new()
     elseif Game.ServerSettings.TraitorsEnabled == 2 then
         Traitormod.SelectedGamemode = Traitormod.Gamemodes.Secret:new()
@@ -122,8 +127,6 @@ Hook.Add("roundEnd", "Traitormod.RoundEnd", function()
 
     local endMessage = ""
     if Traitormod.SelectedGamemode then
-        endMessage = endMessage .. "Gamemode: " .. Traitormod.SelectedGamemode.Name .. "\n\n"
-
         endMessage = Traitormod.SelectedGamemode:RoundSummary()
 
         Traitormod.SendMessageEveryone(Traitormod.HighlightClientNames(endMessage, Color.Red))
@@ -368,6 +371,7 @@ dofile(Traitormod.Path .. "/Lua/traitormodmisc.lua")
 
 Traitormod.AddGamemode(dofile(Traitormod.Path .. "/Lua/gamemodes/gamemode.lua"))
 Traitormod.AddGamemode(dofile(Traitormod.Path .. "/Lua/gamemodes/secret.lua"))
+Traitormod.AddGamemode(dofile(Traitormod.Path .. "/Lua/gamemodes/pvp.lua"))
 
 Traitormod.RoleManager.AddObjective(dofile(Traitormod.Path .. "/Lua/objectives/objective.lua"))
 Traitormod.RoleManager.AddObjective(dofile(Traitormod.Path .. "/Lua/objectives/assassinate.lua"))
