@@ -33,6 +33,7 @@ event.Start = function()
 
         character.TeamID = CharacterTeamType.Team1
         character.GiveJobItems(nil)
+        character.CanSpeak = false
 
         Entity.Spawner.AddItemToSpawnQueue(ItemPrefab.GetItemPrefab("divingsuit"), character.Inventory, nil, nil, function (item)
             Entity.Spawner.AddItemToSpawnQueue(ItemPrefab.GetItemPrefab("oxygenitetank"), item.OwnInventory)
