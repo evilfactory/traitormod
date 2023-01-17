@@ -36,7 +36,9 @@ function gm:Start()
 
     for key, value in pairs(Client.ClientList) do
         local character = value.Character
-        self.CharacterToClient[character] = value
+        if value.Character then
+            self.CharacterToClient[character] = value
+        end
     end
 end
 
