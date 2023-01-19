@@ -394,6 +394,39 @@ Traitormod.AddCommand("!ongoingevents", function (client, args)
     return true
 end)
 
+Traitormod.AddCommand("!assignrole", function (client, args)
+    if not client.HasPermission(ClientPermissions.ConsoleCommands) then return end
+    
+    if #args < 2 then
+        Traitormod.SendMessage(client, "Usage: !assignrole <client> <role>")
+        return true
+    end
+
+    local target = Traitormod.FindClient(args[1])
+
+    if not target then
+        Traitormod.SendMessage(client, "Couldn't find a client with specified name / steamID")
+        return true
+    end
+
+    if target.Character == nil or target.Character.IsDead then
+        Traitormod.SendMessage(client, "Client's character is dead or non-existent.")
+        return true
+    end
+
+    local role = Traitormod.RoleManager.Roles[args[2]]
+
+    if role == nil then
+        Traitormod.SendMessage(client, "Couldn't find role to assign.")
+        return true
+    end
+
+    Traitormod.RoleManager.AssignRole(target, role:new())
+
+    Traitormod.SendMessage(client, "Assign " .. target.Name .. " the role " .. role.Name .. ".")
+
+    return true
+end)
 
 Traitormod.AddCommand("!triggerevent", function (client, args)
     if not client.HasPermission(ClientPermissions.ConsoleCommands) then return end
