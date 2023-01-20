@@ -36,9 +36,9 @@ category.Init = function ()
             if value.IsHuman then
                 local aff = value.CharacterHealth.GetAffliction("huskinfection", true)
                 if aff ~= nil and aff.Strength > 60 then
-                    aff._strength = aff._strength + 0.01
+                    aff._strength = aff._strength + 0.006
                 elseif aff ~= nil and aff.Strength > 30 then
-                    aff._strength = aff._strength + 0.007
+                    aff._strength = aff._strength + 0.003
                 end
             end
         end
@@ -106,10 +106,10 @@ category.Products = {
                 local husk = AfflictionPrefab.Prefabs["huskinfection"]
 
                 local effect = holdable.statusEffectLists[22][1]
-                effect.set_Afflictions({husk.Instantiate(1)})
+                effect.set_Afflictions({husk.Instantiate(0.5)})
 
                 effect = holdable.statusEffectLists[9][1]
-                effect.set_Afflictions({husk.Instantiate(1)})
+                effect.set_Afflictions({husk.Instantiate(0.5)})
 
             end)
         end
