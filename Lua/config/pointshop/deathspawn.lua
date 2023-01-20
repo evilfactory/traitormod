@@ -25,7 +25,13 @@ local function SpawnCreature(species, client, insideHuman)
     else
         for key, value in pairs(waypoints) do
             if value.CurrentHull == nil then
-                table.insert(spawnPositions, value.WorldPosition)
+                local walls = Level.Loaded.GetTooCloseCells(value.WorldPosition, 250)
+                if #walls == 0 then
+                    table.insert(spawnPositions, value.WorldPosition)
+                    print("added ", value.ID)
+                else
+                    print("ignored position ", value.ID)
+                end
             end
         end
     end
