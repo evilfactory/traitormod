@@ -4,6 +4,7 @@ objective.Name = "Objective"
 objective.Text = "Complete the objective!"
 objective.AmountPoints = 100
 objective.EndRoundObjective = false
+objective.DontLooseLives = false
 
 objective.Awarded = false
 
@@ -32,6 +33,10 @@ function objective:Award()
         local points = Traitormod.AwardPoints(client, self.AmountPoints)
         local lives = Traitormod.AdjustLives(client, self.AmountLives)
         Traitormod.SendObjectiveCompleted(client, self.Text, points, lives)
+
+        if self.DontLooseLives then
+            Traitormod.LostLivesThisRound[client.SteamID] = true
+        end
     end
 
     if self.OnAwarded ~= nil then

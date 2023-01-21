@@ -193,7 +193,7 @@ config.ObjectiveConfig = {
 
     TurnHusk = {
         AmountPoints = 500,
-        AmountLives = 2,
+        AmountLives = 1,
     },
 
     DestroyCaly = {

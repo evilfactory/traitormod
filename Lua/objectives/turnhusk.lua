@@ -4,6 +4,7 @@ objective.Name = "TurnHusk"
 objective.AmountPoints = 500
 objective.AmountLives = 1
 objective.AlwaysActive = true
+objective.DontLooseLives = true
 
 function objective:Start()
     self.Text = "Turn yourself into a husk."
