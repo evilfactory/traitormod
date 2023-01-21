@@ -5,10 +5,10 @@ event.MinRoundTime = 3
 event.MaxRoundTime = 20
 event.MinIntensity = 0
 event.MaxIntensity = 1
-event.ChancePerMinute = 0.15
+event.ChancePerMinute = 0.12
 event.OnlyOncePerRound = true
 
-event.AmountPoints = 950
+event.AmountPoints = 800
 event.AmountPointsPirate = 500
 
 event.Start = function ()
