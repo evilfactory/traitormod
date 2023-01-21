@@ -1,13 +1,13 @@
 local event = {}
 
 event.Name = "SuperBallastFlora"
-event.MinRoundTime = 15
+event.MinRoundTime = 5
 event.MinIntensity = 0
 event.MaxIntensity = 0.3
 event.ChancePerMinute = 0.015
 event.OnlyOncePerRound = true
 
-event.PumpsToInfect = 6
+event.PumpsToInfect = 8
 
 event.Start = function ()
     local pumps = {}
