@@ -154,7 +154,7 @@ config.RoleConfig = {
         TraitorDm = true,                  -- traitors can send direct messages to other players using !tdm
 
         -- Names, Codewords, None
-        TraitorMethodCommunication = "Codewords",
+        TraitorMethodCommunication = "Names",
 
         SelectBotsAsTargets = true,
         SelectPiratesAsTargets = false,
