@@ -156,14 +156,24 @@ function role:Greet()
     sb("\n\n")
     if #traitors < 2 then
         sb("You are the only traitor.")
-    else
+    elseif self.TraitorMethodCommunication == "Names" then
         sb("Partners: %s\n", partners)
 
         if self.TraitorBroadcast then
             sb("Use !tc to communicate with your partners.")
         end
+    elseif self.TraitorMethodCommunication == "Codewords" then
+        sb("Use code words the find your partners\n")
+        sb("Code Words: ")
+        for key, value in pairs(Traitormod.CodeWords[1]) do
+            sb("\"%s\" ", value)
+        end
+        sb("\nCode Responses: ")
+        for key, value in pairs(Traitormod.CodeWords[2]) do
+            sb("\"%s\" ", value)
+        end
     end
-    
+
     return sb:concat()
 end
 

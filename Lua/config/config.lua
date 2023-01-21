@@ -23,6 +23,7 @@ config.EnableControlHusk = false     -- EXPERIMENTAL: enable to control husked c
 
 -- This overrides the game's respawn shuttle, and uses it as a submarine injector, to spawn submarines in game easily. Respawn should still work as expected, but the shuttle submarine file needs to be manually added here.
 -- Note: If this is disabled, traitormod will disable all functions related to submarine spawning.
+-- Warning: Only respawn shuttles will be used, the option to spawn people directly into the submarine doesnt work.
 config.OverrideRespawnSubmarine = false
 config.RespawnSubmarineFile = "Content/Submarines/Selkie.sub"
 config.RespawnText = "Respawn in %s seconds."
@@ -38,7 +39,7 @@ config.RespawnedPlayersDontLooseLives = true
 config.MaxExperienceFromPoints = 100000     -- if not nil, this amount is the maximum experience players gain from stored points (30k = lvl 10 | 38400 = lvl 12)
 config.RemoveSkillBooks = true
 
-config.FreeExperience = 50         -- temporary experience given every ExperienceTimer seconds
+config.FreeExperience = 250         -- temporary experience given every ExperienceTimer seconds
 config.ExperienceTimer = 120
 
 config.PointsGainedFromSkill = {
@@ -67,7 +68,7 @@ end
 ----- GAMEMODE -----
 config.GamemodeConfig = {
     Secret = {
-        EndOnComplete = true,           -- end round when there are no assassination targets left
+        EndOnComplete = true,           -- end round everyone but traitors are dead
         EnableRandomEvents = true,
         EndGameDelaySeconds = 15,
 
@@ -79,6 +80,10 @@ config.GamemodeConfig = {
         PointsGainedFromCrewMissionsCompleted = 1000,
         LivesGainedFromCrewMissionsCompleted = 1,
 
+        TraitorTypeChance = {
+            Traitor = 50, -- Traitors have 50% chance of being a normal traitor
+            Cultist = 50,
+        },
 
         AmountTraitors = function (amountPlayers)
             config.TestMode = false
@@ -148,8 +153,8 @@ config.RoleConfig = {
         TraitorBroadcastHearable = false,  -- if true, !tc will be hearable in the vicinity via local chat
         TraitorDm = true,                  -- traitors can send direct messages to other players using !tdm
 
-        -- Names, None
-        TraitorMethodCommunication = "Names",
+        -- Names, Codewords, None
+        TraitorMethodCommunication = "Codewords",
 
         SelectBotsAsTargets = true,
         SelectPiratesAsTargets = false,

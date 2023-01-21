@@ -41,11 +41,7 @@ function gm:Start()
         this:CharacterDeath(character)
     end)
 
-    if math.random() > 0.5 then
-        self.TraitorType = Traitormod.RoleManager.Roles.Traitor
-    else
-        self.TraitorType = Traitormod.RoleManager.Roles.Cultist
-    end
+    self.TraitorType = Traitormod.RoleManager.Roles[weightedRandom.Choose(self.TraitorTypeChance)]
 
     if self.TraitorType.Name == "Cultist" then
         self.RoundEndIcon = "oneofus"

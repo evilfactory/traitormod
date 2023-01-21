@@ -47,6 +47,8 @@ Traitormod.RoundStart = function()
     Traitormod.Log("Starting traitor round - Traitor Mod v" .. Traitormod.VERSION)
     pointsGiveTimer = Timer.GetTime() + Traitormod.Config.ExperienceTimer
 
+    Traitormod.CodeWords = Traitormod.SelectCodeWords()
+
     -- give XP to players based on stored points
     for key, value in pairs(Client.ClientList) do
         if value.Character ~= nil then
