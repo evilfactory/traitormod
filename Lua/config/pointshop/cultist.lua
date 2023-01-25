@@ -36,9 +36,9 @@ category.Init = function ()
             if value.IsHuman then
                 local aff = value.CharacterHealth.GetAffliction("huskinfection", true)
                 if aff ~= nil and aff.Strength > 60 then
-                    aff._strength = aff._strength + 0.006
+                    aff._strength = aff._strength + 0.001
                 elseif aff ~= nil and aff.Strength > 30 then
-                    aff._strength = aff._strength + 0.003
+                    aff._strength = aff._strength + 0.0005
                 end
             end
         end
@@ -48,7 +48,7 @@ end
 category.Products = {
     {
         Name = "Calyx Extract",
-        Price = 0,
+        Price = 50,
         Limit = 8,
         IsLimitGlobal = false,
         Items = {"huskeggs"},
@@ -95,7 +95,7 @@ category.Products = {
 
     {
         Name = "Husked Blood Pack",
-        Price = 100,
+        Price = 250,
         Limit = 4,
         IsLimitGlobal = false,
         Action = function (client)
@@ -117,7 +117,7 @@ category.Products = {
 
     {
         Name = "Acid Grenade (4x)",
-        Price = 290,
+        Price = 320,
         Limit = 3,
         IsLimitGlobal = false,
         Items = {"chemgrenade", "chemgrenade", "chemgrenade", "chemgrenade"},
@@ -133,7 +133,7 @@ category.Products = {
 
     {
         Name = "Chloral Hydrate (4x)",
-        Price = 150,
+        Price = 300,
         Limit = 3,
         IsLimitGlobal = false,
         Items = {"chloralhydrate", "chloralhydrate", "chloralhydrate", "chloralhydrate"},
