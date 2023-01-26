@@ -30,19 +30,6 @@ category.Init = function ()
     local element = husk.ConfigElement.Element.Element("MeleeWeapon")
     Traitormod.Patching.RemoveAll(element, "StatusEffect")
     Traitormod.Patching.Add(element, replacement)
-    
-    Hook.Add("think", "Traitormod.Pointshop.Cultist.SpeedyHusk", function ()
-        for key, value in pairs(Character.CharacterList) do
-            if value.IsHuman then
-                local aff = value.CharacterHealth.GetAffliction("huskinfection", true)
-                if aff ~= nil and aff.Strength > 60 then
-                    aff._strength = aff._strength + 0.001
-                elseif aff ~= nil and aff.Strength > 30 then
-                    aff._strength = aff._strength + 0.0005
-                end
-            end
-        end
-    end)
 end
 
 category.Products = {
