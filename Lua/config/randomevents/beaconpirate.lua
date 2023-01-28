@@ -25,6 +25,15 @@ event.Start = function ()
         end
     end
 
+    for key, wall in pairs(Structure.WallList) do
+        if wall.Submarine == beacon then
+            for i = 0, wall.SectionCount, 1 do
+                wall.MaxHealth = wall.MaxHealth * 5
+                wall.AddDamage(i, -1000000)
+            end
+        end
+    end
+
     local info = CharacterInfo(Identifier("human"))
     info.Name = "Pirate " .. info.Name
     info.Job = Job(JobPrefab.Get("mechanic"))
@@ -68,18 +77,21 @@ event.Start = function ()
         end)
     end)
 
-    for i = 1, 2, 1 do
-        Entity.Spawner.AddItemToSpawnQueue(ItemPrefab.GetItemPrefab("shotgun"), character.Inventory, nil, nil, function (item)
-            for i = 1, 6, 1 do
-                Entity.Spawner.AddItemToSpawnQueue(ItemPrefab.GetItemPrefab("shotgunshell"), item.OwnInventory)
-            end
-        end)
-    end
+    Entity.Spawner.AddItemToSpawnQueue(ItemPrefab.GetItemPrefab("shotgun"), character.Inventory, nil, nil, function (item)
+        for i = 1, 6, 1 do
+            Entity.Spawner.AddItemToSpawnQueue(ItemPrefab.GetItemPrefab("shotgunshell"), item.OwnInventory)
+        end
+    end)
 
-    for i = 1, 2, 1 do
-        Entity.Spawner.AddItemToSpawnQueue(ItemPrefab.GetItemPrefab("smg"), character.Inventory, nil, nil, function (item)
-            Entity.Spawner.AddItemToSpawnQueue(ItemPrefab.GetItemPrefab("smgmagazine"), item.OwnInventory)
-        end)
+    Entity.Spawner.AddItemToSpawnQueue(ItemPrefab.GetItemPrefab("smg"), character.Inventory, nil, nil, function (item)
+        Entity.Spawner.AddItemToSpawnQueue(ItemPrefab.GetItemPrefab("smgmagazinedepletedfuel"), item.OwnInventory)
+    end)
+
+    Entity.Spawner.AddItemToSpawnQueue(ItemPrefab.GetItemPrefab("smgmagazine"), character.Inventory)
+    Entity.Spawner.AddItemToSpawnQueue(ItemPrefab.GetItemPrefab("smgmagazine"), character.Inventory)
+
+    for i = 1, 12, 1 do
+        Entity.Spawner.AddItemToSpawnQueue(ItemPrefab.GetItemPrefab("shotgunshell"), character.Inventory)
     end
 
     for i = 1, 4, 1 do
@@ -87,7 +99,8 @@ event.Start = function ()
     end
     local toolbelt = character.Inventory.GetItemInLimbSlot(InvSlotType.Bag)
     Entity.Spawner.AddItemToSpawnQueue(ItemPrefab.GetItemPrefab("antidama1"), toolbelt.OwnInventory)
-    for i = 1, 4, 1 do
+    Entity.Spawner.AddItemToSpawnQueue(ItemPrefab.GetItemPrefab("antidama1"), toolbelt.OwnInventory)
+    for i = 1, 6, 1 do
         Entity.Spawner.AddItemToSpawnQueue(ItemPrefab.GetItemPrefab("antibleeding1"), toolbelt.OwnInventory)
     end
     Entity.Spawner.AddItemToSpawnQueue(ItemPrefab.GetItemPrefab("alienblood"), toolbelt.OwnInventory)
