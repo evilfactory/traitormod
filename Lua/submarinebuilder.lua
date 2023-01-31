@@ -85,7 +85,7 @@ sb.BuildSubmarines = function()
     sb.UpdateLobby(submarineInfo)
 end
 
-Hook.HookMethod("Barotrauma.Networking.GameServer", "StartGame", {}, function ()
+Hook.HookMethod("Barotrauma.Networking.GameServer", "TryStartGame", {}, function ()
     sb.BuildSubmarines()
 end)
 
