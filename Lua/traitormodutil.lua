@@ -131,6 +131,21 @@ Traitormod.SendMessage = function (client, text, icon)
     Game.SendDirectChatMessage("", text, nil, Traitormod.Config.ChatMessageType, client)
 end
 
+Traitormod.SendChatMessage = function (client, text, color)
+    if not client or not text or text == "" then
+        return
+    end
+
+    text = tostring(text)
+
+    local chatMessage = ChatMessage.Create("", text, ChatMessageType.Default)
+    if color then
+        chatMessage.Color = color
+    end
+
+    Game.SendDirectChatMessage(chatMessage, client)
+end
+
 Traitormod.SendMessageCharacter = function (character, text, icon)
     if character.IsBot then return end
     

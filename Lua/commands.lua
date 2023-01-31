@@ -362,7 +362,9 @@ Traitormod.AddCommand("!revive", function (client, args)
 
     if reviveClient.Character and reviveClient.Character.IsDead then
         reviveClient.Character.Revive()
-        reviveClient.SetClientCharacter(reviveClient.Character);
+        Timer.Wait(function ()
+            reviveClient.SetClientCharacter(reviveClient.Character)
+        end, 1500)
         local liveMsg, liveIcon = Traitormod.AdjustLives(reviveClient, 1)
 
         if liveMsg then
@@ -421,7 +423,12 @@ Traitormod.AddCommand("!assignrole", function (client, args)
         return true
     end
 
-    Traitormod.RoleManager.AssignRole(target, role:new())
+    local targetCharacter = target.Character
+
+    if Traitormod.RoleManager.GetRole(targetCharacter) ~= nil then
+        Traitormod.RoleManager.RemoveRole(targetCharacter)
+    end
+    Traitormod.RoleManager.AssignRole(targetCharacter, role:new())
 
     Traitormod.SendMessage(client, "Assign " .. target.Name .. " the role " .. role.Name .. ".")
 

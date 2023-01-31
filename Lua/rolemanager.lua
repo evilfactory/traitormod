@@ -95,6 +95,16 @@ rm.TransferRole = function(character, oldRole)
     oldRole:Transfer(character)
 end
 
+rm.RemoveRole = function (character)
+    local role = rm.GetRole(character)
+    if role == nil then return end
+
+    role:End()
+    rm.RoundRoles[character] = nil
+
+    Traitormod.Log("Removed role " .. role.Name .. " from " .. character.Name .. ".")
+end
+
 rm.AssignRoles = function(characters, newRoles)
     for key, value in pairs(characters) do
         if rm.RoundRoles[value] ~= nil then
@@ -176,16 +186,32 @@ rm.IsSameRole = function (character1, character2)
     return role1.Name == role2.Name
 end
 
+rm.CallObjectiveFunction = function (functionName, ...)
+    for character, role in pairs(rm.RoundRoles) do
+        if not character.IsDead and role.Objectives then
+            for _, objective in pairs(role.Objectives) do
+                objective[functionName](objective, ...)
+            end
+        end
+    end
+end
+
 Hook.Add("think", "Traitormod.RoleManager.Think", function()
     if not Game.RoundStarted then return end
     rm.CheckObjectives(false)
 end)
 
-Hook.Add("characterDeath", "Traitormod.RoleManager.CharacterDeath", function(character)
-    local role = rm.GetRole(character)
+Hook.Add("characterDeath", "Traitormod.RoleManager.CharacterDeath", function(deadCharacter)
+    rm.CallObjectiveFunction("CharacterDeath", deadCharacter)
+
+    local role = rm.GetRole(deadCharacter)
     if role then
         role:End()
     end
+end)
+
+Hook.Patch("Barotrauma.Items.Components.Repairable", "StopRepairing", function (instance, ptable)
+    rm.CallObjectiveFunction("StopRepairing", instance.Item, ptable["character"])
 end)
 
 rm.EndRound = function ()
