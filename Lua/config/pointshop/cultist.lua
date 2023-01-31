@@ -14,10 +14,18 @@ LuaUserData.MakeFieldAccessible(Descriptors["Barotrauma.Affliction"], "_strength
 category.Init = function ()
     local replacement = [[
         <overwrite>
-        <StatusEffect type="OnUse" target="This" Condition="-100.0" disabledeltatime="true" />
-        <StatusEffect type="OnUse" target="Character">
+        <!--Can't fail, but can't use OnUse for projectiles-->
+        <StatusEffect type="OnSuccess" target="This" Condition="-100.0" setvalue="true"/>
+        <StatusEffect type="OnSuccess" target="UseTarget" duration="60.0">
           <!-- HuskInfectionState must be less than 0.01 so you can't speed up the infection -->
           <Affliction identifier="huskinfection" amount="5" />
+        </StatusEffect>
+        <StatusEffect type="OnSuccess" target="UseTarget">
+          <Conditional entitytype="eq Character"/>
+          <Sound file="Content/Items/Medical/Syringe.ogg" range="500" />
+        </StatusEffect>
+        <StatusEffect type="OnImpact" target="UseTarget" multiplyafflictionsbymaxvitality="true" AllowWhenBroken="true">
+          <Affliction identifier="stun" amount="0.1" />
         </StatusEffect>
         <!-- Remove the item when fully used -->
         <StatusEffect type="OnBroken" target="This">
