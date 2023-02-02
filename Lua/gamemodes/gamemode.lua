@@ -14,6 +14,10 @@ function gm:End()
 
 end
 
+function gm:TraitorResults()
+
+end
+
 function gm:RoundSummary()
     local sb = Traitormod.StringBuilder:new()
 

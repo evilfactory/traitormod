@@ -134,7 +134,7 @@ Hook.Add("missionsEnded", "Traitormod.MissionsEnded", function(missions)
     Traitormod.LastRoundSummary = endMessage
 
     if Traitormod.SelectedGamemode then
-        Traitormod.TraitorResults = Traitormod.SelectedGamemode:End()
+        Traitormod.SelectedGamemode:End(missions)
     end
 
     Traitormod.RoleManager.EndRound()
@@ -153,7 +153,9 @@ Hook.Add("missionsEnded", "Traitormod.MissionsEnded", function(missions)
 end)
 
 Hook.Add("roundEnd", "Traitormod.RoundEnd", function()
-    return Traitormod.TraitorResults
+    if Traitormod.SelectedGamemode then
+        return Traitormod.SelectedGamemode:TraitorResults()
+    end
 end)
 
 Hook.Add("characterCreated", "Traitormod.CharacterCreated", function(character)

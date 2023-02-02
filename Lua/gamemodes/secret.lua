@@ -131,7 +131,7 @@ function gm:CheckHandcuffedTraitors(character)
     end
 end
 
-function gm:End()
+function gm:TraitorResults()
     local success = false
 
     local sb = Traitormod.StringBuilder:new()
@@ -164,22 +164,24 @@ function gm:End()
         end
     end
 
-    for key, character in pairs(Traitormod.RoleManager.FindAntagonists()) do
-        self:CheckHandcuffedTraitors(character)
-    end
-
-    gm:AwardCrew()
-
     if success then
         Traitormod.Stats.AddStat("Rounds", "Traitor rounds won", 1)
     else
         Traitormod.Stats.AddStat("Rounds", "Crew rounds won", 1)
     end
 
-    Hook.Remove("characterDeath", "Traitormod.Secret.CharacterDeath");
-
     -- first arg = mission id, second = message, third = completed, forth = list of characters
     return {TraitorMissionResult(self.RoundEndIcon or Traitormod.MissionIdentifier, sb:concat(), success, antagonists)}
+end
+
+function gm:End()
+    for key, character in pairs(Traitormod.RoleManager.FindAntagonists()) do
+        self:CheckHandcuffedTraitors(character)
+    end
+
+    gm:AwardCrew()
+
+    Hook.Remove("characterDeath", "Traitormod.Secret.CharacterDeath");
 end
 
 function gm:SelectAntagonists(role)
