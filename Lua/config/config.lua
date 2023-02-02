@@ -78,6 +78,23 @@ config.GamemodeConfig = {
 
         PointsGainedFromHandcuffedTraitors = 1000,
         DistanceToEndOutpostRequired = 5000,
+
+        MissionPoints = {
+            Salvage = 1100,
+            Monster = 1050,
+            Cargo = 1000,
+            Beacon = 1200,
+            Nest = 1500,
+            Mineral = 1000,
+            Combat = 1400,
+            AbandonedOutpost = 500,
+            Escort = 1200,
+            Pirate = 1300,
+            GoTo = 1000,
+            ScanAlienRuins = 1600,
+            ClearAlienRuins = 1800,
+            Default = 1000,
+        },
         PointsGainedFromCrewMissionsCompleted = 1000,
         LivesGainedFromCrewMissionsCompleted = 1,
 
@@ -119,6 +136,16 @@ config.GamemodeConfig = {
 }
 
 config.RoleConfig = {
+    Crew = {
+        AvailableObjectives = {
+            ["captain"] = {},
+            ["engineer"] = {},
+            ["mechanic"] = {"Repair"},
+            ["securityofficer"] = {"KillMonsters"},
+            ["medic"] = {},
+        }
+    },
+
     Cultist = {
         SubObjectives = {"Assassinate", "Kidnap", "TurnHusk", "DestroyCaly"},
         MinSubObjectives = 2,

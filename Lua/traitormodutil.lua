@@ -1,3 +1,5 @@
+MissionType = LuaUserData.CreateEnumTable("Barotrauma.MissionType")
+
 Traitormod.Config = dofile(Traitormod.Path .. "/Lua/config/config.lua")
 Traitormod.Patching = loadfile(Traitormod.Path .. "/Lua/xmlpatching.lua")(Traitormod.Path)
 

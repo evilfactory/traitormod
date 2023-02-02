@@ -54,7 +54,27 @@ function gm:Start()
 end
 
 function gm:AwardCrew()
-    local crewMissionsComplete = Traitormod.AllCrewMissionsCompleted(Traitormod.RoundMissions)
+    local missionType = {}
+
+    for key, value in pairs(MissionType) do
+        missionType[value] = key
+    end
+
+    local missionReward = 0
+    for _, mission in pairs(Traitormod.RoundMissions) do
+        if mission.Completed then
+            local type = missionType[mission.Prefab.Type]
+            local missionValue = self.MissionPoints.Default
+
+            for key, value in pairs(self.MissionPoints) do
+                if key == type then
+                    missionValue = value
+                end
+            end
+
+            missionReward = missionReward + missionValue
+        end
+    end
 
     for key, value in pairs(Client.ClientList) do
         if value.Character ~= nil
@@ -74,8 +94,8 @@ function gm:AwardCrew()
                 local msg = ""
 
                 -- award points for mission completion
-                if crewMissionsComplete then
-                    local points = Traitormod.AwardPoints(value, self.PointsGainedFromCrewMissionsCompleted
+                if missionReward > 0 then
+                    local points = Traitormod.AwardPoints(value, missionReward
                         , true)
                     msg = msg ..
                         Traitormod.Language.CrewWins ..
