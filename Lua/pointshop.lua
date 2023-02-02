@@ -226,7 +226,7 @@ ps.BuyProduct = function(client, product)
         if product.Timeout ~= nil then
             if ps.Timeouts[client.SteamID] ~= nil and Timer.GetTime() < ps.Timeouts[client.SteamID] then
                 local time = math.ceil(ps.Timeouts[client.SteamID] - Timer.GetTime())
-                --return "You have to wait " .. time .. " seconds before you can use this product."
+                return "You have to wait " .. time .. " seconds before you can use this product."
             end
 
             ps.Timeouts[client.SteamID] = Timer.GetTime() + product.Timeout
