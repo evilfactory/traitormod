@@ -18,7 +18,7 @@ category.Init = function ()
         <StatusEffect type="OnSuccess" target="This" Condition="-100.0" setvalue="true"/>
         <StatusEffect type="OnSuccess" target="UseTarget" duration="60.0">
           <!-- HuskInfectionState must be less than 0.01 so you can't speed up the infection -->
-          <Affliction identifier="huskinfection" amount="5" />
+          <Affliction identifier="huskinfection" amount="1" />
         </StatusEffect>
         <StatusEffect type="OnSuccess" target="UseTarget">
           <Conditional entitytype="eq Character"/>
