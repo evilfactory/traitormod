@@ -209,6 +209,34 @@ category.Products = {
     },
 
     {
+        Name = "Spawn as Legacy Moloch (Horrible)",
+        Price = 2500,
+        Limit = 1,
+        IsLimitGlobal = true,
+        PricePerLimit = 500,
+        Enabled = true,
+        Timeout = 120,
+
+        Action = function (client, product, items)
+            SpawnCreature("legacymoloch", client)
+        end
+    },
+
+    {
+        Name = "Spawn as Legacy Carrier (Horrible)",
+        Price = 500,
+        Limit = 1,
+        IsLimitGlobal = true,
+        PricePerLimit = 500,
+        Enabled = true,
+        Timeout = 120,
+
+        Action = function (client, product, items)
+            SpawnCreature("Carrier", client)
+        end
+    },
+
+    {
         Name = "Spawn as Hammerhead",
         Price = 2500,
         Limit = 2,
