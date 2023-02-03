@@ -77,7 +77,7 @@ config.GamemodeConfig = {
         TraitorSelectDelayMax = 150,
 
         PointsGainedFromHandcuffedTraitors = 1000,
-        DistanceToEndOutpostRequired = 5000,
+        DistanceToEndOutpostRequired = 8000,
 
         MissionPoints = {
             Salvage = 1100,
