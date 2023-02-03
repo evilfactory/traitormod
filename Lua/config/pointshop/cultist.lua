@@ -77,7 +77,7 @@ category.Products = {
                     Networking.CreateEntityEvent(item2, Item.ChangePropertyEventData(invColor, item2))
 
                     local melee = item2.GetComponentString("MeleeWeapon")
-                    local effect = melee.statusEffectLists[2][2]
+                    local effect = melee.statusEffectLists[22][2]
                     effect.Afflictions[1]._strength = 9999
                     local melee = item2.GetComponentString("Projectile")
                     effect = melee.statusEffectLists[14][2]
