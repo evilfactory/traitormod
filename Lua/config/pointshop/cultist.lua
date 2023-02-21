@@ -43,7 +43,7 @@ end
 category.Products = {
     {
         Name = "Calyx Extract",
-        Price = 50,
+        Price = 100,
         Limit = 8,
         IsLimitGlobal = false,
         Items = {"huskeggs"},
@@ -51,7 +51,7 @@ category.Products = {
 
     {
         Name = "Husk Stinger",
-        Price = 100,
+        Price = 150,
         Limit = 4,
         IsLimitGlobal = false,
         Items = {"huskstinger"},
@@ -59,7 +59,7 @@ category.Products = {
 
     {
         Name = "Husk Auto-Injector",
-        Price = 500,
+        Price = 800,
         Limit = 1,
         IsLimitGlobal = false,
         Action = function (client)
@@ -90,7 +90,7 @@ category.Products = {
 
     {
         Name = "Husked Blood Pack",
-        Price = 250,
+        Price = 350,
         Limit = 4,
         IsLimitGlobal = false,
         Action = function (client)
@@ -111,8 +111,18 @@ category.Products = {
     },
 
     {
+        Name = "Firemans Carry Talent",
+        Price = 350,
+        Limit = 1,
+        IsLimitGlobal = false,
+        Action = function (client, product, items)
+            client.Character.GiveTalent("firemanscarry")
+        end
+    },
+
+    {
         Name = "Acid Grenade (4x)",
-        Price = 320,
+        Price = 370,
         Limit = 3,
         IsLimitGlobal = false,
         Items = {"chemgrenade", "chemgrenade", "chemgrenade", "chemgrenade"},
@@ -128,7 +138,7 @@ category.Products = {
 
     {
         Name = "Chloral Hydrate (4x)",
-        Price = 300,
+        Price = 400,
         Limit = 3,
         IsLimitGlobal = false,
         Items = {"chloralhydrate", "chloralhydrate", "chloralhydrate", "chloralhydrate"},

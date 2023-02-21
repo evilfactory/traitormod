@@ -9,6 +9,23 @@ category.CanAccess = function(client)
 end
 
 category.Products = {
+    {
+        Name = "Firemans Carry Talent",
+        Price = 350,
+        Limit = 1,
+        IsLimitGlobal = false,
+        Action = function (client, product, items)
+            client.Character.GiveTalent("firemanscarry")
+        end
+    },
+
+    {
+        Name = "Coilgun Ammo",
+        Price = 200,
+        Limit = 5,
+        IsLimitGlobal = false,
+        Items = {"coilgunammobox"},
+    },
 
     {
         Name = "Handcuffs",
