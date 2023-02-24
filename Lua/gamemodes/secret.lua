@@ -117,6 +117,8 @@ function gm:AwardCrew()
 end
 
 function gm:CheckHandcuffedTraitors(character)
+    if character.IsDead then return end
+    
     local item = character.Inventory.GetItemInLimbSlot(InvSlotType.RightHand)
     if item ~= nil and item.Prefab.Identifier == "handcuffs" then
         for key, value in pairs(Client.ClientList) do
