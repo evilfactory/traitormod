@@ -2,6 +2,10 @@ local gm = {}
 
 gm.Name = "Gamemode"
 
+function gm:PreStart()
+    
+end
+
 function gm:Start()
 
 end

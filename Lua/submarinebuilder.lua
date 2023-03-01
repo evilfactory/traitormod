@@ -29,7 +29,9 @@ end
 
 sb.Submarines = {}
 
-sb.AddSubmarine = function (path, name)
+sb.AddSubmarine = function (path, name, isTemporary)
+    isTemporary = isTemporary or false
+
     local submarineInfo = SubmarineInfo(path)
 
     name = name or submarineInfo.Name
@@ -41,7 +43,7 @@ sb.AddSubmarine = function (path, name)
 
     local data = string.sub(xml, endPos + 1, startPos - 1)
 
-    table.insert(sb.Submarines, {Name = name, Data = data})
+    table.insert(sb.Submarines, {Name = name, Data = data, IsTemporary = isTemporary})
 
     return name
 end
@@ -85,11 +87,7 @@ sb.BuildSubmarines = function()
     sb.UpdateLobby(submarineInfo)
 end
 
-Hook.HookMethod("Barotrauma.Networking.GameServer", "TryStartGame", {}, function ()
-    sb.BuildSubmarines()
-end)
-
-Hook.Add("roundStart", "SubmarineBuilder.RoundStart", function ()
+sb.RoundStart = function ()
     if Game.GetRespawnSub() == nil then return end
 
     for _, item in pairs(Game.GetRespawnSub().GetItems(false)) do
@@ -112,6 +110,14 @@ Hook.Add("roundStart", "SubmarineBuilder.RoundStart", function ()
         end
 
         sb.ResetSubmarineSteering(submarine)
+    end
+end
+
+Hook.Add("roundEnd", "SubmarineBuilder.RoundEnd", function ()
+    for key, value in pairs(sb.Submarines) do
+        if value.IsTemporary then
+            sb.Submarines[key] = nil
+        end
     end
 end)
 

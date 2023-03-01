@@ -2,6 +2,8 @@ if Traitormod.SubmarineBuilder == nil then
     return
 end
 
+Traitormod.DisableRespawnShuttle = false
+
 Game.OverrideRespawnSub(true) -- remove respawn submarine logic
 
 local sb = Traitormod.SubmarineBuilder
@@ -142,6 +144,7 @@ local function ResetSubmarine(submarine)
 end
 
 Hook.Add("think", "RespawnShuttle.Think", function ()
+    if Traitormod.DisableRespawnShuttle then return end
     if not Game.RoundStarted then return end
     if not Traitormod.SubmarineBuilder.IsActive() then return end
 
@@ -215,4 +218,5 @@ Hook.Add("roundEnd", "RespawnShuttle.RoundEnd", function ()
     respawnTimer = 0
     transportTimer = 0
     lastTimerDisplay = 0
+    Traitormod.DisableRespawnShuttle = false
 end)

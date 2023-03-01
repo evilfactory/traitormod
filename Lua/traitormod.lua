@@ -43,6 +43,26 @@ if Traitormod.Config.RemotePoints then
     end
 end
 
+Traitormod.PreRoundStart = function ()
+    Traitormod.SelectedGamemode = nil
+
+    if Game.ServerSettings.GameModeIdentifier == "pvp" then
+        Traitormod.SelectedGamemode = Traitormod.Gamemodes.PvP:new()
+    elseif Game.ServerSettings.GameModeIdentifier == "multiplayercampaign" then
+        Traitormod.SelectedGamemode = Traitormod.Gamemodes.Gamemode:new()
+    elseif Game.ServerSettings.TraitorsEnabled == 1 and math.random() > 0.5 then
+        Traitormod.SelectedGamemode = Traitormod.Gamemodes.Secret:new()
+    elseif Game.ServerSettings.TraitorsEnabled == 2 then
+        Traitormod.SelectedGamemode = Traitormod.Gamemodes.Secret:new()
+    else
+        Traitormod.SelectedGamemode = Traitormod.Gamemodes.SubmarineRoyale:new()
+    end
+
+    if Traitormod.SelectedGamemode then
+        Traitormod.SelectedGamemode:PreStart()
+    end
+end
+
 Traitormod.RoundStart = function()
     Traitormod.Log("Starting traitor round - Traitor Mod v" .. Traitormod.VERSION)
     pointsGiveTimer = Timer.GetTime() + Traitormod.Config.ExperienceTimer
@@ -77,19 +97,6 @@ Traitormod.RoundStart = function()
         end
     end
 
-
-    Traitormod.SelectedGamemode = nil
-
-    if LuaUserData.IsTargetType(Game.GameSession.GameMode, "Barotrauma.PvPMode") then
-        Traitormod.SelectedGamemode = Traitormod.Gamemodes.PvP:new()
-    elseif LuaUserData.IsTargetType(Game.GameSession.GameMode, "Barotrauma.CampaignMode") then
-        Traitormod.SelectedGamemode = Traitormod.Gamemodes.Gamemode:new()
-    elseif Game.ServerSettings.TraitorsEnabled == 1 and math.random() > 0.5 then
-        Traitormod.SelectedGamemode = Traitormod.Gamemodes.Secret:new()
-    elseif Game.ServerSettings.TraitorsEnabled == 2 then
-        Traitormod.SelectedGamemode = Traitormod.Gamemodes.Secret:new()
-    end
-
     if Traitormod.SelectedGamemode == nil then
         Traitormod.Log("No gamemode selected!")
         return
@@ -97,10 +104,22 @@ Traitormod.RoundStart = function()
 
     Traitormod.Log("Starting gamemode " .. Traitormod.SelectedGamemode.Name)
 
+    if Traitormod.SubmarineBuilder then
+        Traitormod.SubmarineBuilder.RoundStart()
+    end
+
     if Traitormod.SelectedGamemode then
         Traitormod.SelectedGamemode:Start()
     end
 end
+
+Hook.Patch("Barotrauma.Networking.GameServer", "TryStartGame", {}, function ()
+    Traitormod.PreRoundStart()
+
+    if Traitormod.SubmarineBuilder then
+        Traitormod.SubmarineBuilder.BuildSubmarines()
+    end
+end)
 
 Hook.Add("roundStart", "Traitormod.RoundStart", function()
     Traitormod.RoundStart()
@@ -376,6 +395,7 @@ dofile(Traitormod.Path .. "/Lua/traitormodmisc.lua")
 Traitormod.AddGamemode(dofile(Traitormod.Path .. "/Lua/gamemodes/gamemode.lua"))
 Traitormod.AddGamemode(dofile(Traitormod.Path .. "/Lua/gamemodes/secret.lua"))
 Traitormod.AddGamemode(dofile(Traitormod.Path .. "/Lua/gamemodes/pvp.lua"))
+Traitormod.AddGamemode(dofile(Traitormod.Path .. "/Lua/gamemodes/submarineroyale.lua"))
 
 Traitormod.RoleManager.AddObjective(dofile(Traitormod.Path .. "/Lua/objectives/objective.lua"))
 Traitormod.RoleManager.AddObjective(dofile(Traitormod.Path .. "/Lua/objectives/assassinate.lua"))
@@ -398,5 +418,6 @@ Traitormod.RoleManager.AddRole(dofile(Traitormod.Path .. "/Lua/roles/crew.lua"))
 
 -- Round start call for reload during round
 if Game.RoundStarted then
+    Traitormod.PreRoundStart()
     Traitormod.RoundStart()
 end
