@@ -129,7 +129,7 @@ function role:ObjectivesToString()
         end
     end
     if #primary == 0 then
-        primary(" > No objectives yet... Stay furtile.")
+        primary(" > No objectives yet... Stay futile.")
     end
 
     return primary:concat("\n"), secondary:concat("\n")
