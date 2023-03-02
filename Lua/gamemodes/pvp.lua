@@ -40,6 +40,18 @@ function gm:Start()
             self.CharacterToClient[character] = value
         end
     end
+
+    if self.IdCardAllAccess then
+        for key, value in pairs(Character.CharacterList) do
+            if value.IsHuman then
+                local idCard = value.Inventory.GetItemInLimbSlot(InvSlotType.Card)
+
+                if idCard then
+                    idCard.AddTag("id_captain")
+                end
+            end
+        end
+    end
 end
 
 function gm:End()
@@ -63,6 +75,8 @@ function gm:End()
             Traitormod.SendMessage(client, "You have received " .. points .. " points.", "InfoFrameTabButton.Mission")
         end
     end
+
+    Hook.Remove("item.created", "Traitormod.PvP.IdCard")
 
     -- first arg = mission id, second = message, third = completed, forth = list of characters
     return nil

@@ -135,6 +135,7 @@ config.GamemodeConfig = {
         WinningPoints = 1000,
         WinningDeadPoints = 500,
         ShowSonar = true,
+        IdCardAllAccess = true,
     },
 }
 
