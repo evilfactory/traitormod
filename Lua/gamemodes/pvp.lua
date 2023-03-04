@@ -41,20 +41,27 @@ function gm:Start()
         end
     end
 
-    if self.IdCardAllAccess then
-        for key, value in pairs(Character.CharacterList) do
-            if value.IsHuman then
+    for key, value in pairs(Character.CharacterList) do
+        if value.IsHuman then
+            if self.IdCardAllAccess then
                 local idCard = value.Inventory.GetItemInLimbSlot(InvSlotType.Card)
 
                 if idCard then
                     idCard.AddTag("id_captain")
                 end
             end
+
+            if self.CrossTeamCommunication then
+                local radio = value.Inventory.GetItemInLimbSlot(InvSlotType.Headset)
+                local wifi = radio.GetComponentString("WifiComponent")
+
+                wifi.AllowCrossTeamCommunication = true
+            end
         end
     end
 end
 
-function gm:End()
+function gm:AwardPoints()
     for key, value in pairs(Character.CharacterList) do
         local client = self.CharacterToClient[value]
         if client == nil then
@@ -74,6 +81,12 @@ function gm:End()
             local points = Traitormod.AwardPoints(client, amount)
             Traitormod.SendMessage(client, "You have received " .. points .. " points.", "InfoFrameTabButton.Mission")
         end
+    end
+end
+
+function gm:End()
+    if #Client.ClientList >= self.MinimumPlayersForPoints then
+        self:AwardPoints()
     end
 
     Hook.Remove("item.created", "Traitormod.PvP.IdCard")

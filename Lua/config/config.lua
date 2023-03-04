@@ -134,8 +134,10 @@ config.GamemodeConfig = {
         EnableRandomEvents = false, -- most events are coded to only affect the main submarine
         WinningPoints = 1000,
         WinningDeadPoints = 500,
+        MinimumPlayersForPoints = 4,
         ShowSonar = true,
         IdCardAllAccess = true,
+        CrossTeamCommunication = true,
     },
 }
 
