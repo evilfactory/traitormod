@@ -79,10 +79,6 @@ category.Products = {
                     local melee = item2.GetComponentString("MeleeWeapon")
                     local effect = melee.statusEffectLists[22][2]
                     effect.Afflictions[1]._strength = 9999
-                    local melee = item2.GetComponentString("Projectile")
-                    effect = melee.statusEffectLists[14][2]
-                    effect.Afflictions[1]._strength = 9999
-
                 end)
             end)
         end
