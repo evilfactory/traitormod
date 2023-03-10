@@ -467,7 +467,7 @@ Traitormod.AddCommand({"!locatesub", "!locatesubmarine"}, function (client, args
         return true
     end
 
-    if client.Character.IsHuman then
+    if client.Character.IsHuman and client.Character.TeamID == CharacterTeamType.Team1 then
         Traitormod.SendMessage(client, "Only monsters are able to use this command.")
         return true
     end
