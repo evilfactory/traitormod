@@ -117,6 +117,22 @@ category.Products = {
     },
 
     {
+        Name = "Advanced Syringe Gun",
+        Price = 500,
+        Limit = 1,
+        IsLimitGlobal = false,
+        Items = {"advancedsyringegun"},
+    },
+
+    {
+        Name = "Europan Medicine",
+        Price = 400,
+        Limit = 1,
+        IsLimitGlobal = false,
+        Items = {"skillbookeuropanmedicine"},
+    },
+
+    {
         Name = "Acid Grenade (4x)",
         Price = 370,
         Limit = 3,
