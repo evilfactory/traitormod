@@ -69,6 +69,20 @@ Traitormod.AddCommand({"!roles", "!traitors"}, function (client, args)
     return true
 end)
 
+Traitormod.AddCommand("!traitoralive", function (client, args)
+    if not client.HasPermission(ClientPermissions.ConsoleCommands) then return end
+
+    for _, character in pairs(Traitormod.RoleManager.FindAntagonists()) do
+        if not character.IsDead then
+            Traitormod.SendMessage(client, Traitormod.Language.TraitorsAlive)
+            return true
+        end
+    end
+
+    Traitormod.SendMessage(client, Traitormod.Language.AllTraitorsDead)
+    return true
+end)
+
 Traitormod.AddCommand("!toggletraitor", function (client, args)
     local text = Traitormod.Language.CommandNotActive
 
