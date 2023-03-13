@@ -4,6 +4,13 @@ category.Name = "Other"
 
 category.Products = {
     {
+        Name = "Banana",
+        Price = 10,
+        Limit = 50,
+        Items = {"banana"}
+    },
+
+    {
         Name = "Coilgun Ammo",
         Price = 145,
         Limit = 3,
