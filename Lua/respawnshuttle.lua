@@ -93,7 +93,7 @@ local function SpawnCharacter(client, submarine)
 
     local chararacter = Character.Create(client.CharacterInfo, potentialPosition, client.CharacterInfo.Name, 0, true, true)
 
-    chararacter.TeamID = CharacterTeamType.Team1
+    chararacter.TeamID = Traitormod.Config.RespawnTeam
 
     client.SetClientCharacter(chararacter)
 
@@ -192,6 +192,7 @@ Hook.Add("think", "RespawnShuttle.Think", function ()
 
         local submarine = sb.FindSubmarine(submarineId)
         submarine.GodMode = false
+        submarine.TeamID = Traitormod.Config.RespawnTeam
 
         ResetSubmarine(submarine)
         local position = FindSpawnPosition()
