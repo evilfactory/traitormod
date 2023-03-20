@@ -17,7 +17,7 @@ config.Codewords = {
 
 config.AmountCodeWords = 2
 
-config.OptionalTraitors = true        -- players can use !toggletraitor
+config.OptionalTraitors = false        -- players can use !toggletraitor
 config.RagdollOnDisconnect = false
 config.EnableControlHusk = false     -- EXPERIMENTAL: enable to control husked character after death
 
@@ -30,18 +30,18 @@ config.RespawnText = "Respawn in %s seconds."
 config.RespawnTeam = CharacterTeamType.Team1
 
 ----- POINTS + LIVES -----
-config.PermanentPoints = true      -- sets if points and lives will be stored in and loaded from a file
+config.PermanentPoints = false      -- sets if points and lives will be stored in and loaded from a file
 config.RemotePoints = nil
 config.RemoteServerAuth = {}
-config.PermanentStatistics = true  -- sets if statistics be stored in and loaded from a file
-config.MaxLives = 5
+config.PermanentStatistics = false  -- sets if statistics be stored in and loaded from a file
+config.MaxLives = 1
 config.MinRoundTimeToLooseLives = 180
-config.RespawnedPlayersDontLooseLives = true
-config.MaxExperienceFromPoints = 100000     -- if not nil, this amount is the maximum experience players gain from stored points (30k = lvl 10 | 38400 = lvl 12)
-config.RemoveSkillBooks = true
+config.RespawnedPlayersDontLooseLives = false
+config.MaxExperienceFromPoints = 0     -- if not nil, this amount is the maximum experience players gain from stored points (30k = lvl 10 | 38400 = lvl 12)
+config.RemoveSkillBooks = false
 config.NerfSwords = false
 
-config.FreeExperience = 250         -- temporary experience given every ExperienceTimer seconds
+config.FreeExperience = 0         -- temporary experience given every ExperienceTimer seconds
 config.ExperienceTimer = 120
 
 config.PointsGainedFromSkill = {
@@ -71,7 +71,7 @@ end
 config.GamemodeConfig = {
     Secret = {
         EndOnComplete = true,           -- end round everyone but traitors are dead
-        EnableRandomEvents = true,
+        EnableRandomEvents = false,
         EndGameDelaySeconds = 15,
 
         TraitorSelectDelayMin = 120,
@@ -96,8 +96,8 @@ config.GamemodeConfig = {
             ClearAlienRuins = 2000,
             Default = 1000,
         },
-        PointsGainedFromCrewMissionsCompleted = 1000,
-        LivesGainedFromCrewMissionsCompleted = 1,
+        PointsGainedFromCrewMissionsCompleted = 0,
+        LivesGainedFromCrewMissionsCompleted = 0,
 
         TraitorTypeChance = {
             Traitor = 50, -- Traitors have 50% chance of being a normal traitor
@@ -124,7 +124,7 @@ config.GamemodeConfig = {
             if client.Character.TeamID ~= CharacterTeamType.Team1 then return 0 end
             if not client.Character.IsHuman then return 0 end
             if client.Character.HasJob("captain") then return 0 end
-            if client.Character.HasJob("securityofficer") then return 0 end
+            if client.Character.HasJob("securityofficer") then return 0.5 end
             if client.Character.HasJob("medicaldoctor") then return 0.5 end
 
             return 1
@@ -257,7 +257,7 @@ config.RandomEventConfig = {
 }
 
 config.PointShopConfig = {
-    Enabled = true,
+    Enabled = false,
     DeathTimeoutTime = 120,
     ItemCategories = {
         dofile(Traitormod.Path .. "/Lua/config/pointshop/cultist.lua"),
