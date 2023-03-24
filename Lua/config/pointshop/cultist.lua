@@ -15,6 +15,9 @@ category.Init = function ()
     local replacement = [[
         <overwrite>
         <!--Can't fail, but can't use OnUse for projectiles-->
+        <StatusEffect type="OnUse" target="This">
+            <LuaHook name="Cultist.Injected" />
+        </StatusEffect>
         <StatusEffect type="OnSuccess" target="This" Condition="-100.0" setvalue="true"/>
         <StatusEffect type="OnSuccess" target="UseTarget" duration="60.0">
           <!-- HuskInfectionState must be less than 0.01 so you can't speed up the infection -->
@@ -33,11 +36,27 @@ category.Init = function ()
         </StatusEffect>
         </overwrite>
     ]]
-    
+
     local husk = ItemPrefab.GetItemPrefab("huskeggs")
     local element = husk.ConfigElement.Element.Element("MeleeWeapon")
     Traitormod.Patching.RemoveAll(element, "StatusEffect")
     Traitormod.Patching.Add(element, replacement)
+
+    Hook.Add("Cultist.Injected", "Cultist.Injected", function (effect, deltaTime, item, targets, worldPosition)
+        if item.HasTag("active") then
+            if item.ParentInventory ~= nil and LuaUserData.IsTargetType(item.ParentInventory.Owner, "Barotrauma.Item") then
+                local injector = item.ParentInventory.Owner
+                if injector.ParentInventory ~= nil and LuaUserData.IsTargetType(injector.ParentInventory.Owner, "Barotrauma.Character") then
+                    local character = injector.ParentInventory.Owner
+                    if character.Inventory.GetItemInLimbSlot(InvSlotType.Headset) == injector then
+                        local affliction = AfflictionPrefab.Prefabs["huskinfection"].Instantiate(95)
+                        character.CharacterHealth.ApplyAffliction(character.AnimController.MainLimb, affliction)    
+                    end
+                end
+            end
+        end
+    end)
+
 end
 
 category.Products = {
@@ -66,19 +85,20 @@ category.Products = {
             local prefabInjector = ItemPrefab.GetItemPrefab("autoinjectorheadset")
             local prefabUEX = ItemPrefab.GetItemPrefab("huskeggs")
             Entity.Spawner.AddItemToSpawnQueue(prefabInjector, client.Character.Inventory, nil, nil, function (item)
-                Entity.Spawner.AddItemToSpawnQueue(prefabUEX, client.Character.Inventory, nil, nil, function (item2)
+                Entity.Spawner.AddItemToSpawnQueue(prefabUEX, item.OwnInventory, nil, nil, function (item2)
                     item2.Description = "Highly active husk eggs."
                     item2.set_InventoryIconColor(Color(0, 0, 255))
                     item2.SpriteColor = Color(0, 0, 255, 255)
+                    item2.AddTag("active")
 
                     local color = item2.SerializableProperties[Identifier("SpriteColor")]
-                    Networking.CreateEntityEvent(item2, Item.ChangePropertyEventData(color, item2))            
+                    Networking.CreateEntityEvent(item2, Item.ChangePropertyEventData(color, item2))
                     local invColor = item2.SerializableProperties[Identifier("InventoryIconColor")]
                     Networking.CreateEntityEvent(item2, Item.ChangePropertyEventData(invColor, item2))
 
-                    local melee = item2.GetComponentString("MeleeWeapon")
-                    local effect = melee.statusEffectLists[22][2]
-                    effect.Afflictions[1]._strength = 9999
+                    item2.NonPlayerTeamInteractable = true
+                    local prop = item2.SerializableProperties[Identifier("NonPlayerTeamInteractable")]
+                    Networking.CreateEntityEvent(item2, Item.ChangePropertyEventData(prop, item2))
                 end)
             end)
         end
