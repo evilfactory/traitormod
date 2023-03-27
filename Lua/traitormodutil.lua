@@ -74,6 +74,14 @@ Traitormod.SaveData = function ()
     end
 end
 
+Traitormod.SetMasterData = function (name, value)
+    Traitormod.ClientData[name] = value
+end
+
+Traitormod.GetMasterData = function (name)
+    return Traitormod.ClientData[name]
+end
+
 Traitormod.SetData = function (client, name, amount)
     if Traitormod.ClientData[client.SteamID] == nil then 
         Traitormod.ClientData[client.SteamID] = {}

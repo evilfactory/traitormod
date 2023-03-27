@@ -166,6 +166,12 @@ rm.GetRole = function(character)
     return rm.RoundRoles[character]
 end
 
+rm.IsAntagonist = function (character)
+    local role = rm.GetRole(character)
+    if role == nil then return false end
+    return role.IsAntagonist
+end
+
 rm.IsSameRole = function (character1, character2)
     local role1, role2
 
