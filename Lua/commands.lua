@@ -449,6 +449,24 @@ Traitormod.AddCommand("!assignrole", function (client, args)
     return true
 end)
 
+Traitormod.AddCommand("!silly", function(client, args)
+    local i = 0
+    for item in Item.ItemList do
+        Timer.Wait(function (...)
+            item.set_InventoryIconColor(Color(math.random(255), math.random(255), math.random(255), math.random(255)))
+            item.SpriteColor = Color(math.random(255), math.random(255), math.random(255), math.random(255))
+            local color = item.SerializableProperties[Identifier("SpriteColor")]
+            Networking.CreateEntityEvent(item, Item.ChangePropertyEventData(color, item))
+            local invColor = item.SerializableProperties[Identifier("InventoryIconColor")]
+            Networking.CreateEntityEvent(item, Item.ChangePropertyEventData(invColor, item))    
+        end, 10 * i)
+
+        i = i + 1
+    end
+
+    return true
+end)
+
 Traitormod.AddCommand("!triggerevent", function (client, args)
     if not client.HasPermission(ClientPermissions.ConsoleCommands) then return end
 
