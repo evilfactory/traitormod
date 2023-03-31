@@ -98,6 +98,7 @@ re.CheckRandomEvent = function (event)
 end
 
 re.SendEventMessage = function (text, icon)
+    text = UwUFy(text)
     for key, value in pairs(Client.ClientList) do
         local messageChat = ChatMessage.Create("", text, ChatMessageType.Default, nil, nil)
         messageChat.Color = Color(200, 30, 241, 255)

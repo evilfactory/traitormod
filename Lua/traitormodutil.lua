@@ -119,6 +119,8 @@ Traitormod.FindClientCharacter = function (character)
 end
 
 Traitormod.SendMessageEveryone = function (text, popup)
+    text = UwUFy(text)
+
     if popup then
         Game.SendMessage(text, ChatMessageType.MessageBox)
     else
@@ -131,6 +133,8 @@ Traitormod.SendMessage = function (client, text, icon)
         return
     end
     text = tostring(text)
+
+    text = UwUFy(text)
 
     if icon then
         Game.SendDirectChatMessage("", text, nil, ChatMessageType.ServerMessageBoxInGame, client, icon)
@@ -146,6 +150,8 @@ Traitormod.SendChatMessage = function (client, text, color)
         return
     end
 
+    text = UwUFy(text)
+
     text = tostring(text)
 
     local chatMessage = ChatMessage.Create("", text, ChatMessageType.Default)
@@ -158,6 +164,7 @@ end
 
 Traitormod.SendMessageCharacter = function (character, text, icon)
     if character.IsBot then return end
+    text = UwUFy(text)
     
     local client = Traitormod.FindClientCharacter(character)
 
@@ -171,6 +178,8 @@ end
 
 Traitormod.MissionIdentifier =  "easterbunny" -- can be any defined Traitor mission id in vanilla xml, mainly used for icon
 Traitormod.SendTraitorMessageBox = function (client, text, icon)
+    text = UwUFy(text)
+
     Game.SendTraitorMessage(client, text, icon or Traitormod.MissionIdentifier, TraitorMessageType.ServerMessageBox);
     Game.SendDirectChatMessage("", text, nil, Traitormod.Config.ChatMessageType, client)
 end
@@ -181,6 +190,8 @@ Traitormod.UpdateVanillaTraitor = function (client, enabled, objectiveSummary, m
         Traitormod.Error("UpdateVanillaTraitor failed! Client or Character was null!")
         return
     end
+
+    objectiveSummary = UwUFy(objectiveSummary)
 
     client.Character.IsTraitor = enabled
     client.Character.TraitorCurrentObjective = objectiveSummary
@@ -194,6 +205,8 @@ Traitormod.SendObjectiveCompleted = function(client, objectiveText, points, live
     else
         livesText = ""
     end
+
+    objectiveText = UwUFy(objectiveText)
 
     Traitormod.SendMessage(client, 
     string.format(Traitormod.Language.ObjectiveCompleted, objectiveText) .. " \n\n" .. 
@@ -210,6 +223,8 @@ end
 Traitormod.SendObjectiveFailed = function(client, objectiveText)
     Traitormod.SendMessage(client, 
     string.format(Traitormod.Language.ObjectiveFailed, objectiveText), "MissionFailedIcon")
+
+    objectiveText = UwUFy(objectiveText)
 
     local role = Traitormod.RoleManager.GetRole(client.Character)
 

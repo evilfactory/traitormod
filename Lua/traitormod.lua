@@ -102,8 +102,16 @@ Traitormod.RoundStart = function()
     end
 end
 
+function UwUFy(text)
+    return text:gsub("l", "w"):gsub("r", "w"):gsub("v", "f"):gsub("i", "i-i"):gsub("d", "d-d"):gsub("n", "n-n")
+end
+
 Hook.Add("roundStart", "Traitormod.RoundStart", function()
     Traitormod.RoundStart()
+
+    for key, value in pairs(Character.CharacterList) do
+        value.Info.Name = UwUFy(value.Info.Name)
+    end
 end)
 
 Hook.Add("missionsEnded", "Traitormod.MissionsEnded", function(missions)
