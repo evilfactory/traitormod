@@ -143,7 +143,7 @@ category.Products = {
 
     {
         Name = "Spawn as Mudraptor",
-        Price = 1000,
+        Price = 400,
         Limit = 3,
         IsLimitGlobal = true,
         PricePerLimit = 100,
@@ -156,7 +156,7 @@ category.Products = {
 
     {
         Name = "Spawn as Mantis",
-        Price = 1100,
+        Price = 400,
         Limit = 2,
         IsLimitGlobal = true,
         PricePerLimit = 200,
@@ -169,7 +169,7 @@ category.Products = {
 
     {
         Name = "Spawn as Husk",
-        Price = 1800,
+        Price = 700,
         Limit = 2,
         IsLimitGlobal = true,
         PricePerLimit = 400,
@@ -182,7 +182,7 @@ category.Products = {
 
     {
         Name = "Spawn as Bone Thresher",
-        Price = 1800,
+        Price = 900,
         Limit = 2,
         IsLimitGlobal = true,
         PricePerLimit = 500,
@@ -196,7 +196,7 @@ category.Products = {
 
     {
         Name = "Spawn as Tiger Thresher",
-        Price = 2500,
+        Price = 700,
         Limit = 2,
         IsLimitGlobal = true,
         PricePerLimit = 500,
@@ -210,7 +210,7 @@ category.Products = {
 
     {
         Name = "Spawn as Legacy Moloch (Horrible)",
-        Price = 2500,
+        Price = 700,
         Limit = 1,
         IsLimitGlobal = true,
         PricePerLimit = 500,
@@ -224,7 +224,7 @@ category.Products = {
 
     {
         Name = "Spawn as Legacy Carrier (Horrible)",
-        Price = 500,
+        Price = 300,
         Limit = 1,
         IsLimitGlobal = true,
         PricePerLimit = 500,
@@ -238,7 +238,7 @@ category.Products = {
 
     {
         Name = "Spawn as Hammerhead",
-        Price = 2500,
+        Price = 1000,
         Limit = 2,
         IsLimitGlobal = true,
         PricePerLimit = 1000,
@@ -252,7 +252,7 @@ category.Products = {
 
     {
         Name = "Spawn as Fractal Guardian",
-        Price = 4900,
+        Price = 2000,
         Limit = 1,
         IsLimitGlobal = true,
         PricePerLimit = 3000,
@@ -265,7 +265,7 @@ category.Products = {
 
     {
         Name = "Spawn as Giant Spineling",
-        Price = 20000,
+        Price = 3000,
         Limit = 1,
         IsLimitGlobal = true,
         PricePerLimit = 1000,
@@ -279,7 +279,7 @@ category.Products = {
 
     {
         Name = "Spawn as Veteran Mudraptor",
-        Price = 8000,
+        Price = 2000,
         Limit = 2,
         IsLimitGlobal = true,
         PricePerLimit = 1000,
@@ -293,7 +293,7 @@ category.Products = {
 
     {
         Name = "Spawn as Latcher",
-        Price = 50000,
+        Price = 2000,
         Limit = 1,
         IsLimitGlobal = true,
         PricePerLimit = 50000,
