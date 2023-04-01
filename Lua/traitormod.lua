@@ -110,7 +110,9 @@ Hook.Add("roundStart", "Traitormod.RoundStart", function()
     Traitormod.RoundStart()
 
     for key, value in pairs(Character.CharacterList) do
-        value.Info.Name = UwUFy(value.Info.Name)
+        if value.IsHuman and value.Info then
+            value.Info.Name = UwUFy(value.Info.Name)
+        end
     end
 end)
 
