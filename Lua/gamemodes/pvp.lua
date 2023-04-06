@@ -53,9 +53,10 @@ function gm:Start()
 
             if self.CrossTeamCommunication then
                 local radio = value.Inventory.GetItemInLimbSlot(InvSlotType.Headset)
-                local wifi = radio.GetComponentString("WifiComponent")
-
-                wifi.AllowCrossTeamCommunication = true
+                if radio then
+                    local wifi = radio.GetComponentString("WifiComponent")
+                    wifi.AllowCrossTeamCommunication = true
+                end
             end
         end
     end
