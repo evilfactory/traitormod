@@ -2,7 +2,24 @@ local category = {}
 
 category.Name = "Other"
 
+local randomItems = {}
+for prefab in ItemPrefab.Prefabs do
+    if prefab.CanBeSold or prefab.CanBeBought then
+        table.insert(randomItems, prefab)
+    end
+end
+
 category.Products = {
+    {
+        Name = "Random Item",
+        Price = 100,
+        Limit = 5,
+        Action = function (client, product, items)
+            local item = randomItems[math.random(1, #randomItems)]
+            Entity.Spawner.AddItemToSpawnQueue(item, client.Character.WorldPosition, nil, nil, function () end)
+        end
+    },
+
     {
         Name = "Banana",
         Price = 10,
