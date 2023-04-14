@@ -29,6 +29,7 @@ config.OverrideRespawnSubmarine = true
 config.RespawnSubmarineFile = "Content/Submarines/Selkie.sub"
 config.RespawnText = "Respawn in %s seconds."
 config.RespawnTeam = CharacterTeamType.Team1
+config.RespawnOnKillPoints = 0
 
 ----- POINTS + LIVES -----
 config.PermanentPoints = true      -- sets if points and lives will be stored in and loaded from a file
