@@ -206,7 +206,7 @@ Traitormod.AddCommand({"!allpoint", "!allpoints"}, function (client, args)
 end)
 
 Traitormod.AddCommand({"!addpoint", "!addpoints"}, function (client, args)
-    if not client.HasPermission(ClientPermissions.All) then
+    if not client.HasPermission(ClientPermissions.ConsoleCommands) then
         Traitormod.SendMessage(client, "You do not have permissions to add points.")
         return
     end
