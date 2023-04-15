@@ -29,9 +29,9 @@ event.Start = function ()
         for key, value in pairs(Character.CharacterList) do
             GivePoison(value)
         end
-    end, 15000)
+    end, 20000)
 
-    Timer.Wait(event.End, 20000)
+    Timer.Wait(event.End, 30000)
 end
 
 
