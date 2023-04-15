@@ -182,9 +182,15 @@ Hook.Add("characterCreated", "Traitormod.CharacterCreated", function(character)
     end, 1000)
 end)
 
+local tipDelay = 0
 
 -- register tick
 Hook.Add("think", "Traitormod.Think", function()
+    if Timer.GetTime() > tipDelay then
+        tipDelay = Timer.GetTime() + 500
+        Traitormod.SendTip()
+    end
+
     if not Game.RoundStarted or Traitormod.SelectedGamemode == nil then
         return
     end
