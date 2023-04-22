@@ -72,6 +72,15 @@ function gm:AssignAntagonists(antagonists)
             table.insert(options, key)
         end
 
+        local clients = {}
+
+        for key, value in pairs(antagonists) do
+            local client = Traitormod.FindClientCharacter(value)
+            if client then
+                table.insert(clients, client)
+            end
+        end
+
         Traitormod.Voting.StartVote("You have been assigned to be a traitor, vote which type you want to be.", options, 25, function (results)
             local highestVoted = nil
             local highestedVotedRole = nil
@@ -88,7 +97,7 @@ function gm:AssignAntagonists(antagonists)
                 return
             end
             Assign(role)
-        end)
+        end, clients)
     end
 end
 
