@@ -101,6 +101,7 @@ config.GamemodeConfig = {
         PointsGainedFromCrewMissionsCompleted = 1000,
         LivesGainedFromCrewMissionsCompleted = 1,
 
+        TraitorTypeSelectionMode = "Vote", -- Vote | Random
         TraitorTypeChance = {
             Traitor = 50, -- Traitors have 50% chance of being a normal traitor
             Cultist = 50,

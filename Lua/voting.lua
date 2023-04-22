@@ -4,7 +4,9 @@ local textPromptUtils = require("textpromptutils")
 
 vt.Votes = {}
 
-vt.StartVote = function (text, options, time, completed)
+vt.StartVote = function (text, options, time, completed, clients)
+    if clients == nil then clients = Client.ClientList end
+
     local voteData = {}
 
     table.insert(vt.Votes, voteData)
@@ -21,7 +23,7 @@ vt.StartVote = function (text, options, time, completed)
     local max = 0
     local amount = 0
 
-    for key, client1 in pairs(Client.ClientList) do
+    for key, client1 in pairs(clients) do
         max = max + 1
         textPromptUtils.Prompt(text, options, client1, function (id, client2)
             if voteData.Completed then return end
