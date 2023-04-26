@@ -40,6 +40,10 @@ local function SpawnSubmarine(id, client)
     submarine.SetPosition(position)
     submarine.GodMode = false
 
+    for _, item in pairs(submarine.GetItems(false)) do
+        item.Condition = item.MaxCondition
+    end
+
     Traitormod.SubmarineBuilder.ResetSubmarineSteering(submarine)
     return submarine
 end
