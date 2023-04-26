@@ -13,6 +13,7 @@ ps.ProductBuyFailureReason = {
 ps.GlobalProductLimits = {}
 ps.LocalProductLimits = {}
 ps.Timeouts = {}
+ps.Refunds = {}
 
 ps.ValidateConfig = function ()
     for i, category in pairs(config.PointShopConfig.ItemCategories) do
@@ -63,14 +64,16 @@ ps.GetProductLimit = function (client, product)
     end
 end
 
-ps.UseProductLimit = function (client, product)
+ps.UseProductLimit = function (client, product, amount)
+    amount = amount or 1
+
     if product.IsLimitGlobal then
         if ps.GlobalProductLimits[product.Name] == nil then
             ps.GlobalProductLimits[product.Name] = product.Limit or defaultLimit
         end
 
         if ps.GlobalProductLimits[product.Name] > 0 then
-            ps.GlobalProductLimits[product.Name] = ps.GlobalProductLimits[product.Name] - 1
+            ps.GlobalProductLimits[product.Name] = ps.GlobalProductLimits[product.Name] - amount
             return true
         else
             return false
@@ -87,7 +90,7 @@ ps.UseProductLimit = function (client, product)
         end
 
         if localProductLimit[product.Name] > 0 then
-            localProductLimit[product.Name] = localProductLimit[product.Name] - 1
+            localProductLimit[product.Name] = localProductLimit[product.Name] - amount
             return true
         else
             return false
@@ -357,6 +360,10 @@ ps.ShowCategory = function(client)
     end, "officeinside")
 end
 
+ps.TrackRefund = function (client, product)
+    ps.Refunds[client] = { Product = product, Time = Timer.GetTime() }
+end
+
 Traitormod.AddCommand({"!pointshop", "!pointsshop", "!ps"}, function (client, args)
     if not ps.ValidateClient(client) then
         return true
@@ -403,6 +410,18 @@ Hook.Add("characterDeath", "Traitormod.Pointshop.Death", function (character)
     if character.IsPet then return end
     local client = Traitormod.FindClientCharacter(character)
     if client == nil then return end
+    if Traitormod.Config.TestMode then return end
+
+    local refund = ps.Refunds[client]
+
+    if refund and refund.Time + 15 > Timer.GetTime() then
+        ps.UseProductLimit(client, refund.Product, -1)
+
+        Traitormod.AwardPoints(client, refund.Product.Price)
+        Traitormod.SendMessage(client, "You have been refunded " .. refund.Product.Price .. " points for your " .. refund.Product.Name .. " purchase.")
+
+        ps.Refunds[client] = nil
+    end
 
     ps.Timeouts[client.SteamID] = Timer.GetTime() + config.PointShopConfig.DeathTimeoutTime
 end)

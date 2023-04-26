@@ -7,7 +7,7 @@ category.CanAccess = function(client)
     return client.Character == nil or client.Character.IsDead or not client.Character.IsHuman
 end
 
-local function SpawnCreature(species, client, insideHuman)
+local function SpawnCreature(species, client, product, insideHuman)
     local waypoints = Submarine.MainSub.GetWaypoints(true)
 
     if LuaUserData.IsTargetType(Game.GameSession.GameMode, "Barotrauma.PvPMode") then
@@ -46,6 +46,7 @@ local function SpawnCreature(species, client, insideHuman)
 
     Entity.Spawner.AddCharacterToSpawnQueue(species, spawnPosition, function (character)
         client.SetClientCharacter(character)
+        Traitormod.Pointshop.TrackRefund(client, product)
     end)
 end
 
@@ -59,7 +60,7 @@ category.Products = {
         Timeout = 60,
 
         Action = function (client, product, items)
-            SpawnCreature("crawler", client)
+            SpawnCreature("crawler", client, product)
         end
     },
 
@@ -72,7 +73,7 @@ category.Products = {
         Timeout = 60,
 
         Action = function (client, product, items)
-            SpawnCreature("legacycrawler", client)
+            SpawnCreature("legacycrawler", client, product)
         end
     },
 
@@ -85,7 +86,7 @@ category.Products = {
         Timeout = 60,
 
         Action = function (client, product, items)
-            SpawnCreature("legacyhusk", client)
+            SpawnCreature("legacyhusk", client, product)
         end
     },
 
@@ -98,7 +99,7 @@ category.Products = {
         Timeout = 60,
 
         Action = function (client, product, items)
-            SpawnCreature("crawler_hatchling", client)
+            SpawnCreature("crawler_hatchling", client, product)
         end
     },
 
@@ -111,7 +112,7 @@ category.Products = {
         Timeout = 60,
 
         Action = function (client, product, items)
-            SpawnCreature("mudraptor_hatchling", client)
+            SpawnCreature("mudraptor_hatchling", client, product)
         end
     },
 
@@ -124,7 +125,7 @@ category.Products = {
         Timeout = 60,
 
         Action = function (client, product, items)
-            SpawnCreature("tigerthresher_hatchling", client)
+            SpawnCreature("tigerthresher_hatchling", client, product)
         end
     },
 
@@ -137,7 +138,7 @@ category.Products = {
         Timeout = 60,
 
         Action = function (client, product, items)
-            SpawnCreature("spineling", client)
+            SpawnCreature("spineling", client, product)
         end
     },
 
@@ -150,7 +151,7 @@ category.Products = {
         Timeout = 60,
 
         Action = function (client, product, items)
-            SpawnCreature("mudraptor", client)
+            SpawnCreature("mudraptor", client, product)
         end
     },
 
@@ -163,7 +164,7 @@ category.Products = {
         Timeout = 60,
 
         Action = function (client, product, items)
-            SpawnCreature("mantis", client)
+            SpawnCreature("mantis", client, product)
         end
     },
 
@@ -176,7 +177,7 @@ category.Products = {
         Timeout = 60,
 
         Action = function (client, product, items)
-            SpawnCreature("husk", client)
+            SpawnCreature("husk", client, product)
         end
     },
 
@@ -190,7 +191,7 @@ category.Products = {
         Timeout = 60,
 
         Action = function (client, product, items)
-            SpawnCreature("Bonethresher", client)
+            SpawnCreature("Bonethresher", client, product)
         end
     },
 
@@ -204,7 +205,7 @@ category.Products = {
         Timeout = 60,
 
         Action = function (client, product, items)
-            SpawnCreature("Tigerthresher", client)
+            SpawnCreature("Tigerthresher", client, product)
         end
     },
 
@@ -218,7 +219,7 @@ category.Products = {
         Timeout = 60,
 
         Action = function (client, product, items)
-            SpawnCreature("legacymoloch", client)
+            SpawnCreature("legacymoloch", client, product)
         end
     },
 
@@ -232,7 +233,7 @@ category.Products = {
         Timeout = 60,
 
         Action = function (client, product, items)
-            SpawnCreature("Carrier", client)
+            SpawnCreature("Carrier", client, product)
         end
     },
 
@@ -246,7 +247,7 @@ category.Products = {
         Timeout = 60,
 
         Action = function (client, product, items)
-            SpawnCreature("hammerhead", client)
+            SpawnCreature("hammerhead", client, product)
         end
     },
 
@@ -259,7 +260,7 @@ category.Products = {
         Timeout = 60,
 
         Action = function (client, product, items)
-            SpawnCreature("fractalguardian", client)
+            SpawnCreature("fractalguardian", client, product)
         end
     },
 
@@ -273,7 +274,7 @@ category.Products = {
         Timeout = 60,
 
         Action = function (client, product, items)
-            SpawnCreature("Spineling_giant", client)
+            SpawnCreature("Spineling_giant", client, product)
         end
     },
 
@@ -287,7 +288,7 @@ category.Products = {
         Timeout = 60,
 
         Action = function (client, product, items)
-            SpawnCreature("Mudraptor_veteran", client)
+            SpawnCreature("Mudraptor_veteran", client, product)
         end
     },
 
@@ -300,7 +301,7 @@ category.Products = {
         Timeout = 60,
 
         Action = function (client, product, items)
-            SpawnCreature("latcher", client)
+            SpawnCreature("latcher", client, product)
         end
     },
 
@@ -313,7 +314,7 @@ category.Products = {
         Timeout = 60,
 
         Action = function (client, product, items)
-            SpawnCreature("charybdis", client)
+            SpawnCreature("charybdis", client, product)
         end
     },
 
@@ -324,7 +325,7 @@ category.Products = {
         IsLimitGlobal = false,
 
         Action = function (client, product, items)
-            SpawnCreature("peanut", client, true)
+            SpawnCreature("peanut", client, product, true)
         end
     },
 
@@ -335,7 +336,7 @@ category.Products = {
         IsLimitGlobal = false,
 
         Action = function (client, product, items)
-            SpawnCreature("orangeboy", client, true)
+            SpawnCreature("orangeboy", client, product, true)
         end
     },
 
@@ -346,7 +347,7 @@ category.Products = {
         IsLimitGlobal = false,
 
         Action = function (client, product, items)
-            SpawnCreature("balloon", client, true)
+            SpawnCreature("balloon", client, product, true)
         end
     },
 
@@ -357,7 +358,7 @@ category.Products = {
         IsLimitGlobal = false,
 
         Action = function (client, product, items)
-            SpawnCreature("psilotoad", client, true)
+            SpawnCreature("psilotoad", client, product, true)
         end
     },
 }
