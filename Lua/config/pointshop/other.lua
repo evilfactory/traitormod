@@ -21,6 +21,13 @@ category.Products = {
     },
 
     {
+        Name = "Clown Suit",
+        Price = 650,
+        Limit = 2,
+        Items = {"clowncostume", "clownmask"}
+    },
+
+    {
         Name = "Banana",
         Price = 10,
         Limit = 50,
