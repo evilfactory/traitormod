@@ -69,6 +69,36 @@ category.Products = {
     },
 
     {
+        Name = "Husk Attractor Beacon",
+        Price = "400",
+        Limit = 3,
+        IsLimitGlobal = false,
+        Action = function (client)
+            Entity.Spawner.AddItemToSpawnQueue(ItemPrefab.GetItemPrefab("sonarbeacon"), client.Character.Inventory, nil, nil, function (item)
+                item.Description = "‖color:160, 32, 240, 255‖A modified sonar beacon, behind it says \"Leave it active for 30 seconds for a surprise\"‖color:end‖"
+                item.set_InventoryIconColor(Color(160, 32, 240))
+                item.SpriteColor = Color(160, 32, 240)
+                local color = item.SerializableProperties[Identifier("SpriteColor")]
+                Networking.CreateEntityEvent(item, Item.ChangePropertyEventData(color, item))
+                local invColor = item.SerializableProperties[Identifier("InventoryIconColor")]
+                Networking.CreateEntityEvent(item, Item.ChangePropertyEventData(invColor, item))
+
+                Entity.Spawner.AddItemToSpawnQueue(ItemPrefab.GetItemPrefab("batterycell"), item.OwnInventory, nil, nil, function (batteryCell)
+                    batteryCell.NonPlayerTeamInteractable = true
+                    local prop = batteryCell.SerializableProperties[Identifier("NonPlayerTeamInteractable")]
+                    Networking.CreateEntityEvent(batteryCell, Item.ChangePropertyEventData(prop, batteryCell))
+                end)
+
+                local interface = item.GetComponentString("CustomInterface")
+                interface.customInterfaceElementList[2].Signal = "Husk Beacon"
+                item.CreateServerEvent(interface, interface)
+
+                Traitormod.AddHuskBeacon(item, 30)
+            end)
+        end
+    },
+
+    {
         Name = "Husk Stinger",
         Price = 150,
         Limit = 4,

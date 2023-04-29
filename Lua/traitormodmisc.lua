@@ -1,11 +1,33 @@
 local timer = Timer.GetTime()
 
-local peopleInOutpost = 0
+local huskBeacons = {}
 
+Traitormod.AddHuskBeacon = function (item, time)
+    huskBeacons[item] = time
+end
+
+
+local peopleInOutpost = 0
 local n = 1
 Hook.Add("think", "Traitormod.MiscThink", function ()
     if timer > Timer.GetTime() then return end
     if not Game.RoundStarted then return end
+
+    for item, _ in pairs(huskBeacons) do
+        local interface = item.GetComponentString("CustomInterface")
+        if interface.customInterfaceElementList[1].State then
+            huskBeacons[item] = huskBeacons[item] - 5
+        end
+
+        if huskBeacons[item] <= 0 then
+            for i = 1, 5, 1 do
+                Entity.Spawner.AddCharacterToSpawnQueue("husk", item.WorldPosition)
+            end
+
+            Entity.Spawner.AddEntityToRemoveQueue(item)
+            huskBeacons[item] = nil
+        end
+    end
 
     timer = Timer.GetTime() + 5
 
@@ -46,6 +68,7 @@ end)
 
 Hook.Add("roundEnd", "Traitormod.MiscEnd", function ()
     peopleInOutpost = 0
+    huskBeacons = {}
 end)
 
 if Traitormod.Config.NerfSwords then
@@ -60,6 +83,23 @@ if Traitormod.Config.NerfSwords then
     ]]
 
     local husk = ItemPrefab.GetItemPrefab("ceremonialsword")
+    local element = husk.ConfigElement.Element.Element("MeleeWeapon")
+    Traitormod.Patching.RemoveAll(element, "Attack")
+    Traitormod.Patching.Add(element, replacement)
+end
+
+if Traitormod.Config.NerfCrowbars then
+    local replacement = [[
+    <overwrite>
+        <Attack targetimpulse="13" penetration="0.25">
+            <Affliction identifier="blunttrauma" strength="14" />
+            <Affliction identifier="radiationsickness" strength="5" />
+            <Affliction identifier="stun" strength="0.1" />
+        </Attack>
+    </overwrite>
+    ]]
+
+    local husk = ItemPrefab.GetItemPrefab("crowbarhardened")
     local element = husk.ConfigElement.Element.Element("MeleeWeapon")
     Traitormod.Patching.RemoveAll(element, "Attack")
     Traitormod.Patching.Add(element, replacement)
