@@ -206,6 +206,21 @@ category.Products = {
     },
 
     {
+        Name = "Poison Oxygen Supply",
+        Price = 1000,
+        Limit = 1,
+        IsLimitGlobal = true,
+
+        CanBuy = function (client, product)
+            return not Traitormod.RoundEvents.IsEventActive("OxygenGeneratorPoison")
+        end,
+
+        Action = function ()
+            Traitormod.RoundEvents.TriggerEvent("OxygenGeneratorPoison")
+        end
+    },
+
+    {
         Name = "Turn Off Lights For 3 Minutes",
         Price = 350,
         Limit = 1,
