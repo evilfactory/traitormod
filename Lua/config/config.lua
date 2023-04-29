@@ -110,6 +110,7 @@ config.GamemodeConfig = {
 
         AmountTraitors = function (amountPlayers)
             config.TestMode = false
+            if amountPlayers > 18 and math.random() < 0.25 then return 4 end
             if amountPlayers > 12 then return 3 end
             if amountPlayers > 7 then return 2 end            
             if amountPlayers > 3 then return 1 end
