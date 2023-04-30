@@ -6,6 +6,10 @@ config.Language = "English"
 config.SendWelcomeMessage = true
 config.ChatMessageType = ChatMessageType.Private    -- Error = red | Private = green | Dead = blue | Radio = yellow
 
+config.Extensions = {
+    dofile(Traitormod.Path .. "/Lua/extensions/weaponnerfs.lua"),
+}
+
 ----- GAMEPLAY -----
 config.Codewords = {
     "hull", "tabacco", "nonsense", "fish", "clown", "quartermaster", "fast", "possibility",
@@ -41,8 +45,6 @@ config.MinRoundTimeToLooseLives = 180
 config.RespawnedPlayersDontLooseLives = true
 config.MaxExperienceFromPoints = 100000     -- if not nil, this amount is the maximum experience players gain from stored points (30k = lvl 10 | 38400 = lvl 12)
 config.RemoveSkillBooks = true
-config.NerfSwords = false
-config.NerfCrowbars = false
 
 config.FreeExperience = 250         -- temporary experience given every ExperienceTimer seconds
 config.ExperienceTimer = 120

@@ -402,6 +402,14 @@ Traitormod.RoleManager.AddRole(dofile(Traitormod.Path .. "/Lua/roles/cultist.lua
 Traitormod.RoleManager.AddRole(dofile(Traitormod.Path .. "/Lua/roles/huskservant.lua"))
 Traitormod.RoleManager.AddRole(dofile(Traitormod.Path .. "/Lua/roles/crew.lua"))
 
+if Traitormod.Config.Extensions then
+    for key, extension in pairs(Traitormod.Config.Extensions) do
+        if extension.Init then
+            extension.Init()
+        end
+    end
+end
+
 -- Round start call for reload during round
 if Game.RoundStarted then
     Traitormod.RoundStart()

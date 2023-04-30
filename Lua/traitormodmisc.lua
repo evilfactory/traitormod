@@ -71,40 +71,6 @@ Hook.Add("roundEnd", "Traitormod.MiscEnd", function ()
     huskBeacons = {}
 end)
 
-if Traitormod.Config.NerfSwords then
-    local replacement = [[
-    <overwrite>
-        <Attack targetimpulse="2" severlimbsprobability="0.55" itemdamage="10" structuredamage="1" structuresoundtype="StructureSlash">
-            <Affliction identifier="lacerations" strength="5" />
-            <Affliction identifier="bleeding" strength="25" />
-            <Affliction identifier="stun" strength="0.01" />
-        </Attack>
-    </overwrite>
-    ]]
-
-    local husk = ItemPrefab.GetItemPrefab("ceremonialsword")
-    local element = husk.ConfigElement.Element.Element("MeleeWeapon")
-    Traitormod.Patching.RemoveAll(element, "Attack")
-    Traitormod.Patching.Add(element, replacement)
-end
-
-if Traitormod.Config.NerfCrowbars then
-    local replacement = [[
-    <overwrite>
-        <Attack targetimpulse="13" penetration="0.25">
-            <Affliction identifier="blunttrauma" strength="14" />
-            <Affliction identifier="radiationsickness" strength="5" />
-            <Affliction identifier="stun" strength="0.1" />
-        </Attack>
-    </overwrite>
-    ]]
-
-    local husk = ItemPrefab.GetItemPrefab("crowbarhardened")
-    local element = husk.ConfigElement.Element.Element("MeleeWeapon")
-    Traitormod.Patching.RemoveAll(element, "Attack")
-    Traitormod.Patching.Add(element, replacement)
-end
-
 if Traitormod.Config.DeathLogBook then
     local messages = {}
 
