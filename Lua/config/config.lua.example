@@ -1,4 +1,4 @@
-local config = {}
+local config = ...
 
 -- Lets say we want to change the respawn text in baseconfig.lua, we just do:
 -- config.RespawnText = "New text %s"

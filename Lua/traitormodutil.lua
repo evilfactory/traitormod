@@ -4,11 +4,8 @@ if not File.Exists(Traitormod.Path .. "/Lua/config/config.lua") then
     File.Write(Traitormod.Path .. "/Lua/config/config.lua", File.Read(Traitormod.Path .. "/Lua/config/config.lua.example"))
 end
 
-local userConfig = dofile(Traitormod.Path .. "/Lua/config/config.lua")
--- merge configs
-for key, value in pairs(userConfig) do
-    Traitormod.Config[key] = value
-end
+-- user config
+loadfile(Traitormod.Path .. "/Lua/config/config.lua")(Traitormod.Config)
 
 Traitormod.Patching = loadfile(Traitormod.Path .. "/Lua/xmlpatching.lua")(Traitormod.Path)
 
