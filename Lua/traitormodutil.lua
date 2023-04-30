@@ -1,6 +1,15 @@
-MissionType = LuaUserData.CreateEnumTable("Barotrauma.MissionType")
+Traitormod.Config = dofile(Traitormod.Path .. "/Lua/config/baseconfig.lua")
 
-Traitormod.Config = dofile(Traitormod.Path .. "/Lua/config/config.lua")
+if not File.Exists(Traitormod.Path .. "/Lua/config/config.lua") then
+    File.Write(Traitormod.Path .. "/Lua/config/config.lua", File.Read(Traitormod.Path .. "/Lua/config/config.lua.example"))
+end
+
+local userConfig = dofile(Traitormod.Path .. "/Lua/config/config.lua")
+-- merge configs
+for key, value in pairs(userConfig) do
+    Traitormod.Config[key] = value
+end
+
 Traitormod.Patching = loadfile(Traitormod.Path .. "/Lua/xmlpatching.lua")(Traitormod.Path)
 
 Traitormod.Languages = {
