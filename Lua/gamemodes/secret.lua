@@ -119,7 +119,7 @@ function gm:SelectAntagonists()
                 -- filter by config
                 if this.TraitorFilter(value) > 0 and Traitormod.GetData(value, "NonTraitor") ~= true then
                     -- players are alive or if respawning is on and config allows dead traitors (not supported yet)
-                    if not value.Character.IsDead then
+                    if not value.Character.IsDead and Traitormod.RoleManager.GetRole(value.Character) == nil then
                         clientWeight[value] = (Traitormod.GetData(value, "Weight") or 0) * this.TraitorFilter(value)
                         traitorChoices = traitorChoices + 1
                     end
