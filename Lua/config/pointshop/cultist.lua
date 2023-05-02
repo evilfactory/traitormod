@@ -57,6 +57,24 @@ category.Init = function ()
         end
     end)
 
+
+    Hook.Add("meleeWeapon.handleImpact",  "Cultist.Stinger", function (melee, target)
+        if melee.Item.Prefab.Identifier ~= "huskstinger" then return end
+        if not LuaUserData.IsTargetType(target.UserData, "Barotrauma.Limb") then return end
+        local character = target.UserData.character
+
+        do
+            local affliction = AfflictionPrefab.Prefabs["huskinfection"].Instantiate(2)
+            character.CharacterHealth.ApplyAffliction(character.AnimController.MainLimb, affliction)
+        end
+
+        do -- speed up affliction, since its capped at 50% by default
+            local affliction = character.CharacterHealth.GetAffliction("huskinfection", true)
+            if affliction then
+                affliction._strength = affliction._strength + 2
+            end
+        end
+    end)
 end
 
 category.Products = {
