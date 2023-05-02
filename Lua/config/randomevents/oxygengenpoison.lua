@@ -21,7 +21,7 @@ event.Start = function ()
         if headGear ~= nil and headGear.Prefab.Identifier == "clowndivingmask" then return end
 
         local poison = AfflictionPrefab.Prefabs["sufforinpoisoning"]
-        character.CharacterHealth.ApplyAffliction(character.AnimController.MainLimb, poison.Instantiate(15))
+        character.CharacterHealth.ApplyAffliction(character.AnimController.MainLimb, poison.Instantiate(20))
     end
 
 
