@@ -88,7 +88,7 @@ category.Products = {
 
     {
         Name = "Husk Attractor Beacon",
-        Price = "400",
+        Price = "500",
         Limit = 3,
         IsLimitGlobal = false,
         Action = function (client)
@@ -186,7 +186,7 @@ category.Products = {
 
     {
         Name = "Spawn Husk",
-        Price = 400,
+        Price = 150,
         Limit = 5,
         Action = function (client, product, items)
             Entity.Spawner.AddCharacterToSpawnQueue("husk", client.Character.WorldPosition, function (character)
