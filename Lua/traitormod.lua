@@ -182,9 +182,15 @@ Hook.Add("characterCreated", "Traitormod.CharacterCreated", function(character)
     end, 1000)
 end)
 
+local tipDelay = 0
 
 -- register tick
 Hook.Add("think", "Traitormod.Think", function()
+    if Timer.GetTime() > tipDelay then
+        tipDelay = Timer.GetTime() + 500
+        Traitormod.SendTip()
+    end
+
     if not Game.RoundStarted or Traitormod.SelectedGamemode == nil then
         return
     end
@@ -388,6 +394,7 @@ Traitormod.RoleManager.AddObjective(dofile(Traitormod.Path .. "/Lua/objectives/t
 Traitormod.RoleManager.AddObjective(dofile(Traitormod.Path .. "/Lua/objectives/destroycaly.lua"))
 Traitormod.RoleManager.AddObjective(dofile(Traitormod.Path .. "/Lua/objectives/crew/killmonsters.lua"))
 Traitormod.RoleManager.AddObjective(dofile(Traitormod.Path .. "/Lua/objectives/crew/repair.lua"))
+Traitormod.RoleManager.AddObjective(dofile(Traitormod.Path .. "/Lua/objectives/save.lua"))
 
 Traitormod.RoleManager.AddRole(dofile(Traitormod.Path .. "/Lua/roles/role.lua"))
 Traitormod.RoleManager.AddRole(dofile(Traitormod.Path .. "/Lua/roles/antagonist.lua"))

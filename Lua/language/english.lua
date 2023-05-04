@@ -1,9 +1,24 @@
 local language = {}
 language.Name = "English"
 
-language.Help = "\n!help - shows this help message\n!helptraitor - shows all traitor commands\n!helpadmin - lists all admin commands\n!traitor - show traitor information\n!pointshop - opens the point shop\n!points - show your points and lives\n!alive - list alive players (only while dead)\n!locatesub - shows you the distance and direction of the submarine, only for monsters\n!suicide - kills your character\n!version - shows running version of the traitormod"
+language.TipText = "Pro Tip: "
+language.Tips = {
+    "You can use !shop to spawn as creatures when you are dead.",
+    "Traitors have access to a special traitor shop. Use !shop to open it.",
+    "You can use !traitor to get information about your traitor status.",
+    "You can use !help to get a list of all available commands.",
+    "You can use !write to write text to a logbook that spawns when you die.",
+    "The warden and head guard can never be traitors.",
+    "Ghost roles might become available when you are dead, you can use !ghostrole to claim them.",
+    "Typing !kill in chat as a ghost role simply returns it to the list of available ghost roles, rather than killing it.",
+    "Fabricating, fixing hulls, healing and killing monsters grant you points.",
+    "Doctors and normal guards can be traitors, but at a lower chance.",
+    "If you have the Warden's ID, you can send a global announcement via !announce. Use this to communicate with the crew that do not have radios, or issue announcements for the prisoners and such. Make sure the ID doesn't get in the wrong hands though..",
+}
+
+language.Help = "\n!help - shows this help message\n!helptraitor - shows all traitor commands\n!helpadmin - lists all admin commands\n!traitor - show traitor information\n!pointshop - opens the point shop\n!points - show your points and lives\n!alive - list alive players (only while dead)\n!locatesub - shows you the distance and direction of the submarine, only for monsters\n!suicide - kills your character\n!version - shows running version of the traitormod\n!write - writes to your death logbook\n!announce [msg] - if you have the warden's ID, sends an announcement"
 language.HelpTraitor = "\n!toggletraitor - toggles if the player can be selected as traitor\n!tc [msg] - sends a message to all traitors\n!tdm [Name] [msg] - sends a anonymous msg to given player"
-language.HelpAdmin = "\n!traitoralive - check if all traitors died\n!roundinfo - show round information (spoiler!)\n!allpoints - shows point amounts of all connected clients\n!addpoint [Client] [+/-Amount] - add points to a client\n!addlife [Client] [+/-Amount] - add life(s) to a client\n!revive [Client] - revives a given client character\n!void [Character Name] - sends a character to the void\n!unvoid [Character Name] - brings a character back from the void\n!vote [text] [option1] [option2] [...] - starts a vote on the server"
+language.HelpAdmin = "\n!traitoralive - check if all traitors died\n!roundinfo - show round information (spoiler!)\n!allpoints - shows point amounts of all connected clients\n!addpoint [Client] [+/-Amount] - add points to a client\n!addlife [Client] [+/-Amount] - add life(s) to a client\n!revive [Client] - revives a given client character\n!void [Character Name] - sends a character to the void\n!unvoid [Character Name] - brings a character back from the void\n!vote [text] [option1] [option2] [...] - starts a vote on the server\n!intercom [msg] - sends a global announcement as 'intercom'"
 
 language.NoTraitor = "You aren't a traitor."
 language.TraitorOn = "You can be selected as traitor."
@@ -83,6 +98,7 @@ language.ObjectiveSurvive = "Complete at least one objective and survive the shi
 language.ObjectiveStealCaptainID = "Steal the captain's ID."
 language.ObjectiveKidnap = "Handcuff %s for %s seconds."
 language.ObjectivePoisonCaptain = "Poison %s with %s."
+language.SavePrisoner = "Free %s from this filthy prison."
 language.ObjectiveWreckGift = "Grab the gift"
 
 language.ObjectiveText = "Assassinate the crew in order to complete your mission."

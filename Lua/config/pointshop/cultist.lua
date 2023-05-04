@@ -15,6 +15,9 @@ category.Init = function ()
     local replacement = [[
         <overwrite>
         <!--Can't fail, but can't use OnUse for projectiles-->
+        <StatusEffect type="OnUse" target="This">
+            <LuaHook name="Cultist.Injected" />
+        </StatusEffect>
         <StatusEffect type="OnSuccess" target="This" Condition="-100.0" setvalue="true"/>
         <StatusEffect type="OnSuccess" target="UseTarget" duration="60.0">
           <!-- HuskInfectionState must be less than 0.01 so you can't speed up the infection -->
@@ -33,17 +36,33 @@ category.Init = function ()
         </StatusEffect>
         </overwrite>
     ]]
-    
+
     local husk = ItemPrefab.GetItemPrefab("huskeggs")
     local element = husk.ConfigElement.Element.Element("MeleeWeapon")
     Traitormod.Patching.RemoveAll(element, "StatusEffect")
     Traitormod.Patching.Add(element, replacement)
+
+    Hook.Add("Cultist.Injected", "Cultist.Injected", function (effect, deltaTime, item, targets, worldPosition)
+        if item.HasTag("active") then
+            if item.ParentInventory ~= nil and LuaUserData.IsTargetType(item.ParentInventory.Owner, "Barotrauma.Item") then
+                local injector = item.ParentInventory.Owner
+                if injector.ParentInventory ~= nil and LuaUserData.IsTargetType(injector.ParentInventory.Owner, "Barotrauma.Character") then
+                    local character = injector.ParentInventory.Owner
+                    if character.Inventory.GetItemInLimbSlot(InvSlotType.Headset) == injector then
+                        local affliction = AfflictionPrefab.Prefabs["huskinfection"].Instantiate(95)
+                        character.CharacterHealth.ApplyAffliction(character.AnimController.MainLimb, affliction)    
+                    end
+                end
+            end
+        end
+    end)
+
 end
 
 category.Products = {
     {
         Name = "Calyx Extract",
-        Price = 50,
+        Price = 100,
         Limit = 8,
         IsLimitGlobal = false,
         Items = {"huskeggs"},
@@ -51,7 +70,7 @@ category.Products = {
 
     {
         Name = "Husk Stinger",
-        Price = 100,
+        Price = 150,
         Limit = 4,
         IsLimitGlobal = false,
         Items = {"huskstinger"},
@@ -59,30 +78,27 @@ category.Products = {
 
     {
         Name = "Husk Auto-Injector",
-        Price = 500,
+        Price = 800,
         Limit = 1,
         IsLimitGlobal = false,
         Action = function (client)
             local prefabInjector = ItemPrefab.GetItemPrefab("autoinjectorheadset")
             local prefabUEX = ItemPrefab.GetItemPrefab("huskeggs")
             Entity.Spawner.AddItemToSpawnQueue(prefabInjector, client.Character.Inventory, nil, nil, function (item)
-                Entity.Spawner.AddItemToSpawnQueue(prefabUEX, client.Character.Inventory, nil, nil, function (item2)
+                Entity.Spawner.AddItemToSpawnQueue(prefabUEX, item.OwnInventory, nil, nil, function (item2)
                     item2.Description = "Highly active husk eggs."
                     item2.set_InventoryIconColor(Color(0, 0, 255))
                     item2.SpriteColor = Color(0, 0, 255, 255)
+                    item2.AddTag("active")
 
                     local color = item2.SerializableProperties[Identifier("SpriteColor")]
-                    Networking.CreateEntityEvent(item2, Item.ChangePropertyEventData(color, item2))            
+                    Networking.CreateEntityEvent(item2, Item.ChangePropertyEventData(color, item2))
                     local invColor = item2.SerializableProperties[Identifier("InventoryIconColor")]
                     Networking.CreateEntityEvent(item2, Item.ChangePropertyEventData(invColor, item2))
 
-                    local melee = item2.GetComponentString("MeleeWeapon")
-                    local effect = melee.statusEffectLists[22][2]
-                    effect.Afflictions[1]._strength = 9999
-                    local melee = item2.GetComponentString("Projectile")
-                    effect = melee.statusEffectLists[14][2]
-                    effect.Afflictions[1]._strength = 9999
-
+                    item2.NonPlayerTeamInteractable = true
+                    local prop = item2.SerializableProperties[Identifier("NonPlayerTeamInteractable")]
+                    Networking.CreateEntityEvent(item2, Item.ChangePropertyEventData(prop, item2))
                 end)
             end)
         end
@@ -90,7 +106,7 @@ category.Products = {
 
     {
         Name = "Husked Blood Pack",
-        Price = 250,
+        Price = 350,
         Limit = 4,
         IsLimitGlobal = false,
         Action = function (client)
@@ -111,8 +127,97 @@ category.Products = {
     },
 
     {
+        Name = "Firemans Carry Talent",
+        Price = 350,
+        Limit = 1,
+        IsLimitGlobal = false,
+        Action = function (client, product, items)
+            client.Character.GiveTalent("firemanscarry")
+        end
+    },
+
+    {
+        Name = "Spawn Husk",
+        Price = 400,
+        Limit = 5,
+        Action = function (client, product, items)
+            Entity.Spawner.AddCharacterToSpawnQueue("husk", client.Character.WorldPosition, function (character)
+            end)
+        end
+    },
+
+    {
+        Name = "Invisibility Gear",
+        Price = 800,
+        Limit = 1,
+        IsLimitGlobal = false,
+        Action = function (client)
+            local suit = ItemPrefab.GetItemPrefab("divingsuit")
+            Entity.Spawner.AddItemToSpawnQueue(suit, client.Character.Inventory, nil, nil, function (item)
+                local light = item.GetComponentString("LightComponent")
+
+                item.set_InventoryIconColor(Color(100, 100, 100, 50))
+                item.SpriteColor = Color(0, 0, 0, 0)
+                item.Tags = "smallitem"
+                light.LightColor = Color(0, 0, 0, 0)
+
+                local color = item.SerializableProperties[Identifier("SpriteColor")]
+                Networking.CreateEntityEvent(item, Item.ChangePropertyEventData(color, item))            
+                local invColor = item.SerializableProperties[Identifier("InventoryIconColor")]
+                Networking.CreateEntityEvent(item, Item.ChangePropertyEventData(invColor, item))
+                local lightColor = light.SerializableProperties[Identifier("LightColor")]
+                Networking.CreateEntityEvent(item, Item.ChangePropertyEventData(lightColor, light))
+
+                Entity.Spawner.AddItemToSpawnQueue(ItemPrefab.GetItemPrefab("oxygentank"), item.OwnInventory)
+            end)
+
+            local robes = ItemPrefab.GetItemPrefab("zealotrobes")
+            Entity.Spawner.AddItemToSpawnQueue(robes, client.Character.Inventory, nil, nil, function (item)
+
+                item.set_InventoryIconColor(Color(100, 100, 100, 50))
+                item.SpriteColor = Color(0, 0, 0, 0)
+                item.Tags = "smallitem"
+
+                local color = item.SerializableProperties[Identifier("SpriteColor")]
+                Networking.CreateEntityEvent(item, Item.ChangePropertyEventData(color, item))            
+                local invColor = item.SerializableProperties[Identifier("InventoryIconColor")]
+                Networking.CreateEntityEvent(item, Item.ChangePropertyEventData(invColor, item))
+            end)
+
+            local cap = ItemPrefab.GetItemPrefab("ironhelmet")
+            Entity.Spawner.AddItemToSpawnQueue(cap, client.Character.Inventory, nil, nil, function (item)
+
+                item.set_InventoryIconColor(Color(100, 100, 100, 50))
+                item.SpriteColor = Color(0, 0, 0, 0)
+                item.Tags = "smallitem"
+
+                local color = item.SerializableProperties[Identifier("SpriteColor")]
+                Networking.CreateEntityEvent(item, Item.ChangePropertyEventData(color, item))            
+                local invColor = item.SerializableProperties[Identifier("InventoryIconColor")]
+                Networking.CreateEntityEvent(item, Item.ChangePropertyEventData(invColor, item))
+            end)
+        end
+    },
+
+    {
+        Name = "Advanced Syringe Gun",
+        Price = 500,
+        Limit = 1,
+        IsLimitGlobal = false,
+        Items = {"advancedsyringegun"},
+    },
+
+    {
+        Name = "Europan Medicine",
+        Price = 400,
+        Limit = 1,
+        IsLimitGlobal = false,
+        Items = {"skillbookeuropanmedicine"},
+    },
+
+    {
         Name = "Acid Grenade (4x)",
-        Price = 320,
+        Price = 370,
         Limit = 3,
         IsLimitGlobal = false,
         Items = {"chemgrenade", "chemgrenade", "chemgrenade", "chemgrenade"},
@@ -128,8 +233,8 @@ category.Products = {
 
     {
         Name = "Chloral Hydrate (4x)",
-        Price = 300,
-        Limit = 3,
+        Price = 250,
+        Limit = 4,
         IsLimitGlobal = false,
         Items = {"chloralhydrate", "chloralhydrate", "chloralhydrate", "chloralhydrate"},
     },

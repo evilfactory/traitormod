@@ -357,7 +357,7 @@ ps.ShowCategory = function(client)
     end, "officeinside")
 end
 
-Traitormod.AddCommand({"!pointshop", "!pointsshop", "!ps"}, function (client, args)
+Traitormod.AddCommand({"!pointshop", "!pointsshop", "!ps", "!shop"}, function (client, args)
     if not ps.ValidateClient(client) then
         return true
     end

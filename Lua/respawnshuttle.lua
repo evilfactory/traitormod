@@ -4,6 +4,8 @@ end
 
 Game.OverrideRespawnSub(true) -- remove respawn submarine logic
 
+Traitormod.RespawnedCharacters = {}
+
 local sb = Traitormod.SubmarineBuilder
 local submarineId = sb.AddSubmarine(Traitormod.Config.RespawnSubmarineFile)
 
@@ -91,14 +93,16 @@ local function SpawnCharacter(client, submarine)
         potentialPosition = spawnWayPoints[1].WorldPosition
     end
 
-    local chararacter = Character.Create(client.CharacterInfo, potentialPosition, client.CharacterInfo.Name, 0, true, true)
+    local character = Character.Create(client.CharacterInfo, potentialPosition, client.CharacterInfo.Name, 0, true, true)
 
-    chararacter.TeamID = CharacterTeamType.Team1
+    character.TeamID = Traitormod.Config.RespawnTeam
 
-    client.SetClientCharacter(chararacter)
+    client.SetClientCharacter(character)
 
-    chararacter.GiveJobItems()
-    chararacter.LoadTalents()
+    character.GiveJobItems()
+    character.LoadTalents()
+
+    Traitormod.RespawnedCharacters[character] = client
 
     if Traitormod.Config.RespawnedPlayersDontLooseLives then
         Traitormod.LostLivesThisRound[client.SteamID] = true
@@ -192,6 +196,7 @@ Hook.Add("think", "RespawnShuttle.Think", function ()
 
         local submarine = sb.FindSubmarine(submarineId)
         submarine.GodMode = false
+        submarine.TeamID = Traitormod.Config.RespawnTeam
 
         ResetSubmarine(submarine)
         local position = FindSpawnPosition()
@@ -215,4 +220,23 @@ Hook.Add("roundEnd", "RespawnShuttle.RoundEnd", function ()
     respawnTimer = 0
     transportTimer = 0
     lastTimerDisplay = 0
+    Traitormod.RespawnedCharacters = {}
+end)
+
+Hook.Add("character.death", "RespawnShuttle.CharacterDeath", function (character)
+    if Traitormod.Config.RespawnOnKillPoints == 0 then return end
+    if not Traitormod.RespawnedCharacters[character] then return end
+
+    if not character.CauseOfDeath then return end
+    if not character.CauseOfDeath.Killer then return end
+
+    local killer = character.CauseOfDeath.Killer
+    local killerClient = Traitormod.FindClientCharacter(character.CauseOfDeath.Killer)
+
+    if not killerClient then return end
+
+    if killer.IsHuman and killer.TeamID == CharacterTeamType.FriendlyNPC and not killer.IsDead and not Traitormod.RespawnedCharacters[killer] then
+        Traitormod.AwardPoints(killerClient, Traitormod.Config.RespawnOnKillPoints)
+        Traitormod.SendMessage(killerClient, "You have received " .. Traitormod.Config.RespawnOnKillPoints .. " points.", "InfoFrameTabButton.Mission")
+    end
 end)

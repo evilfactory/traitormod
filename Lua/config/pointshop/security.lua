@@ -5,10 +5,27 @@ category.Decoration = "security"
 
 category.CanAccess = function(client)
     return client.Character and not client.Character.IsDead and 
-    (client.Character.HasJob("securityofficer") or client.Character.HasJob("captain"))
+    (client.Character.HasJob("headguard") or client.Character.HasJob("guard") or client.Character.HasJob("warden"))
 end
 
 category.Products = {
+    {
+        Name = "Firemans Carry Talent",
+        Price = 350,
+        Limit = 1,
+        IsLimitGlobal = false,
+        Action = function (client, product, items)
+            client.Character.GiveTalent("firemanscarry")
+        end
+    },
+
+    {
+        Name = "Coilgun Ammo",
+        Price = 200,
+        Limit = 5,
+        IsLimitGlobal = false,
+        Items = {"coilgunammobox"},
+    },
 
     {
         Name = "Handcuffs",

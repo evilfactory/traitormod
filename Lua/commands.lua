@@ -23,6 +23,37 @@ Traitormod.AddCommand("!version", function (client, args)
     return true
 end)
 
+Traitormod.AddCommand({"!announce"}, function (client, args)
+    if client.Character == nil then
+        Traitormod.SendMessage(client, "You aren't alive.")
+    return true end
+    
+    for item in client.Character.Inventory.AllItems do
+
+        if #args < 1 then
+            Traitormod.SendMessage(client, "Incorrect amount of arguments. usage: !announce [msg] - If you need to announce something with more than one word, surround it in quotations.")
+    
+            return true
+        end
+
+        local text = table.remove(args, 1)
+
+        if item.Prefab.Identifier == "idcard" and item.GetComponentString("IdCard").OwnerJobId == "warden" then
+            if client.Character == nil or client.Character.IsDead then
+                Traitormod.SendMessage(client, "You aren't alive.")
+            return true end
+
+            Traitormod.RoundEvents.SendEventMessage("Warden's Announcement: "..text, "GameModeIcon.sandbox", Color.LightBlue)
+
+            return true
+        else
+            Traitormod.SendMessage(client, "You do not have the Warden's ID.")
+    
+            return true
+        end
+    end
+end)
+
 Traitormod.AddCommand({"!role", "!traitor"}, function (client, args)
     if client.Character == nil or client.Character.IsDead then
         Traitormod.SendMessage(client, "You need to be alive to use this command.")
@@ -66,6 +97,20 @@ Traitormod.AddCommand({"!roles", "!traitors"}, function (client, args)
 
     Traitormod.SendMessage(client, message)
 
+    return true
+end)
+
+Traitormod.AddCommand("!traitoralive", function (client, args)
+    if not client.HasPermission(ClientPermissions.ConsoleCommands) then return end
+
+    for _, character in pairs(Traitormod.RoleManager.FindAntagonists()) do
+        if not character.IsDead then
+            Traitormod.SendMessage(client, Traitormod.Language.TraitorsAlive)
+            return true
+        end
+    end
+
+    Traitormod.SendMessage(client, Traitormod.Language.AllTraitorsDead)
     return true
 end)
 
@@ -192,7 +237,7 @@ Traitormod.AddCommand({"!allpoint", "!allpoints"}, function (client, args)
 end)
 
 Traitormod.AddCommand({"!addpoint", "!addpoints"}, function (client, args)
-    if not client.HasPermission(ClientPermissions.All) then
+    if not client.HasPermission(ClientPermissions.ConsoleCommands) then
         Traitormod.SendMessage(client, "You do not have permissions to add points.")
         return
     end
@@ -320,6 +365,32 @@ Traitormod.AddCommand("!void", function (client, args)
     return true
 end)
 
+Traitormod.AddCommand("!spawn", function (client, args)
+    if not client.HasPermission(ClientPermissions.ConsoleCommands) then return end
+
+    local spawnClient = client
+
+    if #args > 0 then
+        -- if client name is given, revive related character
+        local name = table.remove(args, 1)
+        -- find character by client name
+        for player in Client.ClientList do
+            if player.Name == name or player.SteamID == name then
+                spawnClient = player
+            end
+        end
+    end
+
+    if spawnClient.Character == nil or spawnClient.Character.IsDead then
+        MidRoundSpawn.TryCreateClientCharacter(spawnClient)
+        Game.SendDirectChatMessage("", "Character of ".. Traitormod.ClientLogName(spawnClient) .. " successfully spawned.", nil, ChatMessageType.Server, client)
+    else
+        Game.SendDirectChatMessage("", "Character of " .. Traitormod.ClientLogName(spawnClient) .. " is alive.", nil, ChatMessageType.Error, client)
+    end
+
+    return true
+end)
+
 Traitormod.AddCommand("!unvoid", function (client, args)
     if not client.HasPermission(ClientPermissions.ConsoleCommands) then return end
 
@@ -378,6 +449,32 @@ Traitormod.AddCommand("!revive", function (client, args)
         Game.SendDirectChatMessage("", "Character of " .. Traitormod.ClientLogName(reviveClient) .. " is not dead.", nil, ChatMessageType.Error, client)
     else
         Game.SendDirectChatMessage("", "Character of " .. Traitormod.ClientLogName(reviveClient) .. " not found.", nil, ChatMessageType.Error, client)
+    end
+
+    return true
+end)
+
+Traitormod.AddCommand("!spawn", function (client, args)
+    if not client.HasPermission(ClientPermissions.ConsoleCommands) then return end
+
+    local spawnClient = client
+
+    if #args > 0 then
+        -- if client name is given, revive related character
+        local name = table.remove(args, 1)
+        -- find character by client name
+        for player in Client.ClientList do
+            if player.Name == name or player.SteamID == name then
+                spawnClient = player
+            end
+        end
+    end
+
+    if spawnClient.Character == nil or spawnClient.Character.IsDead then
+        MidRoundSpawn.TryCreateClientCharacter(spawnClient)
+        Game.SendDirectChatMessage("", "Character of ".. Traitormod.ClientLogName(spawnClient) .. " successfully spawned.", nil, ChatMessageType.Server, client)
+    else
+        Game.SendDirectChatMessage("", "Character of " .. Traitormod.ClientLogName(spawnClient) .. " is alive.", nil, ChatMessageType.Error, client)
     end
 
     return true
@@ -461,13 +558,56 @@ Traitormod.AddCommand("!triggerevent", function (client, args)
     return true
 end)
 
+Traitormod.AddCommand({"!intercom"}, function (client, args)
+    if not client.HasPermission(ClientPermissions.ConsoleCommands) then return end
+
+    if #args < 1 then
+        Traitormod.SendMessage(client, "Incorrect amount of arguments. usage: !announce [msg] - If you need to announce something with more than one word, surround it in quotations.")
+    
+        return true
+    end
+
+    local text = table.remove(args, 1)
+
+    Traitormod.RoundEvents.SendEventMessage("Intercom: "..text, "GameModeIcon.sandbox", Color.LightGreen)
+
+    return true
+end)
+
+
+Traitormod.AddCommand({"!funny"}, function (client, args)
+    if not client.HasPermission(ClientPermissions.ConsoleCommands) then return end
+
+    spawnPosition = Submarine.MainSub.WorldPosition
+
+    local funnyClient = client
+
+    if #args > 0 then
+        -- if client name is given, revive related character
+        local name = table.remove(args, 1)
+        -- find character by client name
+        for player in Client.ClientList do
+            if player.Name == name or player.SteamID == name then
+                funnyClient = player
+            end
+        end
+    end
+
+    Entity.Spawner.AddCharacterToSpawnQueue("mudraptor", spawnPosition, function (character)
+        funnyClient.SetClientCharacter(character)
+        character.TeamID = CharacterTeamType.FriendlyNPC
+    end)
+
+    return true
+end)
+
 Traitormod.AddCommand({"!locatesub", "!locatesubmarine"}, function (client, args)
     if client.Character == nil or not client.InGame then
         Traitormod.SendMessage(client, "You must be alive to use this command.")
         return true
     end
 
-    if client.Character.IsHuman then
+    if client.Character.IsHuman and client.Character.TeamID == CharacterTeamType.FriendlyNPC then
         Traitormod.SendMessage(client, "Only monsters are able to use this command.")
         return true
     end

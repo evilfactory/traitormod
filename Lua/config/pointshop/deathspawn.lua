@@ -64,15 +64,28 @@ category.Products = {
     },
 
     {
-        Name = "Spawn as Legacy Crawler",
-        Price = 400,
-        Limit = 4,
+        Name = "Spawn as Zombie Sprinter",
+        Price = 1100,
+        Limit = 2,
         IsLimitGlobal = true,
-        PricePerLimit = 100,
+        PricePerLimit = 750,
         Timeout = 60,
 
         Action = function (client, product, items)
-            SpawnCreature("legacycrawler", client)
+            SpawnCreature("Humanzombiesprinter", client)
+        end
+    },
+
+    {
+        Name = "Spawn as Zombie Staggerer",
+        Price = 900,
+        Limit = 2,
+        IsLimitGlobal = true,
+        PricePerLimit = 350,
+        Timeout = 60,
+
+        Action = function (client, product, items)
+            SpawnCreature("Humanzombiestaggerernatural", client)
         end
     },
 
@@ -176,7 +189,7 @@ category.Products = {
         Timeout = 60,
 
         Action = function (client, product, items)
-            SpawnCreature("husk", client)
+            SpawnCreature("huskold", client)
         end
     },
 
@@ -219,20 +232,6 @@ category.Products = {
 
         Action = function (client, product, items)
             SpawnCreature("legacymoloch", client)
-        end
-    },
-
-    {
-        Name = "Spawn as Legacy Carrier (Horrible)",
-        Price = 500,
-        Limit = 1,
-        IsLimitGlobal = true,
-        PricePerLimit = 500,
-        Enabled = true,
-        Timeout = 60,
-
-        Action = function (client, product, items)
-            SpawnCreature("Carrier", client)
         end
     },
 
@@ -314,50 +313,6 @@ category.Products = {
 
         Action = function (client, product, items)
             SpawnCreature("charybdis", client)
-        end
-    },
-
-    {
-        Name = "Spawn as Peanut",
-        Price = 50,
-        Limit = 2,
-        IsLimitGlobal = false,
-
-        Action = function (client, product, items)
-            SpawnCreature("peanut", client, true)
-        end
-    },
-
-    {
-        Name = "Spawn as Orange Boy",
-        Price = 50,
-        Limit = 2,
-        IsLimitGlobal = false,
-
-        Action = function (client, product, items)
-            SpawnCreature("orangeboy", client, true)
-        end
-    },
-
-    {
-        Name = "Spawn as Cthulhu",
-        Price = 50,
-        Limit = 2,
-        IsLimitGlobal = false,
-
-        Action = function (client, product, items)
-            SpawnCreature("balloon", client, true)
-        end
-    },
-
-    {
-        Name = "Spawn as Psilotoad",
-        Price = 50,
-        Limit = 2,
-        IsLimitGlobal = false,
-
-        Action = function (client, product, items)
-            SpawnCreature("psilotoad", client, true)
         end
     },
 }

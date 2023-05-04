@@ -33,7 +33,7 @@ function role:ObjectivesToString()
         end
     end
     if #objs == 0 then
-        objs(" > No objectives yet... Stay furtile.")
+        objs(" > No objectives yet... Stay futile.")
     end
 
     return objs:concat("\n")

@@ -117,11 +117,13 @@ function gm:AwardCrew()
 end
 
 function gm:CheckHandcuffedTraitors(character)
+    if character.IsDead then return end
+    
     local item = character.Inventory.GetItemInLimbSlot(InvSlotType.RightHand)
     if item ~= nil and item.Prefab.Identifier == "handcuffs" then
         for key, value in pairs(Client.ClientList) do
             local role = Traitormod.RoleManager.GetRole(value.Character)
-            if (role == nil or not role.IsAntagonist) and value.Character and not value.Character.IsDead then
+            if (role == nil or not role.IsAntagonist) and value.Character and not value.Character.IsDead and value.Character.TeamID == CharacterTeamType.FriendlyNPC then
                 local points = Traitormod.AwardPoints(value, self.PointsGainedFromHandcuffedTraitors)
                 local text = string.format(Traitormod.Language.TraitorHandcuffed, character.Name)
                 text = text .. "\n\n" .. string.format(Traitormod.Language.PointsAwarded, points)
@@ -200,10 +202,10 @@ function gm:SelectAntagonists(role)
             -- valid traitor choices must be ingame, player was spawned before (has a character), is no spectator
             if value.InGame and value.Character and not value.SpectateOnly then
                 -- filter by config
-                if this.TraitorFilter(value) and Traitormod.GetData(value, "NonTraitor") ~= true then
+                if this.TraitorFilter(value) > 0 and Traitormod.GetData(value, "NonTraitor") ~= true then
                     -- players are alive or if respawning is on and config allows dead traitors (not supported yet)
                     if not value.Character.IsDead then
-                        clientWeight[value] = Traitormod.GetData(value, "Weight") or 0
+                        clientWeight[value] = (Traitormod.GetData(value, "Weight") or 0) * this.TraitorFilter(value)
                         traitorChoices = traitorChoices + 1
                     end
                 end
@@ -259,7 +261,7 @@ function gm:Think()
     local anyTraitorMission = false
 
     for key, value in pairs(Character.CharacterList) do
-        if not value.IsDead and value.IsHuman and value.TeamID == CharacterTeamType.Team1 then
+        if not value.IsDead and value.IsHuman and value.TeamID == CharacterTeamType.FriendlyNPC then
             local role = Traitormod.RoleManager.GetRole(value)
             if role == nil or not role.IsAntagonist then
                 ended = false

@@ -97,7 +97,7 @@ re.CheckRandomEvent = function (event)
     re.TriggerEvent(event.Name)
 end
 
-re.SendEventMessage = function (text, icon)
+re.SendEventMessage = function (text, icon, color)
     for key, value in pairs(Client.ClientList) do
         local messageChat = ChatMessage.Create("", text, ChatMessageType.Default, nil, nil)
         messageChat.Color = Color(200, 30, 241, 255)
@@ -105,6 +105,7 @@ re.SendEventMessage = function (text, icon)
 
         local messageBox = ChatMessage.Create("", text, ChatMessageType.ServerMessageBoxInGame, nil, nil)
         messageBox.IconStyle = icon
+        if color then messageBox.Color = color end
         Game.SendDirectChatMessage(messageBox, value)
     end 
 end

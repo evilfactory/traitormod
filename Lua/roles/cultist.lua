@@ -129,7 +129,7 @@ function role:ObjectivesToString()
         end
     end
     if #primary == 0 then
-        primary(" > No objectives yet... Stay furtile.")
+        primary(" > No objectives yet... Stay futile.")
     end
 
     return primary:concat("\n"), secondary:concat("\n")
@@ -180,7 +180,7 @@ end
 function role:FilterTarget(objective, character)
     if not self.SelectBotsAsTargets and character.IsBot then return false end
 
-    if character.TeamID ~= CharacterTeamType.Team1 and not self.SelectPiratesAsTargets then
+    if character.TeamID ~= CharacterTeamType.FriendlyNPC and not self.SelectPiratesAsTargets then
         return false
     end
 

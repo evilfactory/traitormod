@@ -20,7 +20,7 @@ event.Start = function ()
 
     local info = CharacterInfo(Identifier("human"))
     info.Name = "Pirate " .. info.Name
-    info.Job = Job(JobPrefab.Get("mechanic"))
+    info.Job = Job(JobPrefab.Get("warden"))
 
     local character = Character.Create(info, wreck.WorldPosition, info.Name, 0, false, true)
 
@@ -28,7 +28,7 @@ event.Start = function ()
     event.Wreck = wreck
     event.EnteredMainSub = false
 
-    character.CanSpeak = false
+    character.CanSpeak = true
     character.TeamID = CharacterTeamType.Team2
     character.GiveJobItems(nil)
 
@@ -43,7 +43,7 @@ event.Start = function ()
     if headset then
        local wifi = headset.GetComponentString("WifiComponent")
        if wifi then
-            wifi.TeamID = CharacterTeamType.Team1
+            wifi.TeamID = CharacterTeamType.FriendlyNPC
        end
     end
 
@@ -76,6 +76,10 @@ event.Start = function ()
     Entity.Spawner.AddItemToSpawnQueue(ItemPrefab.GetItemPrefab("smgmagazine"), character.Inventory)
     Entity.Spawner.AddItemToSpawnQueue(ItemPrefab.GetItemPrefab("antiparalysis"), character.Inventory)
     Entity.Spawner.AddItemToSpawnQueue(ItemPrefab.GetItemPrefab("antiparalysis"), character.Inventory)
+    Entity.Spawner.AddItemToSpawnQueue(ItemPrefab.GetItemPrefab("oxygenitetank"), character.Inventory)
+    Entity.Spawner.AddItemToSpawnQueue(ItemPrefab.GetItemPrefab("oxygenitetank"), character.Inventory)
+    Entity.Spawner.AddItemToSpawnQueue(ItemPrefab.GetItemPrefab("oxygenitetank"), character.Inventory)
+    Entity.Spawner.AddItemToSpawnQueue(ItemPrefab.GetItemPrefab("oxygenitetank"), character.Inventory)
 
     for i = 1, 12, 1 do
         Entity.Spawner.AddItemToSpawnQueue(ItemPrefab.GetItemPrefab("shotgunshell"), character.Inventory)
@@ -155,7 +159,7 @@ event.End = function (isEndRound)
     Traitormod.RoundEvents.SendEventMessage(text, "CrewWalletIconLarge")
 
     for _, client in pairs(Client.ClientList) do
-        if client.Character and not client.Character.IsDead and client.Character.TeamID == CharacterTeamType.Team1 then
+        if client.Character and not client.Character.IsDead and client.Character.TeamID == CharacterTeamType.FriendlyNPC then
             Traitormod.AwardPoints(client, event.AmountPoints)
             Traitormod.SendMessage(client, "You have received " .. event.AmountPoints .. " points.", "InfoFrameTabButton.Mission")
         end

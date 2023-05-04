@@ -74,6 +74,14 @@ Traitormod.SaveData = function ()
     end
 end
 
+Traitormod.SetMasterData = function (name, value)
+    Traitormod.ClientData[name] = value
+end
+
+Traitormod.GetMasterData = function (name)
+    return Traitormod.ClientData[name]
+end
+
 Traitormod.SetData = function (client, name, amount)
     if Traitormod.ClientData[client.SteamID] == nil then 
         Traitormod.ClientData[client.SteamID] = {}
@@ -334,7 +342,7 @@ Traitormod.AwardPoints = function (client, amount, isMissionXP)
         Traitormod.AddData(client, "Points", amount)
         Traitormod.Stats.AddClientStat("PointsGained", client, amount)
         Traitormod.Log(string.format("Client %s was awarded %d points.", Traitormod.ClientLogName(client), math.floor(amount)))
-        if Traitormod.SelectedGamemode.AwardedPoints then
+        if Traitormod.SelectedGamemode and Traitormod.SelectedGamemode.AwardedPoints then
             local oldValue = Traitormod.SelectedGamemode.AwardedPoints[client.SteamID] or 0
             Traitormod.SelectedGamemode.AwardedPoints[client.SteamID] = oldValue + amount
         end
@@ -392,6 +400,14 @@ Traitormod.AdjustLives = function (client, amount)
     Traitormod.Log("Adjusting lives of player " .. Traitormod.ClientLogName(client) .. " by " .. amount .. ". New value: " .. newLives)
     Traitormod.SetData(client, "Lives", newLives)
     return lifeAdjustMessage, icon
+end
+
+Traitormod.SendTip = function ()
+    local tip = Traitormod.Language.Tips[math.random(1, #Traitormod.Language.Tips)]
+
+    for index, value in pairs(Client.ClientList) do
+        Traitormod.SendChatMessage(value, Traitormod.Language.TipText .. tip, Color.Orange)
+    end
 end
 
 Traitormod.GetDataInfo = function(client, showWeights)
@@ -472,6 +488,6 @@ end
 
 Traitormod.SendWelcome = function(client)
     if Traitormod.Config.SendWelcomeMessage or Traitormod.Config.SendWelcomeMessage == nil then
-        Game.SendDirectChatMessage("", "| Traitor Mod v" .. Traitormod.VERSION .. " |\n" .. Traitormod.GetDataInfo(client), nil, ChatMessageType.Server, client)
+        Game.SendDirectChatMessage("Type !help for a list of commands.", "| Prison Traitor Mod v" .. Traitormod.VERSION .. " |\n" .. Traitormod.GetDataInfo(client), nil, ChatMessageType.Server, client)
     end
 end
