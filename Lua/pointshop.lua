@@ -207,7 +207,17 @@ ps.ActivateProduct = function (client, product)
 end
 
 ps.GetProductPrice = function (client, product)
-    return product.Price + (product.Limit - ps.GetProductLimit(client, product)) * (product.PricePerLimit or 0)
+    local mult = 0
+
+    if product.RoundPrice then
+        local time = Traitormod.RoundTime
+
+        mult = math.remap(time, product.RoundPrice.StartTime * 60, product.RoundPrice.EndTime * 60, 0, product.RoundPrice.PriceReduction)
+        mult = math.clamp(mult, 0, product.RoundPrice.PriceReduction)
+        mult = math.floor(mult)
+    end
+
+    return product.Price + (product.Limit - ps.GetProductLimit(client, product)) * (product.PricePerLimit or 0) - mult
 end
 
 ps.BuyProduct = function(client, product)
