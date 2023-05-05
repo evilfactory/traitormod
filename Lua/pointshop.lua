@@ -358,6 +358,7 @@ ps.ShowCategory = function(client)
         return
     end
 
+    table.insert(options, "")
     table.insert(options, "") -- FIXME: for some reason when the bar is full, the last item is never shown?
 
     local points = Traitormod.GetData(client, "Points") or 0
