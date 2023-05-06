@@ -20,7 +20,7 @@ Hook.Add("think", "Traitormod.MiscThink", function ()
         end
 
         if huskBeacons[item] <= 0 then
-            for i = 1, 5, 1 do
+            for i = 1, 4, 1 do
                 Entity.Spawner.AddCharacterToSpawnQueue("husk", item.WorldPosition)
             end
 

@@ -88,8 +88,8 @@ category.Products = {
 
     {
         Name = "Husk Attractor Beacon",
-        Price = "500",
-        Limit = 3,
+        Price = "700",
+        Limit = 1,
         IsLimitGlobal = false,
         Action = function (client)
             Entity.Spawner.AddItemToSpawnQueue(ItemPrefab.GetItemPrefab("sonarbeacon"), client.Character.Inventory, nil, nil, function (item)
