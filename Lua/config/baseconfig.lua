@@ -159,6 +159,7 @@ config.RoleConfig = {
             ["mechanic"] = {"RepairPumps", "RepairHull", "KillSpinelings"},
             ["securityofficer"] = {"KillMudraptors", "KillHammerheads", "KillMolochs"},
             ["medic"] = {"KillCrawlers", "KillMudraptors", "KillSpinelings"},
+            ["assistant"] = {"RepairPumps", "RepairJunctions", "RepairBattery", "KillCrawlers"},
         }
     },
 
