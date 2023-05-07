@@ -22,6 +22,7 @@ end
 
 function objective:CharacterDeath(character) end
 function objective:StopRepairing(item, character) end
+function objective:HullRepaired(item, character) end
 
 function objective:IsFailed()
     return false

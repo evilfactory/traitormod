@@ -3,22 +3,29 @@ local objective = Traitormod.RoleManager.Objectives.Objective:new()
 objective.Name = "Repair"
 objective.AmountPoints = 400
 objective.Amount = 5
-objective.ItemIdentifier = "junctionbox"
+objective.ItemIdentifier = {"junctionbox"}
 objective.ItemText = "Junction Boxes"
-objective.MinCondition = 20
 
 function objective:Start(target)
     self.Progress = 0
 
-    self.Text = string.format("Repair (%s/%s) %s that had their condition below %s", self.Progress, self.Amount, self.ItemText, self.MinCondition)
+    self.Text = string.format("Repair (%s/%s) %s", self.Progress, self.Amount, self.ItemText)
 
     return true
 end
 
 function objective:StopRepairing(item, character)
-    if item.Prefab.Identifier == self.ItemIdentifier and character == self.Character then
+    local anyItemMatched = false
+    for key, value in pairs(self.ItemIdentifier) do
+        if value == item.Prefab.Identifier then
+            anyItemMatched = true
+        end
+    end
+    if not anyItemMatched then return end
+
+    if character == self.Character and item.ConditionPercentage > 80 then
         self.Progress = self.Progress + 1
-        self.Text = string.format("Repair (%s/%s) %s that had their condition below %s%%", self.Progress, self.Amount, self.ItemText, self.MinCondition)
+        self.Text = string.format("Repair (%s/%s) %s", self.Progress, self.Amount, self.ItemText)
     end
 end
 

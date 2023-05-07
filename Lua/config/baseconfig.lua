@@ -47,17 +47,16 @@ config.MaxLives = 5
 config.MinRoundTimeToLooseLives = 180
 config.RespawnedPlayersDontLooseLives = true
 config.MaxExperienceFromPoints = 100000     -- if not nil, this amount is the maximum experience players gain from stored points (30k = lvl 10 | 38400 = lvl 12)
-config.RemoveSkillBooks = true
 
 config.FreeExperience = 250         -- temporary experience given every ExperienceTimer seconds
 config.ExperienceTimer = 120
 
 config.PointsGainedFromSkill = {
-    medical = 30,
-    weapons = 20,
-    mechanical = 19,
-    electrical = 19,
-    helm = 9,
+    medical = 3,
+    weapons = 2,
+    mechanical = 1,
+    electrical = 1,
+    helm = 1,
 }
 
 config.PointsLostAfterNoLives = function (x)
@@ -155,11 +154,11 @@ config.GamemodeConfig = {
 config.RoleConfig = {
     Crew = {
         AvailableObjectives = {
-            ["captain"] = {},
-            ["engineer"] = {},
-            ["mechanic"] = {"Repair"},
-            ["securityofficer"] = {"KillMonsters"},
-            ["medic"] = {},
+            ["captain"] = {"KillHammerheads", "FinishRoundFast", "SecurityTeamSurvival"},
+            ["engineer"] = {"RepairJunctions", "RepairBattery", "KillCrawlers"},
+            ["mechanic"] = {"RepairPumps", "RepairHull", "KillSpinelings"},
+            ["securityofficer"] = {"KillMudraptors", "KillHammerheads", "KillMolochs"},
+            ["medic"] = {"KillCrawlers", "KillMudraptors", "KillSpinelings"},
         }
     },
 

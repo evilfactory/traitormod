@@ -11,7 +11,6 @@ language.Tips = {
     "Captain and security guards can never be traitors.",
     "Ghost roles might become available when you are dead, you can use !ghostrole to claim them.",
     "Typing !kill in chat as a ghost role simply returns it to the list of available ghost roles, rather than killing it.",
-    "Fabricating, fixing hulls, healing and killing monsters grant you points.",
     "Dying in the first 15 seconds as a creature refunds the price of it fully.",
 }
 

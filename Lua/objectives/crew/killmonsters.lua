@@ -2,31 +2,14 @@ local objective = Traitormod.RoleManager.Objectives.Objective:new()
 
 objective.Name = "KillMonsters"
 objective.AmountPoints = 400
-objective.Monsters = {
-    ["Crawler"] = {
-        Text = "Crawlers",
-        Amount = 20,
-    },
-
-    ["Hammerhead"] = {
-        Text = "Hammerheads",
-        Amount = 2,
-    },
-
-    ["Mudraptor"] = {
-        Text = "Mudraptors",
-        Amount = 2,
-    },
+objective.Monster = {
+    Identifier = "Crawler",
+    Text = "Crawlers",
+    Amount = 20,
 }
 
 function objective:Start(target)
-    local types = {}
-    for key, value in pairs(self.Monsters) do
-        table.insert(types, key)
-    end
-    self.Type = types[math.random(1, #types)]
-
-    self.Text = string.format("Kill %s %s.", self.Monsters[self.Type].Amount, self.Monsters[self.Type].Text)
+    self.Text = string.format("Kill %s %s.", self.Monster.Amount, self.Monster.Text)
 
     self.Progress = 0
 
@@ -34,16 +17,16 @@ function objective:Start(target)
 end
 
 function objective:CharacterDeath(character)
-    if character.SpeciesName.Value == self.Type then
+    if character.SpeciesName.Value == self.Monster.Identifier then
         if character.CauseOfDeath and character.CauseOfDeath.Killer == self.Character then
             self.Progress = self.Progress + 1
-            self.Text = string.format("Kill (%s/%s) %s.", self.Progress, self.Monsters[self.Type].Amount, self.Monsters[self.Type].Text)
+            self.Text = string.format("Kill (%s/%s) %s.", self.Progress, self.Monster.Amount, self.Monster.Text)
         end
     end
 end
 
 function objective:IsCompleted()
-    if self.Progress >= self.Monsters[self.Type].Amount then
+    if self.Progress >= self.Monster.Amount then
         return true
     end
 

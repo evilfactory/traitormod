@@ -45,6 +45,18 @@ function gm:Start()
 end
 
 function gm:AssignAntagonists(antagonists)
+    local function AssignCrew()
+        for key, value in pairs(Client.ClientList) do
+            if value.Character ~= nil and value.Character.IsHuman and not value.SpectateOnly and not value.Character.IsDead then
+                local role = Traitormod.RoleManager.GetRole(value.Character)
+                if role == nil then
+                    role = Traitormod.RoleManager.Roles["Crew"]
+                    Traitormod.RoleManager.AssignRole(value.Character, role)
+                end
+            end
+        end
+    end
+
     local function Assign(role)
         if role.Name == "Cultist" then
             self.RoundEndIcon = "oneofus"
@@ -60,6 +72,8 @@ function gm:AssignAntagonists(antagonists)
         end
 
         Traitormod.RoleManager.AssignRoles(antagonists, roles)
+
+        AssignCrew()
     end
 
     if self.TraitorTypeSelectionMode == "Random" then
@@ -79,6 +93,11 @@ function gm:AssignAntagonists(antagonists)
             if client then
                 table.insert(clients, client)
             end
+        end
+
+        if #clients == 0 then
+            Assign(Traitormod.RoleManager.Roles["Traitor"])
+            return
         end
 
         Traitormod.Voting.StartVote("You have been assigned to be a traitor, vote which type you want to be.", options, 25, function (results)
@@ -129,15 +148,8 @@ function gm:SelectAntagonists()
         end
 
         if traitorChoices == 0 then
-            if Game.ServerSettings.AllowRespawn or MidRoundSpawn then
-                -- if more players to come, retry
-                Traitormod.Debug("Currently no valid player characters to assign traitors. Retrying...")
-                this:SelectAntagonists()
-            else
-                -- else this will never change, abort
-                Traitormod.Log("No players to assign traitors")
-            end
-
+            this:AssignAntagonists({})
+            Traitormod.Log("No players to assign traitors")
             return
         end
 

@@ -66,7 +66,7 @@ function role:Greet()
 
     local sb = Traitormod.StringBuilder:new()
     sb("You are crew member of the submarine.\n\n")
-    sb("You have been assigned the following objectives which when completing all will grant you one live.\n\n")
+    sb("You have been assigned the following bonus objectives.\n\n")
     sb(objectives)
 
     return sb:concat()
