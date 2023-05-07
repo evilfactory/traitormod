@@ -208,7 +208,7 @@ Traitormod.SendObjectiveCompleted = function(client, objectiveText, points, live
 
     local role = Traitormod.RoleManager.GetRole(client.Character)
 
-    if role then
+    if role and role.IsAntagonist then
         Traitormod.UpdateVanillaTraitor(client, true, role:Greet())
     end
 end
@@ -219,7 +219,7 @@ Traitormod.SendObjectiveFailed = function(client, objectiveText)
 
     local role = Traitormod.RoleManager.GetRole(client.Character)
 
-    if role then
+    if role and role.IsAntagonist then
         Traitormod.UpdateVanillaTraitor(client, true, role:Greet())
     end
 end
