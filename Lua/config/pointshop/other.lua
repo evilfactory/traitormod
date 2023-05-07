@@ -21,6 +21,34 @@ category.Products = {
     },
 
     {
+        Name = "Art of Submarine Warfare",
+        Price = 290,
+        Limit = 5,
+        Items = {"skillbooksubmarinewarfare"}
+    },
+
+    {
+        Name = "Europan Medicine",
+        Price = 290,
+        Limit = 5,
+        Items = {"skillbookeuropanmedicine"}
+    },
+
+    {
+        Name = "The Handy Seaman",
+        Price = 290,
+        Limit = 5,
+        Items = {"skillbookhandyseaman"}
+    },
+
+    {
+        Name = "The Sailorʹs Guide",
+        Price = 290,
+        Limit = 5,
+        Items = {"skillbooksailorsguide"}
+    },
+
+    {
         Name = "Clown Suit",
         Price = 650,
         Limit = 2,
