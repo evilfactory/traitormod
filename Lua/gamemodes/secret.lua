@@ -51,7 +51,7 @@ function gm:AssignAntagonists(antagonists)
                 local role = Traitormod.RoleManager.GetRole(value.Character)
                 if role == nil then
                     role = Traitormod.RoleManager.Roles["Crew"]
-                    Traitormod.RoleManager.AssignRole(value.Character, role)
+                    Traitormod.RoleManager.AssignRole(value.Character, role:new())
                 end
             end
         end
