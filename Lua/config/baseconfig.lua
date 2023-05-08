@@ -154,12 +154,12 @@ config.GamemodeConfig = {
 config.RoleConfig = {
     Crew = {
         AvailableObjectives = {
-            ["captain"] = {"KillHammerheads", "FinishRoundFast", "SecurityTeamSurvival"},
-            ["engineer"] = {"RepairJunctions", "RepairBattery", "KillCrawlers"},
-            ["mechanic"] = {"RepairPumps", "RepairHull", "KillSpinelings"},
-            ["securityofficer"] = {"KillMudraptors", "KillHammerheads", "KillMolochs"},
-            ["medic"] = {"KillCrawlers", "KillMudraptors", "KillSpinelings"},
-            ["assistant"] = {"RepairPumps", "RepairJunctions", "RepairBattery", "KillCrawlers"},
+            ["captain"] = {"KillLargeMonsters", "FinishRoundFast", "SecurityTeamSurvival"},
+            ["engineer"] = {"RepairJunctions", "RepairBattery", "KillSmallMonsters"},
+            ["mechanic"] = {"RepairPumps", "RepairHull", "KillSmallMonsters"},
+            ["securityofficer"] = {"KillLargeMonsters", "KillSmallMonsters"},
+            ["medic"] = {"KillLargeMonsters", "KillSmallMonsters"},
+            ["assistant"] = {"RepairPumps", "RepairJunctions", "RepairBattery", "KillPets"},
         }
     },
 

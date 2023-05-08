@@ -3,7 +3,7 @@ local objective = Traitormod.RoleManager.Objectives.Objective:new()
 objective.Name = "KillMonsters"
 objective.AmountPoints = 400
 objective.Monster = {
-    Identifier = "Crawler",
+    Identifiers = {"Crawler"},
     Text = "Crawlers",
     Amount = 20,
 }
@@ -17,7 +17,14 @@ function objective:Start(target)
 end
 
 function objective:CharacterDeath(character)
-    if character.SpeciesName.Value == self.Monster.Identifier then
+    local anyMatched = false
+    for key, value in pairs(self.Monster.Identifiers) do
+        if character.SpeciesName.Value == value then
+            anyMatched = true
+        end
+    end
+
+    if anyMatched then
         if character.CauseOfDeath and character.CauseOfDeath.Killer == self.Character then
             self.Progress = self.Progress + 1
             self.Text = string.format("Kill (%s/%s) %s.", self.Progress, self.Monster.Amount, self.Monster.Text)
