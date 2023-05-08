@@ -14,6 +14,7 @@ end
 
 function objective:HullRepaired(character, amount)
     if character ~= self.Character then return end
+    amount = math.max(amount, 50)
 
     self.Progress = self.Progress - amount
     self.Text = string.format("Repair (%s/%s) damage from the hull.", math.floor(self.Progress), self.Amount, self.MinCondition)
