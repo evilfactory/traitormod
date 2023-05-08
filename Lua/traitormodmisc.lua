@@ -109,3 +109,12 @@ if Traitormod.Config.DeathLogBook then
         return true
     end)
 end
+
+Hook.Add("roundEnd", "ConvictEscape", function ()
+    for key, plr in pairs(Client.ClientList) do
+        if plr.Character and not plr.Character.IsDead and plr.Character.IsHuman and plr.Character.JobIdentifier == "convict" and plr.Character.Submarine ~= Submarine.MainSub then
+            Traitormod.AwardPoints(plr, 2100)
+            Traitormod.SendMessage(plr, "Congrats on escaping, you have received 2100 points.", "InfoFrameTabButton.Mission")
+        end
+    end
+end)

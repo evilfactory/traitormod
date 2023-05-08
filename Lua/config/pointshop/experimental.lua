@@ -2,6 +2,10 @@ local category = {}
 
 category.Name = "Experimental"
 
+category.CanAccess = function(client)
+    return client.Character and not client.Character.IsDead and not client.Character.HasJob("convict")
+end
+
 category.Products = {
     {
         Name = "Door",

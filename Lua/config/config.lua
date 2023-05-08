@@ -43,7 +43,7 @@ config.MaxExperienceFromPoints = 100000     -- if not nil, this amount is the ma
 config.RemoveSkillBooks = true
 config.NerfSwords = false
 
-config.FreeExperience = 750         -- temporary experience given every ExperienceTimer seconds
+config.FreeExperience = 910         -- temporary experience given every ExperienceTimer seconds
 config.ExperienceTimer = 120
 
 config.PointsGainedFromSkill = {
@@ -160,6 +160,7 @@ config.RoleConfig = {
             ["headguard"] = {"KillMonsters"},
             ["medic"] = {},
             ["prisondoctor"] = {},
+            ["convict"] = {"Escape"},
         }
     },
 
@@ -187,7 +188,7 @@ config.RoleConfig = {
     },
 
     Traitor = {
-        SubObjectives = {"StealCaptainID", "Survive", "Kidnap", "PoisonCaptain"},
+        SubObjectives = {"StealCaptainID", "Survive", "Kidnap", "PoisonCaptain", "SavePrisoner"},
         MinSubObjectives = 2,
         MaxSubObjectives = 3,
 
@@ -283,6 +284,7 @@ config.PointShopConfig = {
         dofile(Traitormod.Path .. "/Lua/config/pointshop/experimental.lua"),
         dofile(Traitormod.Path .. "/Lua/config/pointshop/deathspawn.lua"),
         dofile(Traitormod.Path .. "/Lua/config/pointshop/ships.lua"),
+        dofile(Traitormod.Path .. "/Lua/config/pointshop/prisoner.lua"),
     }
 }
 
@@ -298,7 +300,6 @@ config.GhostRoleConfig = {
         ["Huskmutanthunter"] = true,
         ["Huskmutanthumanhead"] = true,
         ["Huskmutanthumantorso"] = true,
-        ["Huskmutanthuman"] = true,
         ["humanhuskold"] = true,
         ["Humanshambler"] = true,
         ["Huskmutantcocoonhuman"] = true,
@@ -308,6 +309,12 @@ config.GhostRoleConfig = {
         ["Huskcontainer"] = true,
         ["Psilotoad"] = true,
         ["Humanzombiestaggerer"] = true,
+        ["Huskmutanthuman"] = true,
+        ["Mantishusk"] = true,
+        ["Crawlerhusk"] = true,
+        ["Hammerheadspawn"] = true,
+        ["Hammerheadmatriarch"] = true,
+        ["Mudraptorhusk"] = true,
     }
 }
 
