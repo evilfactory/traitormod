@@ -24,7 +24,10 @@ function gm:RoundSummary()
     sb("Gamemode: %s\n", self.Name)
 
     for character, role in pairs(Traitormod.RoleManager.RoundRoles) do
-        sb("\n%s\n", role:OtherGreet())
+        local text = role:OtherGreet()
+        if text then
+            sb("\n%s\n", role:OtherGreet())
+        end
     end
 
     return sb:concat()

@@ -73,7 +73,7 @@ function role:Greet()
 end
 
 function role:OtherGreet()
-    return ""
+    return nil -- No other greet.
 end
 
 
