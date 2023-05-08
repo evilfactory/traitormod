@@ -5,7 +5,7 @@ objective.AmountPoints = 350
 objective.Monster = {
     Identifier = "Crawler",
     Text = "Crawlers",
-    Amount = 20,
+    Amount = 8,
 }
 
 return objective
