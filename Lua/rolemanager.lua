@@ -220,12 +220,13 @@ Hook.Patch("Barotrauma.Items.Components.Repairable", "StopRepairing", function (
     rm.CallObjectiveFunction("StopRepairing", instance.Item, ptable["character"])
 end)
 
-Hook.Patch("Barotrauma.Structure", "SetDamage", function (instance, ptable)
-    local damage = ptable["damage"]
-    if damage > 0 then return end
-    if ptable["attacker"] == nil then return end
+Hook.Patch("Barotrauma.HumanAIController", "StructureDamaged", function (instance, ptable)
+    local damage = ptable["damageAmount"]
 
-    rm.CallObjectiveFunction("HullRepaired", ptable["attacker"], damage)
+    if damage > 0 then return end
+    if ptable["character"] == nil then return end
+
+    rm.CallObjectiveFunction("HullRepaired", ptable["character"], damage)
 end, Hook.HookMethodType.After)
 
 rm.EndRound = function ()
