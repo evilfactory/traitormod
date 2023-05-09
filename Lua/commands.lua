@@ -410,6 +410,33 @@ Traitormod.AddCommand("!ongoingevents", function (client, args)
     return true
 end)
 
+Traitormod.AddCommand("!giveghostrole", function (client, args)
+    if #args < 2 then
+        Traitormod.SendMessage(client, "Usage: !giveghostrole <ghost role name> <character>")
+        return true
+    end
+
+    local target
+
+    for key, value in pairs(Character.CharacterList) do
+        if value.Name == args[2] and not value.IsDead then
+            target = value
+            break
+        end
+    end
+
+    if not target then
+        Traitormod.SendMessage(client, "Couldn't find a character with specified name")
+        return true
+    end
+
+    Traitormod.GhostRoles.Ask(args[1], function (ghostClient)
+        ghostClient.SetClientCharacter(target)
+    end, target)
+
+    return true
+end)
+
 Traitormod.AddCommand("!assignrolecharacter", function (client, args)
     if not client.HasPermission(ClientPermissions.ConsoleCommands) then return end
     
