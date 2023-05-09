@@ -54,6 +54,31 @@ Traitormod.AddCommand({"!announce"}, function (client, args)
     end
 end)
 
+Traitormod.AddCommand("!announce", function(client, args)
+    local feedback = nil
+
+    if client.Character == nil or client.Character.IsDead then
+        feedback = "You're dead."
+        Game.SendDirectChatMessage("", feedback, nil, Traitormod.Config.ChatMessageType, client)
+    return true end
+
+    for item in client.Character.Inventory.AllItems do
+        if #args > 0 and item.Prefab.Identifier == "idcard" and item.GetComponentString("IdCard").OwnerJobId == "warden" then
+            local msg = ""
+            for word in args do
+                msg = msg .. " " .. word
+            end
+
+            Traitormod.RoundEvents.SendEventMessage("Warden's Announcement: "..msg, "GameModeIcon.sandbox", Color.LightBlue)
+            return true
+        else
+            feedback = "You don't have the warden's ID."
+            Game.SendDirectChatMessage("", feedback, nil, Traitormod.Config.ChatMessageType, client)
+            return true
+        end
+    end
+end)
+
 Traitormod.AddCommand({"!role", "!traitor"}, function (client, args)
     if client.Character == nil or client.Character.IsDead then
         Traitormod.SendMessage(client, "You need to be alive to use this command.")
