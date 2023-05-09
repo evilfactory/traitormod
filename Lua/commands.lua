@@ -23,6 +23,7 @@ Traitormod.AddCommand("!version", function (client, args)
     return true
 end)
 
+--[[
 Traitormod.AddCommand({"!announce"}, function (client, args)
     if client.Character == nil then
         Traitormod.SendMessage(client, "You aren't alive.")
@@ -53,6 +54,7 @@ Traitormod.AddCommand({"!announce"}, function (client, args)
         end
     end
 end)
+--]]
 
 Traitormod.AddCommand("!announce", function(client, args)
     local feedback = nil

@@ -13,7 +13,7 @@ function objective:Start(target)
 
     self.TargetName = Traitormod.GetJobString(self.Target)
 
-    self.Text = "Save convict "..self.TargetName.." from this filthy prison."
+    self.Text = "Save convict "..self.Target.Name.." from this filthy prison."
 
     return true
 end
