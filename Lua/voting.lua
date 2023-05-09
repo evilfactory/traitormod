@@ -16,8 +16,12 @@ vt.StartVote = function (text, options, time, completed, clients)
     voteData.Time = Timer.GetTime() + time
     voteData.OnCompleted = completed
     voteData.Results = {}
+    voteData.Clients = {}
     for i = 1, #options, 1 do
         voteData.Results[i] = 0
+    end
+    for index, value in ipairs(clients) do
+        voteData.Clients[value] = -1
     end
 
     local max = 0
@@ -33,13 +37,14 @@ vt.StartVote = function (text, options, time, completed, clients)
             if option == nil then return end
             
             voteData.Results[id] = voteData.Results[id] + 1
+            voteData.Clients[client2] = id
 
             amount = amount + 1
 
             if amount == max then
-                voteData.OnCompleted(voteData.Results)
                 voteData.Completed = true
                 table.remove(vt.Votes, voteId)
+                voteData.OnCompleted(voteData.Results, voteData.Clients)
             end
         end)
     end
@@ -48,9 +53,9 @@ end
 Hook.Add("think", "Traitormod.Voting.Think", function ()
     for key, voteData in pairs(vt.Votes) do
         if Timer.GetTime() > voteData.Time then
-            voteData.OnCompleted(voteData.Results)
             voteData.Completed = true
             table.remove(vt.Votes, key)
+            voteData.OnCompleted(voteData.Results, voteData.Clients)
             break
         end
     end

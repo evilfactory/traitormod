@@ -410,6 +410,50 @@ Traitormod.AddCommand("!ongoingevents", function (client, args)
     return true
 end)
 
+Traitormod.AddCommand("!assignrolecharacter", function (client, args)
+    if not client.HasPermission(ClientPermissions.ConsoleCommands) then return end
+    
+    if #args < 2 then
+        Traitormod.SendMessage(client, "Usage: !assignrole <character> <role>")
+        return true
+    end
+
+    local target
+
+    for key, value in pairs(Character.CharacterList) do
+        if value.Name == args[1] then
+            target = value
+            break
+        end
+    end
+
+    if not target then
+        Traitormod.SendMessage(client, "Couldn't find a character with specified name")
+        return true
+    end
+
+    if target == nil or target.IsDead then
+        Traitormod.SendMessage(client, "Client's character is dead or non-existent.")
+        return true
+    end
+
+    local role = Traitormod.RoleManager.Roles[args[2]]
+
+    if role == nil then
+        Traitormod.SendMessage(client, "Couldn't find role to assign.")
+        return true
+    end
+
+    if Traitormod.RoleManager.GetRole(target) ~= nil then
+        Traitormod.RoleManager.RemoveRole(target)
+    end
+    Traitormod.RoleManager.AssignRole(target, role:new())
+
+    Traitormod.SendMessage(client, "Assigned " .. target.Name .. " the role " .. role.Name .. ".")
+
+    return true
+end)
+
 Traitormod.AddCommand("!assignrole", function (client, args)
     if not client.HasPermission(ClientPermissions.ConsoleCommands) then return end
     
@@ -444,7 +488,7 @@ Traitormod.AddCommand("!assignrole", function (client, args)
     end
     Traitormod.RoleManager.AssignRole(targetCharacter, role:new())
 
-    Traitormod.SendMessage(client, "Assign " .. target.Name .. " the role " .. role.Name .. ".")
+    Traitormod.SendMessage(client, "Assigned " .. target.Name .. " the role " .. role.Name .. ".")
 
     return true
 end)

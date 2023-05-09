@@ -72,5 +72,14 @@ Traitormod.AddCommand("!tdm", function(client, args)
     return true
 end)
 
+function role:FilterTarget(objective, character)
+    local targetRole = Traitormod.RoleManager.GetRole(character)
+    if targetRole and targetRole.IsAntagonist then
+        return false
+    end
+
+    return Traitormod.RoleManager.Roles.Role.FilterTarget(self, objective, character)
+end
+
 
 return role

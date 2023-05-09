@@ -57,21 +57,21 @@ function gm:AssignAntagonists(antagonists)
         end
     end
 
-    local function Assign(role)
-        if role.Name == "Cultist" then
-            self.RoundEndIcon = "oneofus"
-            Game.EnableControlHusk(true)
-        else
-            Game.EnableControlHusk(false)
+    local function Assign(roles)
+        for key, role in pairs(roles) do
+            if role.Name == "Cultist" then
+                self.RoundEndIcon = "oneofus"
+                Game.EnableControlHusk(true)
+            end
         end
 
-        local roles = {}
+        local newRoles = {}
 
         for key, value in pairs(antagonists) do
-            table.insert(roles, role:new())
+            table.insert(newRoles, roles[key]:new())
         end
 
-        Traitormod.RoleManager.AssignRoles(antagonists, roles)
+        Traitormod.RoleManager.AssignRoles(antagonists, newRoles)
 
         AssignCrew()
     end
@@ -79,7 +79,11 @@ function gm:AssignAntagonists(antagonists)
     if self.TraitorTypeSelectionMode == "Random" then
         local role = Traitormod.RoleManager.Roles[weightedRandom.Choose(self.TraitorTypeChance)]
 
-        Assign(role)
+        local roles = {}
+        for key, value in pairs(antagonists) do
+            table.insert(roles, role)
+        end
+        Assign(roles)
     else
         local options = {}
         for key, value in pairs(self.TraitorTypeChance) do
@@ -96,11 +100,11 @@ function gm:AssignAntagonists(antagonists)
         end
 
         if #clients == 0 then
-            Assign(Traitormod.RoleManager.Roles["Traitor"])
+            Assign({})
             return
         end
 
-        Traitormod.Voting.StartVote("You have been assigned to be a traitor, vote which type you want to be.", options, 25, function (results)
+        Traitormod.Voting.StartVote("You have been assigned to be a traitor, vote which type you want to be.", options, 25, function (results, clientVotes)
             local highestVoted = nil
             local highestedVotedRole = nil
             for key, value in pairs(options) do
@@ -110,12 +114,18 @@ function gm:AssignAntagonists(antagonists)
                 end
             end
 
-            local role = Traitormod.RoleManager.Roles[highestedVotedRole]
-            if role == nil then
-                Traitormod.Error("Could not find role " .. highestedVotedRole)
-                return
+            local roles = {}
+            for key, value in pairs(clientVotes) do
+                local role = ""
+                if value == -1 then
+                    role = Traitormod.RoleManager.Roles[highestedVotedRole]
+                else
+                    role = Traitormod.RoleManager.Roles[options[value]]
+                end
+
+                table.insert(roles, role)
             end
-            Assign(role)
+            Assign(roles)
         end, clients)
     end
 end
@@ -309,6 +319,8 @@ function gm:End()
     end
 
     gm:AwardCrew()
+
+    Game.EnableControlHusk(false)
 
     Hook.Remove("characterDeath", "Traitormod.Secret.CharacterDeath");
 end

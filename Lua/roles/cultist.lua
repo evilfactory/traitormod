@@ -137,7 +137,7 @@ end
 
 function role:Greet()
     local partners = Traitormod.StringBuilder:new()
-    local traitors = Traitormod.RoleManager.FindCharactersByRole("Cultist")
+    local traitors = Traitormod.RoleManager.FindAntagonists()
     for _, character in pairs(traitors) do
         if character ~= self.Character then
             partners('"%s" ', character.Name)
@@ -190,7 +190,7 @@ function role:FilterTarget(objective, character)
         return false
     end
 
-    return Traitormod.RoleManager.Roles.Role.FilterTarget(self, objective, character)
+    return Traitormod.RoleManager.Roles.Antagonist.FilterTarget(self, objective, character)
 end
 
 Hook.Add("husk.clientControlHusk", "Traitormod.Cultist.HuskControl", function (client, husk)
