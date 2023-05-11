@@ -224,8 +224,8 @@ category.Products = {
 
     {
         Name = "Spawn as Husk",
-        Price = 1800,
-        Limit = 2,
+        Price = 1600,
+        Limit = 4,
         IsLimitGlobal = true,
         PricePerLimit = 400,
         Timeout = 60,
