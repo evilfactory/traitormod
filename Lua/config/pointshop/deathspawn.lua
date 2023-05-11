@@ -65,7 +65,7 @@ category.Products = {
 
     {
         Name = "Spawn as Zombie Sprinter",
-        Price = 1100,
+        Price = 750,
         Limit = 2,
         IsLimitGlobal = true,
         PricePerLimit = 750,
@@ -78,7 +78,7 @@ category.Products = {
 
     {
         Name = "Spawn as Zombie Staggerer",
-        Price = 900,
+        Price = 510,
         Limit = 2,
         IsLimitGlobal = true,
         PricePerLimit = 350,
@@ -88,65 +88,13 @@ category.Products = {
             SpawnCreature("Humanzombiestaggerernatural", client)
         end
     },
-
-    {
-        Name = "Spawn as Legacy Husk",
-        Price = 450,
-        Limit = 5,
-        IsLimitGlobal = true,
-        PricePerLimit = 0,
-        Timeout = 60,
-
-        Action = function (client, product, items)
-            SpawnCreature("legacyhusk", client)
-        end
-    },
-
-    {
-        Name = "Spawn as Crawler Baby",
-        Price = 250,
-        Limit = 4,
-        IsLimitGlobal = true,
-        PricePerLimit = 10,
-        Timeout = 60,
-
-        Action = function (client, product, items)
-            SpawnCreature("crawler_hatchling", client)
-        end
-    },
-
-    {
-        Name = "Spawn as Mudraptor Baby",
-        Price = 400,
-        Limit = 5,
-        IsLimitGlobal = true,
-        PricePerLimit = 150,
-        Timeout = 60,
-
-        Action = function (client, product, items)
-            SpawnCreature("mudraptor_hatchling", client)
-        end
-    },
-
-    {
-        Name = "Spawn as Thresher Baby",
-        Price = 700,
-        Limit = 5,
-        IsLimitGlobal = true,
-        PricePerLimit = 250,
-        Timeout = 60,
-
-        Action = function (client, product, items)
-            SpawnCreature("tigerthresher_hatchling", client)
-        end
-    },
-
+    
     {
         Name = "Spawn as Spineling",
-        Price = 1000,
-        Limit = 1,
+        Price = 600,
+        Limit = 2,
         IsLimitGlobal = true,
-        PricePerLimit = 250,
+        PricePerLimit = 100,
         Timeout = 60,
 
         Action = function (client, product, items)
@@ -156,10 +104,10 @@ category.Products = {
 
     {
         Name = "Spawn as Mudraptor",
-        Price = 1000,
+        Price = 850,
         Limit = 3,
         IsLimitGlobal = true,
-        PricePerLimit = 100,
+        PricePerLimit = 150,
         Timeout = 60,
 
         Action = function (client, product, items)
@@ -169,7 +117,7 @@ category.Products = {
 
     {
         Name = "Spawn as Mantis",
-        Price = 1100,
+        Price = 980,
         Limit = 2,
         IsLimitGlobal = true,
         PricePerLimit = 200,
@@ -182,7 +130,7 @@ category.Products = {
 
     {
         Name = "Spawn as Husk",
-        Price = 1800,
+        Price = 1150,
         Limit = 2,
         IsLimitGlobal = true,
         PricePerLimit = 400,
@@ -195,7 +143,7 @@ category.Products = {
 
     {
         Name = "Spawn as Bone Thresher",
-        Price = 1800,
+        Price = 1300,
         Limit = 2,
         IsLimitGlobal = true,
         PricePerLimit = 500,
@@ -209,10 +157,10 @@ category.Products = {
 
     {
         Name = "Spawn as Tiger Thresher",
-        Price = 2500,
+        Price = 850,
         Limit = 2,
         IsLimitGlobal = true,
-        PricePerLimit = 500,
+        PricePerLimit = 350,
         Enabled = true,
         Timeout = 60,
 
@@ -226,7 +174,7 @@ category.Products = {
         Price = 2500,
         Limit = 1,
         IsLimitGlobal = true,
-        PricePerLimit = 500,
+        PricePerLimit = 350,
         Enabled = true,
         Timeout = 60,
 
@@ -251,10 +199,10 @@ category.Products = {
 
     {
         Name = "Spawn as Fractal Guardian",
-        Price = 4900,
+        Price = 3900,
         Limit = 1,
         IsLimitGlobal = true,
-        PricePerLimit = 3000,
+        PricePerLimit = 1000,
         Timeout = 60,
 
         Action = function (client, product, items)
@@ -264,10 +212,10 @@ category.Products = {
 
     {
         Name = "Spawn as Giant Spineling",
-        Price = 20000,
+        Price = 9500,
         Limit = 1,
         IsLimitGlobal = true,
-        PricePerLimit = 1000,
+        PricePerLimit = 1750,
         Enabled = true,
         Timeout = 60,
 
@@ -278,10 +226,10 @@ category.Products = {
 
     {
         Name = "Spawn as Veteran Mudraptor",
-        Price = 8000,
+        Price = 7500,
         Limit = 2,
         IsLimitGlobal = true,
-        PricePerLimit = 1000,
+        PricePerLimit = 650,
         Enabled = true,
         Timeout = 60,
 
@@ -292,7 +240,7 @@ category.Products = {
 
     {
         Name = "Spawn as Latcher",
-        Price = 50000,
+        Price = 35000,
         Limit = 1,
         IsLimitGlobal = true,
         PricePerLimit = 50000,
@@ -305,7 +253,7 @@ category.Products = {
 
     {
         Name = "Spawn as Charybdis",
-        Price = 80000,
+        Price = 50000,
         Limit = 1,
         IsLimitGlobal = true,
         PricePerLimit = 50000,
