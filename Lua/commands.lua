@@ -431,6 +431,8 @@ Traitormod.AddCommand("!giveghostrole", function (client, args)
     end
 
     Traitormod.GhostRoles.Ask(args[1], function (ghostClient)
+        Traitormod.LostLivesThisRound[ghostClient.SteamID] = false
+
         ghostClient.SetClientCharacter(target)
     end, target)
 
