@@ -68,6 +68,13 @@ category.Products = {
     },
 
     {
+        Name = "Paralyxis",
+        Price = 150,
+        Limit = 8,
+        Items = {"paralyxis"}
+    },
+
+    {
         Name = "Adrenaline Gland",
         Price = 60,
         Limit = 5,
