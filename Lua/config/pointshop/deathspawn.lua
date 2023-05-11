@@ -62,7 +62,7 @@ category.Products = {
         RoundPrice = {
             PriceReduction = 300,
             StartTime = 15,
-            EndTime = 60,
+            EndTime = 30,
         },
 
         Action = function (client, product, items)
@@ -81,7 +81,7 @@ category.Products = {
         RoundPrice = {
             PriceReduction = 300,
             StartTime = 15,
-            EndTime = 60,
+            EndTime = 30,
         },
 
         Action = function (client, product, items)
@@ -100,7 +100,7 @@ category.Products = {
         RoundPrice = {
             PriceReduction = 300,
             StartTime = 15,
-            EndTime = 60,
+            EndTime = 30,
         },
 
         Action = function (client, product, items)
@@ -119,7 +119,7 @@ category.Products = {
         RoundPrice = {
             PriceReduction = 100,
             StartTime = 15,
-            EndTime = 60,
+            EndTime = 30,
         },
 
         Action = function (client, product, items)
@@ -136,9 +136,9 @@ category.Products = {
         Timeout = 60,
 
         RoundPrice = {
-            PriceReduction = 150,
+            PriceReduction = 200,
             StartTime = 15,
-            EndTime = 60,
+            EndTime = 30,
         },
 
         Action = function (client, product, items)
@@ -155,9 +155,9 @@ category.Products = {
         Timeout = 60,
 
         RoundPrice = {
-            PriceReduction = 200,
+            PriceReduction = 400,
             StartTime = 15,
-            EndTime = 60,
+            EndTime = 30,
         },
 
         Action = function (client, product, items)
@@ -174,9 +174,9 @@ category.Products = {
         Timeout = 60,
 
         RoundPrice = {
-            PriceReduction = 300,
+            PriceReduction = 700,
             StartTime = 15,
-            EndTime = 60,
+            EndTime = 30,
         },
 
         Action = function (client, product, items)
@@ -193,9 +193,9 @@ category.Products = {
         Timeout = 60,
 
         RoundPrice = {
-            PriceReduction = 300,
+            PriceReduction = 700,
             StartTime = 15,
-            EndTime = 60,
+            EndTime = 35,
         },
 
         Action = function (client, product, items)
@@ -212,9 +212,9 @@ category.Products = {
         Timeout = 60,
 
         RoundPrice = {
-            PriceReduction = 300,
+            PriceReduction = 800,
             StartTime = 15,
-            EndTime = 60,
+            EndTime = 30,
         },
 
         Action = function (client, product, items)
@@ -231,9 +231,9 @@ category.Products = {
         Timeout = 60,
 
         RoundPrice = {
-            PriceReduction = 800,
+            PriceReduction = 1000,
             StartTime = 15,
-            EndTime = 60,
+            EndTime = 35,
         },
 
         Action = function (client, product, items)
@@ -251,9 +251,9 @@ category.Products = {
         Timeout = 60,
 
         RoundPrice = {
-            PriceReduction = 800,
+            PriceReduction = 1000,
             StartTime = 15,
-            EndTime = 60,
+            EndTime = 35,
         },
 
         Action = function (client, product, items)
@@ -271,9 +271,9 @@ category.Products = {
         Timeout = 60,
 
         RoundPrice = {
-            PriceReduction = 1000,
+            PriceReduction = 1500,
             StartTime = 15,
-            EndTime = 60,
+            EndTime = 35,
         },
 
         Action = function (client, product, items)
@@ -314,14 +314,14 @@ category.Products = {
         Price = 2500,
         Limit = 2,
         IsLimitGlobal = true,
-        PricePerLimit = 1000,
+        PricePerLimit = 6000,
         Enabled = true,
         Timeout = 60,
 
         RoundPrice = {
-            PriceReduction = 1000,
+            PriceReduction = 1500,
             StartTime = 15,
-            EndTime = 60,
+            EndTime = 35,
         },
 
         Action = function (client, product, items)
@@ -338,9 +338,9 @@ category.Products = {
         Timeout = 60,
 
         RoundPrice = {
-            PriceReduction = 1500,
+            PriceReduction = 2500,
             StartTime = 15,
-            EndTime = 60,
+            EndTime = 40,
         },
 
         Action = function (client, product, items)
@@ -359,8 +359,8 @@ category.Products = {
 
         RoundPrice = {
             PriceReduction = 19000,
-            StartTime = 60,
-            EndTime = 70,
+            StartTime = 50,
+            EndTime = 60,
         },
 
         Action = function (client, product, items)
@@ -398,8 +398,8 @@ category.Products = {
 
         RoundPrice = {
             PriceReduction = 49000,
-            StartTime = 60,
-            EndTime = 70,
+            StartTime = 50,
+            EndTime = 60,
         },
 
         Action = function (client, product, items)
@@ -417,8 +417,8 @@ category.Products = {
 
         RoundPrice = {
             PriceReduction = 79000,
-            StartTime = 60,
-            EndTime = 70,
+            StartTime = 50,
+            EndTime = 60,
         },
 
         Action = function (client, product, items)
