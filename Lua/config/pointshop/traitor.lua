@@ -36,11 +36,11 @@ category.Products = {
         IsLimitGlobal = false,
         Action = function (client)
             local prefabInjector = ItemPrefab.GetItemPrefab("autoinjectorheadset")
-            local prefabUEX = ItemPrefab.GetItemPrefab("uex")
+            local prefabExplosive = ItemPrefab.GetItemPrefab("c4block")
             Entity.Spawner.AddItemToSpawnQueue(prefabInjector, client.Character.Inventory, nil, nil, function (item)
-                Entity.Spawner.AddItemToSpawnQueue(prefabUEX, client.Character.Inventory, nil, nil, function (item2)
+                Entity.Spawner.AddItemToSpawnQueue(prefabExplosive, client.Character.Inventory, nil, nil, function (item2)
                     item2.Tags = "medical"
-                    item2.Description = "A modified UEX that can be put inside an Auto-Injector headset."
+                    item2.Description = "A modified C-4 Block that can be put inside an Auto-Injector headset."
                     item2.set_InventoryIconColor(Color(0, 0, 255))
                     item2.SpriteColor = Color(0, 0, 255, 255)
 
