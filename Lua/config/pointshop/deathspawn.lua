@@ -71,6 +71,25 @@ category.Products = {
     },
 
     {
+    Name = "Spawn as Crawler Husk",
+    Price = 500,
+    Limit = 3,
+    IsLimitGlobal = true,
+    PricePerLimit = 100,
+    Timeout = 60,
+
+    RoundPrice = {
+        PriceReduction = 300,
+        StartTime = 15,
+        EndTime = 30,
+    },
+
+    Action = function (client, product, items)
+        SpawnCreature("Crawlerhusk", client, product)
+    end
+},
+
+    {
         Name = "Spawn as Legacy Crawler",
         Price = 400,
         Limit = 4,
