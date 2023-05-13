@@ -261,6 +261,25 @@ category.Products = {
     },
 
     {
+        Name = "Spawn as Husked Human",
+        Price = 4500,
+        Limit = 3,
+        IsLimitGlobal = true,
+        PricePerLimit = 400,
+        Timeout = 60,
+
+        RoundPrice = {
+            PriceReduction = 3500,
+            StartTime = 15,
+            EndTime = 35,
+        },
+
+        Action = function (client, product, items)
+            SpawnCreature("Humanhusk", client, product)
+        end
+    },
+
+    {
         Name = "Spawn as Bone Thresher",
         Price = 1800,
         Limit = 2,
