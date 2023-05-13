@@ -42,7 +42,7 @@ category.Products = {
     },
 
     {
-        Name = "The Sailorʹs Guide",
+        Name = "The Sailors Guide",
         Price = 290,
         Limit = 5,
         Items = {"skillbooksailorsguide"}

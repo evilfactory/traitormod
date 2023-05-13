@@ -22,6 +22,14 @@ extension.Init = function ()
                 elseif timer[character] then
                     timer[character] = 0
                 end
+
+                local affResistance = character.CharacterHealth.GetAffliction("paralysisresistance")
+                if affResistance and affResistance.Strength > 0 then
+                    local affliction = character.CharacterHealth.GetAffliction("paralysis", true)
+                    if affliction then
+                        affliction._strength = affliction._strength - 0.05
+                    end
+                end
             end
         end
     end)
