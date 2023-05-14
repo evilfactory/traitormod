@@ -156,11 +156,11 @@ config.RoleConfig = {
     Crew = {
         AvailableObjectives = {
             ["captain"] = {"KillLargeMonsters", "FinishRoundFast", "SecurityTeamSurvival"},
-            ["engineer"] = {"RepairJunctions", "RepairBattery", "KillSmallMonsters"},
-            ["mechanic"] = {"RepairPumps", "RepairHull", "KillSmallMonsters"},
+            ["engineer"] = {"RepairElectrical", "KillSmallMonsters"},
+            ["mechanic"] = {"RepairMechanical", "RepairHull", "KillSmallMonsters"},
             ["securityofficer"] = {"KillLargeMonsters", "KillSmallMonsters"},
             ["medic"] = {"KillLargeMonsters", "KillSmallMonsters"},
-            ["assistant"] = {"RepairPumps", "RepairJunctions", "RepairBattery", "KillPets"},
+            ["assistant"] = {"RepairElectrical", "RepairMechanical", "KillPets"},
         }
     },
 
