@@ -60,6 +60,14 @@ function gm:Start()
             end
         end
     end
+
+    for key, value in pairs(Item.ItemList) do
+        for _, bannedItem in pairs(self.BannedItems) do
+            if value.Prefab.Identifier.Value == bannedItem then
+                Entity.Spawner.AddEntityToRemoveQueue(value)
+            end
+        end
+    end
 end
 
 function gm:AwardPoints()

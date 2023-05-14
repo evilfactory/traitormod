@@ -149,6 +149,7 @@ config.GamemodeConfig = {
         ShowSonar = true,
         IdCardAllAccess = true,
         CrossTeamCommunication = true,
+        BannedItems = {"coilgunammoboxexplosive", "nuclearshell"}
     },
 }
 
