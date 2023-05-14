@@ -18,10 +18,19 @@ event.Start = function ()
         return
     end
 
+    local index = 0
     for key, value in pairs(Character.CharacterList) do
         if value.IsHuman and value.TeamID == CharacterTeamType.None and value.Submarine == beacon then
+            value.Info.Name = "Pirate " .. value.Info.Name
             value.SetOriginalTeam(CharacterTeamType.Team2)
             value.UpdateTeam()
+            value.CanSpeak = false
+
+            Traitormod.GhostRoles.Ask("Beacon Pirate Helper " .. index, function (client)
+                Traitormod.LostLivesThisRound[client.SteamID] = false
+                client.SetClientCharacter(value)
+            end, value)
+            index = index + 1
         end
     end
 
