@@ -159,7 +159,7 @@ config.RoleConfig = {
             ["engineer"] = {"RepairElectrical", "KillSmallMonsters"},
             ["mechanic"] = {"RepairMechanical", "RepairHull", "KillSmallMonsters"},
             ["securityofficer"] = {"KillLargeMonsters", "KillSmallMonsters"},
-            ["medic"] = {"KillLargeMonsters", "KillSmallMonsters"},
+            ["medicaldoctor"] = {"HealCharacters", "KillSmallMonsters"},
             ["assistant"] = {"RepairElectrical", "RepairMechanical", "KillPets"},
         }
     },

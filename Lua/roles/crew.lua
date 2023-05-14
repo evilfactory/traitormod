@@ -34,6 +34,11 @@ function role:Start()
         end
     end
 
+    local finishObjectives = Traitormod.RoleManager.FindObjective("FinishAllObjectives"):new()
+    finishObjectives:Init(self.Character)
+    self:AssignObjective(finishObjectives)
+
+
     local text = self:Greet()
     local client = Traitormod.FindClientCharacter(self.Character)
     if client then

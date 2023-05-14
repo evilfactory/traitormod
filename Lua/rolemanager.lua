@@ -229,6 +229,13 @@ Hook.Patch("Barotrauma.HumanAIController", "StructureDamaged", function (instanc
     rm.CallObjectiveFunction("HullRepaired", ptable["character"], damage)
 end, Hook.HookMethodType.After)
 
+Hook.Patch("Barotrauma.Character", "TryAdjustHealerSkill", function (character, ptable)
+    local healer = ptable["healer"]
+    local healthChange = ptable["healthChange"]
+
+    rm.CallObjectiveFunction("CharacterHealed", character, healer, healthChange)
+end, Hook.HookMethodType.After)
+
 rm.EndRound = function ()
     rm.CheckObjectives(true)
 
