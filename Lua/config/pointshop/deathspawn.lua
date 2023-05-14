@@ -262,14 +262,14 @@ category.Products = {
 
     {
         Name = "Spawn as Husked Human",
-        Price = 4500,
+        Price = 3000,
         Limit = 3,
         IsLimitGlobal = true,
         PricePerLimit = 400,
         Timeout = 60,
 
         RoundPrice = {
-            PriceReduction = 3500,
+            PriceReduction = 2100,
             StartTime = 15,
             EndTime = 35,
         },
