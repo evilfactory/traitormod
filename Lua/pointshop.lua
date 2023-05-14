@@ -429,7 +429,7 @@ Hook.Add("characterDeath", "Traitormod.Pointshop.Death", function (character)
         ps.UseProductLimit(client, refund.Product, -1)
 
         Traitormod.AwardPoints(client, ps.GetProductPrice(client, refund.Product))
-        Traitormod.SendMessage(client, "You have been refunded " .. refund.Product.Price .. " points for your " .. refund.Product.Name .. " purchase.")
+        Traitormod.SendMessage(client, "You have been refunded " .. ps.GetProductPrice(client, refund.Product) .. " points for your " .. refund.Product.Name .. " purchase.")
 
         ps.Refunds[client] = nil
     end
