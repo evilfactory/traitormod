@@ -68,6 +68,14 @@ function gm:Start()
             end
         end
     end
+
+    Hook.Add("item.created", "Traitormod.PvP.BannedItems", function (item)
+        for _, bannedItem in pairs(self.BannedItems) do
+            if item.Prefab.Identifier.Value == bannedItem then
+                Entity.Spawner.AddEntityToRemoveQueue(item)
+            end
+        end
+    end)
 end
 
 function gm:AwardPoints()
@@ -98,7 +106,7 @@ function gm:End()
         self:AwardPoints()
     end
 
-    Hook.Remove("item.created", "Traitormod.PvP.IdCard")
+    Hook.Remove("item.created", "Traitormod.PvP.BannedItems")
 
     -- first arg = mission id, second = message, third = completed, forth = list of characters
     return nil
