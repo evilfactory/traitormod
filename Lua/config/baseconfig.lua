@@ -272,6 +272,7 @@ config.RandomEventConfig = {
         dofile(Traitormod.Path .. "/Lua/config/randomevents/shadymission.lua"),
         dofile(Traitormod.Path .. "/Lua/config/randomevents/oxygengenpoison.lua"),
         dofile(Traitormod.Path .. "/Lua/config/randomevents/oxygengenhusk.lua"),
+        dofile(Traitormod.Path .. "/Lua/config/randomevents/prisoner.lua"),
     }
 }
 
