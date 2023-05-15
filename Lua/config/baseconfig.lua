@@ -12,6 +12,7 @@ config.ChatMessageType = ChatMessageType.Private    -- Error = red | Private = g
 config.Extensions = {
     --dofile(Traitormod.Path .. "/Lua/extensions/weaponnerfs.lua"),
     --dofile(Traitormod.Path .. "/Lua/extensions/paralysisnerf.lua"),
+    --dofile(Traitormod.Path .. "/Lua/extensions/pressuremidjoin.lua"),
 }
 
 ----- GAMEPLAY -----
@@ -38,6 +39,9 @@ config.RespawnSubmarineFile = "Content/Submarines/Selkie.sub"
 config.RespawnText = "Respawn in %s seconds."
 config.RespawnTeam = CharacterTeamType.Team1
 config.RespawnOnKillPoints = 0
+
+-- Allows players that just joined the server to instantly spawn
+config.EnableMidRoundSpawn = false
 
 ----- POINTS + LIVES -----
 config.PermanentPoints = true      -- sets if points and lives will be stored in and loaded from a file
