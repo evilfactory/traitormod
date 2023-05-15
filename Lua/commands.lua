@@ -439,6 +439,12 @@ Traitormod.AddCommand("!giveghostrole", function (client, args)
     return true
 end)
 
+Traitormod.AddCommand("!roundtime", function (client, args)
+    Traitormod.SendMessage(client, "This round has been going for " .. math.floor(Traitormod.RoundTime / 60) .. " minutes.")
+
+    return true
+end)
+
 Traitormod.AddCommand("!assignrolecharacter", function (client, args)
     if not client.HasPermission(ClientPermissions.ConsoleCommands) then return end
     
