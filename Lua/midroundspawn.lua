@@ -88,7 +88,7 @@ m.TryCreateClientCharacter = function(submarine, client)
     -- none found, go random
     if waypoint == nil then 
         Traitormod.Log("WARN: No valid job waypoint found for " .. client.CharacterInfo.Job.Name.Value .. " - using random")
-        m = WayPoint.GetRandom(SpawnType.Human, nil, submarine)
+        waypoint = WayPoint.GetRandom(SpawnType.Human, nil, submarine)
     end
 
     if waypoint == nil then 
