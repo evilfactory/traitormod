@@ -47,7 +47,7 @@ end
 function gm:AssignAntagonists(antagonists)
     local function AssignCrew()
         for key, value in pairs(Client.ClientList) do
-            if value.Character ~= nil and value.Character.IsHuman and not value.SpectateOnly and not value.Character.IsDead then
+            if value.Character ~= nil and value.Character.IsHuman and not value.SpectateOnly and not value.Character.IsDead and value.Character.TeamID == CharacterTeamType.Team1 then
                 local role = Traitormod.RoleManager.GetRole(value.Character)
                 if role == nil then
                     role = Traitormod.RoleManager.Roles["Crew"]

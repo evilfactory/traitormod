@@ -100,6 +100,9 @@ event.End = function (isEndRound)
                 Traitormod.SendMessage(client, "You have received " .. event.Award .. " points.", "InfoFrameTabButton.Mission")
             end
         end
+    else
+        local text = "The prisoner has escaped and the transportation reward has been cancelled."
+        Traitormod.RoundEvents.SendEventMessage(text, "InfoFrameTabButton.Mission", Color.Yellow)
     end
 end
 
