@@ -43,6 +43,11 @@ event.Start = function ()
     end)
 
     Entity.Spawner.AddItemToSpawnQueue(ItemPrefab.GetItemPrefab("handcuffs"), character.Inventory, nil, nil, function (item)
+        local leftHand = character.Inventory.GetItemInLimbSlot(InvSlotType.LeftHand)
+        if leftHand then
+            leftHand.Drop()
+            Entity.Spawner.AddEntityToRemoveQueue(leftHand)
+        end
         character.Inventory.TryPutItem(item, character.Inventory.FindLimbSlot(InvSlotType.LeftHand), true, true, nil)
     end)
 
