@@ -36,14 +36,14 @@ config.PermanentPoints = true      -- sets if points and lives will be stored in
 config.RemotePoints = nil
 config.RemoteServerAuth = {}
 config.PermanentStatistics = true  -- sets if statistics be stored in and loaded from a file
-config.MaxLives = 5
-config.MinRoundTimeToLooseLives = 210
+config.MaxLives = 10
+config.MinRoundTimeToLooseLives = 300
 config.RespawnedPlayersDontLooseLives = true
 config.MaxExperienceFromPoints = 100000     -- if not nil, this amount is the maximum experience players gain from stored points (30k = lvl 10 | 38400 = lvl 12)
 config.RemoveSkillBooks = true
 config.NerfSwords = false
 
-config.FreeExperience = 910         -- temporary experience given every ExperienceTimer seconds
+config.FreeExperience = 950         -- temporary experience given every ExperienceTimer seconds
 config.ExperienceTimer = 120
 
 config.PointsGainedFromSkill = {
