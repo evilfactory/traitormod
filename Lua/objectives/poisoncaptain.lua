@@ -1,7 +1,7 @@
 local objective = Traitormod.RoleManager.Objectives.Objective:new()
 
 objective.Name = "PoisonCaptain"
-objective.RoleFilter = { ["captain"] = true }
+objective.RoleFilter = { ["warden"] = true }
 objective.AmountPoints = 1600
 
 function objective:Start(target)
