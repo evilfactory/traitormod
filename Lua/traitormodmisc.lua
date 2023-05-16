@@ -110,11 +110,43 @@ if Traitormod.Config.DeathLogBook then
     end)
 end
 
-Hook.Add("roundEnd", "ConvictEscape", function ()
+function CountAliveConvictsInsideMainSub()
+    local count = 0
+    for key, plr in pairs(Client.ClientList) do
+        if plr.Character and not plr.Character.IsDead and plr.Character.IsHuman and plr.Character.JobIdentifier == "convict" and plr.Character.Submarine == Submarine.MainSub then
+            count = count + 1
+        end
+    end
+    return count
+end
+
+Hook.Add("roundEnd", "PointsOnRoundEnd", function ()
     for key, plr in pairs(Client.ClientList) do
         if plr.Character and not plr.Character.IsDead and plr.Character.IsHuman and plr.Character.JobIdentifier == "convict" and plr.Character.Submarine ~= Submarine.MainSub then
             Traitormod.AwardPoints(plr, 2100)
             Traitormod.SendMessage(plr, "Congrats on escaping, you have received 2100 points.", "InfoFrameTabButton.Mission")
+        end
+    end
+--the convict counting stuff is made by aketius#5109
+    for key, plr in pairs(Client.ClientList) do
+        if plr.Character and not plr.Character.IsDead and plr.Character.IsHuman then
+            if plr.Character.JobIdentifier == "guard" or plr.Character.JobIdentifier == "warden" or plr.Character.JobIdentifier == "headguard" then
+                local count = CountAliveConvictsInsideMainSub()
+                local points = 350 * count
+                Traitormod.AwardPoints(plr, points)
+                if count > 1 then
+                   Traitormod.AwardPoints(plr, points)   
+                end
+                if count > 5 then
+                   Traitormod.SendMessage(plr, "You have received " .. points .. " points for each alive prisoner still inside the convict station.", "InfoFrameTabButton.Mission")
+                elseif count > 3 then
+                   Traitormod.SendMessage(plr, "Good job for keeping a decent amount of the prisoners alive. You've been awarded "..points.." points.", "InfoFrameTabButton.Mission")
+                elseif count > 1 then
+                   Traitormod.SendMessage(plr, "Terrible job. Barely any of those prisoners were kept alive. Obtained "..points.." points.", "InfoFrameTabButton.Mission")
+                elseif count < 2 then
+                   Traitormod.SendMessage(plr, "Little to no prisoners were kept alive. No points for you.", "InfoFrameTabButton.Mission")
+                end
+            end
         end
     end
 end)
