@@ -53,7 +53,7 @@ m.TryCreateClientCharacter = function(submarine, client)
     elseif preventMultiCaptain and jobPreference.Prefab.Identifier == "captain" then
         -- if crew has a captain, spawn as security
         if m.CrewHasJob("captain") then
-            m.Log(client.Name .. " tried to mid-round spawn as second captain - assigning security instead.")
+            Traitormod.Log(client.Name .. " tried to mid-round spawn as second captain - assigning security instead.")
             -- set jobPreference = security
             jobPreference = m.GetJobVariant("securityofficer")
         end
