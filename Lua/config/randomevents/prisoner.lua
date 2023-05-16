@@ -42,13 +42,17 @@ event.Start = function ()
         character.Inventory.TryPutItem(item, character.Inventory.FindLimbSlot(InvSlotType.InnerClothes), true, false, character)
     end)
 
-    Entity.Spawner.AddItemToSpawnQueue(ItemPrefab.GetItemPrefab("handcuffs"), character.Inventory, nil, nil, function (item)
-        local leftHand = character.Inventory.GetItemInLimbSlot(InvSlotType.LeftHand)
-        if leftHand then
-            leftHand.Drop()
-            Entity.Spawner.AddEntityToRemoveQueue(leftHand)
+    for key, value in pairs(character.Inventory.AllItemsMod) do
+        if value.Prefab.Identifier == "screwdriver" or value.Prefab.Identifier == "wrench" then
+            value.Drop()
+            Entity.Spawner.AddEntityToRemoveQueue(value)
         end
-        character.Inventory.TryPutItem(item, character.Inventory.FindLimbSlot(InvSlotType.LeftHand), true, true, nil)
+    end
+
+    Entity.Spawner.AddItemToSpawnQueue(ItemPrefab.GetItemPrefab("handcuffs"), character.Inventory, nil, nil, function (item)
+        Timer.Wait(function (...)
+            character.Inventory.TryPutItem(item, character.Inventory.FindLimbSlot(InvSlotType.LeftHand), true, true, nil)            
+        end, 1000)
     end)
 
 
