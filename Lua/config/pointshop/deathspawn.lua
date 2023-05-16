@@ -62,7 +62,7 @@ category.Products = {
             SpawnCreature("crawler", client)
         end
     },
-
+--[[
     {
         Name = "Spawn as Zombie Sprinter",
         Price = 750,
@@ -75,7 +75,7 @@ category.Products = {
             SpawnCreature("Humanzombiesprinter", client)
         end
     },
-
+temporarily removed
     {
         Name = "Spawn as Zombie Staggerer",
         Price = 510,
@@ -88,6 +88,7 @@ category.Products = {
             SpawnCreature("Humanzombiestaggerernatural", client)
         end
     },
+--]]
     
     {
         Name = "Spawn as Spineling",
@@ -137,7 +138,7 @@ category.Products = {
         Timeout = 60,
 
         Action = function (client, product, items)
-            SpawnCreature("huskold", client)
+            SpawnCreature("husk", client)
         end
     },
 
@@ -261,6 +262,19 @@ category.Products = {
 
         Action = function (client, product, items)
             SpawnCreature("charybdis", client)
+        end
+    },
+
+    {
+        Name = "Spawn as Endworm",
+        Price = 90000,
+        Limit = 1,
+        IsLimitGlobal = true,
+        PricePerLimit = 20000,
+        Timeout = 80,
+
+        Action = function (client, product, items)
+            SpawnCreature("endworm", client)
         end
     },
 }
