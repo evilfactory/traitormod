@@ -243,13 +243,11 @@ Hook.Add("clientConnected", "Traitormod.ClientConnected", function (client)
         Traitormod.SendWelcome(client)
     end
 
-    if Traitormod.AbandonedCharacters[client.SteamID] and Traitormod.AbandonedCharacters[client.SteamID].IsDead then
-        -- client left while char was alive -> but char is dead, so adjust life
-        Traitormod.Debug(string.format("%s connected, but his character died in the meantime...",
-            Traitormod.ClientLogName(client)))
-
-        local lifeMsg, lifeIcon = Traitormod.AdjustLives(client, -1)
-        Traitormod.SendMessage(client, lifeMsg, lifeIcon)
+    if Traitormod.AbandonedCharacters[client.SteamID] then
+        if Traitormod.AbandonedCharacters[client.SteamID].IsDead then
+            -- client left while char was alive -> but char is dead
+            Traitormod.Debug(string.format("%s connected, but his character died in the meantime...", Traitormod.ClientLogName(client)))
+        end
 
         Traitormod.AbandonedCharacters[client.SteamID] = nil
     end
@@ -263,8 +261,7 @@ Hook.Add("clientDisconnected", "Traitormod.ClientDisconnected", function (client
 
     -- if character was alive while disconnecting, make sure player looses live if he rejoins the round
     if client.Character and not client.Character.IsDead and client.Character.IsHuman then
-        Traitormod.Debug(string.format("%s disconnected with an alive character. Remembering for rejoin...",
-            Traitormod.ClientLogName(client)))
+        Traitormod.Debug(string.format("%s disconnected with an alive character. Remembering for rejoin...", Traitormod.ClientLogName(client)))
         Traitormod.AbandonedCharacters[client.SteamID] = client.Character
     end
 end)
