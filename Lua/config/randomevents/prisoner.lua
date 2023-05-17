@@ -7,7 +7,7 @@ event.MinIntensity = 0
 event.MaxIntensity = 0.3
 event.ChancePerMinute = 0.07
 event.OnlyOncePerRound = true
-event.Award = 2500
+event.Award = 2000
 
 event.Start = function ()
     local position = nil
@@ -100,8 +100,10 @@ event.End = function (isEndRound)
 
         for _, client in pairs(Client.ClientList) do
             if client.Character and not client.Character.IsDead and client.Character.TeamID == CharacterTeamType.Team1 then
-                Traitormod.AwardPoints(client, event.Award)
-                Traitormod.SendMessage(client, "You have received " .. event.Award .. " points.", "InfoFrameTabButton.Mission")
+                if not Traitormod.RoleManager.IsAntagonist(client.Character) then
+                    Traitormod.AwardPoints(client, event.Award)
+                    Traitormod.SendMessage(client, "You have received " .. event.Award .. " points.", "InfoFrameTabButton.Mission")
+                end
             end
         end
     else
