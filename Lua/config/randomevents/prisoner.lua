@@ -93,7 +93,7 @@ event.End = function (isEndRound)
         return
     end
 
-    if isEndRound then
+    if isEndRound and Traitormod.EndReached(event.Character, 8000) then
         local text = "The prisoner has been successfully transported, the crew has received a reward of " .. event.Award .. " points."
 
         Traitormod.RoundEvents.SendEventMessage(text, "CrewWalletIconLarge")
