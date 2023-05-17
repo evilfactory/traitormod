@@ -79,6 +79,7 @@ event.Start = function ()
         if client then
             Traitormod.AwardPoints(client, event.Award)
             Traitormod.SendMessage(client, "You have received " .. event.Award .. " points.", "InfoFrameTabButton.Mission")
+            Entity.Spawner.AddEntityToRemoveQueue(event.Character)
         end
 
         event.End()
