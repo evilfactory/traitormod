@@ -413,6 +413,12 @@ Traitormod.AddCommand({"!pointshop", "!pointsshop", "!ps"}, function (client, ar
     return true
 end)
 
+Hook.Add("roundStart", "TraitormMod.PointShop.RoundStart", function ()
+    for key, value in pairs(Client.ClientList) do
+        ps.Timeouts[value.SteamID] = Timer.GetTime() + 300
+    end
+end)
+
 Hook.Add("roundEnd", "TraitorMod.PointShop.RoundEnd", function ()
     ps.ResetProductLimits()
 end)
