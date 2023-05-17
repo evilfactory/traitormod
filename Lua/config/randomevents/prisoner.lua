@@ -7,7 +7,7 @@ event.MinIntensity = 0
 event.MaxIntensity = 0.3
 event.ChancePerMinute = 0.07
 event.OnlyOncePerRound = true
-event.Award = 2000
+event.Award = 1500
 
 event.Start = function ()
     local position = nil
