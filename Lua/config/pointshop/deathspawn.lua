@@ -117,6 +117,32 @@ temporarily removed
     },
 
     {
+        Name = "Spawn as Bombshark",
+        Price = 1000,
+        Limit = 2,
+        IsLimitGlobal = true,
+        PricePerLimit = 250,
+        Timeout = 60,
+
+        Action = function (client, product, items)
+            SpawnCreature("bombshark", client)
+        end
+    },
+
+    {
+        Name = "Spawn as Nightraptor",
+        Price = 935,
+        Limit = 2,
+        IsLimitGlobal = true,
+        PricePerLimit = 350,
+        Timeout = 60,
+
+        Action = function (client, product, items)
+            SpawnCreature("nightraptor", client)
+        end
+    },
+
+    {
         Name = "Spawn as Mantis",
         Price = 980,
         Limit = 2,
@@ -199,6 +225,19 @@ temporarily removed
     },
 
     {
+        Name = "Spawn as Fractal Squid",
+        Price = 2500,
+        Limit = 1,
+        IsLimitGlobal = true,
+        PricePerLimit = 900,
+        Timeout = 60,
+
+        Action = function (client, product, items)
+            SpawnCreature("fractalsquid", client)
+        end
+    },
+
+    {
         Name = "Spawn as Fractal Guardian",
         Price = 3900,
         Limit = 1,
@@ -275,6 +314,19 @@ temporarily removed
 
         Action = function (client, product, items)
             SpawnCreature("endworm", client)
+        end
+    },
+
+    {
+        Name = "Spawn as Cyborg Worm",
+        Price = 250000,
+        Limit = 1,
+        IsLimitGlobal = true,
+        PricePerLimit = 60000000,
+        Timeout = 80,
+
+        Action = function (client, product, items)
+            SpawnCreature("cyborgworm", client)
         end
     },
 }

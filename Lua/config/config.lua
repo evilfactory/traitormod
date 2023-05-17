@@ -291,30 +291,12 @@ config.PointShopConfig = {
 config.GhostRoleConfig = {
     Enabled = true,
     MiscGhostRoles = {
-        ["Watcher"] = true,
         ["Mudraptor_pet"] = true,
         ["Orangeboy"] = true,
         ["Peanut"] = true,
-        ["Huskmutantarmored"] = true,
-        ["Huskmutantarmoredpucs"] = true,
-        ["Huskmutanthunter"] = true,
-        ["Huskmutanthumanhead"] = true,
-        ["Huskmutanthumantorso"] = true,
-        ["humanhuskold"] = true,
-        ["Humanshambler"] = true,
-        ["Huskmutantcocoonhuman"] = true,
-        ["Huskpucsold"] = true,
-        ["Huskabyssold"] = true,
-        ["Huskslipold"] = true,
         ["Huskcontainer"] = true,
         ["Psilotoad"] = true,
-        ["Humanzombiestaggerer"] = true,
-        ["Huskmutanthuman"] = true,
-        ["Mantishusk"] = true,
-        ["Crawlerhusk"] = true,
-        ["Hammerheadspawn"] = true,
         ["Hammerheadmatriarch"] = true,
-        ["Mudraptorhusk"] = true,
     }
 }
 
