@@ -22,6 +22,15 @@ category.Products = {
     },
 
     {
+        Name = "Electrical Discharge Coil",
+        Price = 800,
+        Limit = 2,
+        Items = {
+            {Identifier = "dischargecoil", IsInstallation = true}
+        }
+    },
+
+    {
         Name = "Supplies Cabinet",
         Price = 100,
         Limit = 6,

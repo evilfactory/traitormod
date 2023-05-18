@@ -151,6 +151,11 @@ ps.SpawnItem = function(client, item, onSpawned)
             powerContainer.Charge = powerContainer.Capacity
         end
 
+        local discharge = item.GetComponentString("ElectricalDischarger")
+        if discharge then
+            discharge.OutdoorsOnly = false
+        end
+
         if onSpawned then onSpawned(item) end
     end
 
