@@ -237,7 +237,7 @@ category.Products = {
         end
     },
     
-        {
+    {
         Name = "Spawn as Hammerhead Matriarch",
         Price = 6500,
         Limit = 1,
