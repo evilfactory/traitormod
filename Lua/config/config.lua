@@ -296,7 +296,7 @@ config.GhostRoleConfig = {
         ["Peanut"] = true,
         ["Huskcontainer"] = true,
         ["Psilotoad"] = true,
-        ["Hammerheadmatriarch"] = true,
+        ["Humanzombiestaggerer"] = true,
     }
 }
 
