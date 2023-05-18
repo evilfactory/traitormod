@@ -131,10 +131,10 @@ temporarily removed
 
     {
         Name = "Spawn as Nightraptor",
-        Price = 935,
+        Price = 900,
         Limit = 2,
         IsLimitGlobal = true,
-        PricePerLimit = 350,
+        PricePerLimit = 130,
         Timeout = 60,
 
         Action = function (client, product, items)
@@ -223,13 +223,27 @@ temporarily removed
             SpawnCreature("hammerhead", client)
         end
     },
+    
+    {
+        Name = "Spawn as Golden Hammerhead",
+        Price = 3200,
+        Limit = 1,
+        IsLimitGlobal = true,
+        PricePerLimit = 1000,
+        Enabled = true,
+        Timeout = 65,
+
+        Action = function (client, product, items)
+            SpawnCreature("hammerheadgold", client)
+        end
+    },
 
     {
         Name = "Spawn as Fractal Squid",
-        Price = 2500,
-        Limit = 1,
+        Price = 850,
+        Limit = 2,
         IsLimitGlobal = true,
-        PricePerLimit = 900,
+        PricePerLimit = 450,
         Timeout = 60,
 
         Action = function (client, product, items)
@@ -239,14 +253,40 @@ temporarily removed
 
     {
         Name = "Spawn as Fractal Guardian",
-        Price = 3900,
+        Price = 3500,
         Limit = 1,
         IsLimitGlobal = true,
-        PricePerLimit = 1000,
+        PricePerLimit = 700,
         Timeout = 60,
 
         Action = function (client, product, items)
             SpawnCreature("fractalguardian", client)
+        end
+    },
+    
+    {
+        Name = "Spawn as Fractal Guardian (Plasma Cutter)",
+        Price = 4200,
+        Limit = 1,
+        IsLimitGlobal = true,
+        PricePerLimit = 800,
+        Timeout = 60,
+
+        Action = function (client, product, items)
+            SpawnCreature("fractalguardian3", client)
+        end
+    },
+   
+    {
+        Name = "Spawn as Fractal Guardian (Steam Cannon)",
+        Price = 3800,
+        Limit = 1,
+        IsLimitGlobal = true,
+        PricePerLimit = 500,
+        Timeout = 60,
+
+        Action = function (client, product, items)
+            SpawnCreature("fractalguardian2", client)
         end
     },
 
