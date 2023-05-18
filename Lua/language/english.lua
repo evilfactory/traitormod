@@ -5,7 +5,7 @@ language.TipText = "Pro Tip: "
 language.Tips = {
     "You can use !pointshop to spawn as creatures when you are dead.",
     "Traitors have access to a special traitor shop. Use !pointshop to open it.",
-    "You can use !traitor to get information about your traitor status.",
+    "You can use !role to get information about your current role status.",
     "You can use !help to get a list of all available commands.",
     "You can use !write to write text to a logbook that spawns when you die.",
     "Captain and security guards can never be traitors.",
