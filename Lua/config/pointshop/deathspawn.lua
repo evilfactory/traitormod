@@ -236,6 +236,20 @@ category.Products = {
             SpawnCreature("hammerheadgold", client)
         end
     },
+    
+        {
+        Name = "Spawn as Hammerhead Matriarch",
+        Price = 6500,
+        Limit = 1,
+        IsLimitGlobal = true,
+        PricePerLimit = 1000,
+        Enabled = true,
+        Timeout = 65,
+
+        Action = function (client, product, items)
+            SpawnCreature("hammerheadmatriarch", client)
+        end
+    },
 
     {
         Name = "Spawn as Fractal Squid",
@@ -291,10 +305,10 @@ category.Products = {
 
     {
         Name = "Spawn as Giant Spineling",
-        Price = 9500,
+        Price = 7500,
         Limit = 1,
         IsLimitGlobal = true,
-        PricePerLimit = 1750,
+        PricePerLimit = 1200,
         Enabled = true,
         Timeout = 60,
 
