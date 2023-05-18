@@ -155,7 +155,7 @@ function role:Greet()
     sb(secondary)
     sb("\n\n")
     if #traitors < 2 then
-        sb("You are the only traitor.")
+        sb("You are the only antagonist.")
     elseif self.TraitorMethodCommunication == "Names" then
         sb("Partners: %s\n", partners)
 

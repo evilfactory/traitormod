@@ -8,6 +8,8 @@ objective.DontLooseLives = false
 
 objective.Awarded = false
 
+function objective:Static() end
+
 function objective:Init(character)
     self.Character = character
 end

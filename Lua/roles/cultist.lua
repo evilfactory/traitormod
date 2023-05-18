@@ -17,7 +17,7 @@ function role:CultistLoop(first)
 
         husk.OnAwarded = function()
             if client then
-                Traitormod.SendMessage(client, Traitormod.Language.AssassinationNextTarget, "")
+                Traitormod.SendMessage(client, Traitormod.Language.CultistNextTarget, "")
                 Traitormod.Stats.AddClientStat("TraitorMainObjectives", client, 1)
             end
 
@@ -154,7 +154,7 @@ function role:Greet()
     sb(secondary)
     sb("\n\n")
     if #traitors < 2 then
-        sb("You are the only Husk Cultist.")
+        sb("You are the only antagonist.")
     else
         sb("Partners: %s\n", partners)
 

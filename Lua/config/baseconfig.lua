@@ -113,8 +113,9 @@ config.GamemodeConfig = {
 
         TraitorTypeSelectionMode = "Vote", -- Vote | Random
         TraitorTypeChance = {
-            Traitor = 50, -- Traitors have 50% chance of being a normal traitor
+            Traitor = 50, -- Traitors have 33% chance of being a normal traitor
             Cultist = 50,
+            HonkmotherClown = 50,
         },
 
         AmountTraitors = function (amountPlayers)
@@ -212,6 +213,25 @@ config.RoleConfig = {
         SelectUniqueTargets = true,     -- every traitor target can only be chosen once per traitor (respawn+false -> no end)
         PointsPerAssassination = 100,
     },
+
+    HonkmotherClown = {
+        SubObjectives = {"BananaSlip", "SuffocateCrew", "AssassinateDrunk", "GrowMudraptors", "Survive"},
+        MinSubObjectives = 3,
+        MaxSubObjectives = 3,
+
+        NextObjectiveDelayMin = 30,
+        NextObjectiveDelayMax = 60,
+
+        TraitorBroadcast = true,           -- traitors can broadcast to other traitors using !tc
+        TraitorBroadcastHearable = false,  -- if true, !tc will be hearable in the vicinity via local chat
+        TraitorDm = true,                  -- traitors can send direct messages to other players using !tdm
+
+        -- Names, None
+        TraitorMethodCommunication = "Names",
+
+        SelectBotsAsTargets = true,
+        SelectPiratesAsTargets = false,
+    },
 }
 
 config.ObjectiveConfig = {
@@ -273,6 +293,8 @@ config.RandomEventConfig = {
         dofile(Traitormod.Path .. "/Lua/config/randomevents/oxygengenpoison.lua"),
         dofile(Traitormod.Path .. "/Lua/config/randomevents/oxygengenhusk.lua"),
         dofile(Traitormod.Path .. "/Lua/config/randomevents/prisoner.lua"),
+        dofile(Traitormod.Path .. "/Lua/config/randomevents/randomlights.lua"),
+        dofile(Traitormod.Path .. "/Lua/config/randomevents/clownmagic.lua"),
     }
 }
 
@@ -280,6 +302,7 @@ config.PointShopConfig = {
     Enabled = true,
     DeathTimeoutTime = 120,
     ItemCategories = {
+        dofile(Traitormod.Path .. "/Lua/config/pointshop/clown.lua"),
         dofile(Traitormod.Path .. "/Lua/config/pointshop/cultist.lua"),
         dofile(Traitormod.Path .. "/Lua/config/pointshop/traitor.lua"),
         dofile(Traitormod.Path .. "/Lua/config/pointshop/security.lua"),

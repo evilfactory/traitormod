@@ -102,8 +102,11 @@ language.ObjectiveText = "Assassinate the crew in order to complete your mission
 
 language.AssassinationNextTarget = "Stay low until further instructions."
 language.AssassinationNewObjective = "Your next assassination target is %s."
+language.CultistNextTarget = "The church of husk values your efforts, a new target shall be assigned soon."
 language.HuskNewObjective = "Your next husk target is %s."
 language.AssassinationEveryoneDead = "Good job agent, you did it!"
+language.HonkmotherNextTarget = "Honkmother is pleased with your work, but there is still more to do, wait for further instructions."
+language.HonkmotherNewObjective = "Your next target is %s."
 
 language.ItemsBought = "Items bought from point shop"
 language.CrewBoughtItem = "Players bought items from point shop"

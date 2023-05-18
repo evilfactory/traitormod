@@ -37,6 +37,8 @@ rm.AddObjective = function(objective)
             objective[key] = value
         end
     end
+
+    objective.Static()
 end
 
 rm.CheckObjectives = function(endRound)
@@ -196,7 +198,9 @@ rm.CallObjectiveFunction = function (functionName, ...)
     for character, role in pairs(rm.RoundRoles) do
         if not character.IsDead and role.Objectives then
             for _, objective in pairs(role.Objectives) do
-                objective[functionName](objective, ...)
+                if objective[functionName] then
+                    objective[functionName](objective, ...)
+                end
             end
         end
     end
