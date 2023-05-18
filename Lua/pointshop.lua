@@ -236,6 +236,10 @@ ps.BuyProduct = function(client, product)
             return ps.ProductBuyFailureReason.NoPoints
         end
 
+        if not ps.UseProductLimit(client, product) then
+            return ps.ProductBuyFailureReason.NoStock
+        end
+
         if product.Timeout ~= nil then
             if ps.Timeouts[client.SteamID] ~= nil and Timer.GetTime() < ps.Timeouts[client.SteamID] then
                 local time = math.ceil(ps.Timeouts[client.SteamID] - Timer.GetTime())
@@ -243,10 +247,6 @@ ps.BuyProduct = function(client, product)
             end
 
             ps.Timeouts[client.SteamID] = Timer.GetTime() + product.Timeout
-        end
-
-        if not ps.UseProductLimit(client, product) then
-            return ps.ProductBuyFailureReason.NoStock
         end
 
         Traitormod.Log(string.format("PointShop: %s bought \"%s\".", Traitormod.ClientLogName(client), product.Name))
@@ -438,9 +438,9 @@ Hook.Add("characterDeath", "Traitormod.Pointshop.Death", function (character)
         Traitormod.SendMessage(client, "You have been refunded " .. ps.GetProductPrice(client, refund.Product) .. " points for your " .. refund.Product.Name .. " purchase.")
 
         ps.Refunds[client] = nil
+    else
+        ps.Timeouts[client.SteamID] = Timer.GetTime() + config.PointShopConfig.DeathTimeoutTime
     end
-
-    ps.Timeouts[client.SteamID] = Timer.GetTime() + config.PointShopConfig.DeathTimeoutTime
 end)
 
 ps.ValidateConfig()
