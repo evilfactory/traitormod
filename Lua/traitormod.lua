@@ -65,6 +65,12 @@ Traitormod.RoundStart = function()
         Traitormod.SendWelcome(value)
     end
 
+    if Traitormod.Config.HideCrewList then
+        for key, value in pairs(Character.CharacterList) do
+            Networking.CreateEntityEvent(value, Character.RemoveFromCrewEventData.__new(value.TeamID, {}))
+        end
+    end
+
     Traitormod.SelectedGamemode = nil
 
     if LuaUserData.IsTargetType(Game.GameSession.GameMode, "Barotrauma.PvPMode") then
