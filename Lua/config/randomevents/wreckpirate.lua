@@ -123,7 +123,7 @@ event.Start = function ()
         Traitormod.LostLivesThisRound[client.SteamID] = false
         client.SetClientCharacter(character)
 
-        Traitormod.SendMessageCharacter(character, "You are a pirate! Protect the wreck from any filthy coalitions, it will be eventually home to our center of operations! \n\nSurviving inside the wreck until the end of the round will grant you " .. event.AmountPointsPirate .." points.", "InfoFrameTabButton.Mission")
+        Traitormod.SendMessageCharacter(character, "You are a pirate! Eliminate all coalition personnel at the convict station. It will be eventually home to our center of operations! \n\nIf you see any prisoners on the way, rescue them.", "InfoFrameTabButton.Mission")
     end, character)
 
     Hook.Add("think", "WreckPirate.Think", function ()
