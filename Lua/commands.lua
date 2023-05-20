@@ -501,7 +501,7 @@ Traitormod.AddCommand("!spawn", function (client, args)
     end
 
     if spawnClient.Character == nil or spawnClient.Character.IsDead then
-        MidRoundSpawn.TryCreateClientCharacter(spawnClient)
+        m.TryCreateClientCharacter(spawnClient)
         Game.SendDirectChatMessage("", "Character of ".. Traitormod.ClientLogName(spawnClient) .. " successfully spawned.", nil, ChatMessageType.Server, client)
     else
         Game.SendDirectChatMessage("", "Character of " .. Traitormod.ClientLogName(spawnClient) .. " is alive.", nil, ChatMessageType.Error, client)
