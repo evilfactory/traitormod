@@ -146,7 +146,6 @@ m.ShowSpawnDialog = function(client, force)
 end
 
 Hook.Add("roundStart", "Traitormod.MidRoundSpawn.RoundStart", function ()
-    if not Traitormod.Config.MidRoundSpawn then return end
 
     -- Reset tables
     hasBeenSpawned = {}
@@ -163,7 +162,6 @@ Hook.Add("roundStart", "Traitormod.MidRoundSpawn.RoundStart", function ()
 end)
 
 Hook.Add("client.connected", "Traitormod.MidRoundSpawn.ClientConnected", function (newClient)
-    if not Traitormod.Config.MidRoundSpawn then return end
 
     -- client connects, round has started and client has not been considered for spawning yet
     if not Game.RoundStarted or hasBeenSpawned[newClient.SteamID] then return end
@@ -182,7 +180,6 @@ Hook.Add("client.connected", "Traitormod.MidRoundSpawn.ClientConnected", functio
 end)
 
 Hook.Add("think", "Traitormod.MidRoundSpawn.Think", function ()
-    if not Traitormod.Config.MidRoundSpawn then return end
 
     if Game.RoundStarted and checkTime and Timer.GetTime() > checkTime then
         checkTime = Timer.GetTime() + checkDelaySeconds
@@ -211,7 +208,6 @@ Hook.Add("think", "Traitormod.MidRoundSpawn.Think", function ()
 end)
 
 Traitormod.AddCommand("!midroundspawn", function (client, args)
-    if not Traitormod.Config.MidRoundSpawn then return end
 
     if client.InGame then
         if (not hasBeenSpawned[client.SteamID] or client.HasPermission(ClientPermissions.ConsoleCommands)) and (not client.Character or client.Character.IsDead) then
