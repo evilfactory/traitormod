@@ -53,14 +53,14 @@ MidRoundSpawn.TryCreateClientCharacter = function(client)
 
     if jobPreference == nil then
         -- if no jobPreference, set assistant
-        jobPreference = MidRoundSpawn.GetJobVariant("assistant")
+        jobPreference = MidRoundSpawn.GetJobVariant("convict")
 
     elseif PreventMultiCaptain and jobPreference.Prefab.Identifier == "warden" or jobPreference.Prefab.Identifier == "headguard" then
         -- if crew has a captain, spawn as security
         if MidRoundSpawn.CrewHasJob("warden") or MidRoundSpawn.CrewHasJob("headguard") then
             MidRoundSpawn.Log(client.Name .. " tried to mid-round spawn as second captain - assigning security instead.")
             -- set jobPreference = security
-            jobPreference = MidRoundSpawn.GetJobVariant("convict")
+            jobPreference = MidRoundSpawn.GetJobVariant("guard")
         end
     end
 
