@@ -73,6 +73,9 @@ Traitormod.AddCommand("!announce", function(client, args)
 
             Traitormod.RoundEvents.SendEventMessage("Warden's Announcement: "..msg, "GameModeIcon.sandbox", Color.LightBlue)
             return true
+        elseif client.Character and client.Character.TeamID = CharacterTeamType.Team2 then
+            Traitormod.RoundEvents.SendEventMessage("Separatist Transmission: "..msg, "GameModeIcon.sandbox", Color.Khaki)
+            return true
         else
             feedback = "You don't have the warden's ID."
             Game.SendDirectChatMessage("", feedback, nil, Traitormod.Config.ChatMessageType, client)
@@ -498,7 +501,7 @@ Traitormod.AddCommand("!spawn", function (client, args)
     end
 
     if spawnClient.Character == nil or spawnClient.Character.IsDead then
-        MidRoundSpawn.TryCreateClientCharacter(spawnClient)
+        m.TryCreateClientCharacter(spawnClient)
         Game.SendDirectChatMessage("", "Character of ".. Traitormod.ClientLogName(spawnClient) .. " successfully spawned.", nil, ChatMessageType.Server, client)
     else
         Game.SendDirectChatMessage("", "Character of " .. Traitormod.ClientLogName(spawnClient) .. " is alive.", nil, ChatMessageType.Error, client)

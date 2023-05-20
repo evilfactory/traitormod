@@ -62,7 +62,7 @@ category.Products = {
             SpawnCreature("crawler", client)
         end
     },
-
+--[[
     {
         Name = "Spawn as Zombie Sprinter",
         Price = 750,
@@ -75,7 +75,7 @@ category.Products = {
             SpawnCreature("Humanzombiesprinter", client)
         end
     },
-
+chudmeister didn't fix his mod
     {
         Name = "Spawn as Zombie Staggerer",
         Price = 510,
@@ -88,6 +88,7 @@ category.Products = {
             SpawnCreature("Humanzombiestaggerernatural", client)
         end
     },
+ --]]
     
     {
         Name = "Spawn as Spineling",
