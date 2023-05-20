@@ -5,7 +5,7 @@ objective.AmountPoints = 400
 objective.EndRoundObjective = true
 
 function objective:Start(target)
-    self.Text = "Make sure at least one member of the security team survives."
+    self.Text = Traitormod.Language.SecurityTeamSurvival
 
     return true
 end

@@ -1,7 +1,7 @@
 local objective = Traitormod.RoleManager.Objectives.Objective:new()
 
 objective.Name = "FinishAllObjectives"
-objective.Text = "Finish all objectives and gain 1 live."
+objective.Text = Traitormod.Language.ObjectiveFinishAllObjectives
 objective.EndRoundObjective = false
 objective.AmountPoints = 0
 objective.AmountLives = 1

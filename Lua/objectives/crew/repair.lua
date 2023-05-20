@@ -9,7 +9,7 @@ objective.ItemText = "Junction Boxes"
 function objective:Start(target)
     self.Progress = 0
 
-    self.Text = string.format("Repair (%s/%s) %s", self.Progress, self.Amount, self.ItemText)
+    self.Text = string.format(Traitormod.Language.ObjectiveRepair, self.Progress, self.Amount, self.ItemText)
 
     return true
 end
@@ -25,7 +25,7 @@ function objective:StopRepairing(item, character)
 
     if character == self.Character and item.ConditionPercentage > 80 then
         self.Progress = self.Progress + 1
-        self.Text = string.format("Repair (%s/%s) %s", self.Progress, self.Amount, self.ItemText)
+        self.Text = string.format(Traitormod.Language.ObjectiveRepair, self.Progress, self.Amount, self.ItemText)
     end
 end
 

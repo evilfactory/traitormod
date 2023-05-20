@@ -49,7 +49,7 @@ function objective:Start(target)
 
     if self.Target == nil then return false end
 
-    self.Text = string.format("Slip %s on bananas %s times.", self.Target.Name, self.Times)
+    self.Text = string.format(Traitormod.Language.ObjectiveBananaSlip, self.Target.Name, self.Progress, self.Times)
 
     return true
 end
@@ -57,7 +57,7 @@ end
 function objective:BananaSlip(character)
     if character == self.Target then
         self.Progress = self.Progress + 1
-        self.Text = string.format("Slip %s on bananas (%s/%s) times.", self.Target.Name, self.Progress, self.Times)
+        self.Text = string.format(Traitormod.Language.ObjectiveBananaSlip, self.Target.Name, self.Progress, self.Times)
     end
 end
 

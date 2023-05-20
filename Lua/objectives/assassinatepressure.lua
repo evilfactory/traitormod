@@ -7,7 +7,7 @@ function objective:Start(target)
 
     if self.Target == nil then return false end
 
-    self.Text = string.format("Crush %s with high pressure", self.Target.Name)
+    self.Text = string.format(Traitormod.Language.ObjectiveAssassinatePressure, self.Target.Name)
 
     return true
 end

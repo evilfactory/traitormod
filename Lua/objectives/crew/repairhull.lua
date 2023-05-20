@@ -7,7 +7,7 @@ objective.Amount = 2000
 function objective:Start(target)
     self.Progress = 0
 
-    self.Text = string.format("Repair (%s/%s) damage from the hull.", self.Progress, self.Amount, self.MinCondition)
+    self.Text = string.format(Traitormod.Language.ObjectiveRepairHull, self.Progress, self.Amount, self.MinCondition)
 
     return true
 end
@@ -17,7 +17,7 @@ function objective:HullRepaired(character, amount)
     amount = math.max(amount, -50)
 
     self.Progress = self.Progress - amount
-    self.Text = string.format("Repair (%s/%s) damage from the hull.", math.floor(self.Progress), self.Amount, self.MinCondition)
+    self.Text = string.format(Traitormod.Language.ObjectiveRepairHull, math.floor(self.Progress), self.Amount, self.MinCondition)
 end
 
 function objective:IsCompleted()

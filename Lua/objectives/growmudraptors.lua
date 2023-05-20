@@ -17,14 +17,14 @@ end
 function objective:Start()
     self.Progress = 0
 
-    self.Text = string.format("Grow %s mudraptors.", self.Times)
+    self.Text = string.format(Traitormod.Language.ObjectiveGrowMudraptors, self.Progress, self.Times)
 
     return true
 end
 
 function objective:GrowMudraptor()
     self.Progress = self.Progress + 1
-    self.Text = string.format("Grow (%s/%s) mudraptors.", self.Progress, self.Times)
+    self.Text = string.format(Traitormod.Language.ObjectiveGrowMudraptors, self.Progress, self.Times)
 end
 
 function objective:IsCompleted()

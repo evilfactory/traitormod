@@ -5,7 +5,7 @@ objective.AmountPoints = 450
 objective.EndRoundObjective = true
 
 function objective:Start(target)
-    self.Text = "Finish the round in less than 20 minutes."
+    self.Text = Traitormod.Language.ObjectiveFinishRoundFast
 
     return true
 end

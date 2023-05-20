@@ -91,12 +91,27 @@ language.NoObjectives = "No objectives."
 language.NoObjectivesYet = "No targets yet..."
 
 language.ObjectiveAssassinate = "Assassinate %s."
-
+language.ObjectiveAssassinateDrunk = "Assassinate %s while drunk"
+language.ObjectiveAssassinatePressure = "Crush %s with high pressure"
+language.ObjectiveBananaSlip = "Slip %s on bananas (%s/%s) times."
+language.ObjectiveDestroyCaly = "Slip %s on bananas (%s/%s) times."
+language.ObjectiveDrunkSailor = "Give %s more than 80% drunkness."
+language.ObjectiveGrowMudraptors = "Grow (%s/%s) mudraptors."
+language.ObjectiveHusk = "Turn %s into a full husk."
+language.ObjectiveTurnHusk = "Turn yourself into a husk."
 language.ObjectiveSurvive = "Complete at least one objective and survive the shift."
 language.ObjectiveStealCaptainID = "Steal the captain's ID."
 language.ObjectiveKidnap = "Handcuff %s for %s seconds."
 language.ObjectivePoisonCaptain = "Poison %s with %s."
 language.ObjectiveWreckGift = "Grab the gift"
+
+language.ObjectiveFinishAllObjectives = "Finish all objectives and gain 1 live."
+language.ObjectiveFinishRoundFast = "Finish the round in less than 20 minutes."
+language.ObjectiveHealCharacters = "Do (%s/%s) points of healing."
+language.ObjectiveKillMonsters = "Kill (%s/%s) %s."
+language.ObjectiveRepair = "Repair (%s/%s) %s"
+language.ObjectiveRepairHull = "Repair (%s/%s) damage from the hull."
+language.ObjectiveSecurityTeamSurvival = "Make sure at least one member of the security team survives."
 
 language.ObjectiveText = "Assassinate the crew in order to complete your mission."
 

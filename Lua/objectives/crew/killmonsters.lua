@@ -9,9 +9,8 @@ objective.Monster = {
 }
 
 function objective:Start(target)
-    self.Text = string.format("Kill %s %s.", self.Monster.Amount, self.Monster.Text)
-
     self.Progress = 0
+    self.Text = string.format(Traitormod.Language.ObjectiveKillMonsters, self.Progress, self.Monster.Amount, self.Monster.Text)
 
     return true
 end
@@ -27,7 +26,7 @@ function objective:CharacterDeath(character)
     if anyMatched then
         if character.CauseOfDeath and character.CauseOfDeath.Killer == self.Character then
             self.Progress = self.Progress + 1
-            self.Text = string.format("Kill (%s/%s) %s.", self.Progress, self.Monster.Amount, self.Monster.Text)
+            self.Text = string.format(Traitormod.Language.ObjectiveKillMonsters, self.Progress, self.Monster.Amount, self.Monster.Text)
         end
     end
 end
