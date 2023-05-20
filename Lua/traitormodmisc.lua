@@ -122,10 +122,6 @@ end
 
 Hook.Add("roundEnd", "PointsOnRoundEnd", function ()
     for key, plr in pairs(Client.ClientList) do
-        if plr.Character and not plr.Character.IsDead and plr.Character.IsHuman then
-            local lifeMsg, lifeIcon = Traitormod.AdjustLives(client, 1)
-            Traitormod.SendMessage(client, "Good job on staying alive, you've gained a life.", lifeIcon)
-        end
         if plr.Character and not plr.Character.IsDead and plr.Character.IsHuman and plr.Character.JobIdentifier == "convict" and plr.Character.Submarine ~= Submarine.MainSub then
             Traitormod.AwardPoints(plr, 2100)
             Traitormod.SendMessage(plr, "Congrats on escaping, you have received 2100 points.", "InfoFrameTabButton.Mission")

@@ -75,7 +75,7 @@ category.Products = {
             SpawnCreature("Humanzombiesprinter", client)
         end
     },
-chudmeister didn't fix his mod
+temporarily removed
     {
         Name = "Spawn as Zombie Staggerer",
         Price = 510,
@@ -88,7 +88,7 @@ chudmeister didn't fix his mod
             SpawnCreature("Humanzombiestaggerernatural", client)
         end
     },
- --]]
+--]]
     
     {
         Name = "Spawn as Spineling",
@@ -121,7 +121,7 @@ chudmeister didn't fix his mod
         Price = 1000,
         Limit = 2,
         IsLimitGlobal = true,
-        PricePerLimit = 250,
+        PricePerLimit = 300,
         Timeout = 60,
 
         Action = function (client, product, items)
@@ -131,10 +131,10 @@ chudmeister didn't fix his mod
 
     {
         Name = "Spawn as Nightraptor",
-        Price = 900,
+        Price = 935,
         Limit = 2,
         IsLimitGlobal = true,
-        PricePerLimit = 130,
+        PricePerLimit = 350,
         Timeout = 60,
 
         Action = function (client, product, items)
@@ -157,10 +157,10 @@ chudmeister didn't fix his mod
 
     {
         Name = "Spawn as Husk",
-        Price = 1150,
+        Price = 1000,
         Limit = 2,
         IsLimitGlobal = true,
-        PricePerLimit = 400,
+        PricePerLimit = 200,
         Timeout = 60,
 
         Action = function (client, product, items)
@@ -170,10 +170,10 @@ chudmeister didn't fix his mod
 
     {
         Name = "Spawn as Bone Thresher",
-        Price = 1300,
+        Price = 2150,
         Limit = 2,
         IsLimitGlobal = true,
-        PricePerLimit = 500,
+        PricePerLimit = 750,
         Enabled = true,
         Timeout = 60,
 
@@ -223,21 +223,21 @@ chudmeister didn't fix his mod
             SpawnCreature("hammerhead", client)
         end
     },
-    
+
     {
         Name = "Spawn as Golden Hammerhead",
-        Price = 2800,
+        Price = 2750,
         Limit = 1,
         IsLimitGlobal = true,
         PricePerLimit = 1000,
         Enabled = true,
-        Timeout = 65,
+        Timeout = 60,
 
         Action = function (client, product, items)
-            SpawnCreature("hammerheadgold", client)
+            SpawnCreature("Hammerheadgold", client)
         end
     },
-    
+
     {
         Name = "Spawn as Hammerhead Matriarch",
         Price = 6000,
@@ -245,7 +245,7 @@ chudmeister didn't fix his mod
         IsLimitGlobal = true,
         PricePerLimit = 1000,
         Enabled = true,
-        Timeout = 65,
+        Timeout = 60,
 
         Action = function (client, product, items)
             SpawnCreature("hammerheadmatriarch", client)
@@ -257,7 +257,7 @@ chudmeister didn't fix his mod
         Price = 850,
         Limit = 2,
         IsLimitGlobal = true,
-        PricePerLimit = 450,
+        PricePerLimit = 200,
         Timeout = 60,
 
         Action = function (client, product, items)
@@ -267,36 +267,23 @@ chudmeister didn't fix his mod
 
     {
         Name = "Spawn as Fractal Guardian",
-        Price = 3500,
+        Price = 3000,
         Limit = 1,
         IsLimitGlobal = true,
-        PricePerLimit = 700,
+        PricePerLimit = 1000,
         Timeout = 60,
 
         Action = function (client, product, items)
             SpawnCreature("fractalguardian", client)
         end
     },
-    
-    {
-        Name = "Spawn as Fractal Guardian (Plasma Cutter)",
-        Price = 4200,
-        Limit = 1,
-        IsLimitGlobal = true,
-        PricePerLimit = 800,
-        Timeout = 60,
 
-        Action = function (client, product, items)
-            SpawnCreature("fractalguardian3", client)
-        end
-    },
-   
     {
         Name = "Spawn as Fractal Guardian (Steam Cannon)",
-        Price = 3800,
+        Price = 3350,
         Limit = 1,
         IsLimitGlobal = true,
-        PricePerLimit = 500,
+        PricePerLimit = 1000,
         Timeout = 60,
 
         Action = function (client, product, items)
@@ -305,11 +292,24 @@ chudmeister didn't fix his mod
     },
 
     {
-        Name = "Spawn as Giant Spineling",
-        Price = 7500,
+        Name = "Spawn as Fractal Guardian (Plasma Cutter)",
+        Price = 3850,
         Limit = 1,
         IsLimitGlobal = true,
-        PricePerLimit = 1200,
+        PricePerLimit = 1000,
+        Timeout = 60,
+
+        Action = function (client, product, items)
+            SpawnCreature("fractalguardian3", client)
+        end
+    },
+
+    {
+        Name = "Spawn as Giant Spineling",
+        Price = 8500,
+        Limit = 1,
+        IsLimitGlobal = true,
+        PricePerLimit = 1750,
         Enabled = true,
         Timeout = 60,
 
