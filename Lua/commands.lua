@@ -68,12 +68,17 @@ Traitormod.AddCommand("!announce", function(client, args)
         if #args > 0 and item.Prefab.Identifier == "idcard" and item.GetComponentString("IdCard").OwnerJobId == "warden" then
             local msg = ""
             for word in args do
-                msg = msg .. " " .. word
+                msg = msg .. "" .. word
             end
 
             Traitormod.RoundEvents.SendEventMessage("Warden's Announcement: "..msg, "GameModeIcon.sandbox", Color.LightBlue)
             return true
-        elseif client.Character and client.Character.TeamID == CharacterTeamType.Team2 then
+        elseif client.Character and client.Character.TeamID == CharacterTeamType.Team2 and #args > 0 then
+            local msg = ""
+            for word in args do
+                msg = msg .. "" .. word
+            end
+                
             Traitormod.RoundEvents.SendEventMessage("Separatist Transmission: "..msg, "GameModeIcon.sandbox", Color.Khaki)
             return true
         else
