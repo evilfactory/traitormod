@@ -68,6 +68,24 @@ language.AgentNoticeNoCodewords = "There are other agents on this submarine. You
 
 language.AgentNoticeOnlyTraitor = "You are the only traitor on this ship, proceed with caution."
 
+language.GhostRoleAvailable = "[Ghost Role] New ghost role available: %s (type in chat ‖color:gui.orange‖!ghostrole %s‖color:end‖ to accept)"
+language.GhostRolesDisabled = "Ghost roles are disabled."
+language.GhostRolesSpectator = "Only spectators can use ghost roles."
+language.GhostRolesInGame = "You must be in game to use ghost roles."
+language.GhostRolesDead = "(Dead)"
+language.GhostRolesTaken = "(Already Taken)"
+language.GhostRolesNotFound = "Ghost role not found, did you type the name correctly? Available roles: \n\n"
+language.GhostRolesTook = "Someone already took this ghost role."
+language.GhostRolesAlreadyDead = "Seems this ghost role is already dead, too bad!"
+language.GhostRolesReminder = "Ghost roles available: %s\n\nUse !ghostrole name to pick a role."
+
+language.MidRoundSpawnWelcome = ">> MidRoundSpawn active! <<\nThe round has already started, but you can spawn instantly!"
+language.MidRoundSpawn = "Do you want to spawn instantly or wait for the next respawn?\n"
+language.MidRoundSpawnMission = "> Spawn"
+language.MidRoundSpawnCoalition = "> Spawn Coalition"
+language.MidRoundSpawnSeparatists = "> Spawn Separatists"
+language.MidRoundSpawnWait = "> Wait"
+
 language.RoundSummary = "| Round Summary |"
 language.Gamemode = "Gamemode: %s"
 language.RandomEvents = "Random Events: %s"

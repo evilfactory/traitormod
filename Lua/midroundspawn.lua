@@ -122,7 +122,7 @@ m.ShowSpawnDialog = function(client, force)
     end
 
     if LuaUserData.IsTargetType(Game.GameSession.GameMode, "Barotrauma.PvPMode") then
-        textPromptUtils.Prompt("Do you want to spawn instantly or wait for the next respawn?\n", {"> Spawn Coalition", "> Spawn Separatists", "> Wait"}, client, function(option, client) 
+        textPromptUtils.Prompt(Traitormod.Language.MidRoundSpawn, {Traitormod.Language.MidRoundSpawnCoalition, Traitormod.Language.MidRoundSpawnSeparatists, Traitormod.Language.MidRoundSpawnWait}, client, function(option, client) 
             if option == 1 or option == 2 then
                 if force or not client.Character or client.Character.IsDead then
                     m.SpawnClientCharacterOnSub(Submarine.MainSubs[option], client)
@@ -132,7 +132,7 @@ m.ShowSpawnDialog = function(client, force)
             end
         end)
     else
-        textPromptUtils.Prompt("Do you want to spawn instantly or wait for the next respawn?\n", {"> Spawn", "> Wait"}, client, function(option, client) 
+        textPromptUtils.Prompt(Traitormod.Language.MidRoundSpawn, {Traitormod.Language.MidRoundSpawnMission, Traitormod.Language.MidRoundSpawnWait}, client, function(option, client) 
             if option == 1 then
                 if force or not client.Character or client.Character.IsDead then
                     m.SpawnClientCharacterOnSub(Submarine.MainSub, client)
@@ -176,7 +176,7 @@ Hook.Add("client.connected", "Traitormod.MidRoundSpawn.ClientConnected", functio
         table.insert(newPlayers, newClient)
 
         -- inform player about his luck
-        Game.SendDirectChatMessage("", ">> MidRoundSpawn active! <<\nThe round has already started, but you can spawn instantly!", nil, ChatMessageType.Private, newClient)
+        Game.SendDirectChatMessage("", Traitormod.Language.MidRoundSpawnWelcome, nil, ChatMessageType.Private, newClient)
     end
 end)
 
