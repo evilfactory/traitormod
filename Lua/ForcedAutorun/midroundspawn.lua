@@ -56,7 +56,11 @@ MidRoundSpawn.TryCreateClientCharacter = function(client)
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
         jobPreference = MidRoundSpawn.GetJobVariant("convict")
+=======
+        jobPreference = MidRoundSpawn.GetJobVariant("assistant")
+>>>>>>> parent of 9c0d28b (using new version of midroundjoin)
 =======
         jobPreference = MidRoundSpawn.GetJobVariant("assistant")
 >>>>>>> parent of 9c0d28b (using new version of midroundjoin)
@@ -75,7 +79,11 @@ MidRoundSpawn.TryCreateClientCharacter = function(client)
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
             jobPreference = MidRoundSpawn.GetJobVariant("guard")
+=======
+            jobPreference = MidRoundSpawn.GetJobVariant("convict")
+>>>>>>> parent of 9c0d28b (using new version of midroundjoin)
 =======
             jobPreference = MidRoundSpawn.GetJobVariant("convict")
 >>>>>>> parent of 9c0d28b (using new version of midroundjoin)
@@ -132,6 +140,7 @@ MidRoundSpawn.TryCreateClientCharacter = function(client)
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
         local char = Character.Create(client.CharacterInfo, waypoint.WorldPosition, client.CharacterInfo.Name, 0, true, true)
         char.TeamID = CharacterTeamType.FriendlyNPC
         crewManager.AddCharacter(char)
@@ -142,6 +151,8 @@ MidRoundSpawn.TryCreateClientCharacter = function(client)
         char.LoadTalents()
         char.GiveIdCardTags(waypoint, true)
 =======
+=======
+>>>>>>> parent of 9c0d28b (using new version of midroundjoin)
 =======
 >>>>>>> parent of 9c0d28b (using new version of midroundjoin)
 =======
@@ -158,6 +169,9 @@ MidRoundSpawn.TryCreateClientCharacter = function(client)
         char.GiveIdCardTags(waypoint, false)
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
+>>>>>>> parent of 9c0d28b (using new version of midroundjoin)
+=======
 >>>>>>> parent of 9c0d28b (using new version of midroundjoin)
 =======
 >>>>>>> parent of 9c0d28b (using new version of midroundjoin)
@@ -316,7 +330,11 @@ Hook.Add("chatMessage", "MidRoundSpawn.ChatMessage", function (message, client)
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 end)
+=======
+end)
+>>>>>>> parent of 9c0d28b (using new version of midroundjoin)
 =======
 end)
 >>>>>>> parent of 9c0d28b (using new version of midroundjoin)

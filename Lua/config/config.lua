@@ -45,7 +45,10 @@ config.NerfSwords = false
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 config.MidRoundSpawn = true
+=======
+>>>>>>> parent of 9c0d28b (using new version of midroundjoin)
 =======
 >>>>>>> parent of 9c0d28b (using new version of midroundjoin)
 =======
