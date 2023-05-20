@@ -53,14 +53,22 @@ MidRoundSpawn.TryCreateClientCharacter = function(client)
 
     if jobPreference == nil then
         -- if no jobPreference, set assistant
+<<<<<<< HEAD
         jobPreference = MidRoundSpawn.GetJobVariant("convict")
+=======
+        jobPreference = MidRoundSpawn.GetJobVariant("assistant")
+>>>>>>> parent of 9c0d28b (using new version of midroundjoin)
 
     elseif PreventMultiCaptain and jobPreference.Prefab.Identifier == "warden" or jobPreference.Prefab.Identifier == "headguard" then
         -- if crew has a captain, spawn as security
         if MidRoundSpawn.CrewHasJob("warden") or MidRoundSpawn.CrewHasJob("headguard") then
             MidRoundSpawn.Log(client.Name .. " tried to mid-round spawn as second captain - assigning security instead.")
             -- set jobPreference = security
+<<<<<<< HEAD
             jobPreference = MidRoundSpawn.GetJobVariant("guard")
+=======
+            jobPreference = MidRoundSpawn.GetJobVariant("convict")
+>>>>>>> parent of 9c0d28b (using new version of midroundjoin)
         end
     end
 
@@ -105,6 +113,7 @@ MidRoundSpawn.TryCreateClientCharacter = function(client)
 
     Timer.Wait(function () 
         -- spawn character
+<<<<<<< HEAD
         local char = Character.Create(client.CharacterInfo, waypoint.WorldPosition, client.CharacterInfo.Name, 0, true, true)
         char.TeamID = CharacterTeamType.FriendlyNPC
         crewManager.AddCharacter(char)
@@ -114,6 +123,18 @@ MidRoundSpawn.TryCreateClientCharacter = function(client)
         char.GiveJobItems(waypoint)
         char.LoadTalents()
         char.GiveIdCardTags(waypoint, true)
+=======
+        local char = Character.Create(client.CharacterInfo, waypoint.WorldPosition, client.CharacterInfo.Name, 0, true, true);
+        char.TeamID = CharacterTeamType.FriendlyNPC;
+        crewManager.AddCharacter(char)
+
+        client.SetClientCharacter(char)
+        --mcm_client_manager:set(client, char)
+        
+        char.GiveJobItems(waypoint)
+        char.LoadTalents()
+        char.GiveIdCardTags(waypoint, false)
+>>>>>>> parent of 9c0d28b (using new version of midroundjoin)
     end, SpawnDelaySeconds * 1000)
     return true
 end
@@ -264,4 +285,8 @@ Hook.Add("chatMessage", "MidRoundSpawn.ChatMessage", function (message, client)
         end
         return true
     end
+<<<<<<< HEAD
 end)
+=======
+end)
+>>>>>>> parent of 9c0d28b (using new version of midroundjoin)

@@ -42,7 +42,10 @@ config.RespawnedPlayersDontLooseLives = true
 config.MaxExperienceFromPoints = 100000     -- if not nil, this amount is the maximum experience players gain from stored points (30k = lvl 10 | 38400 = lvl 12)
 config.RemoveSkillBooks = true
 config.NerfSwords = false
+<<<<<<< HEAD
 config.MidRoundSpawn = true
+=======
+>>>>>>> parent of 9c0d28b (using new version of midroundjoin)
 
 config.FreeExperience = 950         -- temporary experience given every ExperienceTimer seconds
 config.ExperienceTimer = 120
