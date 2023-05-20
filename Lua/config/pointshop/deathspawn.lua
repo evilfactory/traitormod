@@ -226,7 +226,7 @@ chudmeister didn't fix his mod
     
     {
         Name = "Spawn as Golden Hammerhead",
-        Price = 3200,
+        Price = 2800,
         Limit = 1,
         IsLimitGlobal = true,
         PricePerLimit = 1000,
@@ -240,7 +240,7 @@ chudmeister didn't fix his mod
     
     {
         Name = "Spawn as Hammerhead Matriarch",
-        Price = 6500,
+        Price = 6000,
         Limit = 1,
         IsLimitGlobal = true,
         PricePerLimit = 1000,
