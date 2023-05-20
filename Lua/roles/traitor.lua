@@ -130,7 +130,7 @@ function role:ObjectivesToString()
         end
     end
     if #primary == 0 then
-        primary(" > No objectives yet... Stay futile.")
+        primary(Traitormod.Language.NoObjectivesYet)
     end
 
     return primary:concat("\n"), secondary:concat("\n")
@@ -148,19 +148,20 @@ function role:Greet()
     local primary, secondary = self:ObjectivesToString()
 
     local sb = Traitormod.StringBuilder:new()
-    sb("You are a traitor!\n\n")
-    sb("Your main objectives are:\n")
+    sb("%s\n\n", Traitormod.Language.TraitorYou)
+    sb("%s\n", Traitormod.Language.MainObjectivesYou)
     sb(primary)
-    sb("\n\nYour secondary objectives are:\n")
+    sb("\n\n%s\n", Traitormod.Language.SecondaryObjectivesYou)
     sb(secondary)
     sb("\n\n")
     if #traitors < 2 then
-        sb("You are the only antagonist.")
+        sb(Traitormod.Language.SoloAntagonist)
     elseif self.TraitorMethodCommunication == "Names" then
-        sb("Partners: %s\n", partners)
+        sb(Traitormod.Language.Partners, partners)
+        sb("\n")
 
         if self.TraitorBroadcast then
-            sb("Use !tc to communicate with your partners.")
+            sb(Traitormod.Language.TcTip)
         end
     elseif self.TraitorMethodCommunication == "Codewords" then
         sb("Use code words the find your partners\n")
@@ -180,10 +181,10 @@ end
 function role:OtherGreet()
     local sb = Traitormod.StringBuilder:new()
     local primary, secondary = self:ObjectivesToString()
-    sb("Traitor %s.", self.Character.Name)
-    sb("\nTheir main objectives were:\n")
+    sb(Traitormod.Language.TraitorOther, self.Character.Name)
+    sb("\n%s\n", Traitormod.Language.MainObjectivesOther)
     sb(primary)
-    sb("\nTheir secondary objectives were:\n")
+    sb("\n%s\n", Traitormod.Language.SecondaryObjectivesOther)
     sb(secondary)
     return sb:concat()
 end
