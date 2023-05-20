@@ -45,6 +45,7 @@ config.RespawnOnKillPoints = 0
 config.EnableMidRoundSpawn = false
 
 ----- POINTS + LIVES -----
+config.StartPoints = 5000 -- new players start with this amount of points
 config.PermanentPoints = true      -- sets if points and lives will be stored in and loaded from a file
 config.RemotePoints = nil
 config.RemoteServerAuth = {}

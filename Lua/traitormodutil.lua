@@ -66,6 +66,11 @@ Traitormod.PublishRemoteData = function (client)
     Networking.HttpPost(Traitormod.Config.RemotePoints, function (res) end, json.encode(data))
 end
 
+Traitormod.NewClientData = function (client)
+    Traitormod.ClientData[client.SteamID] = {}
+    Traitormod.ClientData[client.SteamID]["Points"] = Traitormod.Config.StartPoints
+end
+
 Traitormod.LoadData = function ()
     if Traitormod.Config.PermanentPoints then
         Traitormod.ClientData = json.decode(File.Read(Traitormod.Path .. "/Lua/data.json")) or {}
@@ -90,7 +95,7 @@ end
 
 Traitormod.SetData = function (client, name, amount)
     if Traitormod.ClientData[client.SteamID] == nil then 
-        Traitormod.ClientData[client.SteamID] = {}
+        Traitormod.NewClientData(client)
     end
 
     Traitormod.ClientData[client.SteamID][name] = amount
@@ -98,7 +103,7 @@ end
 
 Traitormod.GetData = function (client, name)
     if Traitormod.ClientData[client.SteamID] == nil then 
-        Traitormod.ClientData[client.SteamID] = {}
+        Traitormod.NewClientData(client)
     end
 
     return Traitormod.ClientData[client.SteamID][name]
