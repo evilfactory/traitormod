@@ -43,7 +43,13 @@ config.MaxExperienceFromPoints = 100000     -- if not nil, this amount is the ma
 config.RemoveSkillBooks = true
 config.NerfSwords = false
 <<<<<<< HEAD
+<<<<<<< HEAD
+<<<<<<< HEAD
 config.MidRoundSpawn = true
+=======
+>>>>>>> parent of 9c0d28b (using new version of midroundjoin)
+=======
+>>>>>>> parent of 9c0d28b (using new version of midroundjoin)
 =======
 >>>>>>> parent of 9c0d28b (using new version of midroundjoin)
 
