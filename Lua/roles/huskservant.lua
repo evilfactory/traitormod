@@ -14,7 +14,7 @@ end
 
 function role:Greet()
     local partners = Traitormod.StringBuilder:new()
-    local traitors = Traitormod.RoleManager.FindCharactersByRole("Cultist")
+    local traitors = Traitormod.RoleManager.FindAntagonists()
     for _, character in pairs(traitors) do
         if character ~= self.Character then
             partners('"%s" ', character.Name)
