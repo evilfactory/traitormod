@@ -105,16 +105,15 @@ MidRoundSpawn.TryCreateClientCharacter = function(client)
 
     Timer.Wait(function () 
         -- spawn character
-        local char = Character.Create(client.CharacterInfo, waypoint.WorldPosition, client.CharacterInfo.Name, 0, true, true);
-        char.TeamID = CharacterTeamType.FriendlyNPC;
+        local char = Character.Create(client.CharacterInfo, waypoint.WorldPosition, client.CharacterInfo.Name, 0, true, true)
+        char.TeamID = CharacterTeamType.FriendlyNPC
         crewManager.AddCharacter(char)
 
         client.SetClientCharacter(char)
-        --mcm_client_manager:set(client, char)
         
         char.GiveJobItems(waypoint)
         char.LoadTalents()
-        char.GiveIdCardTags(waypoint, false)
+        char.GiveIdCardTags(waypoint, true)
     end, SpawnDelaySeconds * 1000)
     return true
 end
