@@ -45,6 +45,8 @@ language.SecondaryObjectivesYou = "Your secondary objectives are:"
 language.MainObjectivesOther = "Their main objectives were:"
 language.SecondaryObjectivesOther = "Their secondary objectives were:"
 
+language.CrewMember = "You are crew member of the submarine.\n\nYou have been assigned the following bonus objectives.\n\n"
+
 language.SoloAntagonist = "You are the only antagonist."
 language.Partners = "Partners: %s"
 language.TcTip = "Use !tc to communicate with your partners."
@@ -55,6 +57,10 @@ language.HonkMotherYou = "You are a Honkmother Clown!"
 language.HonkMotherOther = "Honkmother Clown %s."
 language.CultistYou = "You are a Husk Cultist!\nHumans that you manage to turn into a husk will be in your side and may help you."
 language.CultistOther = "Cultist %s."
+language.HuskServantYou = "You are now a Husk Servant!\nYou directly follow orders made by the Husk Cultists."
+language.HuskServantOther = "Husk Servant %s."
+language.HuskCultists = "Husk Cultists: %s\n"
+language.HuskServantTcTip = "You cannot speak, but you can use !tc to communicate with the Husk Cultists."
 
 language.AgentNoticeCodewords = "There are other agents on this submarine. You dont know their names, but you do have a method of communication. Use the code words to greet the agent and code response to respond. Disguise such words in a normal-looking phrase so the crew doesn't suspect anything."
 
@@ -114,7 +120,7 @@ language.ObjectiveAssassinate = "Assassinate %s."
 language.ObjectiveAssassinateDrunk = "Assassinate %s while drunk"
 language.ObjectiveAssassinatePressure = "Crush %s with high pressure"
 language.ObjectiveBananaSlip = "Slip %s on bananas (%s/%s) times."
-language.ObjectiveDestroyCaly = "Slip %s on bananas (%s/%s) times."
+language.ObjectiveDestroyCaly = "Deconstruct %s Calyxanide(s)."
 language.ObjectiveDrunkSailor = "Give %s more than 80% drunkness."
 language.ObjectiveGrowMudraptors = "Grow (%s/%s) mudraptors."
 language.ObjectiveHusk = "Turn %s into a full husk."
@@ -190,6 +196,9 @@ language.SuperBallastFlora = "High concentration of ballast flora spores has bee
 
 language.Answer = "Answer"
 language.Ignore = "Ignore"
+
+language.SecretSummary = "Objectives Completed: %s - Points Gained: %s\n"
+language.SecretTraitorAssigned = "You have been assigned to be a traitor, vote which type you want to be."
 
 language.ItemsBought = "Items bought from point shop"
 language.CrewBoughtItem = "Players bought items from point shop"

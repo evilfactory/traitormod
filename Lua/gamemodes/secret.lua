@@ -104,7 +104,7 @@ function gm:AssignAntagonists(antagonists)
             return
         end
 
-        Traitormod.Voting.StartVote("You have been assigned to be a traitor, vote which type you want to be.", options, 25, function (results, clientVotes)
+        Traitormod.Voting.StartVote(Traitormod.Language.SecretTraitorAssigned, options, 25, function (results, clientVotes)
             local highestVoted = nil
             local highestedVotedRole = nil
             for key, value in pairs(options) do
@@ -299,7 +299,7 @@ function gm:TraitorResults()
                 success = true
             end
 
-            sb("Objectives Completed: %s - Points Gained: %s\n", objectives, pointsGained)
+            sb(Traitormod.Language.SecretSummary, objectives, pointsGained)
         end
     end
 

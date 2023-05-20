@@ -70,8 +70,7 @@ function role:Greet()
     local objectives = self:ObjectivesToString()
 
     local sb = Traitormod.StringBuilder:new()
-    sb("You are crew member of the submarine.\n\n")
-    sb("You have been assigned the following bonus objectives.\n\n")
+    sb(Traitormod.Language.CrewMember)
     sb(objectives)
 
     return sb:concat()
