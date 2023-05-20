@@ -136,14 +136,12 @@ event.Start = function ()
 
     event.ItemReward = character.Inventory.GetItemInLimbSlot(InvSlotType.Card)
 
-    local text = "There have been reports about a notorious pirate with a PUCS suit terrorizing these waters, the pirate was detected recently inside a beacon station - eliminate the pirate to claim a reward of " .. event.AmountPoints .. " points for the entire crew."
+    local text = string.format(Traitormod.Language.BeaconPirate, event.AmountPoints)
     Traitormod.RoundEvents.SendEventMessage(text, "CrewWalletIconLarge")
 
     Traitormod.GhostRoles.Ask("Beacon Pirate", function (client)
         Traitormod.LostLivesThisRound[client.SteamID] = false
         client.SetClientCharacter(character)
-
-        Traitormod.SendMessageCharacter(character, "You are a pirate! Protect the beacon station from any filthy coalitions trying to get what is yours! \n\nSurviving inside the beacon station until the end of the round will grant you " .. event.AmountPointsPirate .." points.", "InfoFrameTabButton.Mission")
     end, character)
 
     Hook.Add("think", "BeaconPirate.Think", function ()
@@ -153,7 +151,7 @@ event.Start = function ()
 
         if character.Submarine == Submarine.MainSub and not event.EnteredMainSub then
             event.EnteredMainSub = true
-            Traitormod.RoundEvents.SendEventMessage("Attention! A dangerous PUCS pirate has been detected inside the main submarine!")
+            Traitormod.RoundEvents.SendEventMessage(Traitormod.Language.PirateInside)
         end
     end)
 end
@@ -167,21 +165,21 @@ event.End = function (isEndRound)
             local client = Traitormod.FindClientCharacter(event.Character)
             if client then
                 Traitormod.AwardPoints(client, event.AmountPointsPirate)
-                Traitormod.SendMessage(client, "You have received " .. event.AmountPointsPirate .. " points.", "InfoFrameTabButton.Mission")
+                Traitormod.SendMessage(client, string.format(Traitormod.Language.ReceivedPoints, event.AmountPointsPirate), "InfoFrameTabButton.Mission")
             end
         end
 
         return
     end
 
-    local text = "The PUCS pirate has been killed, the crew has received a reward of " .. event.AmountPoints .. " points."
+    local text = string.format(Traitormod.Language.WreckPirateKilled, event.AmountPoints)
 
     Traitormod.RoundEvents.SendEventMessage(text, "CrewWalletIconLarge")
 
     for _, client in pairs(Client.ClientList) do
         if client.Character and not client.Character.IsDead and client.Character.TeamID == CharacterTeamType.Team1 then
             Traitormod.AwardPoints(client, event.AmountPoints)
-            Traitormod.SendMessage(client, "You have received " .. event.AmountPoints .. " points.", "InfoFrameTabButton.Mission")
+            Traitormod.SendMessage(client, string.format(Traitormod.Language.ReceivedPoints, event.AmountPoints), "InfoFrameTabButton.Mission")
         end
     end
 end

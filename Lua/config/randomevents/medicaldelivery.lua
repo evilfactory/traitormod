@@ -34,7 +34,7 @@ event.Start = function ()
         end
     end)
 
-    local text = "A medical delivery has been made into the medical area of the ship. The medical supplies are inside a red medical crate."
+    local text = Traitormod.Language.MedicalDelivery
     Traitormod.RoundEvents.SendEventMessage(text, "GameModeIcon.sandbox")
 
     event.End()

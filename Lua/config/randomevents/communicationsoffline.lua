@@ -18,7 +18,7 @@ event.AmountTime = 2 -- Communications are offline for 5 minutes
 
 event.Start = function ()
 
-    local text = "Something is interfering with all our communications systems. It's been estimated that communications will be offline for atleast " .. event.AmountTime .. " minutes."
+    local text = string.format(Traitormod.Language.CommunicationsOffline, event.AmountTime)
 
     Traitormod.RoundEvents.SendEventMessage(text, "GameModeIcon.multiplayercampaign")
 
@@ -47,7 +47,7 @@ event.End = function (isEndRound)
     end
 
     if not isEndRound then
-        local text = "Communications are back online."
+        local text = Traitormod.Language.CommunicationsBack
 
         Traitormod.RoundEvents.SendEventMessage(text, "GameModeIcon.multiplayercampaign")
     end

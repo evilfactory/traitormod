@@ -26,7 +26,7 @@ event.Start = function ()
         value.TeleportTo(positions[math.random(#positions)])
     end
 
-    local text = "You feel a strange sensation, and suddenly you're somewhere else"
+    local text = Traitormod.Language.ClownMagic
     Traitormod.RoundEvents.SendEventMessage(text)
 
     event.End()

@@ -28,7 +28,7 @@ event.Start = function ()
         Entity.Spawner.AddItemToSpawnQueue(ItemPrefab.GetItemPrefab(value), position)
     end
 
-    local text = "A delivery of explosive coilgun ammo and railgun shells has been made to the armoury area of the submarine."
+    local text = Traitormod.Language.AmmoDelivery
     Traitormod.RoundEvents.SendEventMessage(text, "GameModeIcon.sandbox")
 
     event.End()

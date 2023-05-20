@@ -56,14 +56,14 @@ event.Start = function ()
     end)
 
 
-    local text = "A prisoner is aboard the submarine, keep the prisoner alive and handcuffed until the submarine arrives at it's destination for the crew to receive " .. tostring(event.Award) .. " Points."
+    local text = string.format(Traitormod.Language.PrisonerAboard, event.Award)
     Traitormod.RoundEvents.SendEventMessage(text, "GameModeIcon.sandbox", Color.Yellow)
 
     Traitormod.GhostRoles.Ask("Prisoner", function (client)
         Traitormod.LostLivesThisRound[client.SteamID] = false
         client.SetClientCharacter(character)
 
-        Traitormod.SendMessageCharacter(character, "You are a prisoner! If you manage to get 500 meters away from the submarine, you will be rewarded with " .. event.Award .." points.", "InfoFrameTabButton.Mission")
+        Traitormod.SendMessageCharacter(character, string.format(Traitormod.Language.PrisonerYou, event.Award), "InfoFrameTabButton.Mission")
     end, character)
 
     Hook.Add("think", "Prisoner.Think", function ()
@@ -78,7 +78,7 @@ event.Start = function ()
         local client = Traitormod.FindClientCharacter(event.Character)
         if client then
             Traitormod.AwardPoints(client, event.Award)
-            Traitormod.SendMessage(client, "You have received " .. event.Award .. " points.", "InfoFrameTabButton.Mission")
+            Traitormod.SendMessage(client, string.format(Traitormod.Language.ReceivedPoints, event.Award), "InfoFrameTabButton.Mission")
             Entity.Spawner.AddEntityToRemoveQueue(event.Character)
         end
 
@@ -95,7 +95,7 @@ event.End = function (isEndRound)
     end
 
     if isEndRound and Traitormod.EndReached(event.Character, 8000) then
-        local text = "The prisoner has been successfully transported, the crew has received a reward of " .. event.Award .. " points."
+        local text = string.format(Traitormod.Language.PrisonerSuccess, event.Award)
 
         Traitormod.RoundEvents.SendEventMessage(text, "CrewWalletIconLarge")
 
@@ -103,12 +103,12 @@ event.End = function (isEndRound)
             if client.Character and not client.Character.IsDead and client.Character.TeamID == CharacterTeamType.Team1 then
                 if not Traitormod.RoleManager.IsAntagonist(client.Character) then
                     Traitormod.AwardPoints(client, event.Award)
-                    Traitormod.SendMessage(client, "You have received " .. event.Award .. " points.", "InfoFrameTabButton.Mission")
+                    Traitormod.SendMessage(client, string.format(Traitormod.Language.ReceivedPoints, event.Award), "InfoFrameTabButton.Mission")
                 end
             end
         end
     else
-        local text = "The prisoner has escaped and the transportation reward has been cancelled."
+        local text = Traitormod.Language.PrisonerFail
         Traitormod.RoundEvents.SendEventMessage(text, "InfoFrameTabButton.Mission", Color.Yellow)
     end
 end

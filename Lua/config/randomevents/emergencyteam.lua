@@ -58,7 +58,7 @@ event.Start = function()
         character.SetOrder(leakOrder, true, false, true)
     end
 
-    local text = "A group of engineers and mechanics have entered the submarine to assist with repairs."
+    local text = Traitormod.Language.EmergencyTeam
     Traitormod.RoundEvents.SendEventMessage(text, "GameModeIcon.sandbox")
 
     event.End()

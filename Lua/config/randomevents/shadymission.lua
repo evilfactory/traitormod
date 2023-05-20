@@ -34,37 +34,37 @@ event.Start = function ()
 
     -- mountain
     textPromptUtils.Prompt(
-    "You pickup a weird radio transmission, it sounds like they are looking for someone to do a job for them.",
-    {"Answer", "Ignore"}, target, function (option)
+    Traitormod.Language.ShadyMissionPart1,
+    {Traitormod.Language.Answer, Traitormod.Language.Ignore}, target, function (option)
         if option == 2 then
             event.End()
             return
         end
 
         textPromptUtils.Prompt(
-            "\"Oh hello there! We are looking for someone to do a simple task for us. We are willing to pay up to 3000 points for it. Interested?\"",
-            {"Sure! What's it?"}, target, function ()
+            Traitormod.Language.ShadyMissionPart2,
+            {Traitormod.Language.ShadyMissionPart2Answer}, target, function ()
 
                 textPromptUtils.Prompt(
-                    "\"In this area where your submarine is heading through, there's an old wrecked submarine where we need to place some supplies. Because we don't have the supplies available right now, you are going to need to get the supplies yourself. We are going to need at least 8 of any medical item, 4 oxygen tanks, 2 loaded firearms of any type and a special sonar beacon. We will be paying 1500 points for these supplies, if you add any other supplies, we will give you up to 1500 additional points.\"",
-                    {"This sounds fishy, why would you want to put these supplies in a wrecked submarine?!"}, target, function (option)
+                    Traitormod.Language.ShadyMissionPart3,
+                    {Traitormod.Language.ShadyMissionPart3Answer}, target, function (option)
                         textPromptUtils.Prompt(
-                            "\"Now this is none of your business, will you do it or not?\"",
-                            {"Accept the offer", "Deny the offer"}, target, function (option2)
+                            Traitormod.Language.ShadyMissionPart4,
+                            {Traitormod.Language.ShadyMissionPart4AnswerAccept, Traitormod.Language.ShadyMissionPart4AnswerDeny}, target, function (option2)
                                 if option2 == 2 then
                                     event.End()
                                     return
                                 end
 
                                 textPromptUtils.Prompt(
-                                    "\"Great! Just put all the supplies and the special sonar beacon in a metal crate and leave it in the wreck.\"",
-                                    {"I'll do my best"}, target, function (option2)
+                                    Traitormod.Language.ShadyMissionPart5,
+                                    {Traitormod.Language.ShadyMissionPart5Answer}, target, function (option2)
                                 end)
 
                                 Entity.Spawner.AddItemToSpawnQueue(ItemPrefab.GetItemPrefab("sonarbeacon"), target.Character.Inventory, nil, nil, function (item)
                                     specialBeacon = item
 
-                                    item.Description = "‖color:gui.red‖It looks like this sonar beacon was modified.\nBehind it there's a note saying: \"8 medical items, 4 oxygen tanks and 2 loaded firearms.\"‖color:end‖"
+                                    item.Description = Traitormod.Language.ShadyMissionBeacon
                                     item.set_InventoryIconColor(Color(255, 0, 0))
                                     item.SpriteColor = Color(255, 0, 0, 255)
                                     local color = item.SerializableProperties[Identifier("SpriteColor")]
@@ -136,7 +136,8 @@ event.Start = function ()
             completed = true
 
             Traitormod.AwardPoints(target, baseAmount)
-            Traitormod.SendMessage(target, "You have received " .. baseAmount .. " points.", "InfoFrameTabButton.Mission")
+            Traitormod.SendMessage(target, string.format(Traitormod.Language.ReceivedPoints, baseAmount), "InfoFrameTabButton.Mission")
+
 
             local newSet = {}
             newSet.Name = target.Name
