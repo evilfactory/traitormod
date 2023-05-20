@@ -73,6 +73,9 @@ Traitormod.AddCommand("!announce", function(client, args)
 
             Traitormod.RoundEvents.SendEventMessage("Warden's Announcement: "..msg, "GameModeIcon.sandbox", Color.LightBlue)
             return true
+        elseif client.Character and client.Character.TeamID = CharacterTeamType.Team2 then
+            Traitormod.RoundEvents.SendEventMessage("Separatist Transmission: "..msg, "GameModeIcon.sandbox", Color.Khaki)
+            return true
         else
             feedback = "You don't have the warden's ID."
             Game.SendDirectChatMessage("", feedback, nil, Traitormod.Config.ChatMessageType, client)
