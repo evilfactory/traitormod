@@ -65,7 +65,7 @@ Traitormod.AddCommand("!announce", function(client, args)
     return true end
 
     for item in client.Character.Inventory.AllItems do
-        if #args > 0 and item.Prefab.Identifier == "idcard" and item.GetComponentString("IdCard").OwnerJobId == "warden" then
+        if #args > 0 and item.Prefab.Identifier == "idcard" and item.GetComponentString("IdCard").OwnerJobId == "warden" and client.Character.TeamID ~= CharacterTeamType.Team2 then
             local msg = ""
             for word in args do
                 msg = msg .. "" .. word
