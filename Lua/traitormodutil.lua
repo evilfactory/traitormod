@@ -498,3 +498,9 @@ Traitormod.EndReached = function(character, distance)
     -- character is inside or docked to outpost 
     return characterInsideOutpost or Vector2.Distance(character.WorldPosition, Level.Loaded.EndPosition) < distance
 end
+
+Traitormod.SendWelcome = function(client)
+    if Traitormod.Config.SendWelcomeMessage or Traitormod.Config.SendWelcomeMessage == nil then
+        Game.SendDirectChatMessage("Type !help for a list of commands.", "| Prison Traitor Mod v" .. Traitormod.VERSION .. " |\n" .. Traitormod.GetDataInfo(client), nil, ChatMessageType.Server, client)
+    end
+end
