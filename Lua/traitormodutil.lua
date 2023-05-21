@@ -215,7 +215,7 @@ Traitormod.SendObjectiveCompleted = function(client, objectiveText, points, live
 
     local role = Traitormod.RoleManager.GetRole(client.Character)
 
-    if role then
+    if role and role.IsAntagonist then
         Traitormod.UpdateVanillaTraitor(client, true, role:Greet())
     end
 end
@@ -226,7 +226,7 @@ Traitormod.SendObjectiveFailed = function(client, objectiveText)
 
     local role = Traitormod.RoleManager.GetRole(client.Character)
 
-    if role then
+    if role and role.IsAntagonist then
         Traitormod.UpdateVanillaTraitor(client, true, role:Greet())
     end
 end
@@ -497,10 +497,4 @@ Traitormod.EndReached = function(character, distance)
     local characterInsideOutpost = not character.IsDead and character.Submarine == Level.Loaded.EndOutpost
     -- character is inside or docked to outpost 
     return characterInsideOutpost or Vector2.Distance(character.WorldPosition, Level.Loaded.EndPosition) < distance
-end
-
-Traitormod.SendWelcome = function(client)
-    if Traitormod.Config.SendWelcomeMessage or Traitormod.Config.SendWelcomeMessage == nil then
-        Game.SendDirectChatMessage("Type !help for a list of commands.", "| Prison Traitor Mod v" .. Traitormod.VERSION .. " |\n" .. Traitormod.GetDataInfo(client), nil, ChatMessageType.Server, client)
-    end
 end
