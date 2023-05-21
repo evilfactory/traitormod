@@ -352,7 +352,7 @@ category.Products = {
         Price = 2500,
         Limit = 2,
         IsLimitGlobal = true,
-        PricePerLimit = 6000,
+        PricePerLimit = 600,
         Enabled = true,
         Timeout = 60,
 
@@ -411,7 +411,7 @@ category.Products = {
         Price = 8000,
         Limit = 2,
         IsLimitGlobal = true,
-        PricePerLimit = 1000,
+        PricePerLimit = 7000,
         Enabled = true,
         Timeout = 60,
 
@@ -431,7 +431,7 @@ category.Products = {
         Price = 50000,
         Limit = 1,
         IsLimitGlobal = true,
-        PricePerLimit = 50000,
+        PricePerLimit = 0,
         Timeout = 60,
 
         RoundPrice = {
@@ -450,7 +450,7 @@ category.Products = {
         Price = 80000,
         Limit = 1,
         IsLimitGlobal = true,
-        PricePerLimit = 50000,
+        PricePerLimit = 0,
         Timeout = 60,
 
         RoundPrice = {
