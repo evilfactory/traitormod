@@ -1,17 +1,25 @@
-MissionType = LuaUserData.CreateEnumTable("Barotrauma.MissionType")
+loadfile(Traitormod.Path .. "/Lua/config/config.lua")(Traitormod.Config)
 
-Traitormod.Config = dofile(Traitormod.Path .. "/Lua/config/config.lua")
 Traitormod.Patching = loadfile(Traitormod.Path .. "/Lua/xmlpatching.lua")(Traitormod.Path)
 
 Traitormod.Languages = {
     dofile(Traitormod.Path .. "/Lua/language/english.lua")
 }
 
-Traitormod.Language = Traitormod.Languages[1]
+Traitormod.DefaultLanguage = Traitormod.Languages[1]
+Traitormod.Language = Traitormod.DefaultLanguage
 
 for key, value in pairs(Traitormod.Languages) do
     if Traitormod.Config.Language == value.Name then
         Traitormod.Language = value
+
+        for key, value in pairs(Traitormod.DefaultLanguage) do
+            if Traitormod.Language[key] == nil then -- in case the language being loaded doesnt have a specific localization for a key, use the default language
+                Traitormod.Language[key] = value
+            end
+        end
+
+        break
     end
 end
 
@@ -60,6 +68,11 @@ Traitormod.PublishRemoteData = function (client)
     Networking.HttpPost(Traitormod.Config.RemotePoints, function (res) end, json.encode(data))
 end
 
+Traitormod.NewClientData = function (client)
+    Traitormod.ClientData[client.SteamID] = {}
+    Traitormod.ClientData[client.SteamID]["Points"] = Traitormod.Config.StartPoints
+end
+
 Traitormod.LoadData = function ()
     if Traitormod.Config.PermanentPoints then
         Traitormod.ClientData = json.decode(File.Read(Traitormod.Path .. "/Lua/data.json")) or {}
@@ -84,7 +97,7 @@ end
 
 Traitormod.SetData = function (client, name, amount)
     if Traitormod.ClientData[client.SteamID] == nil then 
-        Traitormod.ClientData[client.SteamID] = {}
+        Traitormod.NewClientData(client)
     end
 
     Traitormod.ClientData[client.SteamID][name] = amount
@@ -92,7 +105,7 @@ end
 
 Traitormod.GetData = function (client, name)
     if Traitormod.ClientData[client.SteamID] == nil then 
-        Traitormod.ClientData[client.SteamID] = {}
+        Traitormod.NewClientData(client)
     end
 
     return Traitormod.ClientData[client.SteamID][name]
