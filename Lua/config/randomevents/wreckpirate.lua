@@ -152,7 +152,7 @@ event.End = function (isEndRound)
         return
     end
 
-    local text = string.format(Traitormod.Language.WreckPirateKilled, event.AmountPoints)
+    local text = string.format(Traitormod.Language.PirateKilled, event.AmountPoints)
 
     Traitormod.RoundEvents.SendEventMessage(text, "CrewWalletIconLarge")
 
