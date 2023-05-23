@@ -25,6 +25,13 @@ category.Products = {
     },
 
     {
+        Name = "Handheld Status Monitor",
+        Price = 250,
+        Limit = 2,
+        Items = {"handheldstatusmonitor"}
+    },
+
+    {
         Name = "Fixfoam Grenade",
         Price = 190,
         Limit = 4,
