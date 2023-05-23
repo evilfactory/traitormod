@@ -41,6 +41,18 @@ ps.ResetProductLimits = function()
     ps.LocalProductLimits = {}
 end
 
+ps.GetProductHasInstallation = function(product)
+    if product.Items ~= nil then
+        for key, value in pairs(product.Items) do
+            if type(value) == "table" and value.IsInstallation then
+                return true
+            end
+        end
+    end
+
+    return false
+end
+
 ps.GetProductLimit = function (client, product)
     if product.IsLimitGlobal then
         if ps.GlobalProductLimits[product.Name] == nil then
@@ -253,7 +265,22 @@ ps.HandleProductBuy = function (client, product, result)
     elseif result == ps.ProductBuyFailureReason.NoStock then
         textPromptUtils.Prompt("This product is out of stock.", {}, client, function (id, client) end, "gambler")
     elseif result == nil then
-        textPromptUtils.Prompt(string.format("Purchased \"%s\" for %s points\n\nNew point balance is: %s points.", product.Name, ps.GetProductPrice(client, product), math.floor(Traitormod.GetData(client, "Points") or 0)), {}, client, function (id, client) end, "gambler")
+        -- Not let the player rebuy products that need installation
+        if ps.GetProductHasInstallation(product) then
+            textPromptUtils.Prompt(string.format("Purchased \"%s\" for %s points\n\nNew point balance is: %s points.", product.Name, ps.GetProductPrice(client, product), math.floor(Traitormod.GetData(client, "Points") or 0)), {}, client, function (id, client) end, "gambler")
+            return
+        end
+        -- Buyagain menu
+        local options = {}
+        table.insert(options, ">> Buy again <<")
+        table.insert(options, ">> Cancel <<")
+        textPromptUtils.Prompt(string.format("Purchased \"%s\" for %s points\n\nNew point balance is: %s points.", product.Name, ps.GetProductPrice(client, product), math.floor(Traitormod.GetData(client, "Points") or 0)), options, client, function (id, client)
+            if id == 1 then
+                local result = ps.BuyProduct(client, product)
+                ps.HandleProductBuy(client, product, result)
+            end
+        end, "gambler")
+
     else
         textPromptUtils.Prompt(result, {}, client, function (id, client) end, "gambler")
     end
@@ -293,17 +320,8 @@ ps.ShowCategoryItems = function(client, category)
         local product = productsLookup[id]
         if product == nil then return end
 
-        local productHasInstallation = false
-
-        if product.Items ~= nil then
-            for key, value in pairs(product.Items) do
-                if type(value) == "table" and value.IsInstallation then
-                    productHasInstallation = true
-                end
-            end
-        end
-
-        if productHasInstallation then
+        -- Check if product needs to be installed
+        if ps.GetProductHasInstallation(product) then
             textPromptUtils.Prompt(
             "The product that you are about to buy will spawn an installation in your exact location, you won't be able to move it else where, do you wish to continue?\n",
             {"Yes", "No"}, client2, function (id, client3)
