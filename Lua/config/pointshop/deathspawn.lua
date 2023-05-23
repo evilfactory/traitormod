@@ -465,6 +465,25 @@ category.Products = {
     },
 
     {
+        Name = "Spawn as Endworm",
+        Price = 100000,
+        Limit = 1,
+        IsLimitGlobal = true,
+        PricePerLimit = 0,
+        Timeout = 60,
+
+        RoundPrice = {
+            PriceReduction = 80000,
+            StartTime = 50,
+            EndTime = 60,
+        },
+
+        Action = function (client, product, items)
+            SpawnCreature("endworm", client, product)
+        end
+    },
+
+    {
         Name = "Spawn as Peanut",
         Price = 50,
         Limit = 2,
