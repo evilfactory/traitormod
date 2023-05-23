@@ -1,7 +1,7 @@
 local objective = Traitormod.RoleManager.Objectives.Objective:new()
 
 objective.Name = "AssassinatePressure"
-objective.AmountPoints = 650
+objective.AmountPoints = 700
 function objective:Start(target)
     self.Target = target
 
