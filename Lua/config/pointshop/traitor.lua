@@ -31,7 +31,7 @@ end)
 category.Products = {
     {
         Name = "Explosive Auto-Injector",
-        Price = 2500,
+        Price = 1700,
         Limit = 1,
         IsLimitGlobal = false,
         Action = function (client)

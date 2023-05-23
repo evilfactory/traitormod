@@ -126,8 +126,8 @@ category.Products = {
 
     {
         Name = "Husk Auto-Injector",
-        Price = 800,
-        Limit = 1,
+        Price = 600,
+        Limit = 2,
         IsLimitGlobal = false,
         Action = function (client)
             local prefabInjector = ItemPrefab.GetItemPrefab("autoinjectorheadset")
