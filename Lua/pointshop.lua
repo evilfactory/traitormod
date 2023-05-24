@@ -284,9 +284,9 @@ ps.HandleProductBuy = function (client, product, result, quantity)
                 _success_count = 0 -- If you select more than product has in stock it will handle it
 
                 for i = 1, id-1, 1 do
-                    result = ps.BuyProduct(client, product)
+                    _result = ps.BuyProduct(client, product)
                     -- It can exit the loop if the product isnt avaiable when rebuying
-                    if result ~= nil then
+                    if _result ~= nil then
                         break
                     end
                     _success_count = _success_count + 1
@@ -294,10 +294,10 @@ ps.HandleProductBuy = function (client, product, result, quantity)
                 if _success_count > 0 then
                     ps.HandleProductBuy(client, product, nil, _success_count)
                 else
-                    ps.HandleProductBuy(client, product, result)
+                    ps.HandleProductBuy(client, product, _result)
                 end
                 -- Couldn't have "local" for "result" and "_success_count" so instead made it nil so garbage collection can do its job
-                result = nil
+                _result = nil
                 _success_count = nil
             end
         end, "gambler")
