@@ -164,7 +164,7 @@ Hook.Add("roundEnd", "LivesOnRoundEnd", function ()
             -- award points for round completion
             local points = 325
             msg = msg ..
-            Traitormod.Language.RoundComplete ..
+            "Good job on staying alive!" ..
             " " .. string.format(Traitormod.Language.PointsAwarded, points) .. "\n\n"
 
             local lifeMsg, icon = Traitormod.AdjustLives(value, 1)
