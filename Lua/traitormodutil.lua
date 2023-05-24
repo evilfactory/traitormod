@@ -1,4 +1,4 @@
-loadfile(Traitormod.Path .. "/Lua/config/config.lua")(Traitormod.Config)
+Traitormod.Config = loadfile(Traitormod.Path .. "/Lua/config/config.lua")(Traitormod.Config)
 
 Traitormod.Patching = loadfile(Traitormod.Path .. "/Lua/xmlpatching.lua")(Traitormod.Path)
 
