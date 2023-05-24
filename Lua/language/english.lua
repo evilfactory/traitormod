@@ -52,6 +52,7 @@ language.ObjectiveCompleted = "Objective completed: %s"
 language.ObjectiveFailed = "Objective failed: %s"
 
 language.CrewWins = "The crew successfully completed their mission!"
+language.RoundComplete = "Good job on staying alive!"
 language.TraitorHandcuffed = "The crew handcuffed the traitor %s."
 language.TraitorsWin = "The traitors succeeded in completing their objectives!"
 

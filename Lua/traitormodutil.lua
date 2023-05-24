@@ -491,9 +491,9 @@ Traitormod.SendWelcome = function(client)
     end
 end
 
-Traitormod.SendClientEventMessage = function (text, icon, color, client)
+Traitormod.SendClientMessage = function (text, icon, color, client)
     local messageChat = ChatMessage.Create("", text, ChatMessageType.Default, nil, nil)
-    messageChat.Color = Color(200, 30, 241, 255)
+    messageChat.Color = color
     Game.SendDirectChatMessage(messageChat, client)
 
     local messageBox = ChatMessage.Create("", text, ChatMessageType.ServerMessageBoxInGame, nil, nil)
