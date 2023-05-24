@@ -167,8 +167,7 @@ Hook.Add("roundEnd", "LivesOnRoundEnd", function ()
             Traitormod.Language.CrewWins ..
             " " .. string.format(Traitormod.Language.PointsAwarded, points) .. "\n\n"
 
-            local lifeMsg, icon = Traitormod.AdjustLives(value,
-                (self.LivesGainedFromCrewMissionsCompleted or 1))
+            local lifeMsg, icon = Traitormod.AdjustLives(value, 1)
             if lifeMsg then
                 msg = msg .. lifeMsg .. "\n\n"
             end
