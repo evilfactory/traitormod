@@ -490,3 +490,14 @@ Traitormod.SendWelcome = function(client)
         Game.SendDirectChatMessage("Type !help for a list of commands.", "| Prison Traitor Mod v" .. Traitormod.VERSION .. " |\n" .. Traitormod.GetDataInfo(client), nil, ChatMessageType.Server, client)
     end
 end
+
+Traitormod.SendClientEventMessage = function (text, icon, color, client)
+    local messageChat = ChatMessage.Create("", text, ChatMessageType.Default, nil, nil)
+    messageChat.Color = Color(200, 30, 241, 255)
+    Game.SendDirectChatMessage(messageChat, client)
+
+    local messageBox = ChatMessage.Create("", text, ChatMessageType.ServerMessageBoxInGame, nil, nil)
+    messageBox.IconStyle = icon
+    if color then messageBox.Color = color end
+    Game.SendDirectChatMessage(messageBox, client)
+end
