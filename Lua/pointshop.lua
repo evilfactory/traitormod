@@ -260,8 +260,7 @@ ps.BuyProduct = function(client, product)
 end
 
 ps.HandleProductBuy = function (client, product, result, quantity)
-    -- To handle "buy again" for multiple items
-    quantity = quantity or 1
+    quantity = quantity or 1 -- To handle "buy again" for multiple items
     if result == ps.ProductBuyFailureReason.NoPoints then
         textPromptUtils.Prompt("You do not have enough points to buy this item.", {}, client, function (id, client) end, "gambler")
     elseif result == ps.ProductBuyFailureReason.NoStock then
