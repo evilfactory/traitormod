@@ -45,6 +45,7 @@ config.NerfSwords = false
 
 config.FreeExperience = 950         -- temporary experience given every ExperienceTimer seconds
 config.ExperienceTimer = 120
+config.StartPoints = 250
 
 config.PointsGainedFromSkill = {
     medical = 30,
