@@ -179,7 +179,7 @@ Hook.Add("roundEnd", "LivesOnRoundEnd", function ()
     end
 end)
 
-Hook.Add("roundStart", "MessageOnRoundStart", function ()
+Hook.Add("roundStart", "MessagesOnRoundStart", function ()
     Timer.Wait(function ()
         for key, value in pairs(Client.ClientList) do
             if value.Character and value.Character.JobIdentifier == "warden" then
@@ -187,7 +187,7 @@ Hook.Add("roundStart", "MessageOnRoundStart", function ()
                 Traitormod.SendClientEventMessage(text, "CoalitionIcon", Color.LightBlue, value)
             elseif value.Character and value.Character.JobIdentifier == "headguard" then
                 local text = "You are the head guard! Make sure those guards aren't slacking off. You're loyal to the warden. Your first order of business should be making sure the prisoners are behaving."
-                Traitormod.SendClientEventMessage(text, "CoalitionIcon", Color.Red, value)
+                Traitormod.SendClientEventMessage(text, "CoalitionIcon", Color.Crimson, value)
             elseif value.Character and value.Character.JobIdentifier == "guard" then
                 local text = "You're a guard! Listen to the head guard. You're only allowed to use lethal force if the warden or head guard allows it. Warden has authority over the head guard, so listen to him over the head guard. GET THOSE PRISONERS IN CHECK!"
                 Traitormod.SendClientEventMessage(text, "CoalitionIcon", Color.Blue, value)
@@ -208,5 +208,9 @@ Hook.Add("roundStart", "MessageOnRoundStart", function ()
                 Traitormod.SendClientEventMessage(text, "CoalitionIcon", Color.Gold, value)
             end
         end
-    end, 10000)
+    end, 15000)
+
+    Timer.Wait(function ()
+        Traitormod.RoundEvents.SendEventMessage("Remember, NLR! You don't remember anything about your past lives.", "GameModeIcon.pvp", Color.Red)
+    end, 30000)
 end)
