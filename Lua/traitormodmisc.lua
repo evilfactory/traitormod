@@ -122,10 +122,6 @@ end
 
 Hook.Add("roundEnd", "PointsOnRoundEnd", function ()
     for key, plr in pairs(Client.ClientList) do
-        if plr.Character and not plr.Character.IsDead and plr.Character.IsHuman then
-            local lifeMsg, lifeIcon = Traitormod.AdjustLives(client, 1)
-            Traitormod.SendMessage(client, "Good job on staying alive, you've gained a life.", lifeIcon)
-        end
         if plr.Character and not plr.Character.IsDead and plr.Character.IsHuman and plr.Character.JobIdentifier == "convict" and plr.Character.Submarine ~= Submarine.MainSub then
             Traitormod.AwardPoints(plr, 2100)
             Traitormod.SendMessage(plr, "Congrats on escaping, you have received 2100 points.", "InfoFrameTabButton.Mission")
@@ -149,6 +145,46 @@ Hook.Add("roundEnd", "PointsOnRoundEnd", function ()
                    Traitormod.SendMessage(plr, "Terrible job. Barely any of those prisoners were kept alive. Obtained "..points.." points.", "InfoFrameTabButton.Mission")
                 elseif count < 2 then
                    Traitormod.SendMessage(plr, "Little to no prisoners were kept alive. No points for you.", "InfoFrameTabButton.Mission")
+                end
+            end
+        end
+    end
+end)
+
+Hook.Add("roundEnd", "LifesOnRoundEnd", function ()
+ for key, value in pairs(Client.ClientList) do
+        if value.Character ~= nil
+            and value.Character.IsHuman
+            and not value.SpectateOnly
+            and not value.Character.IsDead
+        then
+            local role = Traitormod.RoleManager.GetRole(value.Character)
+
+            local wasAntagonist = false
+            if role ~= nil then
+                wasAntagonist = role.IsAntagonist
+            end
+
+            -- if client was no traitor, and in reach of end position, gain a live
+            if not wasAntagonist then
+                local msg = ""
+
+                -- award points for mission completion
+                if missionReward > 0 then
+                    local points = 350
+                    msg = msg ..
+                        Traitormod.Language.CrewWins ..
+                        " " .. string.format(Traitormod.Language.PointsAwarded, points) .. "\n\n"
+                end
+
+                local lifeMsg, icon = Traitormod.AdjustLives(value,
+                    (self.LivesGainedFromCrewMissionsCompleted or 1))
+                if lifeMsg then
+                    msg = msg .. lifeMsg .. "\n\n"
+                end
+
+                if msg ~= "" then
+                    Traitormod.SendMessage(value, msg, icon)
                 end
             end
         end
