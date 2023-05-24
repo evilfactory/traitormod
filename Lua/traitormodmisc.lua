@@ -151,41 +151,30 @@ Hook.Add("roundEnd", "PointsOnRoundEnd", function ()
     end
 end)
 
-Hook.Add("roundEnd", "LifesOnRoundEnd", function ()
- for key, value in pairs(Client.ClientList) do
+Hook.Add("roundEnd", "LivesOnRoundEnd", function ()
+    for key, value in pairs(Client.ClientList) do
         if value.Character ~= nil
             and value.Character.IsHuman
             and not value.SpectateOnly
             and not value.Character.IsDead
         then
-            local role = Traitormod.RoleManager.GetRole(value.Character)
+            -- if client was alive at end of round and human then give points and lives
+            local msg = ""
 
-            local wasAntagonist = false
-            if role ~= nil then
-                wasAntagonist = role.IsAntagonist
+            -- award points for round completion
+            local points = 350
+            msg = msg ..
+            Traitormod.Language.CrewWins ..
+            " " .. string.format(Traitormod.Language.PointsAwarded, points) .. "\n\n"
+
+            local lifeMsg, icon = Traitormod.AdjustLives(value,
+                (self.LivesGainedFromCrewMissionsCompleted or 1))
+            if lifeMsg then
+                msg = msg .. lifeMsg .. "\n\n"
             end
 
-            -- if client was no traitor, and in reach of end position, gain a live
-            if not wasAntagonist then
-                local msg = ""
-
-                -- award points for mission completion
-                if missionReward > 0 then
-                    local points = 350
-                    msg = msg ..
-                        Traitormod.Language.CrewWins ..
-                        " " .. string.format(Traitormod.Language.PointsAwarded, points) .. "\n\n"
-                end
-
-                local lifeMsg, icon = Traitormod.AdjustLives(value,
-                    (self.LivesGainedFromCrewMissionsCompleted or 1))
-                if lifeMsg then
-                    msg = msg .. lifeMsg .. "\n\n"
-                end
-
-                if msg ~= "" then
-                    Traitormod.SendMessage(value, msg, icon)
-                end
+            if msg ~= "" then
+                Traitormod.SendMessage(value, msg, icon)
             end
         end
     end
