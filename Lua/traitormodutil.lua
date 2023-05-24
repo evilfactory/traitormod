@@ -9,20 +9,6 @@ Traitormod.Languages = {
 Traitormod.DefaultLanguage = Traitormod.Languages[1]
 Traitormod.Language = Traitormod.DefaultLanguage
 
-for key, value in pairs(Traitormod.Languages) do
-    if Traitormod.Config.Language == value.Name then
-        Traitormod.Language = value
-
-        for key, value in pairs(Traitormod.DefaultLanguage) do
-            if Traitormod.Language[key] == nil then -- in case the language being loaded doesnt have a specific localization for a key, use the default language
-                Traitormod.Language[key] = value
-            end
-        end
-
-        break
-    end
-end
-
 local json = dofile(Traitormod.Path .. "/Lua/json.lua")
 
 Traitormod.LoadRemoteData = function (client, loaded)
