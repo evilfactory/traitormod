@@ -44,7 +44,6 @@ end
 
 category.Products = {
     {
-        Name = "Mutated Pomegrenade",
         Price = 250,
         Limit = 4,
         IsLimitGlobal = false,
@@ -52,21 +51,19 @@ category.Products = {
     },
 
     {
-        Name = "Banana Peel",
         Price = 10,
         Limit = 50,
         Items = {"bananapeel"}
     },
 
     {
-        Name = "Deliriumine",
         Price = 200,
         Limit = 3,
         Items = {"deliriumine"}
     },
 
     {
-        Name = "DarkRP Jail Grenade",
+        Identifier = "jailgrenade",
         Price = 800,
         Limit = 3,
         IsLimitGlobal = false,
@@ -74,7 +71,7 @@ category.Products = {
             local grenade = ItemPrefab.GetItemPrefab("fixfoamgrenade")
             Entity.Spawner.AddItemToSpawnQueue(grenade, client.Character.Inventory, nil, nil, function (item)
                 item.AddTag("jailgrenade")
-                item.Description = "‖color:gui.red‖A special grenade with an interesting surprise...‖color:end‖"
+                item.Description = Traitormod.Language.Pointshop.jailgrenade_desc
 
                 item.set_InventoryIconColor(Color(255, 0, 0, 255))
                 item.SpriteColor = Color(255, 0, 0, 255)
@@ -88,7 +85,7 @@ category.Products = {
     },
 
     {
-        Name = "Clown Gear Crate",
+        Identifier = "clowngearcrate",
         Price = 400,
         Limit = 2,
         IsLimitGlobal = false,
@@ -105,7 +102,7 @@ category.Products = {
     },
 
     {
-        Name = "Funbringer 3000",
+        Identifier = "clownexosuit",
         Price = 1300,
         Limit = 1,
         IsLimitGlobal = false,
@@ -122,35 +119,31 @@ category.Products = {
     },
 
     {
-        Name = "Cymbals",
         Price = 300,
         Limit = 10,
         Items = {"cymbals"}
     },
 
     {
-        Name = "Pressure Stabilizer",
         Price = 200,
         Limit = 5,
         Items = {"pressurestabilizer"}
     },
 
     {
-        Name = "Rum",
         Price = 130,
         Limit = 5,
         Items = {"rum"}
     },
 
     {
-        Name = "Mudraptor Egg",
         Price = 100,
         Limit = 10,
         Items = {"smallmudraptoregg", "saline", "saline"}
     },
 
     {
-        Name = "Clown Talent Tree",
+        Identifier = "clowntalenttree",
         Price = 400,
         Limit = 1,
         IsLimitGlobal = false,
@@ -164,7 +157,7 @@ category.Products = {
     },
 
     {
-        Name = "Invisibility Gear",
+        Identifier = "invisibilitygear",
         Price = 800,
         Limit = 1,
         IsLimitGlobal = false,
@@ -217,7 +210,6 @@ category.Products = {
     },
 
     {
-        Name = "Chloral Hydrate (4x)",
         Price = 250,
         Limit = 4,
         IsLimitGlobal = false,
@@ -225,7 +217,6 @@ category.Products = {
     },
 
     {
-        Name = "Detonator",
         Price = 950,
         Limit = 3,
         IsLimitGlobal = false,
@@ -233,7 +224,7 @@ category.Products = {
     },
 
     {
-        Name = "Clown Magic (Randomly swaps places of people)",
+        Identifier = "clownmagic",
         Price = 1000,
         Limit = 2,
         IsLimitGlobal = true,
@@ -248,7 +239,7 @@ category.Products = {
     },
 
     {
-        Name = "Randomize Lights",
+        Identifier = "randomizelights",
         Price = 350,
         Limit = 2,
         IsLimitGlobal = true,

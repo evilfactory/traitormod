@@ -52,7 +52,7 @@ end
 
 category.Products = {
     {
-        Name = "Spawn as Crawler",
+        Identifier = "spawnascrawler",
         Price = 400,
         Limit = 5,
         IsLimitGlobal = true,
@@ -71,26 +71,26 @@ category.Products = {
     },
 
     {
-    Name = "Spawn as Crawler Husk",
-    Price = 500,
-    Limit = 3,
-    IsLimitGlobal = true,
-    PricePerLimit = 100,
-    Timeout = 60,
+        Identifier = "spawnascrawlerhusk",
+        Price = 500,
+        Limit = 3,
+        IsLimitGlobal = true,
+        PricePerLimit = 100,
+        Timeout = 60,
 
-    RoundPrice = {
-        PriceReduction = 300,
-        StartTime = 15,
-        EndTime = 30,
+        RoundPrice = {
+            PriceReduction = 300,
+            StartTime = 15,
+            EndTime = 30,
+        },
+
+        Action = function (client, product, items)
+            SpawnCreature("Crawlerhusk", client, product)
+        end
     },
 
-    Action = function (client, product, items)
-        SpawnCreature("Crawlerhusk", client, product)
-    end
-},
-
     {
-        Name = "Spawn as Legacy Crawler",
+        Identifier = "spawnaslegacycrawler",
         Price = 400,
         Limit = 4,
         IsLimitGlobal = true,
@@ -109,7 +109,7 @@ category.Products = {
     },
 
     {
-        Name = "Spawn as Legacy Husk",
+        Identifier = "spawnaslegacyhusk",
         Price = 450,
         Limit = 5,
         IsLimitGlobal = true,
@@ -128,7 +128,7 @@ category.Products = {
     },
 
     {
-        Name = "Spawn as Crawler Baby",
+        Identifier = "spawnascrawlerbaby",
         Price = 250,
         Limit = 4,
         IsLimitGlobal = true,
@@ -147,7 +147,7 @@ category.Products = {
     },
 
     {
-        Name = "Spawn as Mudraptor Baby",
+        Identifier = "spawnasmudraptorbaby",
         Price = 400,
         Limit = 5,
         IsLimitGlobal = true,
@@ -166,7 +166,7 @@ category.Products = {
     },
 
     {
-        Name = "Spawn as Thresher Baby",
+        Identifier = "spawnasthresherbaby",
         Price = 700,
         Limit = 5,
         IsLimitGlobal = true,
@@ -185,7 +185,7 @@ category.Products = {
     },
 
     {
-        Name = "Spawn as Spineling",
+        Identifier = "spawnasspineling",
         Price = 1000,
         Limit = 1,
         IsLimitGlobal = true,
@@ -204,7 +204,7 @@ category.Products = {
     },
 
     {
-        Name = "Spawn as Mudraptor",
+        Identifier = "spawnasmudraptor",
         Price = 1000,
         Limit = 3,
         IsLimitGlobal = true,
@@ -223,7 +223,7 @@ category.Products = {
     },
 
     {
-        Name = "Spawn as Mantis",
+        Identifier = "spawnasmantis",
         Price = 1100,
         Limit = 2,
         IsLimitGlobal = true,
@@ -242,7 +242,7 @@ category.Products = {
     },
 
     {
-        Name = "Spawn as Husk",
+        Identifier = "spawnashusk",
         Price = 1600,
         Limit = 4,
         IsLimitGlobal = true,
@@ -261,7 +261,7 @@ category.Products = {
     },
 
     {
-        Name = "Spawn as Husked Human",
+        Identifier = "spawnashuskedhuman",
         Price = 3000,
         Limit = 3,
         IsLimitGlobal = true,
@@ -280,7 +280,7 @@ category.Products = {
     },
 
     {
-        Name = "Spawn as Bone Thresher",
+        Identifier = "spawnasbonethresher",
         Price = 1800,
         Limit = 2,
         IsLimitGlobal = true,
@@ -300,7 +300,7 @@ category.Products = {
     },
 
     {
-        Name = "Spawn as Tiger Thresher",
+        Identifier = "spawnastigerthresher",
         Price = 2500,
         Limit = 2,
         IsLimitGlobal = true,
@@ -320,7 +320,7 @@ category.Products = {
     },
 
     {
-        Name = "Spawn as Legacy Moloch (Horrible)",
+        Identifier = "spawnaslegacymoloch",
         Price = 2500,
         Limit = 1,
         IsLimitGlobal = true,
@@ -334,7 +334,7 @@ category.Products = {
     },
 
     {
-        Name = "Spawn as Legacy Carrier (Horrible)",
+        Identifier = "spawnaslegacycarrier",
         Price = 500,
         Limit = 1,
         IsLimitGlobal = true,
@@ -348,7 +348,7 @@ category.Products = {
     },
 
     {
-        Name = "Spawn as Hammerhead",
+        Identifier = "spawnashammerhead",
         Price = 2500,
         Limit = 2,
         IsLimitGlobal = true,
@@ -368,7 +368,7 @@ category.Products = {
     },
 
     {
-        Name = "Spawn as Fractal Guardian",
+        Identifier = "spawnasfractalguardian",
         Price = 4900,
         Limit = 2,
         IsLimitGlobal = true,
@@ -387,7 +387,7 @@ category.Products = {
     },
 
     {
-        Name = "Spawn as Giant Spineling",
+        Identifier = "spawnasgiantspineling",
         Price = 20000,
         Limit = 1,
         IsLimitGlobal = true,
@@ -407,7 +407,7 @@ category.Products = {
     },
 
     {
-        Name = "Spawn as Veteran Mudraptor",
+        Identifier = "spawnasveteranmudraptor",
         Price = 8000,
         Limit = 2,
         IsLimitGlobal = true,
@@ -427,7 +427,7 @@ category.Products = {
     },
 
     {
-        Name = "Spawn as Latcher",
+        Identifier = "spawnaslatcher",
         Price = 50000,
         Limit = 1,
         IsLimitGlobal = true,
@@ -446,7 +446,7 @@ category.Products = {
     },
 
     {
-        Name = "Spawn as Charybdis",
+        Identifier = "spawnascharybdis",
         Price = 80000,
         Limit = 1,
         IsLimitGlobal = true,
@@ -465,7 +465,7 @@ category.Products = {
     },
 
     {
-        Name = "Spawn as Endworm",
+        Identifier = "spawnasendworm",
         Price = 100000,
         Limit = 1,
         IsLimitGlobal = true,
@@ -484,7 +484,7 @@ category.Products = {
     },
 
     {
-        Name = "Spawn as Peanut",
+        Identifier = "spawnaspeanut",
         Price = 50,
         Limit = 2,
         IsLimitGlobal = false,
@@ -495,7 +495,7 @@ category.Products = {
     },
 
     {
-        Name = "Spawn as Orange Boy",
+        Identifier = "spawnasorangeboy",
         Price = 50,
         Limit = 2,
         IsLimitGlobal = false,
@@ -506,7 +506,7 @@ category.Products = {
     },
 
     {
-        Name = "Spawn as Cthulhu",
+        Identifier = "spawnascthulhu",
         Price = 50,
         Limit = 2,
         IsLimitGlobal = false,
@@ -517,7 +517,7 @@ category.Products = {
     },
 
     {
-        Name = "Spawn as Psilotoad",
+        Identifier = "spawnaspsilotoad",
         Price = 50,
         Limit = 2,
         IsLimitGlobal = false,

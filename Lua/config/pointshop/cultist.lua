@@ -79,7 +79,6 @@ end
 
 category.Products = {
     {
-        Name = "Calyx Extract",
         Price = 100,
         Limit = 8,
         IsLimitGlobal = false,
@@ -87,8 +86,8 @@ category.Products = {
     },
 
     {
-        Name = "Husk Attractor Beacon",
-        Price = "700",
+        Identifier = "huskattractorbeacon",
+        Price = 700,
         Limit = 1,
         IsLimitGlobal = false,
         Action = function (client)
@@ -117,7 +116,6 @@ category.Products = {
     },
 
     {
-        Name = "Husk Stinger",
         Price = 150,
         Limit = 4,
         IsLimitGlobal = false,
@@ -125,7 +123,7 @@ category.Products = {
     },
 
     {
-        Name = "Husk Auto-Injector",
+        Identifier = "huskautoinjector",
         Price = 600,
         Limit = 2,
         IsLimitGlobal = false,
@@ -153,7 +151,7 @@ category.Products = {
     },
 
     {
-        Name = "Husked Blood Pack",
+        Identifier = "huskedbloodpack",
         Price = 350,
         Limit = 4,
         IsLimitGlobal = false,
@@ -175,7 +173,7 @@ category.Products = {
     },
 
     {
-        Name = "Firemans Carry Talent",
+        Identifier = "firemanscarrytalent",
         Price = 350,
         Limit = 1,
         IsLimitGlobal = false,
@@ -185,7 +183,7 @@ category.Products = {
     },
 
     {
-        Name = "Spawn Husk",
+        Identifier = "spawnhusk",
         Price = 150,
         Limit = 5,
         Action = function (client, product, items)
@@ -195,7 +193,7 @@ category.Products = {
     },
 
     {
-        Name = "Invisibility Gear",
+        Identifier = "invisibilitygear",
         Price = 800,
         Limit = 1,
         IsLimitGlobal = false,
@@ -248,7 +246,6 @@ category.Products = {
     },
 
     {
-        Name = "Advanced Syringe Gun",
         Price = 500,
         Limit = 1,
         IsLimitGlobal = false,
@@ -256,15 +253,13 @@ category.Products = {
     },
 
     {
-        Name = "Europan Medicine",
-        Price = 400,
-        Limit = 1,
+        Price = 30,
+        Limit = 4,
         IsLimitGlobal = false,
         Items = {"skillbookeuropanmedicine"},
     },
 
     {
-        Name = "Acid Grenade (4x)",
         Price = 370,
         Limit = 3,
         IsLimitGlobal = false,
@@ -272,7 +267,6 @@ category.Products = {
     },
 
     {
-        Name = "Europabrew (4x)",
         Price = 120,
         Limit = 3,
         IsLimitGlobal = false,
@@ -280,7 +274,6 @@ category.Products = {
     },
 
     {
-        Name = "Chloral Hydrate (4x)",
         Price = 250,
         Limit = 4,
         IsLimitGlobal = false,
@@ -288,7 +281,6 @@ category.Products = {
     },
 
     {
-        Name = "Detonator",
         Price = 950,
         Limit = 3,
         IsLimitGlobal = false,
@@ -296,7 +288,7 @@ category.Products = {
     },
 
     {
-        Name = "Husk Oxygen Supply",
+        Identifier = "huskoxygensupply",
         Price = 1400,
         Limit = 1,
         IsLimitGlobal = true,

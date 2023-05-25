@@ -10,7 +10,7 @@ end
 
 category.Products = {
     {
-        Name = "Firemans Carry Talent",
+        Identifier = "firemanscarrytalent",
         Price = 350,
         Limit = 1,
         IsLimitGlobal = false,
@@ -20,7 +20,6 @@ category.Products = {
     },
 
     {
-        Name = "Coilgun Ammo",
         Price = 200,
         Limit = 5,
         IsLimitGlobal = false,
@@ -28,7 +27,6 @@ category.Products = {
     },
 
     {
-        Name = "Handcuffs",
         Price = 100,
         Limit = 5,
         IsLimitGlobal = false,
@@ -36,7 +34,6 @@ category.Products = {
     },
 
     {
-        Name = "Stun Baton",
         Price = 200,
         Limit = 2,
         IsLimitGlobal = false,
@@ -44,15 +41,14 @@ category.Products = {
     },
 
     {
-        Name = "Stun Gun",
-        Price = 500,
+        Price = 200,
         Limit = 1,
         IsLimitGlobal = false,
         Items = {"stungun", "stungundart", "stungundart", "stungundart", "stungundart"},
     },
 
     {
-        Name = "Stun Gun Ammo (x4)",
+        Identifier = "stungunammo",
         Price = 100,
         Limit = 1,
         IsLimitGlobal = false,
@@ -60,40 +56,38 @@ category.Products = {
     },
 
     {
-        Name = "Revolver Ammo (x6)",
-        Price = 250,
+        Identifier = "revolverammo",
+        Price = 200,
         Limit = 1,
         IsLimitGlobal = false,
         Items = {"revolverround", "revolverround","revolverround", "revolverround", "revolverround", "revolverround"},
     },
 
     {
-        Name = "SMG Magazine (x2)",
-        Price = 350,
+        Identifier = "smgammo",
+        Price = 250,
         Limit = 5,
         IsLimitGlobal = false,
         Items = {"smgmagazine", "smgmagazine"},
     },
 
     {
-        Name = "Shotgun Shells (x8)",
-        Price = 300,
+        Identifier = "shotgunammo",
+        Price = 250,
         Limit = 5,
         IsLimitGlobal = false,
         Items = {"shotgunshell", "shotgunshell", "shotgunshell", "shotgunshell", "shotgunshell", "shotgunshell", "shotgunshell", "shotgunshell"},
     },
 
     {
-        Name = "Stun Grenade",
-        Price = 400,
+        Price = 390,
         Limit = 3,
         IsLimitGlobal = false,
         Items = {"stungrenade"},
     },
 
     {
-        Name = "Flamer",
-        Price = 800,
+        Price = 600,
         Limit = 1,
         IsLimitGlobal = false,
         Items = {"flamer", "incendiumfueltank"},

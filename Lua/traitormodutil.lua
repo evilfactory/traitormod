@@ -308,11 +308,11 @@ Traitormod.Debug = function (message)
     end
 end
 
-Traitormod.Error = function (message)
+Traitormod.Error = function (message, ...)
     Game.Log("[TraitorMod-Error] " .. message, 9)
     
     if Traitormod.Config.DebugLogs then
-        printerror(message)
+        printerror(string.format(message, ...))
     end
 end
 

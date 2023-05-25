@@ -4,7 +4,6 @@ category.Name = "Wiring"
 
 category.Products = {
     {
-        Name = "Door",
         Price = 400,
         Limit = 4,
         Items = {
@@ -13,7 +12,6 @@ category.Products = {
     },
 
     {
-        Name = "Hatch",
         Price = 400,
         Limit = 4,
         Items = {
@@ -22,7 +20,6 @@ category.Products = {
     },
 
     {
-        Name = "Electrical Discharge Coil",
         Price = 800,
         Limit = 2,
         Items = {
@@ -31,7 +28,6 @@ category.Products = {
     },
 
     {
-        Name = "Supplies Cabinet",
         Price = 100,
         Limit = 6,
         Items = {
@@ -40,7 +36,6 @@ category.Products = {
     },
 
     {
-        Name = "Oxygen Generator",
         Price = 200,
         Limit = 6,
         Items = {
@@ -49,7 +44,6 @@ category.Products = {
     },
 
     {
-        Name = "Fabricator",
         Price = 230,
         Limit = 4,
         Items = {
@@ -58,7 +52,6 @@ category.Products = {
     },
 
     {
-        Name = "Deconstructor",
         Price = 235,
         Limit = 4,
         Items = {
@@ -67,7 +60,6 @@ category.Products = {
     },
 
     {
-        Name = "Medical Fabricator",
         Price = 300,
         Limit = 4,
         Items = {
@@ -76,7 +68,6 @@ category.Products = {
     },
 
     {
-        Name = "Research Station",
         Price = 290,
         Limit = 4,
         Items = {
@@ -85,7 +76,6 @@ category.Products = {
     },
 
     {
-        Name = "Junction Box",
         Price = 180,
         Limit = 8,
         Items = {
@@ -94,7 +84,6 @@ category.Products = {
     },
 
     {
-        Name = "Battery",
         Price = 300,
         Limit = 6,
         Items = {
@@ -103,7 +92,6 @@ category.Products = {
     },
 
     {
-        Name = "Super Capacitor",
         Price = 300,
         Limit = 4,
         Items = {
@@ -112,7 +100,6 @@ category.Products = {
     },
 
     {
-        Name = "Shuttle Engine",
         Price = 400,
         Limit = 3,
         Items = {
@@ -121,7 +108,6 @@ category.Products = {
     },
 
     {
-        Name = "Small Pump",
         Price = 300,
         Limit = 3,
         Items = {
@@ -130,7 +116,6 @@ category.Products = {
     },
 
     {
-        Name = "Nuclear Reactor",
         Price = 1500,
         Limit = 1,
         Items = {
@@ -139,7 +124,6 @@ category.Products = {
     },
 
     {
-        Name = "Navigation Terminal",
         Price = 370,
         Limit = 2,
         Items = {
@@ -148,7 +132,6 @@ category.Products = {
     },
 
     {
-        Name = "Camera",
         Price = 110,
         Limit = 5,
         Items = {
@@ -157,7 +140,6 @@ category.Products = {
     },
 
     {
-        Name = "Periscope",
         Price = 180,
         Limit = 5,
         Items = {
@@ -166,7 +148,6 @@ category.Products = {
     },
 
     {
-        Name = "Lamp",
         Price = 50,
         Limit = 5,
         Items = {
@@ -180,7 +161,6 @@ category.Products = {
     },
 
     {
-        Name = "Chair",
         Price = 25,
         Limit = 5,
         Items = {
@@ -189,7 +169,6 @@ category.Products = {
     },
 
     {
-        Name = "Bunk Beds",
         Price = 50,
         Limit = 5,
         Items = {
@@ -198,7 +177,6 @@ category.Products = {
     },
 
     {
-        Name = "Wire",
         Price = 40,
         Limit = 8,
         Items = {

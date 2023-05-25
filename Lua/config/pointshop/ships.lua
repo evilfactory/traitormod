@@ -50,7 +50,7 @@ end
 
 category.Products = {
     {
-        Name = "Stream Chalk",
+        Identifier = "streamchalk",
         Price = 300,
         Limit = 1,
         IsLimitGlobal = true,
@@ -65,7 +65,7 @@ category.Products = {
     },
 
     {
-        Name = "Barsuk",
+        Identifier = "barsuk",
         Price = 3000,
         Limit = 1,
         IsLimitGlobal = true,
