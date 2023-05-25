@@ -281,8 +281,9 @@ ps.HandleProductBuy = function (client, product, result, quantity)
         textPromptUtils.Prompt(string.format("Purchased %sx \"%s\" for %s points\n\nNew point balance is: %s points.\nIf you want to buy again enter the amount:", quantity, product.Name, ps.GetProductPrice(client, product)*quantity, math.floor(Traitormod.GetData(client, "Points") or 0)), options, client, function (id, client)
             -- id-1 is the quantity that player chose
             if id > 1 then
-                _success_count = 0 -- If you select more than product has in stock it will handle it
-
+                local _success_count = 0 -- If you select more than product has in stock it will handle it
+                local result = nil
+                
                 for i = 1, id-1, 1 do
                     _result = ps.BuyProduct(client, product)
                     -- It can exit the loop if the product isnt avaiable when rebuying
@@ -296,9 +297,6 @@ ps.HandleProductBuy = function (client, product, result, quantity)
                 else
                     ps.HandleProductBuy(client, product, _result)
                 end
-                -- Couldn't have "local" for "result" and "_success_count" so instead made it nil so garbage collection can do its job
-                _result = nil
-                _success_count = nil
             end
         end, "gambler")
     -- It will handel other errors or other messages ( mostly errors )
