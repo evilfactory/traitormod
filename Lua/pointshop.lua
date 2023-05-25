@@ -294,46 +294,45 @@ ps.BuyProduct = function(client, product)
 end
 
 ps.HandleProductBuy = function (client, product, result, quantity)
-    quantity = quantity or 1 -- To handle "buy again" for multiple items
+    quantity = quantity or 1
     if result == ps.ProductBuyFailureReason.NoPoints then
         textPromptUtils.Prompt(Traitormod.Language.PointshopNoPoints, {}, client, function (id, client) end, "gambler")
     elseif result == ps.ProductBuyFailureReason.NoStock then
         textPromptUtils.Prompt(Traitormod.Language.PointshopNoStock, {}, client, function (id, client) end, "gambler")
     elseif result == nil then
-        -- Not let the player rebuy products that need installation or have timelimit
-        if ps.GetProductHasInstallation(product) or product.Timeout ~= nil then
+        -- Don't let the player rebuy products that need installation or have timelimit
+        if ps.GetProductHasInstallation(product) or product.Timeout ~= nil or ps.GetProductLimit(client, product) < 2 then
             textPromptUtils.Prompt(string.format(Traitormod.Language.PointshopPurchased, ps.GetProductName(product), ps.GetProductPrice(client, product), math.floor(Traitormod.GetData(client, "Points") or 0)), {}, client, function (id, client) end, "gambler")
             return
         end
-        -- Buyagain menu
+        -- Buy again menu
         local options = {}
-        table.insert(options, ">> Cancel <<")
-        for i = 1, 9, 1 do
+        table.insert(options, Traitormod.Language.PointshopCancel)
+        for i = 1, ps.GetProductLimit(client, product), 1 do
             table.insert(options, " - " .. tostring(i))
         end
-        -- Handles rebuying multiple times
-        textPromptUtils.Prompt(string.format("Purchased %sx \"%s\" for %s points\n\nNew point balance is: %s points.\nIf you want to buy again enter the amount:", quantity, product.Name, ps.GetProductPrice(client, product)*quantity, math.floor(Traitormod.GetData(client, "Points") or 0)), options, client, function (id, client)
+        -- Handle rebuying multiple times
+        textPromptUtils.Prompt(string.format("Purchased %sx \"%s\" for %s points\n\nNew point balance is: %s points.\nIf you want to buy again enter the amount:", quantity, ps.GetProductName(product), ps.GetProductPrice(client, product) * quantity, math.floor(Traitormod.GetData(client, "Points") or 0)), options, client, function (id, client)
             -- id-1 is the quantity that player chose
             if id > 1 then
-                local _success_count = 0 -- If you select more than product has in stock it will handle it
+                local successCount = 0 -- If you select more than product has in stock it will handle it
                 local result = nil
-                
+
                 for i = 1, id-1, 1 do
-                    _result = ps.BuyProduct(client, product)
-                    -- It can exit the loop if the product isnt avaiable when rebuying
-                    if _result ~= nil then
+                    result = ps.BuyProduct(client, product)
+                    -- Exit the loop if the product isn't available when rebuying
+                    if result ~= nil then
                         break
                     end
-                    _success_count = _success_count + 1
+                    successCount = successCount + 1
                 end
-                if _success_count > 0 then
-                    ps.HandleProductBuy(client, product, nil, _success_count)
+                if successCount > 0 then
+                    ps.HandleProductBuy(client, product, nil, successCount)
                 else
-                    ps.HandleProductBuy(client, product, _result)
+                    ps.HandleProductBuy(client, product, result)
                 end
             end
         end, "gambler")
-    -- It will handel other errors or other messages ( mostly errors )
     else
         textPromptUtils.Prompt(result, {}, client, function (id, client) end, "gambler")
     end
