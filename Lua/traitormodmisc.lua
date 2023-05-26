@@ -198,7 +198,7 @@ Hook.Add("roundStart", "MessagesOnRoundStart", function ()
                 local text = "You're a maintenance worker! Make sure the walls are welded, and the electrical and mechnical devices are in working order."
                 Traitormod.SendClientMessage(text, "TalentPointNotification", Color.Ivory, value)
             elseif value.Character and value.Character.JobIdentifier == "janitor" then
-                local text = "You're the janitor! Make sure those walls are clean. Use the sprayer to clean stains."
+                local text = "You're the janitor! Make sure those walls are clean. Use the sprayer to clean stains. You should also clean any deceased crew with those body bags.."
                 Traitormod.SendClientMessage(text, "TalentPointNotification", Color.DarkViolet, value)
             elseif value.Character and value.Character.JobIdentifier == "convict" then
                 local text = "You're a convict! Work closely with the traitors to escape. You're an ally of pirates, so make sure to identify yourself when you encounter one. You'll be rewarded if you're out of the station and alive at the end of the round."
