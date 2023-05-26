@@ -26,7 +26,7 @@ category.Products = {
     {
         Price = 125,
         Limit = 2,
-        Items = {"saline"}
+        Items = {"antibloodloss1"}
     },
 
     {
