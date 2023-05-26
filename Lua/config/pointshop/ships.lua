@@ -9,6 +9,8 @@ category.Init = function ()
     if Traitormod.SubmarineBuilder then
         category.StreamChalkId = Traitormod.SubmarineBuilder.AddSubmarine(Traitormod.Path .. "/Submarines/Stream Chalk.sub", "[P]Stream Chalk")
         category.BarsukId = Traitormod.SubmarineBuilder.AddSubmarine("Content/Submarines/Barsuk.sub", "[P]Barsuk")
+        category.SeaShark = Traitormod.SubmarineBuilder.AddSubmarine(Traitormod.Path .. "/Submarines/Sea shark Mark II.sub", "[P]Sea shark Mark II")
+        category.Uri = Traitormod.SubmarineBuilder.AddSubmarine(Traitormod.Path .. "/Submarines/Uri.sub", "[P]Uri - Alien Ship")
     end
 end
 
@@ -61,6 +63,36 @@ category.Products = {
 
         CanBuy = function (client, product)
             return CanBuy(category.StreamChalkId, client)
+        end
+    },
+
+    {
+        Identifier = "uri",
+        Price = 310,
+        Limit = 1,
+        IsLimitGlobal = true,
+
+        Action = function (client, product, items)
+            SpawnSubmarine(category.Uri, client)
+        end,
+
+        CanBuy = function (client, product)
+            return CanBuy(category.Uri, client)
+        end
+    },
+
+    {
+        Identifier = "seashark",
+        Price = 1500,
+        Limit = 1,
+        IsLimitGlobal = true,
+
+        Action = function (client, product, items)
+            SpawnSubmarine(category.SeaShark, client)
+        end,
+
+        CanBuy = function (client, product)
+            return CanBuy(category.SeaShark, client)
         end
     },
 
