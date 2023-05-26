@@ -29,7 +29,7 @@ ps.ValidateConfig = function ()
                     elseif item.Identifier == nil then
                         Traitormod.Error(string.format("PointShop Error: Inside the Category \"%s\" theres a Product with Identifier \"%s\", that has items without an Identifier", category.Name, product.Identifier))
                     elseif ItemPrefab.GetItemPrefab(item.Identifier) == nil then
-                        Traitormod.Error(string.format("PointShop Error: Inside the Category \"%s\" theres a Product with Identifier \"%s\", that has an invalid item identifier \"%s\"", category.Name, product.Identifier, item.Identifier))
+                        Traitormod.Error(string.format("PointShop Error: Inside the Category \"%s\" theres a Product with Identifier \"%s\", that has an invalid item identifier \"%s\"", category.Name, product.Identifier or "", item.Identifier or ""))
                     end
                 end
             end
@@ -503,8 +503,6 @@ Hook.Add("characterDeath", "Traitormod.Pointshop.Death", function (character)
     end
 end)
 
-ps.ValidateConfig()
-
 for _, category in pairs(config.PointShopConfig.ItemCategories) do
     if category.Init then category.Init() end
 
@@ -524,5 +522,7 @@ for _, category in pairs(config.PointShopConfig.ItemCategories) do
         end
     end
 end
+
+ps.ValidateConfig()
 
 return ps
