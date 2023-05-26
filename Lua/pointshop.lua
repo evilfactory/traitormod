@@ -130,7 +130,7 @@ ps.FindProductByName = function (client, name)
     for i, category in pairs(config.PointShopConfig.ItemCategories) do
         if ps.CanClientAccessCategory(client, category) then
             for k, product in pairs(category.Products) do
-                if product.Identifier == name then
+                if product.Identifier == name or ps.GetProductName(product) == name then
                     return product
                 end
             end
@@ -300,6 +300,9 @@ ps.HandleProductBuy = function (client, product, result, quantity)
     elseif result == ps.ProductBuyFailureReason.NoStock then
         textPromptUtils.Prompt(Traitormod.Language.PointshopNoStock, {}, client, function (id, client) end, "gambler")
     elseif result == nil then
+        textPromptUtils.Prompt(string.format(Traitormod.Language.PointshopPurchased, ps.GetProductName(product), ps.GetProductPrice(client, product), math.floor(Traitormod.GetData(client, "Points") or 0)), {}, client, function (id, client) end, "gambler")
+
+        if true then return end
         -- Don't let the player rebuy products that need installation or have timelimit
         if ps.GetProductHasInstallation(product) or product.Timeout ~= nil or ps.GetProductLimit(client, product) < 2 then
             textPromptUtils.Prompt(string.format(Traitormod.Language.PointshopPurchased, ps.GetProductName(product), ps.GetProductPrice(client, product), math.floor(Traitormod.GetData(client, "Points") or 0)), {}, client, function (id, client) end, "gambler")
