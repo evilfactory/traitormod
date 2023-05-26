@@ -64,7 +64,7 @@ category.Products = {
 
     {
         Identifier = "jailgrenade",
-        Price = 800,
+        Price = 450,
         Limit = 3,
         IsLimitGlobal = false,
         Action = function (client)
@@ -125,7 +125,7 @@ category.Products = {
     },
 
     {
-        Price = 200,
+        Price = 190,
         Limit = 5,
         Items = {"pressurestabilizer"}
     },
@@ -158,7 +158,7 @@ category.Products = {
 
     {
         Identifier = "invisibilitygear",
-        Price = 800,
+        Price = 500,
         Limit = 1,
         IsLimitGlobal = false,
         Action = function (client)
@@ -225,7 +225,7 @@ category.Products = {
 
     {
         Identifier = "clownmagic",
-        Price = 1000,
+        Price = 650,
         Limit = 2,
         IsLimitGlobal = true,
 
