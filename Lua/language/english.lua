@@ -310,6 +310,9 @@ language.Pointshop = {
     spawnaspsilotoad = "Spawn as Psilotoad",
 }
 
+language.ShipTooCloseToWall = "Cannot spawn ship, position is too close to a level wall."
+language.ShipTooCloseToShip = "Cannot spawn ship, position is too close to another submarine."
+
 language.Pets = "Pets"
 language.SmallCreatures = "Small Creatures"
 language.LargeCreatures = "Large Creatures"
