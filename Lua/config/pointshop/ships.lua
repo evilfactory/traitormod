@@ -1,6 +1,6 @@
 local category = {}
 
-category.Name = "Ships"
+category.Identifier = "ships"
 category.CanAccess = function(client)
     return client.Character and not client.Character.IsDead and client.Character.IsHuman and Traitormod.SubmarineBuilder ~= nil and Traitormod.SubmarineBuilder.IsActive()
 end

@@ -308,6 +308,18 @@ language.Pointshop = {
     spawnasorangeboy = "Spawn as Orange Boy",
     spawnascthulhu = "Spawn as Cthulu",
     spawnaspsilotoad = "Spawn as Psilotoad",
+    clown = "Clown",
+    cultist = "Cultist",
+    traitor = "Traitor",
+    deathspawn = "Death Spawn",
+    wiring = "Wiring",
+    ores = "Ores",
+    security = "Security",
+    ships = "Ships",
+    materials = "Materials",
+    medical = "Medical",
+    maintenance = "Maintenance",
+    other = "Other",
 }
 
 language.ShipTooCloseToWall = "Cannot spawn ship, position is too close to a level wall."

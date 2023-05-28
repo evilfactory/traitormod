@@ -1,6 +1,6 @@
 local category = {}
 
-category.Name = "Maintenance"
+category.Identifier = "maintenance"
 
 category.Products = {
     {

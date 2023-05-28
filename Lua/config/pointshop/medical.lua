@@ -1,6 +1,6 @@
 local category = {}
 
-category.Name = "Medical"
+category.Identifier = "medical"
 
 -- this is just so i don't need to type out all the 34 different unresearched genetic materials
 local geneticMaterials = {}
