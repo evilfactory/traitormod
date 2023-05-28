@@ -310,4 +310,11 @@ language.Pointshop = {
     spawnaspsilotoad = "Spawn as Psilotoad",
 }
 
+language.Pets = "Pets"
+language.SmallCreatures = "Small Creatures"
+language.LargeCreatures = "Large Creatures"
+language.AbyssCreature = "Abyss Creature"
+language.ElectricalDevices = "Electrical Devices"
+language.MechanicalDevices = "Mechanical Devices"
+
 return language

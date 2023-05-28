@@ -4,7 +4,7 @@ objective.Name = "KillAbyssMonsters"
 objective.AmountPoints = 1500
 objective.Monster = {
     Identifiers = {"Charybdis", "Endworm", "Latcher"},
-    Text = "Abyss Creature",
+    Text = Traitormod.Language.AbyssCreature,
     Amount = 1,
 }
 

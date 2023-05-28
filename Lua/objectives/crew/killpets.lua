@@ -4,7 +4,7 @@ objective.Name = "KillPets"
 objective.AmountPoints = 500
 objective.Monster = {
     Identifiers = {"Balloon", "defensebot", "huskcontainer", "Orangeboy", "Peanut", "Mudraptor_pet", "Psilotoad"},
-    Text = "Pets",
+    Text = Traitormod.Language.Pets,
     Amount = 5,
 }
 
