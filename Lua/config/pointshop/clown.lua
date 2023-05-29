@@ -157,6 +157,16 @@ category.Products = {
     },
 
     {
+        Identifier = "firemanscarrytalent",
+        Price = 290,
+        Limit = 1,
+        IsLimitGlobal = false,
+        Action = function (client, product, items)
+            client.Character.GiveTalent("firemanscarry")
+        end
+    },
+
+    {
         Identifier = "invisibilitygear",
         Price = 500,
         Limit = 1,
