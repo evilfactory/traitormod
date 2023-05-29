@@ -1,6 +1,6 @@
 local category = {}
 
-category.Name = "Traitor"
+category.Identifier = "traitor"
 category.Decoration = "clown"
 category.FadeToBlack = true
 

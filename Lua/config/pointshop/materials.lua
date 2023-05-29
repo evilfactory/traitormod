@@ -1,12 +1,12 @@
 local category = {}
 
-category.Name = "Materials"
+category.Identifier = "materials"
 
 category.Products = {
     {
         Price = 120,
         Limit = 4,
-        Items = {"aluminum"}
+        Items = {"aluminium"}
     },
 
     {

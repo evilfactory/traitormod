@@ -40,7 +40,7 @@ Traitormod.AddCommand("!tc", function(client, args)
     return true
 end)
 
-Traitormod.AddCommand("!tannounce", function(client, args)
+Traitormod.AddCommand({"!tannounce", "!ta"}, function(client, args)
     local feedback = Traitormod.Language.CommandNotActive
 
     local clientRole = Traitormod.RoleManager.GetRole(client.Character)
@@ -61,7 +61,7 @@ Traitormod.AddCommand("!tannounce", function(client, args)
 
                 if targetClient then
                     Game.SendDirectChatMessage("",
-                        string.format(Traitormod.Language.TraitorBroadcast, client, msg), nil,
+                        string.format(Traitormod.Language.TraitorBroadcast, client.Name, msg), nil,
                         ChatMessageType.ServerMessageBoxInGame, targetClient)
                 end
             end

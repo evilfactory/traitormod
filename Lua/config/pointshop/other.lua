@@ -1,6 +1,6 @@
 local category = {}
 
-category.Name = "Other"
+category.Identifier = "other"
 
 local randomItems = {}
 for prefab in ItemPrefab.Prefabs do

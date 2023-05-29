@@ -1,6 +1,6 @@
 local category = {}
 
-category.Name = "Security"
+category.Identifier = "security"
 category.Decoration = "security"
 
 category.CanAccess = function(client)

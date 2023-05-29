@@ -1,6 +1,6 @@
 local category = {}
 
-category.Name = "Ships"
+category.Identifier = "ships"
 category.CanAccess = function(client)
     return client.Character and not client.Character.IsDead and client.Character.IsHuman and Traitormod.SubmarineBuilder ~= nil and Traitormod.SubmarineBuilder.IsActive()
 end
@@ -20,14 +20,14 @@ local function CanBuy(id, client)
 
     local levelWalls = Level.Loaded.GetTooCloseCells(position, submarine.Borders.Width)
     if #levelWalls > 0 then
-        return false, "Cannot spawn ship, position is too close to a level wall."
+        return false, Traitormod.Language.ShipTooCloseToWall
     end
 
     for key, value in pairs(Submarine.Loaded) do
         if submarine ~= value then
             local maxDistance = (value.Borders.Width + submarine.Borders.Width) / 2
             if Vector2.Distance(value.WorldPosition, position) < maxDistance then
-                return false, "Cannot spawn ship, position is too close to another submarine."
+                return false, Traitormod.Language.ShipTooCloseToShip
             end
         end
     end

@@ -25,11 +25,11 @@ ps.ValidateConfig = function ()
                     end
 
                     if type(item) ~= "table" then
-                        Traitormod.Error(string.format("PointShop Error: Inside the Category \"%s\" theres a Product with Identifier \"%s\", that is invalid", category.Name, product.Identifier))
+                        Traitormod.Error(string.format("PointShop Error: Inside the Category \"%s\" theres a Product with Identifier \"%s\", that is invalid", category.Identifier, product.Identifier))
                     elseif item.Identifier == nil then
-                        Traitormod.Error(string.format("PointShop Error: Inside the Category \"%s\" theres a Product with Identifier \"%s\", that has items without an Identifier", category.Name, product.Identifier))
+                        Traitormod.Error(string.format("PointShop Error: Inside the Category \"%s\" theres a Product with Identifier \"%s\", that has items without an Identifier", category.Identifier, product.Identifier))
                     elseif ItemPrefab.GetItemPrefab(item.Identifier) == nil then
-                        Traitormod.Error(string.format("PointShop Error: Inside the Category \"%s\" theres a Product with Identifier \"%s\", that has an invalid item identifier \"%s\"", category.Name, product.Identifier, item.Identifier))
+                        Traitormod.Error(string.format("PointShop Error: Inside the Category \"%s\" theres a Product with Identifier \"%s\", that has an invalid item identifier \"%s\"", category.Identifier, product.Identifier or "", item.Identifier or ""))
                     end
                 end
             end
@@ -124,6 +124,19 @@ ps.GetProductName = function (product)
     end
 
     return product.Identifier
+end
+
+ps.GetCategoryName = function (category)
+    if category == nil then
+        error("GetCategoryName: argument #1 was nil", 2)
+    end
+
+    if category.Identifier == nil then return "invalid_category" end
+
+    local name = Traitormod.Language.Pointshop[category.Identifier]
+    if name then return name end
+
+    return category.Identifier
 end
 
 ps.FindProductByName = function (client, name)
@@ -408,7 +421,7 @@ ps.ShowCategory = function(client)
 
     for key, value in pairs(config.PointShopConfig.ItemCategories) do
         if ps.CanClientAccessCategory(client, value) then
-            table.insert(options, value.Name)
+            table.insert(options, ps.GetCategoryName(value))
             categoryLookup[#options] = value
         end
     end
@@ -503,8 +516,6 @@ Hook.Add("characterDeath", "Traitormod.Pointshop.Death", function (character)
     end
 end)
 
-ps.ValidateConfig()
-
 for _, category in pairs(config.PointShopConfig.ItemCategories) do
     if category.Init then category.Init() end
 
@@ -517,12 +528,14 @@ for _, category in pairs(config.PointShopConfig.ItemCategories) do
                     product.Identifier = product.Items[1]
                 end
             else
-                Traitormod.Error("Product has no identifier nor any items, unable to figure out an identifier for the product. Category = %s, Name = %s, Price = %s", tostring(category.Name), tostring(product.Name),  tostring(product.Price))
+                Traitormod.Error("Product has no identifier nor any items, unable to figure out an identifier for the product. Category = %s, Name = %s, Price = %s", tostring(category.Identifier), tostring(product.Name),  tostring(product.Price))
 
                 product.Identifier = "unknown_" .. tostring(math.random(1, 100000))
             end
         end
     end
 end
+
+ps.ValidateConfig()
 
 return ps
