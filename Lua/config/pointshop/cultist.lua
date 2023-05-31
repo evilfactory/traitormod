@@ -105,6 +105,14 @@ category.Products = {
     },
 
     {
+        Name = "Hacking Device",
+        Price = 4500,
+        Limit = 1,
+        IsLimitGlobal = true,
+        Items = {"hackingdevice"},
+    },
+
+    {
         Name = "Husked Blood Pack",
         Price = 350,
         Limit = 4,
