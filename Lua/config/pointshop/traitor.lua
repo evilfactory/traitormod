@@ -105,6 +105,14 @@ category.Products = {
             end)
         end
     },
+    
+    {
+        Name = "Hacking Device",
+        Price = 4500,
+        Limit = 1,
+        IsLimitGlobal = true,
+        Items = {"hackingdevice"},
+    },
 
     {
         Name = "Teleporter Revolver",
