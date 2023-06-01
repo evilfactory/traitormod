@@ -4,8 +4,8 @@ Traitormod = {}
 Traitormod.VERSION = "2.4.3"
 
 print(">> Traitor Mod v" .. Traitormod.VERSION)
-print(">> Github Contributors: evilfactory, MassCraxx, Philly-V, Qunk1, mc-oofert.")
-print(">> Special thanks to Qunk, Femboy69 and JoneK for helping in the development of this mod.")
+print(">> I thank Evil Factory and all the other contributors for making this fork possible.")
+print(">> Made by RICKY#3939, however Evil Factory made most of the mod.")
 
 local path = table.pack(...)[1]
 
