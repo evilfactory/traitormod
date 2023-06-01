@@ -161,6 +161,9 @@ config.GamemodeConfig = {
 
     AttackDefend = {
         DefendTime = 15,
+        DefendRespawn = 60,
+        AttackRespawn = 70,
+        WinningPoints = 1000,
     },
 }
 
