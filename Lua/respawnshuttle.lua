@@ -241,6 +241,6 @@ Hook.Add("character.death", "RespawnShuttle.CharacterDeath", function (character
 
     if killer.IsHuman and killer.TeamID == CharacterTeamType.Team1 and not killer.IsDead and not Traitormod.RespawnedCharacters[killer] then
         Traitormod.AwardPoints(killerClient, Traitormod.Config.RespawnOnKillPoints)
-        Traitormod.SendMessage(killerClient, "You have received " .. Traitormod.Config.RespawnOnKillPoints .. " points.", "InfoFrameTabButton.Mission")
+        Traitormod.SendMessage(killerClient, string.format(Traitormod.Language.ReceivedPoints, Traitormod.Config.RespawnOnKillPoints), "InfoFrameTabButton.Mission")
     end
 end)

@@ -46,14 +46,24 @@ end
 Traitormod.PreRoundStart = function ()
     Traitormod.SelectedGamemode = nil
 
-    if LuaUserData.IsTargetType(Game.GameSession.GameMode, "Barotrauma.PvPMode") then
+    local description = Game.NetLobbyScreen.SelectedSub.Description.Value
+    local subConfig = Traitormod.ParseSubmarineConfig(description)
+
+    if subConfig.Gamemode and Traitormod.Gamemodes[subConfig.Gamemode] then
+        Traitormod.SelectedGamemode = Traitormod.Gamemodes[subConfig.Gamemode]:new()
+        for key, value in pairs(subConfig) do
+            Traitormod.SelectedGamemode[key] = value
+        end
+    elseif Game.ServerSettings.GameModeIdentifier == "pvp" then
         Traitormod.SelectedGamemode = Traitormod.Gamemodes.PvP:new()
-    elseif LuaUserData.IsTargetType(Game.GameSession.GameMode, "Barotrauma.CampaignMode") then
+    elseif Game.ServerSettings.GameModeIdentifier == "multiplayercampaign" then
         Traitormod.SelectedGamemode = Traitormod.Gamemodes.Gamemode:new()
     elseif Game.ServerSettings.TraitorsEnabled == 1 and math.random() > 0.5 then
         Traitormod.SelectedGamemode = Traitormod.Gamemodes.Secret:new()
     elseif Game.ServerSettings.TraitorsEnabled == 2 then
         Traitormod.SelectedGamemode = Traitormod.Gamemodes.Secret:new()
+    else
+        Traitormod.SelectedGamemode = Traitormod.Gamemodes.SubmarineRoyale:new()
     end
 
     if Traitormod.SelectedGamemode then
@@ -392,6 +402,7 @@ Traitormod.AddGamemode(dofile(Traitormod.Path .. "/Lua/gamemodes/gamemode.lua"))
 Traitormod.AddGamemode(dofile(Traitormod.Path .. "/Lua/gamemodes/secret.lua"))
 Traitormod.AddGamemode(dofile(Traitormod.Path .. "/Lua/gamemodes/pvp.lua"))
 Traitormod.AddGamemode(dofile(Traitormod.Path .. "/Lua/gamemodes/submarineroyale.lua"))
+Traitormod.AddGamemode(dofile(Traitormod.Path .. "/Lua/gamemodes/attackdefend.lua"))
 
 Traitormod.RoleManager.AddObjective(dofile(Traitormod.Path .. "/Lua/objectives/objective.lua"))
 Traitormod.RoleManager.AddObjective(dofile(Traitormod.Path .. "/Lua/objectives/assassinate.lua"))

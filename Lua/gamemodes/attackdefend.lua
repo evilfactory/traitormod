@@ -12,7 +12,6 @@ function gm:Start()
     teams[2].Members = {}
     teams[2].Spawns = {}
 
-
     for key, value in pairs(Item.ItemList) do
         if value.GetComponentString("Reactor") then
             if value.HasTag("redteam") then
@@ -35,7 +34,7 @@ function gm:Start()
         end
     end
 
-    for key, value in pairs(Submarine.GetWaypoints(true)) do
+    for key, value in pairs(Submarine.MainSub.GetWaypoints(true)) do
         if value.AssignedJob.Identifier == "mechanic" then
             table.insert(teams[1].Spawns, value)
         elseif value.AssignedJob.Identifier == "engineer" then
@@ -44,7 +43,7 @@ function gm:Start()
     end
 
     for _, team in pairs(teams) do
-        for _, member in pairs(teams.Members) do
+        for _, member in pairs(team.Members) do
             member.Character.TeleportTo(team.Spawns[math.random(1, #team.Spawns)].WorldPosition)
         end
     end
