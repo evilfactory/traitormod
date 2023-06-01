@@ -609,6 +609,45 @@ Traitormod.AddCommand({"!intercom"}, function (client, args)
     return true
 end)
 
+Traitormod.AddCommand({"!traitorcom"}, function (client, args)
+    if not client.HasPermission(ClientPermissions.ConsoleCommands) then return end
+
+    if #args < 1 then
+        Traitormod.SendMessage(client, "Incorrect amount of arguments. usage: !traitorcom [msg] - If you need to announce something with more than one word, surround it in quotations.")
+    
+        return true
+    end
+
+    local text = table.remove(args, 1)
+
+    for key, player in pairs(Client.ClientList) do
+        if player and player.Character and player.HasPermission(ClientPermissions.ConsoleCommands) or Traitormod.RoleManager.HasRole(player.Character, "Traitor") then
+            Traitormod.SendTraitorMessageBox(player, text)
+        end
+    end
+
+    return true
+end)
+
+Traitormod.AddCommand({"!cultistcom"}, function (client, args)
+    if not client.HasPermission(ClientPermissions.ConsoleCommands) then return end
+
+    if #args < 1 then
+        Traitormod.SendMessage(client, "Incorrect amount of arguments. usage: !traitorcom [msg] - If you need to announce something with more than one word, surround it in quotations.")
+    
+        return true
+    end
+
+    local text = table.remove(args, 1)
+
+    for key, player in pairs(Client.ClientList) do
+        if player and player.Character and player.HasPermission(ClientPermissions.ConsoleCommands) or Traitormod.RoleManager.HasRole(player.Character, "Cultist") then
+            Traitormod.SendTraitorMessageBox(player, text, "oneofus")
+        end
+    end
+
+    return true
+end)
 
 Traitormod.AddCommand({"!funny"}, function (client, args)
     if not client.HasPermission(ClientPermissions.ConsoleCommands) then return end
