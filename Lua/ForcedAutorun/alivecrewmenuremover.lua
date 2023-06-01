@@ -1,18 +1,8 @@
 if CLIENT then return end
 
 Hook.Add("roundStart", "crewmenuRoundStart", function ()
-    for key, value in pairs(Client.ClientList) do
-        if value.Character ~= nil then
-            value.Character.TeamID = CharacterTeamType.FriendlyNPC
-        end
-    end
-end)
-
-Hook.Add("roundEnd", "crewmenuRoundEnd", function ()
-    for key, value in pairs(Client.ClientList) do
-        if value.Character ~= nil and value.Character.IsHuman and value.Character.TeamID ~= CharacterTeamType.Team2 then
-            value.Character.TeamID = CharacterTeamType.Team1
-        end
+    for key, value in pairs(Character.CharacterList) do
+        Networking.CreateEntityEvent(value, Character.RemoveFromCrewEventData.__new(value.TeamID, {}))
     end
 end)
 
@@ -27,7 +17,7 @@ Hook.Add("chatMessage", "crewmenu_chatcommands", function(msg, client)
                 if value.IsHuman and not value.IsBot then
                     print(value.IsDead)
                     if value.IsDead then
-                        msg = msg .. "[DEAD] " .. value.name .. "\n"
+                        msg = msg .. "[DEAD] " .. value.name.. " as a "..value.JobIdentifier .. "\n"
                     else
                         msg = msg .. "[ALIVE] " .. value.name .. "\n"
                     end

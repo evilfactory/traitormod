@@ -106,7 +106,7 @@ MidRoundSpawn.TryCreateClientCharacter = function(client)
     Timer.Wait(function () 
         -- spawn character
         local char = Character.Create(client.CharacterInfo, waypoint.WorldPosition, client.CharacterInfo.Name, 0, true, true);
-        char.TeamID = CharacterTeamType.FriendlyNPC;
+        char.TeamID = CharacterTeamType.Team1
         crewManager.AddCharacter(char)
 
         client.SetClientCharacter(char)

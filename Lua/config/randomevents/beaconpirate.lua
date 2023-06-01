@@ -58,7 +58,7 @@ event.Start = function ()
     if headset then
        local wifi = headset.GetComponentString("WifiComponent")
        if wifi then
-            wifi.TeamID = CharacterTeamType.FriendlyNPC
+            wifi.TeamID = CharacterTeamType.Team1
        end
     end
 
@@ -170,7 +170,7 @@ event.End = function (isEndRound)
     Traitormod.RoundEvents.SendEventMessage(text, "CrewWalletIconLarge")
 
     for _, client in pairs(Client.ClientList) do
-        if client.Character and not client.Character.IsDead and client.Character.TeamID == CharacterTeamType.FriendlyNPC then
+        if client.Character and not client.Character.IsDead and client.Character.TeamID == CharacterTeamType.Team1 then
             Traitormod.AwardPoints(client, event.AmountPoints)
             Traitormod.SendMessage(client, "You have received " .. event.AmountPoints .. " points.", "InfoFrameTabButton.Mission")
         end

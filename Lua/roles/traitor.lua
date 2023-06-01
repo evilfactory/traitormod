@@ -203,7 +203,7 @@ function role:FilterTarget(objective, character)
         end
     end
 
-    if character.TeamID ~= CharacterTeamType.FriendlyNPC and not self.SelectPiratesAsTargets then
+    if character.TeamID ~= CharacterTeamType.Team1 and not self.SelectPiratesAsTargets then
         return false
     end
 

@@ -123,7 +123,7 @@ function gm:CheckHandcuffedTraitors(character)
     if item ~= nil and item.Prefab.Identifier == "handcuffs" then
         for key, value in pairs(Client.ClientList) do
             local role = Traitormod.RoleManager.GetRole(value.Character)
-            if (role == nil or not role.IsAntagonist) and value.Character and not value.Character.IsDead and value.Character.TeamID == CharacterTeamType.FriendlyNPC then
+            if (role == nil or not role.IsAntagonist) and value.Character and not value.Character.IsDead and value.Character.TeamID == CharacterTeamType.Team1 then
                 local points = Traitormod.AwardPoints(value, self.PointsGainedFromHandcuffedTraitors)
                 local text = string.format(Traitormod.Language.TraitorHandcuffed, character.Name)
                 text = text .. "\n\n" .. string.format(Traitormod.Language.PointsAwarded, points)
@@ -261,7 +261,7 @@ function gm:Think()
     local anyTraitorMission = false
 
     for key, value in pairs(Character.CharacterList) do
-        if not value.IsDead and value.IsHuman and value.TeamID == CharacterTeamType.FriendlyNPC then
+        if not value.IsDead and value.IsHuman and value.TeamID == CharacterTeamType.Team1 then
             local role = Traitormod.RoleManager.GetRole(value)
             if role == nil or not role.IsAntagonist then
                 ended = false

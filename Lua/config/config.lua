@@ -124,7 +124,7 @@ config.GamemodeConfig = {
         -- 0 = 0% chance
         -- 1 = 100% chance
         TraitorFilter = function (client)
-            if client.Character.TeamID ~= CharacterTeamType.FriendlyNPC then return 0 end
+            if client.Character.TeamID ~= CharacterTeamType.Team1 then return 0 end
             if not client.Character.IsHuman then return 0 end
             if client.Character.HasJob("warden") then return 0 end
             if client.Character.HasJob("headguard") then return 0 end

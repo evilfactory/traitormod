@@ -630,7 +630,7 @@ Traitormod.AddCommand({"!funny"}, function (client, args)
 
     Entity.Spawner.AddCharacterToSpawnQueue("mudraptor", spawnPosition, function (character)
         funnyClient.SetClientCharacter(character)
-        character.TeamID = CharacterTeamType.FriendlyNPC
+        character.TeamID = CharacterTeamType.Team1
     end)
 
     return true
@@ -642,7 +642,7 @@ Traitormod.AddCommand({"!locatesub", "!locatesubmarine"}, function (client, args
         return true
     end
 
-    if client.Character.IsHuman and client.Character.TeamID == CharacterTeamType.FriendlyNPC then
+    if client.Character.IsHuman and client.Character.TeamID == CharacterTeamType.Team1 then
         Traitormod.SendMessage(client, "Only monsters are able to use this command.")
         return true
     end
