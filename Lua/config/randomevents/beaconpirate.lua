@@ -76,6 +76,13 @@ event.Start = function ()
     end
 --]]
 
+    character.Inventory.FindItemByIdentifier("captainspipe", true).Drop()
+    character.Inventory.FindItemByIdentifier("handcuffs", true).Drop()
+    character.Inventory.FindItemByIdentifier("coalitioncommendation", true).Drop()
+    character.Inventory.FindItemByIdentifier("revolver", true).Drop()
+    character.Inventory.FindItemByIdentifier("handheldterminal", true).Drop()
+    character.Inventory.FindItemByIdentifier("handheldstatusmonitor", true).Drop()
+
     Entity.Spawner.AddItemToSpawnQueue(ItemPrefab.Prefabs["sonarbeacon"], beacon.WorldPosition, nil, nil, function(item)
         item.NonInteractable = true
 
