@@ -8,8 +8,8 @@ event.MaxIntensity = 1
 event.ChancePerMinute = 0.15
 event.OnlyOncePerRound = true
 
-event.AmountPoints = 800
-event.AmountPointsPirate = 500
+event.AmountPoints = 900
+event.AmountPointsPirate = 1900
 
 event.Start = function ()
     if #Level.Loaded.Wrecks == 0 then
@@ -29,7 +29,6 @@ event.Start = function ()
     event.EnteredMainSub = false
 
     character.CanSpeak = true
-    character.TeamID = CharacterTeamType.Team2
     character.GiveJobItems(nil)
 
     local idCard = character.Inventory.GetItemInLimbSlot(InvSlotType.Card)
@@ -45,6 +44,19 @@ event.Start = function ()
        if wifi then
             wifi.TeamID = CharacterTeamType.Team1
        end
+    end
+
+    for item in character.Inventory.AllItems do
+        if item.Prefab.Identifier == "handheldterminal"
+            or item.Prefab.Identifier == "handheldstatusmonitor"
+            or item.Prefab.Identifier == "coalitioncommendation"
+            or item.Prefab.Identifier == "handcuffs"
+            or item.Prefab.Identifier == "revolver"
+            or item.Prefab.Identifier == "captainspipe"
+        then
+            item.Drop()
+            Entity.Spawner.AddItemToRemoveQueue(item)
+        end
     end
 
     Entity.Spawner.AddItemToSpawnQueue(ItemPrefab.Prefabs["sonarbeacon"], wreck.WorldPosition, nil, nil, function(item)
@@ -89,15 +101,19 @@ event.Start = function ()
         Entity.Spawner.AddItemToSpawnQueue(ItemPrefab.GetItemPrefab("antibiotics"), character.Inventory)
     end
     local toolbelt = character.Inventory.GetItemInLimbSlot(InvSlotType.Bag)
-    Entity.Spawner.AddItemToSpawnQueue(ItemPrefab.GetItemPrefab("antidama1"), toolbelt.OwnInventory)
-    Entity.Spawner.AddItemToSpawnQueue(ItemPrefab.GetItemPrefab("antidama1"), toolbelt.OwnInventory)
+    Entity.Spawner.AddItemToSpawnQueue(ItemPrefab.GetItemPrefab("scp_armykit"), toolbelt.OwnInventory)
     for i = 1, 6, 1 do
         Entity.Spawner.AddItemToSpawnQueue(ItemPrefab.GetItemPrefab("antibleeding1"), toolbelt.OwnInventory)
     end
-    Entity.Spawner.AddItemToSpawnQueue(ItemPrefab.GetItemPrefab("alienblood"), toolbelt.OwnInventory)
-    Entity.Spawner.AddItemToSpawnQueue(ItemPrefab.GetItemPrefab("fuelrod"), toolbelt.OwnInventory)
+    Entity.Spawner.AddItemToSpawnQueue(ItemPrefab.GetItemPrefab("antibloodloss2"), toolbelt.OwnInventory)
+    Entity.Spawner.AddItemToSpawnQueue(ItemPrefab.GetItemPrefab("antibloodloss2"), toolbelt.OwnInventory)
+    Entity.Spawner.AddItemToSpawnQueue(ItemPrefab.GetItemPrefab("antibloodloss2"), toolbelt.OwnInventory)
+    Entity.Spawner.AddItemToSpawnQueue(ItemPrefab.GetItemPrefab("antibloodloss2"), toolbelt.OwnInventory)
     Entity.Spawner.AddItemToSpawnQueue(ItemPrefab.GetItemPrefab("underwaterscooter"), toolbelt.OwnInventory, nil, nil, function (item)
         Entity.Spawner.AddItemToSpawnQueue(ItemPrefab.GetItemPrefab("batterycell"), item.OwnInventory)
+    end)
+    Entity.Spawner.AddItemToSpawnQueue(ItemPrefab.GetItemPrefab("plasmacutter"), toolbelt.OwnInventory, nil, nil, function (item)
+        Entity.Spawner.AddItemToSpawnQueue(ItemPrefab.GetItemPrefab("oxygenitetank"), item.OwnInventory)
     end)
     Entity.Spawner.AddItemToSpawnQueue(ItemPrefab.GetItemPrefab("handheldsonar"), toolbelt.OwnInventory, nil, nil, function (item)
         Entity.Spawner.AddItemToSpawnQueue(ItemPrefab.GetItemPrefab("batterycell"), item.OwnInventory)
@@ -118,6 +134,7 @@ event.Start = function ()
 
     local text = "There have been reports about a notorious pirate with a PUCS suit terrorizing these waters, the pirate was detected recently inside a wrecked submarine - eliminate the pirate to claim a reward of " .. event.AmountPoints .. " points for the entire crew."
     Traitormod.RoundEvents.SendEventMessage(text, "CrewWalletIconLarge")
+    character.TeamID = CharacterTeamType.Team2
 
     Traitormod.GhostRoles.Ask("Wreck Pirate", function (client)
         Traitormod.LostLivesThisRound[client.SteamID] = false
@@ -143,7 +160,7 @@ event.End = function (isEndRound)
     Hook.Remove("think", "WreckPirate.Think")
 
     if isEndRound then
-        if event.Character and not event.Character.IsDead and event.Character.Submarine == event.Wreck then
+        if event.Character and not event.Character.IsDead then
             local client = Traitormod.FindClientCharacter(event.Character)
             if client then
                 Traitormod.AwardPoints(client, event.AmountPointsPirate)
