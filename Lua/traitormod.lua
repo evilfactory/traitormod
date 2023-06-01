@@ -66,6 +66,11 @@ Traitormod.PreRoundStart = function ()
         Traitormod.SelectedGamemode = Traitormod.Gamemodes.SubmarineRoyale:new()
     end
 
+    if Traitormod.SelectedGamemode.RequiredGamemode then
+        Traitormod.OriginalGamemode = Game.ServerSettings.GameModeIdentifier
+        Game.NetLobbyScreen.SelectedModeIdentifier = Traitormod.SelectedGamemode.RequiredGamemode
+    end
+
     if Traitormod.SelectedGamemode then
         Traitormod.SelectedGamemode:PreStart()
     end
@@ -174,6 +179,10 @@ Hook.Add("missionsEnded", "Traitormod.MissionsEnded", function(missions)
 end)
 
 Hook.Add("roundEnd", "Traitormod.RoundEnd", function()
+    if Traitormod.OriginalGamemode then
+        Game.NetLobbyScreen.SelectedModeIdentifier = Traitormod.OriginalGamemode
+    end
+
     if Traitormod.SelectedGamemode then
         return Traitormod.SelectedGamemode:TraitorResults()
     end

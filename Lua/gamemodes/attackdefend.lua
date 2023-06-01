@@ -2,6 +2,7 @@ local weightedRandom = dofile(Traitormod.Path .. "/Lua/weightedrandom.lua")
 local gm = Traitormod.Gamemodes.Gamemode:new()
 
 gm.Name = "AttackDefend"
+gm.RequiredGamemode = "sandbox"
 
 local function SpawnCharacter(client, team)
     if client.SpectateOnly or client.CharacterInfo == nil then return false end
@@ -160,7 +161,7 @@ function gm:Think()
             for _, client in pairs(Client.ClientList) do
                 Traitormod.SendMessage(client, team.Name .. " won the game!", "InfoFrameTabButton.Mission")
             end
-            
+
             for _, member in pairs(team.GetMembers()) do
                 local points = Traitormod.AwardPoints(member, self.WinningPoints)
                 Traitormod.SendMessage(member, string.format(Traitormod.Language.ReceivedPoints, points), "InfoFrameTabButton.Mission")    
