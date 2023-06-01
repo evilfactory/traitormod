@@ -45,7 +45,8 @@ event.Start = function ()
             wifi.TeamID = CharacterTeamType.Team1
        end
     end
-
+    
+--[[
     for item in character.Inventory.AllItems do
         if item.Prefab.Identifier == "handheldterminal"
             or item.Prefab.Identifier == "handheldstatusmonitor"
@@ -58,6 +59,14 @@ event.Start = function ()
             Entity.Spawner.AddItemToRemoveQueue(item)
         end
     end
+--]]
+
+    character.Inventory.FindItemByIdentifier("captainspipe", true).Drop()
+    character.Inventory.FindItemByIdentifier("handcuffs", true).Drop()
+    character.Inventory.FindItemByIdentifier("coalitioncommendation", true).Drop()
+    character.Inventory.FindItemByIdentifier("revolver", true).Drop()
+    character.Inventory.FindItemByIdentifier("handheldterminal", true).Drop()
+    character.Inventory.FindItemByIdentifier("handheldstatusmonitor", true).Drop()
 
     Entity.Spawner.AddItemToSpawnQueue(ItemPrefab.Prefabs["sonarbeacon"], wreck.WorldPosition, nil, nil, function(item)
         item.NonInteractable = true

@@ -61,6 +61,7 @@ event.Start = function ()
        end
     end
 
+--[[
     for item in character.Inventory.AllItems do
         if item.Prefab.Identifier == "handheldterminal"
             or item.Prefab.Identifier == "handheldstatusmonitor"
@@ -68,12 +69,12 @@ event.Start = function ()
             or item.Prefab.Identifier == "handcuffs"
             or item.Prefab.Identifier == "revolver"
             or item.Prefab.Identifier == "captainspipe"
-            or item.Prefab.Identifier == "captainspipe"
         then
             item.Drop()
             Entity.Spawner.AddItemToRemoveQueue(item)
         end
     end
+--]]
 
     Entity.Spawner.AddItemToSpawnQueue(ItemPrefab.Prefabs["sonarbeacon"], beacon.WorldPosition, nil, nil, function(item)
         item.NonInteractable = true
