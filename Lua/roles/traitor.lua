@@ -10,7 +10,7 @@ function role:AssasinationLoop(first)
     local assassinate = Traitormod.RoleManager.Objectives.Assassinate:new()
     assassinate:Init(self.Character)
     local target = self:FindValidTarget(assassinate)
-    if not self.Character.IsDead and assassinate:Start(target) then
+    if not self.Character.IsDead and assassinate:Start(target) and self.Character.JobIdentifier ~= "convict" then
         self:AssignObjective(assassinate)
 
         local num = self:CompletedObjectives("Assassinate")
