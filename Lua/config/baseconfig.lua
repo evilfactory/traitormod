@@ -158,6 +158,10 @@ config.GamemodeConfig = {
         CrossTeamCommunication = true,
         BannedItems = {"coilgunammoboxexplosive", "nuclearshell"}
     },
+
+    AttackDefend = {
+        DefendTime = 15,
+    },
 }
 
 config.RoleConfig = {

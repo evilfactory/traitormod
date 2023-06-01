@@ -511,3 +511,16 @@ Traitormod.SendWelcome = function(client)
         Game.SendDirectChatMessage("", "| Traitor Mod v" .. Traitormod.VERSION .. " |\n" .. Traitormod.GetDataInfo(client), nil, ChatMessageType.Server, client)
     end
 end
+
+Traitormod.ParseSubmarineConfig = function (description)
+    local startIndex, endIndex = string.find(description, "%[traitormod%]")
+
+    if startIndex == nil then return {} end
+
+    local configString = string.sub(description, endIndex + 1)
+    local success, result = pcall(json.decode, configString)
+
+    if not success then return {} end
+
+    return result
+end
