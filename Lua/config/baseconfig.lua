@@ -35,7 +35,7 @@ config.HideCrewList = false -- EXPERIMENTAL
 -- This overrides the game's respawn shuttle, and uses it as a submarine injector, to spawn submarines in game easily. Respawn should still work as expected, but the shuttle submarine file needs to be manually added here.
 -- Note: If this is disabled, traitormod will disable all functions related to submarine spawning.
 -- Warning: Only respawn shuttles will be used, the option to spawn people directly into the submarine doesnt work.
-config.OverrideRespawnSubmarine = true
+config.OverrideRespawnSubmarine = false
 config.RespawnSubmarineFile = "Content/Submarines/Selkie.sub"
 config.RespawnText = "Respawn in %s seconds."
 config.RespawnTeam = CharacterTeamType.Team1
