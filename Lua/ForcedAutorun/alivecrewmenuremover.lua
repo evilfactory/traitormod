@@ -17,9 +17,9 @@ Hook.Add("chatMessage", "crewmenu_chatcommands", function(msg, client)
                 if value.IsHuman and not value.IsBot then
                     print(value.IsDead)
                     if value.IsDead then
-                        msg = msg .. "[DEAD] " .. value.name.. " as a "..value.JobIdentifier .. "\n"
+                        msg = msg .. "[DEAD] " ..value.name.. " as a "..value.JobIdentifier.. "\n"
                     else
-                        msg = msg .. "[ALIVE] " .. value.name .. "\n"
+                        msg = msg .. "[ALIVE] " ..value.name.. " as a "..value.JobIdentifier.."\n"
                     end
                 end
             end
