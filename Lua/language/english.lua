@@ -14,7 +14,7 @@ language.Tips = {
     "Fabricating, fixing hulls, healing and killing monsters grant you points.",
     "Doctors and normal guards can be traitors, but at a lower chance.",
     "If you have the Warden's ID, you can send a global announcement via !announce. Use this to communicate with the crew that do not have radios, or issue announcements for the prisoners and such. Make sure the ID doesn't get in the wrong hands though..",
-    "Join our discord! discord.gg/SqeTDM9KSP"
+    "Join our discord! discord.gg/SqeTDM9KSP",
     "Got RDMed? You can send a message to all available admins with the '.ahelp' command."
 }
 
