@@ -228,9 +228,9 @@ Traitormod.AddCommand("!alive", function (client, args)
     for index, value in pairs(Character.CharacterList) do
         if value.IsHuman and not value.IsBot then
             if value.IsDead then
-                msg = msg .. value.Name .. " ---- " .. Traitormod.Language.Dead .. " as a " .. value.JobIdentifier .."\n"
+                msg = msg .. value.Name .. " ---- " .. Traitormod.Language.Dead .. " as a " .. value.Info.Job.Prefab.Name .."\n"
             else
-                msg = msg .. value.Name .. " ++++ " .. Traitormod.Language.Alive .. " as a " .. value.JobIdentifier .."\n"
+                msg = msg .. value.Name .. " ++++ " .. Traitormod.Language.Alive .. " as a " .. value.Info.Job.Prefab.Name .."\n"
             end
         end
     end
