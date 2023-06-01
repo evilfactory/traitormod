@@ -45,7 +45,7 @@ event.Start = function ()
             wifi.TeamID = CharacterTeamType.Team1
        end
     end
-    
+
 --[[
     for item in character.Inventory.AllItems do
         if item.Prefab.Identifier == "handheldterminal"
@@ -124,7 +124,7 @@ event.Start = function ()
     Entity.Spawner.AddItemToSpawnQueue(ItemPrefab.GetItemPrefab("plasmacutter"), toolbelt.OwnInventory, nil, nil, function (item)
         Entity.Spawner.AddItemToSpawnQueue(ItemPrefab.GetItemPrefab("oxygenitetank"), item.OwnInventory)
     end)
-    Entity.Spawner.AddItemToSpawnQueue(ItemPrefab.GetItemPrefab("handheldsonar"), toolbelt.OwnInventory, nil, nil, function (item)
+    Entity.Spawner.AddItemToSpawnQueue(ItemPrefab.GetItemPrefab("handheldsonar"), character.Inventory, nil, nil, function (item)
         Entity.Spawner.AddItemToSpawnQueue(ItemPrefab.GetItemPrefab("batterycell"), item.OwnInventory)
     end)
 
