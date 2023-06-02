@@ -58,7 +58,7 @@ config.PermanentStatistics = true  -- sets if statistics be stored in and loaded
 config.MaxLives = 5
 config.MinRoundTimeToLooseLives = 180
 config.RespawnedPlayersDontLooseLives = true
-config.MaxExperienceFromPoints = 100000     -- if not nil, this amount is the maximum experience players gain from stored points (30k = lvl 10 | 38400 = lvl 12)
+config.MaxExperienceFromPoints = 500000     -- if not nil, this amount is the maximum experience players gain from stored points (30k = lvl 10 | 38400 = lvl 12)
 
 config.FreeExperience = 250         -- temporary experience given every ExperienceTimer seconds
 config.ExperienceTimer = 120
