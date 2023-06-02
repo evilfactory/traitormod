@@ -64,8 +64,8 @@ category.Products = {
 
     {
         Identifier = "jailgrenade",
-        Price = 450,
-        Limit = 3,
+        Price = 250,
+        Limit = 5,
         IsLimitGlobal = false,
         Action = function (client)
             local grenade = ItemPrefab.GetItemPrefab("fixfoamgrenade")
@@ -235,8 +235,8 @@ category.Products = {
 
     {
         Identifier = "clownmagic",
-        Price = 650,
-        Limit = 2,
+        Price = 450,
+        Limit = 4,
         IsLimitGlobal = true,
 
         CanBuy = function (client, product)
@@ -250,8 +250,8 @@ category.Products = {
 
     {
         Identifier = "randomizelights",
-        Price = 350,
-        Limit = 2,
+        Price = 200,
+        Limit = 5,
         IsLimitGlobal = true,
 
         CanBuy = function (client, product)

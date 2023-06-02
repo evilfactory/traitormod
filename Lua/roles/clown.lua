@@ -1,21 +1,23 @@
 local role = Traitormod.RoleManager.Roles.Antagonist:new()
 role.Name = "HonkmotherClown"
 
+local MAIN_OBJECTIVE = "Assassinate"
+
 function role:ClownLoop(first)
     if not Game.RoundStarted then return end
     if self.RoundNumber ~= Traitormod.RoundNumber then return end
 
     local this = self
 
-    local assassinatePressure = Traitormod.RoleManager.Objectives.AssassinatePressure:new()
-    assassinatePressure:Init(self.Character)
-    local target = self:FindValidTarget(assassinatePressure)
-    if not self.Character.IsDead and assassinatePressure:Start(target) then
-        self:AssignObjective(assassinatePressure)
+    local mainObjective = Traitormod.RoleManager.Objectives[MAIN_OBJECTIVE]:new()
+    mainObjective:Init(self.Character)
+    local target = self:FindValidTarget(mainObjective)
+    if not self.Character.IsDead and mainObjective:Start(target) then
+        self:AssignObjective(mainObjective)
 
         local client = Traitormod.FindClientCharacter(self.Character)
 
-        assassinatePressure.OnAwarded = function()
+        mainObjective.OnAwarded = function()
             if client then
                 Traitormod.SendMessage(client, Traitormod.Language.HonkmotherNextTarget, "")
                 Traitormod.Stats.AddClientStat("TraitorMainObjectives", client, 1)
@@ -118,7 +120,7 @@ function role:ObjectivesToString()
 
     for _, objective in pairs(self.Objectives) do
         -- AssassinateDrunk objectives are primary
-        local buf = objective.Name == "AssassinatePressure" and primary or secondary
+        local buf = objective.Name == MAIN_OBJECTIVE and primary or secondary
 
         if objective:IsCompleted() then
             buf:append(" > ", objective.Text, Traitormod.Language.Completed)
