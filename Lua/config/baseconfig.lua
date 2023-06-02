@@ -15,6 +15,10 @@ config.Extensions = {
     --dofile(Traitormod.Path .. "/Lua/extensions/pressuremidjoin.lua"),
 }
 
+config.ExtensionConfig = {
+
+}
+
 ----- GAMEPLAY -----
 config.Codewords = {
     "hull", "tabacco", "nonsense", "fish", "clown", "quartermaster", "fast", "possibility",
@@ -40,6 +44,7 @@ config.RespawnSubmarineFile = "Content/Submarines/Selkie.sub"
 config.RespawnText = "Respawn in %s seconds."
 config.RespawnTeam = CharacterTeamType.Team1
 config.RespawnOnKillPoints = 0
+config.RespawnEnabled = true -- set this to false to disable respawn, respawn shuttle override features will still be active, there just wont be any respawns
 
 -- Allows players that just joined the server to instantly spawn
 config.EnableMidRoundSpawn = false

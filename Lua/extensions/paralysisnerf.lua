@@ -1,5 +1,7 @@
 local extension = {}
 
+extension.Identifier = "paralysisnerf"
+
 extension.CureTime = 60 * 60 * 7 -- 7 minutes
 
 extension.Init = function ()

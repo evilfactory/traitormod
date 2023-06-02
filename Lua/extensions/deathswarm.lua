@@ -1,13 +1,16 @@
-if Traitormod.SubmarineBuilder == nil then
-    return
-end
+local extension = {}
 
-Traitormod.DisableRespawnShuttle = false
-
-if Traitormod.Config.RespawnEnabled == false then return end
+extension.Identifier = "deathswarm"
 
 local sb = Traitormod.SubmarineBuilder
-local submarineId = sb.AddSubmarine(Traitormod.Config.RespawnSubmarineFile)
+local submarineIds = {
+    sb.AddSubmarine(Traitormod.Config.RespawnSubmarineFile),
+    sb.AddSubmarine(Traitormod.Config.RespawnSubmarineFile),
+    sb.AddSubmarine(Traitormod.Config.RespawnSubmarineFile),
+    sb.AddSubmarine(Traitormod.Config.RespawnSubmarineFile),
+    sb.AddSubmarine(Traitormod.Config.RespawnSubmarineFile),
+    sb.AddSubmarine(Traitormod.Config.RespawnSubmarineFile),
+}
 
 local timerActive = false
 local transporting = false
@@ -195,20 +198,22 @@ Hook.Add("think", "RespawnShuttle.Think", function ()
         transporting = true
         timerActive = false
 
-        local submarine = sb.FindSubmarine(submarineId)
-        submarine.GodMode = false
-        submarine.TeamID = Traitormod.Config.RespawnTeam
+        for key, submarineId in pairs(submarineIds) do
+            local submarine = sb.FindSubmarine(submarineId)
+            submarine.GodMode = false
+            submarine.TeamID = Traitormod.Config.RespawnTeam
 
-        ResetSubmarine(submarine)
-        local position = FindSpawnPosition()
-        submarine.SetPosition(position)
+            ResetSubmarine(submarine)
+            local position = FindSpawnPosition()
+            submarine.SetPosition(position)
 
-        sb.ResetSubmarineSteering(submarine)
+            sb.ResetSubmarineSteering(submarine)
 
-        local clients = GetRespawnClients()
+            local clients = GetRespawnClients()
 
-        for key, client in pairs(clients) do
-            SpawnCharacter(client, submarine)
+            for key, client in pairs(clients) do
+                SpawnCharacter(client, submarine)
+            end                
         end
 
         transportTimer = Game.ServerSettings.MaxTransportTime
@@ -221,23 +226,6 @@ Hook.Add("roundEnd", "RespawnShuttle.RoundEnd", function ()
     respawnTimer = 0
     transportTimer = 0
     lastTimerDisplay = 0
-    Traitormod.DisableRespawnShuttle = false
 end)
 
-Hook.Add("character.death", "RespawnShuttle.CharacterDeath", function (character)
-    if Traitormod.Config.RespawnOnKillPoints == 0 then return end
-    if not Traitormod.RespawnedCharacters[character] then return end
-
-    if not character.CauseOfDeath then return end
-    if not character.CauseOfDeath.Killer then return end
-
-    local killer = character.CauseOfDeath.Killer
-    local killerClient = Traitormod.FindClientCharacter(character.CauseOfDeath.Killer)
-
-    if not killerClient then return end
-
-    if killer.IsHuman and killer.TeamID == CharacterTeamType.Team1 and not killer.IsDead and not Traitormod.RespawnedCharacters[killer] then
-        Traitormod.AwardPoints(killerClient, Traitormod.Config.RespawnOnKillPoints)
-        Traitormod.SendMessage(killerClient, string.format(Traitormod.Language.ReceivedPoints, Traitormod.Config.RespawnOnKillPoints), "InfoFrameTabButton.Mission")
-    end
-end)
+return extension

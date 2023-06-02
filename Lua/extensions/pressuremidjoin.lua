@@ -1,5 +1,7 @@
 local extension = {}
 
+extension.Identifier = "pressuremidjoin"
+
 extension.Init = function ()
     Hook.Add("character.created", "Traitormod.GivePressureResistance", function(character)
         local pressurePrefab = AfflictionPrefab.Prefabs["pressurestabilized"]

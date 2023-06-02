@@ -1,5 +1,7 @@
 local extension = {}
 
+extension.Identifier = "weaponnerfs"
+
 extension.Init = function ()
     do -- Ceremonial Sword
         local replacement = [[

@@ -32,6 +32,7 @@ Traitormod.RoundNumber = 0
 Traitormod.RoundTime = 0
 Traitormod.LostLivesThisRound = {}
 Traitormod.Commands = {}
+Traitormod.RespawnedCharacters = {}
 
 local pointsGiveTimer = -1
 
@@ -182,6 +183,8 @@ Hook.Add("roundEnd", "Traitormod.RoundEnd", function()
     if Traitormod.OriginalGamemode then
         Game.NetLobbyScreen.SelectedModeIdentifier = Traitormod.OriginalGamemode
     end
+
+    Traitormod.RespawnedCharacters = {}
 
     if Traitormod.SelectedGamemode then
         return Traitormod.SelectedGamemode:TraitorResults()
@@ -452,6 +455,12 @@ Traitormod.RoleManager.AddRole(dofile(Traitormod.Path .. "/Lua/roles/clown.lua")
 
 if Traitormod.Config.Extensions then
     for key, extension in pairs(Traitormod.Config.Extensions) do
+        local config = Traitormod.Config.ExtensionConfig[extension.Identifier or ""]
+        if config then
+            for key, value in pairs(config) do
+                extension[key] = value
+            end
+        end
         if extension.Init then
             extension.Init()
         end
