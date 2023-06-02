@@ -408,15 +408,15 @@ category.Products = {
 
     {
         Identifier = "spawnasveteranmudraptor",
-        Price = 8000,
+        Price = 5000,
         Limit = 2,
         IsLimitGlobal = true,
-        PricePerLimit = 7000,
+        PricePerLimit = 1000,
         Enabled = true,
         Timeout = 60,
 
         RoundPrice = {
-            PriceReduction = 4000,
+            PriceReduction = 3500,
             StartTime = 20,
             EndTime = 60,
         },
