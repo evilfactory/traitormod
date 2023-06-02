@@ -37,7 +37,8 @@ end
 
 function gm:Start()
     Traitormod.DisableRespawnShuttle = true
-
+    Traitormod.DisableMidRoundSpawn = true
+    
     self.Respawns = {}
     self.DefendCountDown = self.DefendTime * 60
     self.LastDefendCountDown = self.DefendTime * 60
