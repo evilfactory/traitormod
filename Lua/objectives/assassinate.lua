@@ -16,4 +16,12 @@ function objective:IsCompleted()
     return self.Target.IsDead
 end
 
+function objective:TargetPreference(character)
+    if character.IsCaptain then
+        return false
+    end
+
+    return true
+end
+
 return objective
