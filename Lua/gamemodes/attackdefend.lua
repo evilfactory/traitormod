@@ -115,6 +115,7 @@ function gm:Start()
                 SpawnCharacter(member, team)
             else
                 member.Character.TeleportTo(team.Spawns[math.random(1, #team.Spawns)].WorldPosition)
+                member.Character.TeamID = team.TeamID
             end
         end
     end
