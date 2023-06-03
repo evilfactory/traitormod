@@ -119,7 +119,6 @@ function gm:Start()
     for _, team in pairs(teams) do
         for _, member in pairs(team.GetMembers()) do
             SpawnCharacter(member, team)
-            SpawnCharacter(member, teams[1])
         end
     end
 end
