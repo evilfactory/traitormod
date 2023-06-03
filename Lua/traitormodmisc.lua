@@ -154,31 +154,33 @@ Hook.Add("roundEnd", "GuardPointsOnRoundEnd", function ()
 end)
 
 Hook.Add("roundEnd", "LivesOnRoundEnd", function ()
-    for key, value in pairs(Client.ClientList) do
-        if value.Character ~= nil
-            and value.Character.IsHuman
-            and not value.SpectateOnly
-            and not value.Character.IsDead
-        then
-            -- if client was alive at end of round and human then give points and lives
-            local msg = ""
-
-            -- award points for round completion
-            local points = 325
-            msg = msg ..
-            "Good job on staying alive!" ..
-            " " .. string.format(Traitormod.Language.PointsAwarded, points) .. "\n\n"
-
-            local lifeMsg, icon = Traitormod.AdjustLives(value, 1)
-            if lifeMsg then
-                msg = msg .. lifeMsg .. "\n\n"
-            end
-
-            if msg ~= "" then
-                Traitormod.SendMessage(value, msg, icon)
+    Timer.Wait(function ()
+        for key, value in pairs(Client.ClientList) do
+            if value.Character ~= nil
+                and value.Character.IsHuman
+                and not value.SpectateOnly
+                and not value.Character.IsDead
+            then
+                -- if client was alive at end of round and human then give points and lives
+                local msg = ""
+    
+                -- award points for round completion
+                local points = 325
+                msg = msg ..
+                "Good job on staying alive!" ..
+                " " .. string.format(Traitormod.Language.PointsAwarded, points) .. "\n\n"
+    
+                local lifeMsg, icon = Traitormod.AdjustLives(value, 1)
+                if lifeMsg then
+                    msg = msg .. lifeMsg .. "\n\n"
+                end
+    
+                if msg ~= "" then
+                    Traitormod.SendMessage(value, msg, icon)
+                end
             end
         end
-    end
+    end, 26000)
 end)
 
 Hook.Add("roundStart", "MessagesOnRoundStart", function ()
@@ -214,5 +216,5 @@ Hook.Add("roundStart", "MessagesOnRoundStart", function ()
 
     Timer.Wait(function ()
         Traitormod.RoundEvents.SendEventMessage("Remember, NLR! You don't remember anything about your past lives.", "GameModeIcon.pvp", Color.Red)
-    end, 37000)
+    end, 36000)
 end)
