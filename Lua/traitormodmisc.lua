@@ -127,7 +127,9 @@ Hook.Add("roundEnd", "PointsOnRoundEnd", function ()
             Traitormod.SendMessage(plr, "Congrats on escaping, you have received 2100 points.", "InfoFrameTabButton.Mission")
         end
     end
+end)
 --the convict counting stuff is made by aketius#5109
+Hook.Add("roundEnd", "GuardPointsOnRoundEnd", function ()
     for key, plr in pairs(Client.ClientList) do
         if plr.Character and not plr.Character.IsDead and plr.Character.IsHuman then
             if plr.Character.JobIdentifier == "guard" or plr.Character.JobIdentifier == "warden" or plr.Character.JobIdentifier == "headguard" then
