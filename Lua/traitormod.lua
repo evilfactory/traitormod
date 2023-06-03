@@ -46,28 +46,18 @@ end
 
 LuaUserData.RegisterType("Barotrauma.Voting")
 Voting = LuaUserData.CreateStatic("Barotrauma.Voting")
-Traitormod.PreRoundStart = function ()
+Traitormod.PreRoundStart = function (submarineInfo)
     Traitormod.SelectedGamemode = nil
 
-    local selectedSub
-    if Game.ServerSettings.AllowSubVoting then
-        selectedSub = Voting.HighestVoted(SubmarineInfo, 1, Client.ClientList)
-        if selectedSub == nil then
-            selectedSub = Game.NetLobbyScreen.SelectedSub
-        end
-    else
-        selectedSub = Game.NetLobbyScreen.SelectedSub
-    end
-
-    local description = selectedSub.Description.Value
+    local description = submarineInfo.Description.Value
     local subConfig = Traitormod.ParseSubmarineConfig(description)
 
-    --if subConfig.Gamemode and Traitormod.Gamemodes[subConfig.Gamemode] then
-    --    Traitormod.SelectedGamemode = Traitormod.Gamemodes[subConfig.Gamemode]:new()
-    --    for key, value in pairs(subConfig) do
-    --        Traitormod.SelectedGamemode[key] = value
-    --    end
-    if Game.ServerSettings.GameModeIdentifier == "pvp" then
+    if subConfig.Gamemode and Traitormod.Gamemodes[subConfig.Gamemode] then
+        Traitormod.SelectedGamemode = Traitormod.Gamemodes[subConfig.Gamemode]:new()
+        for key, value in pairs(subConfig) do
+            Traitormod.SelectedGamemode[key] = value
+        end
+    elseif Game.ServerSettings.GameModeIdentifier == "pvp" then
         Traitormod.SelectedGamemode = Traitormod.Gamemodes.PvP:new()
     elseif Game.ServerSettings.GameModeIdentifier == "multiplayercampaign" then
         Traitormod.SelectedGamemode = Traitormod.Gamemodes.Gamemode:new()
@@ -133,11 +123,11 @@ Traitormod.RoundStart = function()
     end
 end
 
-Hook.Patch("Barotrauma.Networking.GameServer", "TryStartGame", {}, function ()
-    Traitormod.PreRoundStart()
+Hook.Patch("Barotrauma.Networking.GameServer", "InitiateStartGame", function (instance, ptable)
+    Traitormod.PreRoundStart(ptable["selectedSub"])
 
     if Traitormod.SubmarineBuilder then
-        Traitormod.SubmarineBuilder.BuildSubmarines()
+        ptable["selectedShuttle"] = Traitormod.SubmarineBuilder.BuildSubmarines()
     end
 end)
 
@@ -481,6 +471,6 @@ end
 
 -- Round start call for reload during round
 if Game.RoundStarted then
-    Traitormod.PreRoundStart()
+    Traitormod.PreRoundStart(Submarine.MainSub.Info)
     Traitormod.RoundStart()
 end

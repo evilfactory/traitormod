@@ -59,6 +59,7 @@ sb.FindSubmarine = function (name)
 end
 
 sb.ResetSubmarineSteering = function (submarine)
+    if submarine == nil then error("ResetSubmarineSteering: submarine was nil", 2) end
     for _, item in pairs(submarine.GetItems(true)) do
         local steering = item.GetComponentString("Steering")
         if steering then
@@ -87,6 +88,7 @@ sb.BuildSubmarines = function()
     local submarineInfo = SubmarineInfo(Traitormod.Path .. "/Submarines/temp.sub")
 
     sb.UpdateLobby(submarineInfo)
+    return submarineInfo
 end
 
 sb.RoundStart = function ()

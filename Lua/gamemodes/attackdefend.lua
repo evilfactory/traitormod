@@ -110,14 +110,16 @@ function gm:Start()
         end
     end
 
+    for key, value in pairs(Character.CharacterList) do
+        if value.Submarine == Submarine.MainSub then
+            Entity.Spawner.AddEntityToRemoveQueue(value)
+        end
+    end
+
     for _, team in pairs(teams) do
         for _, member in pairs(team.GetMembers()) do
-            if not member.Character or member.Character.IsDead then
-                SpawnCharacter(member, team)
-            else
-                member.Character.TeleportTo(team.Spawns[math.random(1, #team.Spawns)].WorldPosition)
-                member.Character.TeamID = team.TeamID
-            end
+            SpawnCharacter(member, team)
+            SpawnCharacter(member, teams[1])
         end
     end
 end
