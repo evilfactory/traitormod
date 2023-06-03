@@ -44,9 +44,10 @@ if Traitormod.Config.RemotePoints then
     end
 end
 
+LuaUserData.RegisterType("Barotrauma.GameModePreset")
 LuaUserData.RegisterType("Barotrauma.Voting")
 Voting = LuaUserData.CreateStatic("Barotrauma.Voting")
-Traitormod.PreRoundStart = function (submarineInfo)
+Traitormod.PreRoundStart = function (submarineInfo, chooseGamemode)
     Traitormod.SelectedGamemode = nil
 
     local description = submarineInfo.Description.Value
@@ -72,6 +73,7 @@ Traitormod.PreRoundStart = function (submarineInfo)
     if Traitormod.SelectedGamemode.RequiredGamemode then
         Traitormod.OriginalGamemode = Game.ServerSettings.GameModeIdentifier
         Game.NetLobbyScreen.SelectedModeIdentifier = Traitormod.SelectedGamemode.RequiredGamemode
+        chooseGamemode.Gamemode = Game.NetLobbyScreen.SelectedMode
     end
 
     if Traitormod.SelectedGamemode then
@@ -124,7 +126,11 @@ Traitormod.RoundStart = function()
 end
 
 Hook.Patch("Barotrauma.Networking.GameServer", "InitiateStartGame", function (instance, ptable)
-    Traitormod.PreRoundStart(ptable["selectedSub"])
+    local mode = {}
+    Traitormod.PreRoundStart(ptable["selectedSub"], mode)
+    if mode.Gamemode then
+        ptable["selectedMode"] = mode.Gamemode
+    end
 
     if Traitormod.SubmarineBuilder then
         ptable["selectedShuttle"] = Traitormod.SubmarineBuilder.BuildSubmarines()
@@ -471,6 +477,6 @@ end
 
 -- Round start call for reload during round
 if Game.RoundStarted then
-    Traitormod.PreRoundStart(Submarine.MainSub.Info)
+    Traitormod.PreRoundStart(Submarine.MainSub.Info, {})
     Traitormod.RoundStart()
 end
