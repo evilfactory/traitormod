@@ -190,6 +190,7 @@ end)
 Hook.Add("roundEnd", "Traitormod.RoundEnd", function()
     if Traitormod.OriginalGamemode then
         Game.NetLobbyScreen.SelectedModeIdentifier = Traitormod.OriginalGamemode
+        Traitormod.OriginalGamemode = nil
     end
 
     Traitormod.RespawnedCharacters = {}
