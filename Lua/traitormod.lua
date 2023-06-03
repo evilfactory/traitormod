@@ -62,12 +62,12 @@ Traitormod.PreRoundStart = function ()
     local description = selectedSub.Description.Value
     local subConfig = Traitormod.ParseSubmarineConfig(description)
 
-    if subConfig.Gamemode and Traitormod.Gamemodes[subConfig.Gamemode] then
-        Traitormod.SelectedGamemode = Traitormod.Gamemodes[subConfig.Gamemode]:new()
-        for key, value in pairs(subConfig) do
-            Traitormod.SelectedGamemode[key] = value
-        end
-    elseif Game.ServerSettings.GameModeIdentifier == "pvp" then
+    --if subConfig.Gamemode and Traitormod.Gamemodes[subConfig.Gamemode] then
+    --    Traitormod.SelectedGamemode = Traitormod.Gamemodes[subConfig.Gamemode]:new()
+    --    for key, value in pairs(subConfig) do
+    --        Traitormod.SelectedGamemode[key] = value
+    --    end
+    if Game.ServerSettings.GameModeIdentifier == "pvp" then
         Traitormod.SelectedGamemode = Traitormod.Gamemodes.PvP:new()
     elseif Game.ServerSettings.GameModeIdentifier == "multiplayercampaign" then
         Traitormod.SelectedGamemode = Traitormod.Gamemodes.Gamemode:new()
