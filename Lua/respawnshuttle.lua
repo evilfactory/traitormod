@@ -161,7 +161,7 @@ Hook.Add("think", "RespawnShuttle.Think", function ()
             timerActive = true
             respawnTimer = Game.ServerSettings.RespawnInterval
             lastTimerDisplay = respawnTimer
-            RespawnMessage(string.format(Traitormod.Config.RespawnText, math.floor(respawnTimer)))
+            RespawnMessage(string.format(Traitormod.Config.RespawnText, math.ceil(respawnTimer)))
         end
     else
         timerActive = false
@@ -183,7 +183,7 @@ Hook.Add("think", "RespawnShuttle.Think", function ()
 
     if timerActive and (lastTimerDisplay - respawnTimer) > timerDisplayMax then
         lastTimerDisplay = respawnTimer
-        RespawnMessage(string.format(Traitormod.Config.RespawnText, math.floor(respawnTimer)))
+        RespawnMessage(string.format(Traitormod.Config.RespawnText, math.ceil(respawnTimer)))
     end
 
     if transportTimer <= 0 and not timerActive and transporting then
