@@ -249,6 +249,7 @@ language.PointshopRefunded = "You have been refunded %s points for your %s purch
 
 
 language.Pointshop = {
+    choke = "Chocker",
     jailgrenade = "DarkRP Jail Grenade",
     jailgrenade_desc = "‖color:gui.red‖A special grenade with an interesting surprise...‖color:end‖",
     clowngearcrate = "Clown Gear Crate",
@@ -320,6 +321,9 @@ language.Pointshop = {
     medical = "Medical",
     maintenance = "Maintenance",
     other = "Other",
+    -- AttackDefend gamemode
+    defender = "Defender",
+    attacker = "Attacker",
 }
 
 language.ShipTooCloseToWall = "Cannot spawn ship, position is too close to a level wall."
