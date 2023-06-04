@@ -1,6 +1,7 @@
 local category = {}
 
 category.Identifier = "other"
+category.Gamemode = "Secret"
 
 local randomItems = {}
 for prefab in ItemPrefab.Prefabs do

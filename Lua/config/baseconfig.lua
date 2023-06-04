@@ -328,6 +328,9 @@ config.PointShopConfig = {
         dofile(Traitormod.Path .. "/Lua/config/pointshop/wiring.lua"),
         dofile(Traitormod.Path .. "/Lua/config/pointshop/deathspawn.lua"),
         dofile(Traitormod.Path .. "/Lua/config/pointshop/ships.lua"),
+        -- AttackDefend gamemode
+        dofile(Traitormod.Path .. "/Lua/config/pointshop/attacker.lua"),
+        dofile(Traitormod.Path .. "/Lua/config/pointshop/defender.lua"),
     }
 }
 

@@ -1,6 +1,7 @@
 local category = {}
 
 category.Identifier = "ores"
+category.Gamemode = "Secret"
 
 category.Products = {
     {

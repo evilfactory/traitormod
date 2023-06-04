@@ -1,6 +1,8 @@
 local category = {}
 
 category.Identifier = "ships"
+category.Gamemode = "Secret"
+
 category.CanAccess = function(client)
     return client.Character and not client.Character.IsDead and client.Character.IsHuman and Traitormod.SubmarineBuilder ~= nil and Traitormod.SubmarineBuilder.IsActive()
 end

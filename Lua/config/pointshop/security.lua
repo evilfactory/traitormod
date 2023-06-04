@@ -2,6 +2,7 @@ local category = {}
 
 category.Identifier = "security"
 category.Decoration = "security"
+category.Gamemode = "Secret"
 
 category.CanAccess = function(client)
     return client.Character and not client.Character.IsDead and 

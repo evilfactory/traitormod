@@ -1,6 +1,7 @@
 local category = {}
 
 category.Identifier = "wiring"
+category.Gamemode = "Secret"
 
 category.Products = {
     {

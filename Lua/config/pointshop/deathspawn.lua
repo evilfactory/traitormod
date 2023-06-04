@@ -2,6 +2,7 @@ local category = {}
 
 category.Identifier = "deathspawn"
 category.Decoration = "huskinvite"
+category.Gamemode = "Secret"
 
 category.CanAccess = function(client)
     return client.Character == nil or client.Character.IsDead or not client.Character.IsHuman
