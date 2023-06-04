@@ -419,10 +419,13 @@ ps.ShowCategory = function(client)
 
     table.insert(options, Traitormod.Language.PointshopCancel)
 
-    for key, value in pairs(config.PointShopConfig.ItemCategories) do
-        if ps.CanClientAccessCategory(client, value) then
-            table.insert(options, ps.GetCategoryName(value))
-            categoryLookup[#options] = value
+    for key, category in pairs(config.PointShopConfig.ItemCategories) do
+        if ps.CanClientAccessCategory(client, category) then
+            -- Check if the category is suitable for the current gamemode
+            if category.Gamemode == nil or string.lower(Traitormod.SelectedGamemode.Name) == string.lower(category.Gamemode) then
+                table.insert(options, ps.GetCategoryName(category))
+                categoryLookup[#options] = category
+            end
         end
     end
 

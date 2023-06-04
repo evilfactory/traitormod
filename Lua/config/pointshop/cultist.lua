@@ -3,6 +3,7 @@ local category = {}
 category.Identifier = "cultist"
 category.Decoration = "cultist"
 category.FadeToBlack = true
+category.Gamemode = "Secret"
 
 category.CanAccess = function(client)
     return client.Character and not client.Character.IsDead and Traitormod.RoleManager.HasRole(client.Character, "Cultist")

@@ -1,6 +1,7 @@
 local category = {}
 
 category.Identifier = "medical"
+category.Gamemode = "Secret"
 
 -- this is just so i don't need to type out all the 34 different unresearched genetic materials
 local geneticMaterials = {}
