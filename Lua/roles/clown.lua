@@ -1,5 +1,5 @@
 local role = Traitormod.RoleManager.Roles.Antagonist:new()
-role.Name = "HonkmotherClown"
+role.Name = "Clown"
 
 local MAIN_OBJECTIVE = "Assassinate"
 
@@ -182,7 +182,7 @@ function role:FilterTarget(objective, character)
     if not self.SelectBotsAsTargets and character.IsBot then return false end
 
     if objective.Name == "Assassinate" and self.SelectUniqueTargets then
-        for key, value in pairs(Traitormod.RoleManager.FindCharactersByRole("HonkmotherClown")) do
+        for key, value in pairs(Traitormod.RoleManager.FindCharactersByRole("Clown")) do
             local targetRole = Traitormod.RoleManager.GetRole(value)
 
             for key, obj in pairs(targetRole.Objectives) do

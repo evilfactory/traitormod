@@ -5,7 +5,7 @@ category.Decoration = "cultist"
 category.FadeToBlack = true
 
 category.CanAccess = function(client)
-    return client.Character and not client.Character.IsDead and Traitormod.RoleManager.HasRole(client.Character, "HonkmotherClown")
+    return client.Character and not client.Character.IsDead and Traitormod.RoleManager.HasRole(client.Character, "Clown")
 end
 
 category.Init = function ()

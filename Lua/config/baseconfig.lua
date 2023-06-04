@@ -122,7 +122,7 @@ config.GamemodeConfig = {
         TraitorTypeChance = {
             Traitor = 50, -- Traitors have 33% chance of being a normal traitor
             Cultist = 50,
-            HonkmotherClown = 50,
+            Clown = 50,
         },
 
         AmountTraitors = function (amountPlayers)
@@ -228,7 +228,7 @@ config.RoleConfig = {
         PointsPerAssassination = 100,
     },
 
-    HonkmotherClown = {
+    Clown = {
         SubObjectives = {"BananaSlip", "SuffocateCrew", "AssassinateDrunk", "GrowMudraptors", "Survive"},
         MinSubObjectives = 3,
         MaxSubObjectives = 3,
