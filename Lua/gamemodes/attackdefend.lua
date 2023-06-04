@@ -35,6 +35,20 @@ local function SpawnCharacter(client, team)
     character.TeleportTo(team.Spawns[math.random(1, #team.Spawns)].WorldPosition)
 end
 
+local function ChooseTeam(client, team1, team2)
+    if #team1.Members > #team2.Members then
+        table.insert(team2.Members, client)
+    elseif #team1.Members < #team2.Members then
+        table.insert(team1.Members, client)
+    else
+        if math.random() > 0.5 then
+            table.insert(team1.Members, client)
+        else
+            table.insert(team2.Members, client)
+        end
+    end
+end
+
 function gm:Start()
     Traitormod.DisableRespawnShuttle = true
     Traitormod.DisableMidRoundSpawn = true
@@ -48,11 +62,13 @@ function gm:Start()
     teams[1] = {}
     teams[1].Name = "Defender Team"
     teams[1].Spawns = {}
+    teams[1].Members = {}
     teams[1].TeamID = CharacterTeamType.Team1
     teams[1].RespawnTime = self.DefendRespawn
     teams[2] = {}
     teams[2].Name = "Attacker Team"
     teams[2].Spawns = {}
+    teams[2].Members = {}
     teams[2].TeamID = CharacterTeamType.Team2
     teams[2].RespawnTime = self.AttackRespawn
 
@@ -71,35 +87,11 @@ function gm:Start()
         return false
     end
 
-    teams[1].GetMembers = function ()
-        local members = {}
-        for index, client in ipairs(Client.ClientList) do
-            if not client.SpectateOnly then
-                if client.PreferredJob == "captain" or client.PreferredJob == "securityofficer" or client.PreferredJob == "medicaldoctor" then
-                    table.insert(members, client)
-                end
-            end
-        end
-        return members
-    end
-
     teams[2].CheckWinCondition = function ()
         if teams[1].Reactor and teams[1].Reactor.Condition <= 1 then
             return true
         end
         return false
-    end
-
-    teams[2].GetMembers = function ()
-        local members = {}
-        for index, client in ipairs(Client.ClientList) do
-            if not client.SpectateOnly then
-                if client.PreferredJob == "captain" or client.PreferredJob == "securityofficer" or client.PreferredJob == "medicaldoctor" then else
-                    table.insert(members, client)
-                end
-            end
-        end
-        return members
     end
 
     for key, value in pairs(Submarine.MainSub.GetWaypoints(true)) do
@@ -116,15 +108,27 @@ function gm:Start()
         end
     end
 
+    local clients = Client.ClientList
+    for i = 1, #clients, 1 do
+        local client = clients[math.random(1, #clients)]
+        if client then
+            ChooseTeam(client, teams[1], teams[2])
+        end
+    end
+
     for _, team in pairs(teams) do
-        for _, member in pairs(team.GetMembers()) do
+        for _, member in pairs(team.Members) do
             SpawnCharacter(member, team)
         end
     end
+
+    Hook.Add("client.connected", "Traitormod.AttackDefend.ClientConnected", function (client)
+        ChooseTeam(client, teams[1], teams[2])
+    end)
 end
 
 function gm:End()
-    Hook.Remove("characterDeath", "Traitormod.AttackDefend.CharacterDeath")
+    Hook.Remove("client.connected", "Traitormod.AttackDefend.ClientConnected")
 
     -- first arg = mission id, second = message, third = completed, forth = list of characters
     return nil
@@ -144,8 +148,8 @@ function gm:Think()
     end
 
     for _, team in pairs(self.Teams) do
-        for _, member in pairs(team.GetMembers()) do
-            if not member.Character or member.Character.IsDead then
+        for _, member in pairs(team.Members) do
+            if not member.SpectateOnly and not member.Character or member.Character.IsDead then
                 if self.Respawns[member] == nil then
                     self.Respawns[member] = team.RespawnTime
                 else
@@ -165,7 +169,7 @@ function gm:Think()
                 Traitormod.SendMessage(client, team.Name .. " won the game!", "InfoFrameTabButton.Mission")
             end
 
-            for _, member in pairs(team.GetMembers()) do
+            for _, member in pairs(team.Members) do
                 local points = Traitormod.AwardPoints(member, self.WinningPoints)
                 Traitormod.SendMessage(member, string.format(Traitormod.Language.ReceivedPoints, points), "InfoFrameTabButton.Mission")    
             end
