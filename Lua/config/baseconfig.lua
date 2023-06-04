@@ -246,6 +246,12 @@ config.RoleConfig = {
         SelectBotsAsTargets = true,
         SelectPiratesAsTargets = false,
     },
+    Attacker = {
+
+    },
+    Defender = {
+        
+    }
 }
 
 config.ObjectiveConfig = {
