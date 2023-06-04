@@ -33,6 +33,10 @@ local function SpawnCharacter(client, team)
     character.LoadTalents()
 
     character.TeleportTo(team.Spawns[math.random(1, #team.Spawns)].WorldPosition)
+
+    -- Assign role
+    Traitormod.RoleManager.AssignRole(client.character, team.Role)
+    
 end
 
 function gm:Start()
@@ -45,16 +49,22 @@ function gm:Start()
 
     local teams = {}
     self.Teams = teams
+
     teams[1] = {}
     teams[1].Name = "Defender Team"
     teams[1].Spawns = {}
     teams[1].TeamID = CharacterTeamType.Team1
     teams[1].RespawnTime = self.DefendRespawn
+    teams[2].Role = Traitormod.RoleManager.Roles["Defender"]
+    teams[1].Members = {}
+    ------------------------------------------
     teams[2] = {}
     teams[2].Name = "Attacker Team"
+    teams[2].Role = Traitormod.RoleManager.Roles["Attacker"]
     teams[2].Spawns = {}
     teams[2].TeamID = CharacterTeamType.Team2
     teams[2].RespawnTime = self.AttackRespawn
+    teams[2].Members = {}
 
     for key, value in pairs(Item.ItemList) do
         if value.GetComponentString("Reactor") then
@@ -71,18 +81,6 @@ function gm:Start()
         return false
     end
 
-    teams[1].GetMembers = function ()
-        local members = {}
-        for index, client in ipairs(Client.ClientList) do
-            if not client.SpectateOnly then
-                if client.PreferredJob == "captain" or client.PreferredJob == "securityofficer" or client.PreferredJob == "medicaldoctor" then
-                    table.insert(members, client)
-                end
-            end
-        end
-        return members
-    end
-
     teams[2].CheckWinCondition = function ()
         if teams[1].Reactor and teams[1].Reactor.Condition <= 1 then
             return true
@@ -90,17 +88,32 @@ function gm:Start()
         return false
     end
 
-    teams[2].GetMembers = function ()
-        local members = {}
-        for index, client in ipairs(Client.ClientList) do
-            if not client.SpectateOnly then
-                if client.PreferredJob == "captain" or client.PreferredJob == "securityofficer" or client.PreferredJob == "medicaldoctor" then else
-                    table.insert(members, client)
-                end
+    ------------- Balancing two teams in equal memebers
+    local function find(list, element)
+        for _, value in pairs(list) do
+            if value == element then
+                return true
             end
         end
-        return members
+        return false
     end
+
+    local function randomSelection(playerList, curAmount)
+        if curAmount == 0 then return
+        end
+        index = math.random(1, #Client.ClientList)
+        table.insert(teams[1].Members, table.remove(playerList, index))
+        return randomSelection(playerList, curAmount-1)
+    end
+
+    randomSelection({table.unpack(Client.ClientList)}, math.ceil(#Client.ClientList/2))
+
+    for _, client in pairs(Client.ClientList) do
+        if not find(teams[1].Members, client) then
+            table.insert(teams[2].Members, client)
+        end
+    end
+    -------------
 
     for key, value in pairs(Submarine.MainSub.GetWaypoints(true)) do
         if value.AssignedJob.Identifier == "mechanic" then
@@ -117,7 +130,7 @@ function gm:Start()
     end
 
     for _, team in pairs(teams) do
-        for _, member in pairs(team.GetMembers()) do
+        for _, member in pairs(team.Members) do
             SpawnCharacter(member, team)
         end
     end
@@ -125,6 +138,7 @@ end
 
 function gm:End()
     Hook.Remove("characterDeath", "Traitormod.AttackDefend.CharacterDeath")
+    Traitormod.RoleManager.EndRound()
 
     -- first arg = mission id, second = message, third = completed, forth = list of characters
     return nil
@@ -144,7 +158,7 @@ function gm:Think()
     end
 
     for _, team in pairs(self.Teams) do
-        for _, member in pairs(team.GetMembers()) do
+        for _, member in pairs(team.Members) do
             if not member.Character or member.Character.IsDead then
                 if self.Respawns[member] == nil then
                     self.Respawns[member] = team.RespawnTime
@@ -165,7 +179,7 @@ function gm:Think()
                 Traitormod.SendMessage(client, team.Name .. " won the game!", "InfoFrameTabButton.Mission")
             end
 
-            for _, member in pairs(team.GetMembers()) do
+            for _, member in pairs(team.Members) do
                 local points = Traitormod.AwardPoints(member, self.WinningPoints)
                 Traitormod.SendMessage(member, string.format(Traitormod.Language.ReceivedPoints, points), "InfoFrameTabButton.Mission")    
             end

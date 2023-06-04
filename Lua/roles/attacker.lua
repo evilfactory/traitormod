@@ -7,7 +7,7 @@ function role:Start()
 end
 
 function role:Greet()
-
+    return "Attacker"
 end
 
 function role:OtherGreet()
