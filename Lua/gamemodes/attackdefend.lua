@@ -98,10 +98,12 @@ function gm:Start()
     end
 
     for key, value in pairs(Submarine.MainSub.GetWaypoints(true)) do
-        if value.AssignedJob.Identifier == "mechanic" then
-            table.insert(teams[1].Spawns, value)
-        elseif value.AssignedJob.Identifier == "engineer" then
-            table.insert(teams[2].Spawns, value)
+        if value.AssignedJob then
+            if value.AssignedJob.Identifier == "mechanic" then
+                table.insert(teams[1].Spawns, value)
+            elseif value.AssignedJob.Identifier == "engineer" then
+                table.insert(teams[2].Spawns, value)
+            end
         end
     end
 
