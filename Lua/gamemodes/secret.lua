@@ -2,6 +2,7 @@ local weightedRandom = dofile(Traitormod.Path .. "/Lua/weightedrandom.lua")
 local gm = Traitormod.Gamemodes.Gamemode:new()
 
 gm.Name = "Secret"
+gm.RequiredGamemode = "mission"
 
 function gm:CharacterDeath(character)
     local client = Traitormod.FindClientCharacter(character)
