@@ -464,6 +464,9 @@ Traitormod.RoleManager.AddRole(dofile(Traitormod.Path .. "/Lua/roles/cultist.lua
 Traitormod.RoleManager.AddRole(dofile(Traitormod.Path .. "/Lua/roles/huskservant.lua"))
 Traitormod.RoleManager.AddRole(dofile(Traitormod.Path .. "/Lua/roles/crew.lua"))
 Traitormod.RoleManager.AddRole(dofile(Traitormod.Path .. "/Lua/roles/clown.lua"))
+-- AttackDefend gamemode
+Traitormod.RoleManager.AddRole(dofile(Traitormod.Path .. "/Lua/roles/attacker.lua"))
+Traitormod.RoleManager.AddRole(dofile(Traitormod.Path .. "/Lua/roles/defender.lua"))
 
 if Traitormod.Config.Extensions then
     for key, extension in pairs(Traitormod.Config.Extensions) do
