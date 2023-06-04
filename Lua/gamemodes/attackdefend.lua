@@ -138,7 +138,7 @@ function gm:Think()
     if self.DefendCountDown <= 10 then max = 1 end
     if self.LastDefendCountDown - self.DefendCountDown > max then
         for _, client in pairs(Client.ClientList) do
-            Traitormod.SendChatMessage(client, "The defender team has " .. math.floor(self.DefendCountDown) .. " seconds left to defend the reactor!", Color.GreenYellow)
+            Traitormod.SendChatMessage(client, "The defender team has " .. math.ceil(self.DefendCountDown) .. " seconds left to defend the reactor!", Color.GreenYellow)
         end
         self.LastDefendCountDown = self.DefendCountDown
     end
