@@ -29,6 +29,29 @@ Hook.Patch("Barotrauma.Items.Components.Projectile", "HandleProjectileCollision"
     end
 end)
 
+Hook.Patch("Barotrauma.Items.Components.Wearable", "Equip", function(instance, ptable)
+    if not instance.Item.HasTag("chocker") then return end
+    if not instance.AllowedSlots[2] == InvSlotType.Head then return end
+
+    -- For some reason speechImpediment doesnt work
+    if ptable["character"] ~= nil then
+        ptable["character"].CanSpeak = false
+    end
+
+
+end, Hook.HookMethodType.After)
+
+Hook.Patch("Barotrauma.Items.Components.Wearable", "Unequip", function(instance, ptable)
+    if not instance.Item.HasTag("chocker") then return end
+    if not instance.AllowedSlots[2] == InvSlotType.Head then return end
+
+    -- For some reason speechImpediment doesnt work
+    if ptable["character"] ~= nil then
+        ptable["character"].CanSpeak = true
+    end
+
+end, Hook.HookMethodType.After)
+
 category.Products = {
     {
         Identifier = "explosiveautoinjector",
@@ -131,6 +154,30 @@ category.Products = {
                 end
             end)
         end
+    },
+
+    {
+        Identifier = "choke",
+        Price = 2000,
+        Limit = 1,
+        IsLimitGlobal = false,
+        Action = function (client)
+            local revolver = ItemPrefab.GetItemPrefab("ironhelmet")
+            Entity.Spawner.AddItemToSpawnQueue(revolver, client.Character.Inventory, nil, nil, function (item)
+                item.Tags = "chocker"
+                item.Description = "‖color:gui.red‖Silences the target‖color:end‖"
+
+                item.set_InventoryIconColor(Color(255, 0, 0, 100))
+                item.SpriteColor = Color(255, 0, 0, 100)
+
+                local color = item.SerializableProperties[Identifier("SpriteColor")]
+                Networking.CreateEntityEvent(item, Item.ChangePropertyEventData(color, item))            
+                local invColor = item.SerializableProperties[Identifier("InventoryIconColor")]
+                Networking.CreateEntityEvent(item, Item.ChangePropertyEventData(invColor, item))
+
+            end)
+        end
+        
     },
 
     {
