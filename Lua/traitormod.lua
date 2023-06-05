@@ -53,33 +53,25 @@ Traitormod.PreRoundStart = function (submarineInfo, chooseGamemode)
     local description = submarineInfo.Description.Value
     local subConfig = Traitormod.ParseSubmarineConfig(description)
 
-    -- Submarine specfically gamemodes
     if subConfig.Gamemode and Traitormod.Gamemodes[subConfig.Gamemode] then
         Traitormod.SelectedGamemode = Traitormod.Gamemodes[subConfig.Gamemode]:new()
         for key, value in pairs(subConfig) do
             Traitormod.SelectedGamemode[key] = value
         end
-
-    -- Pvp servers
     elseif Game.ServerSettings.GameModeIdentifier == "pvp" then
         Traitormod.SelectedGamemode = Traitormod.Gamemodes.PvP:new()
-
-    -- Campaign servers
     elseif Game.ServerSettings.GameModeIdentifier == "multiplayercampaign" then
         Traitormod.SelectedGamemode = Traitormod.Gamemodes.Gamemode:new()
-
-    -- Traitor servers ( which has several gamemodes )
-    elseif Game.ServerSettings.TraitorsEnabled == 1 and math.random() > 0.5 then -- Maybe ( its an enum )
+    elseif Game.ServerSettings.TraitorsEnabled == 1 and math.random() > 0.5 then
         Traitormod.SelectedGamemode = Traitormod.Gamemodes.Secret:new()
-    elseif Game.ServerSettings.TraitorsEnabled == 2 then -- Yes ( its an enum )
+    elseif Game.ServerSettings.TraitorsEnabled == 2 then
         Traitormod.SelectedGamemode = Traitormod.Gamemodes.Secret:new()
-        
-    -- Submarineroyale gamemode
     else
         Traitormod.SelectedGamemode = Traitormod.Gamemodes.SubmarineRoyale:new()
     end
 
     if Traitormod.SelectedGamemode.RequiredGamemode then
+        Traitormod.OriginalGamemode = Game.ServerSettings.GameModeIdentifier
         Game.NetLobbyScreen.SelectedModeIdentifier = Traitormod.SelectedGamemode.RequiredGamemode
         chooseGamemode.Gamemode = Game.NetLobbyScreen.SelectedMode
     end
@@ -196,6 +188,11 @@ Hook.Add("missionsEnded", "Traitormod.MissionsEnded", function(missions)
 end)
 
 Hook.Add("roundEnd", "Traitormod.RoundEnd", function()
+    if Traitormod.OriginalGamemode then
+        Game.NetLobbyScreen.SelectedModeIdentifier = Traitormod.OriginalGamemode
+        Traitormod.OriginalGamemode = nil
+    end
+
     Traitormod.RespawnedCharacters = {}
 
     if Traitormod.SelectedGamemode then
