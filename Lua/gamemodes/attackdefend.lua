@@ -27,7 +27,9 @@ local function SpawnCharacter(client, team)
 
     character.TeamID = team.TeamID
 
-    client.SetClientCharacter(character)
+    Timer.Wait(function ()
+        client.SetClientCharacter(character)
+    end, 1000)
 
     character.GiveJobItems()
     character.LoadTalents()
