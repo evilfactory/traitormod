@@ -167,7 +167,7 @@ config.GamemodeConfig = {
     },
 
     AttackDefend = {
-        PointshopCategories = {},
+        PointshopCategories = {"maintenance", "materials", "medical", "ores", "other", "wiring"},
         DefendTime = 15,
         DefendRespawn = 60,
         AttackRespawn = 70,
