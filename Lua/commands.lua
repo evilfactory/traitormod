@@ -145,6 +145,7 @@ Traitormod.AddCommand({"!suicide", "!kill", "!death"}, function (client, args)
         client.SetClientCharacter(nil)
     else
         client.Character.Kill(CauseOfDeathType.Unknown)
+        return true
     end
 end)
 
