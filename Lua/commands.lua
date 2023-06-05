@@ -146,6 +146,7 @@ Traitormod.AddCommand({"!suicide", "!kill", "!death"}, function (client, args)
     else
         client.Character.Kill(CauseOfDeathType.Unknown)
     end
+    return true
 end)
 
 ----- ADMIN COMMANDS -----
