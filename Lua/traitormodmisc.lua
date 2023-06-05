@@ -180,7 +180,7 @@ Hook.Add("roundEnd", "LivesOnRoundEnd", function ()
                 end
             end
         end
-    end, 1750)
+    end, 999)
 end)
 
 Hook.Add("roundStart", "MessagesOnRoundStart", function ()
