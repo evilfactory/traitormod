@@ -53,9 +53,11 @@ function gm:Start()
     Traitormod.DisableRespawnShuttle = true
     Traitormod.DisableMidRoundSpawn = true
 
-    Submarine.LockX = true
-    Submarine.LockY = true
-    
+    if self.LockSubmarines then
+        Submarine.LockX = true
+        Submarine.LockY = true
+    end
+
     self.Respawns = {}
     self.DefendCountDown = self.DefendTime * 60
     self.LastDefendCountDown = self.DefendTime * 60
@@ -135,8 +137,10 @@ end
 function gm:End()
     Hook.Remove("client.connected", "Traitormod.AttackDefend.ClientConnected")
 
-    Submarine.LockX = false
-    Submarine.LockY = false
+    if self.LockSubmarines then
+        Submarine.LockX = false
+        Submarine.LockY = false
+    end
 
     -- first arg = mission id, second = message, third = completed, forth = list of characters
     return nil
