@@ -104,7 +104,13 @@ category.Products = {
         Limit = 3,
         Items = {
             {Identifier = "shuttleengine", IsInstallation = true}
-        }
+        },
+        CanBuy = function (client, product)
+            if client.Character and client.Character.Submarine then
+                return true
+            end
+            return false
+        end
     },
 
     {
