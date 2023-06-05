@@ -89,7 +89,7 @@ end
 ----- GAMEMODE -----
 config.GamemodeConfig = {
     Secret = {
-        PointshopCategories = {"clown", "cultist", "deathspawn", "maintenance", "materials", "medical", "ores", "other", "security", "ships", "traitor", "wiring"},
+        PointshopCategories = {"clown", "traitor", "cultist", "deathspawn", "maintenance", "materials", "medical", "ores", "other", "security", "wiring", "ships"},
         EndOnComplete = true,           -- end round everyone but traitors are dead
         EnableRandomEvents = true,
         EndGameDelaySeconds = 15,
@@ -155,7 +155,7 @@ config.GamemodeConfig = {
     },
 
     PvP = {
-        PointshopCategories = {"clown", "cultist", "deathspawn", "maintenance", "materials", "medical", "ores", "other", "security", "ships", "traitor", "wiring"},
+        PointshopCategories = {"clown", "traitor", "cultist", "deathspawn", "maintenance", "materials", "medical", "ores", "other", "security", "wiring", "ships"},
         EnableRandomEvents = false, -- most events are coded to only affect the main submarine
         WinningPoints = 1000,
         WinningDeadPoints = 500,

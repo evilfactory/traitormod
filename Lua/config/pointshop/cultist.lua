@@ -183,6 +183,29 @@ category.Products = {
     },
 
     {
+        Identifier = "choke",
+        Price = 500,
+        Limit = 1,
+        IsLimitGlobal = false,
+        Action = function (client)
+            local revolver = ItemPrefab.GetItemPrefab("ironhelmet")
+            Entity.Spawner.AddItemToSpawnQueue(revolver, client.Character.Inventory, nil, nil, function (item)
+                item.Tags = "chocker"
+                item.Description = "‖color:gui.red‖Silences the target‖color:end‖"
+
+                item.set_InventoryIconColor(Color(255, 0, 0, 50))
+                item.SpriteColor = Color(255, 0, 0, 50)
+
+                local color = item.SerializableProperties[Identifier("SpriteColor")]
+                Networking.CreateEntityEvent(item, Item.ChangePropertyEventData(color, item))            
+                local invColor = item.SerializableProperties[Identifier("InventoryIconColor")]
+                Networking.CreateEntityEvent(item, Item.ChangePropertyEventData(invColor, item))
+
+            end)
+        end  
+    },
+
+    {
         Identifier = "spawnhusk",
         Price = 150,
         Limit = 5,
