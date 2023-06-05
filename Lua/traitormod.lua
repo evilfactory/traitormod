@@ -67,7 +67,7 @@ Traitormod.PreRoundStart = function (submarineInfo, chooseGamemode)
     elseif Game.ServerSettings.TraitorsEnabled == 2 then
         Traitormod.SelectedGamemode = Traitormod.Gamemodes.Secret:new()
     else
-        Traitormod.SelectedGamemode = Traitormod.Gamemodes.SubmarineRoyale:new()
+        Traitormod.SelectedGamemode = Traitormod.Gamemodes.Gamemode:new()
     end
 
     if Traitormod.SelectedGamemode.RequiredGamemode then
