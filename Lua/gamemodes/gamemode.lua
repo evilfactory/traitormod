@@ -3,7 +3,7 @@ local gm = {}
 gm.Name = "Gamemode"
 
 function gm:PreStart()
-    Traitormod.Pointshop.Initialize(self.PointshopCategories)
+    Traitormod.Pointshop.Initialize(self.PointshopCategories or {})
 end
 
 function gm:Start()

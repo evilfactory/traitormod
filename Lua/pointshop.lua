@@ -457,6 +457,11 @@ ps.TrackRefund = function (client, product)
 end
 
 Traitormod.AddCommand({"!pointshop", "!pointsshop", "!ps", "!shop"}, function (client, args)
+    if #ps.ActiveCategories == 0 then
+        textPromptUtils.Prompt(Traitormod.Language.PointshopNotAvailable, {}, client, function (id, client) end, "gambler")
+        return    
+    end
+
     if not ps.ValidateClient(client) then
         return true
     end
