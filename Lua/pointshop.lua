@@ -14,6 +14,15 @@ ps.GlobalProductLimits = {}
 ps.LocalProductLimits = {}
 ps.Timeouts = {}
 ps.Refunds = {}
+ps.ActiveCategories = {}
+ps.AllCategories = {} -- It has config categories parsed as a table
+
+ps.Initialize = function(categories)
+    -- Adds required categories to a list so it can be used by the gamemode
+    for _, category in pairs(categories) do
+        table.insert(ps.ActiveCategories, ps.AllCategories[category])
+    end
+end
 
 ps.ValidateConfig = function ()
     for i, category in pairs(config.PointShopConfig.ItemCategories) do
@@ -418,8 +427,7 @@ ps.ShowCategory = function(client)
     local categoryLookup = {}
 
     table.insert(options, Traitormod.Language.PointshopCancel)
-
-    for key, value in pairs(config.PointShopConfig.ItemCategories) do
+    for key, value in pairs(ps.ActiveCategories) do
         if ps.CanClientAccessCategory(client, value) then
             table.insert(options, ps.GetCategoryName(value))
             categoryLookup[#options] = value
@@ -449,6 +457,11 @@ ps.TrackRefund = function (client, product)
 end
 
 Traitormod.AddCommand({"!pointshop", "!pointsshop", "!ps", "!shop"}, function (client, args)
+    if #ps.ActiveCategories == 0 then
+        textPromptUtils.Prompt(Traitormod.Language.PointshopNotAvailable, {}, client, function (id, client) end, "gambler")
+        return true    
+    end
+
     if not ps.ValidateClient(client) then
         return true
     end
@@ -494,6 +507,7 @@ end)
 
 Hook.Add("roundEnd", "TraitorMod.PointShop.RoundEnd", function ()
     ps.ResetProductLimits()
+    ps.ActiveCategories = {}
 end)
 
 Hook.Add("characterDeath", "Traitormod.Pointshop.Death", function (character)
@@ -518,6 +532,7 @@ end)
 
 for _, category in pairs(config.PointShopConfig.ItemCategories) do
     if category.Init then category.Init() end
+    ps.AllCategories[category.Identifier] = category -- Creates a table out of config
 
     for __, product in pairs(category.Products) do
         if not product.Identifier then
