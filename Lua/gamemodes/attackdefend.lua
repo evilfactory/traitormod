@@ -4,38 +4,38 @@ local gm = Traitormod.Gamemodes.Gamemode:new()
 gm.Name = "AttackDefend"
 gm.RequiredGamemode = "sandbox"
 
-local function SpawnCharacter(client, team)
+local function SpawnCharacter(client, team, existingCharacter)
     if client.SpectateOnly or client.CharacterInfo == nil then return false end
-    local submarine = Submarine.MainSub
 
-    local spawnWayPoints = WayPoint.SelectCrewSpawnPoints({client.CharacterInfo}, submarine)
+    if not existingCharacter then
+        local spawnPoint = team.Spawns[math.random(1, #team.Spawns)]
+        local character = Character.Create(client.CharacterInfo, spawnPoint.WorldPosition, client.CharacterInfo.Name, 0, true, true)
 
-    local potentialPosition = submarine.WorldPosition
+        character.TeamID = team.TeamID
 
-    if spawnWayPoints[1] == nil then
-        for i, waypoint in pairs(WayPoint.WayPointList) do
-            if waypoint.Submarine == submarine and waypoint.CurrentHull ~= nil then
-                potentialPosition = waypoint.WorldPosition
-                break
-            end
-        end
-    else
-        potentialPosition = spawnWayPoints[1].WorldPosition
-    end
-
-    local character = Character.Create(client.CharacterInfo, potentialPosition, client.CharacterInfo.Name, 0, true, true)
-
-    character.TeamID = team.TeamID
-
-    client.SetClientCharacter(character)
-    Timer.Wait(function ()
         client.SetClientCharacter(character)
-    end, 1000)
+        character.GiveJobItems()
+        character.LoadTalents()
 
-    character.GiveJobItems()
-    character.LoadTalents()
+        character.TeleportTo(spawnPoint.WorldPosition)
+    else
+        local spawnPoint = team.Spawns[math.random(1, #team.Spawns)]
 
-    character.TeleportTo(team.Spawns[math.random(1, #team.Spawns)].WorldPosition)
+        existingCharacter.SetOriginalTeam(team.TeamID)
+        existingCharacter.UpdateTeam()
+        existingCharacter.TeleportTo(spawnPoint.WorldPosition)
+
+        local card = existingCharacter.Inventory.GetItemInLimbSlot(InvSlotType.Card)
+
+        if card then
+            card.Drop()
+            Entity.Spawner.AddEntityToRemoveQueue(card)
+        end
+
+        Entity.Spawner.AddItemToSpawnQueue(ItemPrefab.GetItemPrefab("idcard"), existingCharacter.Inventory, nil, nil, function (item)
+            item.GetComponentString("IdCard").Initialize(spawnPoint, existingCharacter)
+        end, true, false, InvSlotType.Card)
+    end
 end
 
 local function ChooseTeam(client, team1, team2)
@@ -112,12 +112,6 @@ function gm:Start()
         end
     end
 
-    for key, value in pairs(Character.CharacterList) do
-        if value.Submarine == Submarine.MainSub then
-            Entity.Spawner.AddEntityToRemoveQueue(value)
-        end
-    end
-
     local clients = Client.ClientList
     for i = 1, #clients, 1 do
         local client = clients[math.random(1, #clients)]
@@ -128,7 +122,9 @@ function gm:Start()
 
     for _, team in pairs(teams) do
         for _, member in pairs(team.Members) do
-            SpawnCharacter(member, team)
+            if member.Character then
+                SpawnCharacter(member, team, member.Character)
+            end
         end
     end
 
