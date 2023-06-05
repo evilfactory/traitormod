@@ -143,6 +143,7 @@ Traitormod.AddCommand({"!suicide", "!kill", "!death"}, function (client, args)
 
     if Traitormod.GhostRoles.ReturnGhostRole(client.Character) then
         client.SetClientCharacter(nil)
+        return true
     else
         client.Character.Kill(CauseOfDeathType.Unknown)
         return true
