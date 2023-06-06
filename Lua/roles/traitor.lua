@@ -123,7 +123,7 @@ function role:ObjectivesToString()
         -- Assassinate objectives are primary
         local buf = objective.Name == "Assassinate" and primary or secondary
 
-        if objective:IsCompleted() then
+        if objective:IsCompleted() or objective.Awarded then
             buf:append(" > ", objective.Text, Traitormod.Language.Completed)
         else
             buf:append(" > ", objective.Text, string.format(Traitormod.Language.Points, objective.AmountPoints))

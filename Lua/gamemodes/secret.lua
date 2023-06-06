@@ -289,7 +289,7 @@ function gm:TraitorResults()
             local pointsGained = 0
 
             for key, value in pairs(role.Objectives) do
-                if value:IsCompleted() then
+                if value:IsCompleted() or value.IsAwarded then
                     objectives = objectives + 1
                     pointsGained = pointsGained + value.AmountPoints
                 end
