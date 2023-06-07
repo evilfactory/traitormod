@@ -39,6 +39,13 @@ local function SpawnCharacter(client, team, existingCharacter)
 end
 
 local function ChooseTeam(client, team1, team2)
+    for key, value in pairs(team1.Members) do
+        if value == client then return end
+    end
+    for key, value in pairs(team2.Members) do
+        if value == client then return end
+    end
+
     if #team1.Members > #team2.Members then
         table.insert(team2.Members, client)
     elseif #team1.Members < #team2.Members then
@@ -160,7 +167,7 @@ function gm:Think()
 
     for _, team in pairs(self.Teams) do
         for _, member in pairs(team.Members) do
-            if not member.SpectateOnly and not member.Character or member.Character.IsDead then
+            if not member.SpectateOnly and (not member.Character or member.Character.IsDead) then
                 if self.Respawns[member] == nil then
                     self.Respawns[member] = team.RespawnTime
                 else
@@ -168,8 +175,8 @@ function gm:Think()
                 end
 
                 if self.Respawns[member] <= 0 then
-                    SpawnCharacter(member, team)
                     self.Respawns[member] = nil
+                    SpawnCharacter(member, team)
                 end
             end
         end
