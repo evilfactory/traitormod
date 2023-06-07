@@ -7,7 +7,7 @@ category.CanAccess = function(client)
     return client.Character == nil or client.Character.IsDead or not client.Character.IsHuman
 end
 
-local function SpawnCreature(species, client, product, insideHuman)
+local function SpawnCreature(species, client, product, paidPrice, insideHuman)
     local waypoints = Submarine.MainSub.GetWaypoints(true)
 
     if LuaUserData.IsTargetType(Game.GameSession.GameMode, "Barotrauma.PvPMode") then
@@ -46,7 +46,7 @@ local function SpawnCreature(species, client, product, insideHuman)
 
     Entity.Spawner.AddCharacterToSpawnQueue(species, spawnPosition, function (character)
         client.SetClientCharacter(character)
-        Traitormod.Pointshop.TrackRefund(client, product)
+        Traitormod.Pointshop.TrackRefund(client, product, paidPrice)
     end)
 end
 
@@ -65,8 +65,8 @@ category.Products = {
             EndTime = 30,
         },
 
-        Action = function (client, product, items)
-            SpawnCreature("crawler", client, product)
+        Action = function (client, product, items, paidPrice)
+            SpawnCreature("crawler", client, product, paidPrice)
         end
     },
 
@@ -84,8 +84,8 @@ category.Products = {
             EndTime = 30,
         },
 
-        Action = function (client, product, items)
-            SpawnCreature("Crawlerhusk", client, product)
+        Action = function (client, product, items, paidPrice)
+            SpawnCreature("Crawlerhusk", client, product, paidPrice)
         end
     },
 
@@ -103,8 +103,8 @@ category.Products = {
             EndTime = 30,
         },
 
-        Action = function (client, product, items)
-            SpawnCreature("legacycrawler", client, product)
+        Action = function (client, product, items, paidPrice)
+            SpawnCreature("legacycrawler", client, product, paidPrice)
         end
     },
 
@@ -122,8 +122,8 @@ category.Products = {
             EndTime = 30,
         },
 
-        Action = function (client, product, items)
-            SpawnCreature("legacyhusk", client, product)
+        Action = function (client, product, items, paidPrice)
+            SpawnCreature("legacyhusk", client, product, paidPrice)
         end
     },
 
@@ -141,8 +141,8 @@ category.Products = {
             EndTime = 30,
         },
 
-        Action = function (client, product, items)
-            SpawnCreature("crawler_hatchling", client, product)
+        Action = function (client, product, items, paidPrice)
+            SpawnCreature("crawler_hatchling", client, product, paidPrice)
         end
     },
 
@@ -160,8 +160,8 @@ category.Products = {
             EndTime = 30,
         },
 
-        Action = function (client, product, items)
-            SpawnCreature("mudraptor_hatchling", client, product)
+        Action = function (client, product, items, paidPrice)
+            SpawnCreature("mudraptor_hatchling", client, product, paidPrice)
         end
     },
 
@@ -179,8 +179,8 @@ category.Products = {
             EndTime = 30,
         },
 
-        Action = function (client, product, items)
-            SpawnCreature("tigerthresher_hatchling", client, product)
+        Action = function (client, product, items, paidPrice)
+            SpawnCreature("tigerthresher_hatchling", client, product, paidPrice)
         end
     },
 
@@ -198,8 +198,8 @@ category.Products = {
             EndTime = 30,
         },
 
-        Action = function (client, product, items)
-            SpawnCreature("spineling", client, product)
+        Action = function (client, product, items, paidPrice)
+            SpawnCreature("spineling", client, product, paidPrice)
         end
     },
 
@@ -217,8 +217,8 @@ category.Products = {
             EndTime = 35,
         },
 
-        Action = function (client, product, items)
-            SpawnCreature("mudraptor", client, product)
+        Action = function (client, product, items, paidPrice)
+            SpawnCreature("mudraptor", client, product, paidPrice)
         end
     },
 
@@ -236,8 +236,8 @@ category.Products = {
             EndTime = 30,
         },
 
-        Action = function (client, product, items)
-            SpawnCreature("mantis", client, product)
+        Action = function (client, product, items, paidPrice)
+            SpawnCreature("mantis", client, product, paidPrice)
         end
     },
 
@@ -255,8 +255,8 @@ category.Products = {
             EndTime = 35,
         },
 
-        Action = function (client, product, items)
-            SpawnCreature("husk", client, product)
+        Action = function (client, product, items, paidPrice)
+            SpawnCreature("husk", client, product, paidPrice)
         end
     },
 
@@ -274,8 +274,8 @@ category.Products = {
             EndTime = 35,
         },
 
-        Action = function (client, product, items)
-            SpawnCreature("Humanhusk", client, product)
+        Action = function (client, product, items, paidPrice)
+            SpawnCreature("Humanhusk", client, product, paidPrice)
         end
     },
 
@@ -294,8 +294,8 @@ category.Products = {
             EndTime = 35,
         },
 
-        Action = function (client, product, items)
-            SpawnCreature("Bonethresher", client, product)
+        Action = function (client, product, items, paidPrice)
+            SpawnCreature("Bonethresher", client, product, paidPrice)
         end
     },
 
@@ -314,8 +314,8 @@ category.Products = {
             EndTime = 35,
         },
 
-        Action = function (client, product, items)
-            SpawnCreature("Tigerthresher", client, product)
+        Action = function (client, product, items, paidPrice)
+            SpawnCreature("Tigerthresher", client, product, paidPrice)
         end
     },
 
@@ -328,8 +328,8 @@ category.Products = {
         Enabled = true,
         Timeout = 60,
 
-        Action = function (client, product, items)
-            SpawnCreature("legacymoloch", client, product)
+        Action = function (client, product, items, paidPrice)
+            SpawnCreature("legacymoloch", client, product, paidPrice)
         end
     },
 
@@ -342,8 +342,8 @@ category.Products = {
         Enabled = true,
         Timeout = 60,
 
-        Action = function (client, product, items)
-            SpawnCreature("Carrier", client, product)
+        Action = function (client, product, items, paidPrice)
+            SpawnCreature("Carrier", client, product, paidPrice)
         end
     },
 
@@ -362,8 +362,8 @@ category.Products = {
             EndTime = 35,
         },
 
-        Action = function (client, product, items)
-            SpawnCreature("hammerhead", client, product)
+        Action = function (client, product, items, paidPrice)
+            SpawnCreature("hammerhead", client, product, paidPrice)
         end
     },
 
@@ -381,8 +381,8 @@ category.Products = {
             EndTime = 40,
         },
 
-        Action = function (client, product, items)
-            SpawnCreature("fractalguardian", client, product)
+        Action = function (client, product, items, paidPrice)
+            SpawnCreature("fractalguardian", client, product, paidPrice)
         end
     },
 
@@ -401,8 +401,8 @@ category.Products = {
             EndTime = 60,
         },
 
-        Action = function (client, product, items)
-            SpawnCreature("Spineling_giant", client, product)
+        Action = function (client, product, items, paidPrice)
+            SpawnCreature("Spineling_giant", client, product, paidPrice)
         end
     },
 
@@ -421,8 +421,8 @@ category.Products = {
             EndTime = 60,
         },
 
-        Action = function (client, product, items)
-            SpawnCreature("Mudraptor_veteran", client, product)
+        Action = function (client, product, items, paidPrice)
+            SpawnCreature("Mudraptor_veteran", client, product, paidPrice)
         end
     },
 
@@ -440,8 +440,8 @@ category.Products = {
             EndTime = 60,
         },
 
-        Action = function (client, product, items)
-            SpawnCreature("latcher", client, product)
+        Action = function (client, product, items, paidPrice)
+            SpawnCreature("latcher", client, product, paidPrice)
         end
     },
 
@@ -459,8 +459,8 @@ category.Products = {
             EndTime = 60,
         },
 
-        Action = function (client, product, items)
-            SpawnCreature("charybdis", client, product)
+        Action = function (client, product, items, paidPrice)
+            SpawnCreature("charybdis", client, product, paidPrice)
         end
     },
 
@@ -478,8 +478,8 @@ category.Products = {
             EndTime = 60,
         },
 
-        Action = function (client, product, items)
-            SpawnCreature("endworm", client, product)
+        Action = function (client, product, items, paidPrice)
+            SpawnCreature("endworm", client, product, paidPrice)
         end
     },
 
@@ -489,8 +489,8 @@ category.Products = {
         Limit = 2,
         IsLimitGlobal = false,
 
-        Action = function (client, product, items)
-            SpawnCreature("peanut", client, product, true)
+        Action = function (client, product, items, paidPrice)
+            SpawnCreature("peanut", client, product, paidPrice, true)
         end
     },
 
@@ -500,8 +500,8 @@ category.Products = {
         Limit = 2,
         IsLimitGlobal = false,
 
-        Action = function (client, product, items)
-            SpawnCreature("orangeboy", client, product, true)
+        Action = function (client, product, items, paidPrice)
+            SpawnCreature("orangeboy", client, product, paidPrice, true)
         end
     },
 
@@ -511,8 +511,8 @@ category.Products = {
         Limit = 2,
         IsLimitGlobal = false,
 
-        Action = function (client, product, items)
-            SpawnCreature("balloon", client, product, true)
+        Action = function (client, product, items, paidPrice)
+            SpawnCreature("balloon", client, product, paidPrice, true)
         end
     },
 
@@ -522,8 +522,8 @@ category.Products = {
         Limit = 2,
         IsLimitGlobal = false,
 
-        Action = function (client, product, items)
-            SpawnCreature("psilotoad", client, product, true)
+        Action = function (client, product, items, paidPrice)
+            SpawnCreature("psilotoad", client, product, paidPrice, true)
         end
     },
 }

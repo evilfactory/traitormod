@@ -221,7 +221,7 @@ ps.SpawnItem = function(client, item, onSpawned)
     end
 end
 
-ps.ActivateProduct = function (client, product)
+ps.ActivateProduct = function (client, product, paidPrice)
     local spawnedItems = {}
     local spawnedItemCount = 0
 
@@ -231,7 +231,7 @@ ps.ActivateProduct = function (client, product)
         spawnedItemCount = spawnedItemCount + 1
 
         if spawnedItemCount == #product.Items and product.Action then
-            product.Action(client, product, spawnedItems)
+            product.Action(client, product, spawnedItems, paidPrice)
         end
     end
 
@@ -257,7 +257,7 @@ ps.ActivateProduct = function (client, product)
     end
 
     if (product.Items == nil or #product.Items == 0) and product.Action then
-        product.Action(client, product)
+        product.Action(client, product, nil, paidPrice)
     end
 end
 
@@ -276,9 +276,10 @@ ps.GetProductPrice = function (client, product)
 end
 
 ps.BuyProduct = function(client, product)
+    local price = 0
     if not Traitormod.Config.TestMode then
         local points = Traitormod.GetData(client, "Points") or 0
-        local price = ps.GetProductPrice(client, product)
+        price = ps.GetProductPrice(client, product)
 
         if product.CanBuy then
             local success, result = product.CanBuy(client, product)
@@ -312,7 +313,7 @@ ps.BuyProduct = function(client, product)
     end
 
     -- Activate the product
-    ps.ActivateProduct(client, product)
+    ps.ActivateProduct(client, product, price)
 end
 
 ps.HandleProductBuy = function (client, product, result, quantity)
@@ -452,8 +453,8 @@ ps.ShowCategory = function(client)
     end, "officeinside")
 end
 
-ps.TrackRefund = function (client, product)
-    ps.Refunds[client] = { Product = product, Time = Timer.GetTime() }
+ps.TrackRefund = function (client, product, paidPrice)
+    ps.Refunds[client] = { Product = product, Time = Timer.GetTime(), Price = paidPrice }
 end
 
 Traitormod.AddCommand({"!pointshop", "!pointsshop", "!ps", "!shop"}, function (client, args)
@@ -521,8 +522,8 @@ Hook.Add("characterDeath", "Traitormod.Pointshop.Death", function (character)
     if refund and refund.Time + 15 > Timer.GetTime() then
         ps.UseProductLimit(client, refund.Product, -1)
 
-        Traitormod.AwardPoints(client, ps.GetProductPrice(client, refund.Product))
-        Traitormod.SendMessage(client, string.format(Traitormod.Language.PointshopRefunded, ps.GetProductPrice(client, refund.Product), ps.GetProductName(refund.Product)))
+        Traitormod.AwardPoints(client, refund.Price)
+        Traitormod.SendMessage(client, string.format(Traitormod.Language.PointshopRefunded, refund.Price, ps.GetProductName(refund.Product)))
 
         ps.Refunds[client] = nil
     else
