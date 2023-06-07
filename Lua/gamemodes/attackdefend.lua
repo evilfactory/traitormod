@@ -121,10 +121,7 @@ function gm:Start()
 
     local clients = Client.ClientList
     for i = 1, #clients, 1 do
-        local client = clients[math.random(1, #clients)]
-        if client then
-            ChooseTeam(client, teams[1], teams[2])
-        end
+        ChooseTeam(clients[i], teams[1], teams[2])
     end
 
     for _, team in pairs(teams) do
