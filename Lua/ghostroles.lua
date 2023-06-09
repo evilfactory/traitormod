@@ -103,6 +103,7 @@ Traitormod.AddCommand({"!ghostrole", "!ghostroles"}, function(client, args)
 
     Traitormod.Log(Traitormod.ClientLogName(client) .. " took the ghost role of " .. name .. ".")
 
+    Traitormod.MidRoundSpawn.SetSpawnedClient(client, true)
     gr.Roles[name].Callback(client)
     gr.Roles[name].Taken = true
 

@@ -47,7 +47,7 @@ config.RespawnOnKillPoints = 0
 config.RespawnEnabled = true -- set this to false to disable respawn, respawn shuttle override features will still be active, there just wont be any respawns
 
 -- Allows players that just joined the server to instantly spawn
-config.EnableMidRoundSpawn = false
+config.MidRoundSpawn = false
 
 ----- POINTS + LIVES -----
 config.StartPoints = 5000 -- new players start with this amount of points

@@ -15,6 +15,10 @@ local newPlayers = {}
 
 local m = {}
 
+m.SetSpawnedClient = function (client, character)
+    hasBeenSpawned[client.SteamID] = character
+end
+
 m.SpawnClientCharacterOnSub = function(submarine, client)
     if not Game.RoundStarted or not client.InGame then return false end 
 
@@ -234,3 +238,5 @@ Traitormod.AddCommand("!midroundspawn", function (client, args)
 
     return true
 end)
+
+return m
