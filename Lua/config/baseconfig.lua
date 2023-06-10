@@ -339,6 +339,9 @@ config.GhostRoleConfig = {
     MiscGhostRoles = {
         ["Watcher"] = true,
         ["Mudraptor_pet"] = true,
+        ["Fractalguardian"] = true,
+        ["Fractalguardian2"] = true,
+        ["Fractalguardian3"] = true,
     }
 }
 

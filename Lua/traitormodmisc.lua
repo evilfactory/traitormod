@@ -33,7 +33,8 @@ Hook.Add("think", "Traitormod.MiscThink", function ()
 
     if Traitormod.Config.GhostRoleConfig.Enabled then
         for key, character in pairs(Character.CharacterList) do
-            if not Traitormod.GhostRoles.IsGhostRole(character) then
+            local client = Traitormod.FindClientCharacter(character)
+            if not Traitormod.GhostRoles.IsGhostRole(character) and not client then
                 if Traitormod.Config.GhostRoleConfig.MiscGhostRoles[character.SpeciesName.Value] then
                     Traitormod.GhostRoles.Ask(character.Name .. " " .. n, function (client)
                         client.SetClientCharacter(character)
