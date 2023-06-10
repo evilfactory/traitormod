@@ -25,6 +25,13 @@ local function SpawnCharacter(client, team, existingCharacter)
         existingCharacter.UpdateTeam()
         existingCharacter.TeleportTo(spawnPoint.WorldPosition)
 
+        local innerClothes = existingCharacter.Inventory.GetItemInLimbSlot(InvSlotType.InnerClothes)
+        if innerClothes then
+            innerClothes.SpriteColor = team.Color
+            local color = innerClothes.SerializableProperties[Identifier("SpriteColor")]
+            Networking.CreateEntityEvent(innerClothes, Item.ChangePropertyEventData(color, innerClothes))
+        end
+
         local card = existingCharacter.Inventory.GetItemInLimbSlot(InvSlotType.Card)
 
         if card then
@@ -80,12 +87,14 @@ function gm:Start()
     teams[1].Members = {}
     teams[1].TeamID = CharacterTeamType.Team1
     teams[1].RespawnTime = self.DefendRespawn
+    teams[1].Color = Color.Blue
     teams[2] = {}
     teams[2].Name = "Attacker Team"
     teams[2].Spawns = {}
     teams[2].Members = {}
     teams[2].TeamID = CharacterTeamType.Team2
     teams[2].RespawnTime = self.AttackRespawn
+    teams[2].Color = Color.Red
 
     for key, value in pairs(Item.ItemList) do
         if value.GetComponentString("Reactor") then
