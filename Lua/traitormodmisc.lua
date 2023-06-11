@@ -128,8 +128,35 @@ Hook.Add("roundEnd", "PointsOnRoundEnd", function ()
         end
     end
 end)
+
 --the convict counting stuff is made by aketius#5109
-Hook.Add("roundEnd", "GuardPointsOnRoundEnd", function ()
+Hook.Add("roundEnd", "PointsOnRoundEnd", function ()
+    for key, value in pairs(Client.ClientList) do
+        if value.Character ~= nil
+            and value.Character.IsHuman
+            and not value.SpectateOnly
+            and not value.Character.IsDead
+        then
+            -- if client was alive at end of round and human then give points and lives
+            local msg = ""
+
+            -- award points for round completion
+            local points = 325
+            msg = msg ..
+            "Good job on staying alive!" ..
+            " " .. string.format(Traitormod.Language.PointsAwarded, points) .. "\n\n"
+
+            local lifeMsg, icon = Traitormod.AdjustLives(value, 1)
+            if lifeMsg then
+                msg = msg .. lifeMsg .. "\n\n"
+            end
+
+            if msg ~= "" then
+                Traitormod.SendMessage(value, msg, icon)
+            end
+        end
+    end
+
     for key, plr in pairs(Client.ClientList) do
         if plr.Character and not plr.Character.IsDead and plr.Character.IsHuman then
             if plr.Character.JobIdentifier == "guard" or plr.Character.JobIdentifier == "warden" or plr.Character.JobIdentifier == "headguard" then
@@ -151,36 +178,6 @@ Hook.Add("roundEnd", "GuardPointsOnRoundEnd", function ()
             end
         end
     end
-end)
-
-Hook.Add("roundEnd", "LivesOnRoundEnd", function ()
-    Timer.Wait(function ()
-        for key, value in pairs(Client.ClientList) do
-            if value.Character ~= nil
-                and value.Character.IsHuman
-                and not value.SpectateOnly
-                and not value.Character.IsDead
-            then
-                -- if client was alive at end of round and human then give points and lives
-                local msg = ""
-    
-                -- award points for round completion
-                local points = 325
-                msg = msg ..
-                "Good job on staying alive!" ..
-                " " .. string.format(Traitormod.Language.PointsAwarded, points) .. "\n\n"
-    
-                local lifeMsg, icon = Traitormod.AdjustLives(value, 1)
-                if lifeMsg then
-                    msg = msg .. lifeMsg .. "\n\n"
-                end
-    
-                if msg ~= "" then
-                    Traitormod.SendMessage(value, msg, icon)
-                end
-            end
-        end
-    end, 500)
 end)
 
 Hook.Add("roundStart", "MessagesOnRoundStart", function ()
