@@ -29,9 +29,11 @@ event.Start = function()
 
         local character = Character.Create(info, area.WorldPosition, info.Name, 0, false, true)
 
-        character.TeamID = CharacterTeamType.Team1
         character.GiveJobItems(nil)
         character.CanSpeak = false
+        local idcard = character.Inventory.FindItemByIdentifier("idcard")
+        idcard.AddTag("staff")
+        idcard.AddTag("eng")
 
         Entity.Spawner.AddItemToSpawnQueue(ItemPrefab.GetItemPrefab("divingsuit"), character.Inventory, nil, nil, function (item)
             Entity.Spawner.AddItemToSpawnQueue(ItemPrefab.GetItemPrefab("oxygenitetank"), item.OwnInventory)
@@ -48,6 +50,7 @@ event.Start = function()
         local leakOrderPrefab = OrderPrefab.Prefabs["fixleaks"]
         local leakOrder = Order(leakOrderPrefab, nil, nil).WithManualPriority(CharacterInfo.HighestManualOrderPriority)
         character.SetOrder(leakOrder, true, false, true)
+        character.TeamID = CharacterTeamType.FriendlyNPC
     end
 
     local text = "A group of maintenance workers have entered the submarine to assist with repairs."
