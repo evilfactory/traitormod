@@ -23,11 +23,9 @@ event.Start = function()
 
     local area = areas[math.random(#areas)]
 
-    local jobs = {"mechanic", "engineer"}
-
     for i = 1, 4, 1 do
         local info = CharacterInfo(Identifier("human"))
-        info.Job = Job(JobPrefab.Get(jobs[math.random(#jobs)]))
+        info.Job = Job(JobPrefab.Get("staff"))
 
         local character = Character.Create(info, area.WorldPosition, info.Name, 0, false, true)
 
@@ -43,22 +41,16 @@ event.Start = function()
             Entity.Spawner.AddItemToSpawnQueue(ItemPrefab.GetItemPrefab("weldingfueltank"), item.OwnInventory)
         end)
 
-        if info.Job.Prefab.Identifier == "mechanic" then
-            local repairOrderPrefab = OrderPrefab.Prefabs["repairsystems"]
-            local repairOrder = Order(repairOrderPrefab, nil, nil).WithManualPriority(CharacterInfo.HighestManualOrderPriority)
-            character.SetOrder(repairOrder, true, false, true)
-        elseif info.Job.Prefab.Identifier == "engineer" then
-            local repairOrderPrefab = OrderPrefab.Prefabs["repairelectrical"]
-            local repairOrder = Order(repairOrderPrefab, nil, nil).WithManualPriority(CharacterInfo.HighestManualOrderPriority)
-            character.SetOrder(repairOrder, true, false, true)
-        end
+        local repairOrderPrefab = OrderPrefab.Prefabs["repairsystems"]
+        local repairOrder = Order(repairOrderPrefab, nil, nil).WithManualPriority(CharacterInfo.HighestManualOrderPriority)
+        character.SetOrder(repairOrder, true, false, true)
 
         local leakOrderPrefab = OrderPrefab.Prefabs["fixleaks"]
         local leakOrder = Order(leakOrderPrefab, nil, nil).WithManualPriority(CharacterInfo.HighestManualOrderPriority)
         character.SetOrder(leakOrder, true, false, true)
     end
 
-    local text = "A group of engineers and mechanics have entered the submarine to assist with repairs."
+    local text = "A group of maintenance workers have entered the submarine to assist with repairs."
     Traitormod.RoundEvents.SendEventMessage(text, "GameModeIcon.sandbox")
 
     event.End()
