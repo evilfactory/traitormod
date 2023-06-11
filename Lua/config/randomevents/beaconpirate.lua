@@ -167,6 +167,7 @@ event.Start = function ()
         client.SetClientCharacter(character)
 
         Traitormod.SendMessageCharacter(character, "You are a pirate! Eliminate all coalition personnel at the convict station. It will be eventually home to our center of operations! \n\nIf you see any prisoners on the way, rescue them.", "InfoFrameTabButton.Mission")
+        Traitormod.RoleManager.AssignRole(character, Traitormod.RoleManager.Roles.Pirate:new())
     end, character)
 
     Hook.Add("think", "BeaconPirate.Think", function ()

@@ -189,6 +189,10 @@ config.RoleConfig = {
         TraitorBroadcast = true,
     },
 
+    Pirate = {
+        TraitorBroadcast = true,
+    },
+
     Traitor = {
         SubObjectives = {"StealCaptainID", "Survive", "Kidnap", "PoisonCaptain", "SavePrisoner"},
         MinSubObjectives = 2,
