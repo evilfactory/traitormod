@@ -206,6 +206,21 @@ category.Products = {
     },
 
     {
+        Identifier = "fakehandcuffs",
+        Price = 400,
+        Limit = 2,
+        IsLimitGlobal = false,
+        Action = function (client)
+            -- logic is implemented in pointshop/traitor.lua
+            local handcuffs = ItemPrefab.GetItemPrefab("handcuffs")
+            Entity.Spawner.AddItemToSpawnQueue(handcuffs, client.Character.Inventory, nil, nil, function (item)
+                item.Tags = "fakehandcuffs"
+                Traitormod.SendChatMessage(client, Traitormod.Language.FakeHandcuffsUsage , Color.Aqua)
+            end)
+        end
+    },
+
+    {
         Identifier = "spawnhusk",
         Price = 150,
         Limit = 5,

@@ -249,6 +249,7 @@ language.PointshopRefunded = "You have been refunded %s points for your %s purch
 
 
 language.Pointshop = {
+    fakehandcuffs = "Fake Cuffs",
     choke = "Chocker",
     choke_desc = "‖color:gui.red‖Silences the target‖color:end‖",
     jailgrenade = "DarkRP Jail Grenade",
@@ -323,6 +324,8 @@ language.Pointshop = {
     maintenance = "Maintenance",
     other = "Other",
 }
+
+language.FakeHandcuffsUsage = "You can free yourself from these handcuffs using !fhc"
 
 language.ShipTooCloseToWall = "Cannot spawn ship, position is too close to a level wall."
 language.ShipTooCloseToShip = "Cannot spawn ship, position is too close to another submarine."
