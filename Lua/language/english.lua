@@ -324,6 +324,8 @@ language.Pointshop = {
     other = "Other",
 }
 
+language.FakeHandcuffsUsage = "You can free yourself from these handcuffs using !fhc"
+
 language.ShipTooCloseToWall = "Cannot spawn ship, position is too close to a level wall."
 language.ShipTooCloseToShip = "Cannot spawn ship, position is too close to another submarine."
 
