@@ -163,7 +163,7 @@ category.Products = {
             local revolver = ItemPrefab.GetItemPrefab("ironhelmet")
             Entity.Spawner.AddItemToSpawnQueue(revolver, client.Character.Inventory, nil, nil, function (item)
                 item.Tags = "chocker"
-                item.Description = "‖color:gui.red‖Silences the target‖color:end‖"
+                item.Description = Traitormod.Language.Pointshop.choke_desc
 
                 item.set_InventoryIconColor(Color(255, 0, 0, 50))
                 item.SpriteColor = Color(255, 0, 0, 50)
