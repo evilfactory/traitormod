@@ -2,11 +2,11 @@ local category = {}
 
 category.Identifier = "traitor"
 category.Decoration = "clown"
--- category.FadeToBlack = true
+category.FadeToBlack = true
 
--- category.CanAccess = function(client)
---     return client.Character and not client.Character.IsDead and Traitormod.RoleManager.HasRole(client.Character, "Traitor")
--- end
+category.CanAccess = function(client)
+    return client.Character and not client.Character.IsDead and Traitormod.RoleManager.HasRole(client.Character, "Traitor")
+end
 
 category.Init = function ()
     Hook.Patch("Barotrauma.Items.Components.Projectile", "HandleProjectileCollision", function (instance, ptable)

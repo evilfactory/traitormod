@@ -215,6 +215,7 @@ category.Products = {
             local handcuffs = ItemPrefab.GetItemPrefab("handcuffs")
             Entity.Spawner.AddItemToSpawnQueue(handcuffs, client.Character.Inventory, nil, nil, function (item)
                 item.Tags = "fakehandcuffs"
+                Traitormod.SendChatMessage(client, Traitormod.Language.FakeHandcuffsUsage , Color.Aqua)
             end)
         end
     },
