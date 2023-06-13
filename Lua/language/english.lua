@@ -250,6 +250,7 @@ language.PointshopRefunded = "You have been refunded %s points for your %s purch
 
 language.Pointshop = {
     choke = "Chocker",
+    choke_desc = "‖color:gui.red‖Silences the target‖color:end‖",
     jailgrenade = "DarkRP Jail Grenade",
     jailgrenade_desc = "‖color:gui.red‖A special grenade with an interesting surprise...‖color:end‖",
     clowngearcrate = "Clown Gear Crate",
