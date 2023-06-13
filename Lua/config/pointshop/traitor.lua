@@ -48,6 +48,26 @@ category.Init = function ()
             ptable["character"].CanSpeak = true
         end
     end, Hook.HookMethodType.After) 
+
+    Traitormod.AddCommand({"!freehandcuffs", "!freehandcuff", "!fhc"}, function (client, args)
+        if client.Character == nil or client.Character.IsDead then
+            Traitormod.SendMessage(client, "You are dead!")
+            return true
+        end
+        if not client.Character.IsHuman then return true end
+
+        local item = client.Character.Inventory.GetItemInLimbSlot(InvSlotType.RightHand)
+
+        if item ~= nil and item.Prefab.Identifier == "handcuffs" then
+            if not item.HasTag("fakehandcuffs") then
+                Traitormod.SendMessage(client, "This handcuff is not fake!")
+                return true
+            end
+            item.Drop(client.Character)
+        end
+        
+        return true
+    end)
 end
 
 category.Products = {
@@ -173,6 +193,20 @@ category.Products = {
                 local invColor = item.SerializableProperties[Identifier("InventoryIconColor")]
                 Networking.CreateEntityEvent(item, Item.ChangePropertyEventData(invColor, item))
 
+            end)
+        end
+    },
+
+    {
+        Identifier = "fakehandcuffs",
+        Price = 400,
+        Limit = 2,
+        IsLimitGlobal = false,
+        Action = function (client)
+            -- logic is implemented in pointshop/traitor.lua
+            local handcuffs = ItemPrefab.GetItemPrefab("handcuffs")
+            Entity.Spawner.AddItemToSpawnQueue(handcuffs, client.Character.Inventory, nil, nil, function (item)
+                item.Tags = "fakehandcuffs"
             end)
         end
     },
