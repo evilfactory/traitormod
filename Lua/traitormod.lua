@@ -111,8 +111,15 @@ Hook.Add("missionsEnded", "Traitormod.MissionsEnded", function(missions)
     Traitormod.Debug("missionsEnded with " .. #Traitormod.RoundMissions .. " missions.")
 
     for key, value in pairs(Client.ClientList) do
-        -- add weight according to points and config conversion
-        Traitormod.AddData(value, "Weight", Traitormod.Config.AmountWeightWithPoints(Traitormod.GetData(value, "Points") or 0))
+        -- add weight based on if they're alive or not and if they were a traitor that past round
+        Traitormod.AddData(value, "Weight", 1)
+        if value.Character and Traitormod.RoleManager.HasRole(value.Character, "Cultist") or Traitormod.RoleManager.HasRole(value.Character, "Traitor") then
+            -- do nothing
+        elseif value.Character and value.Character.TeamID == CharacterTeamType.Team1 and not value.Character.IsDead then
+            Traitormod.AddData(value, "Weight", 2)
+        else
+            Traitormod.AddData(value, "Weight", 1)
+        end
     end
 
     Traitormod.Debug("Round " .. Traitormod.RoundNumber .. " ended.")

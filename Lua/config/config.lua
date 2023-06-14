@@ -63,13 +63,6 @@ config.AmountExperienceWithPoints = function (x)
     return x
 end
 
--- Give weight based on the logarithm of experience
--- 100 experience = 4 chance
--- 1000 experience = 6 chance
-config.AmountWeightWithPoints = function (x)
-    return math.log(x + 10) -- add 1 because log of 0 is -infinity
-end
-
 ----- GAMEMODE -----
 config.GamemodeConfig = {
     Secret = {
@@ -103,7 +96,7 @@ config.GamemodeConfig = {
         LivesGainedFromCrewMissionsCompleted = 1,
 
         TraitorTypeChance = {
-            Traitor = 90, -- Traitors have 50% chance of being a normal traitor
+            Traitor = 90, -- Traitors have 90% chance of being a normal traitor
             Cultist = 10,
         },
 
