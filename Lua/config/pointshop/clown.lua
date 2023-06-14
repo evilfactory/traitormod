@@ -273,7 +273,8 @@ category.Products = {
         IsLimitGlobal = true,
 
         CanBuy = function (client, product)
-            return not Traitormod.RoundEvents.IsEventActive("RandomLights")
+            return not (Traitormod.RoundEvents.IsEventActive("RandomLights") or
+                        Traitormod.RoundEvents.IsEventActive("LightsOff"))
         end,
 
         Action = function ()
