@@ -2,11 +2,11 @@ local category = {}
 
 category.Identifier = "clown"
 category.Decoration = "cultist"
-category.FadeToBlack = true
+-- category.FadeToBlack = true
 
-category.CanAccess = function(client)
-    return client.Character and not client.Character.IsDead and Traitormod.RoleManager.HasRole(client.Character, "Clown")
-end
+-- category.CanAccess = function(client)
+--     return client.Character and not client.Character.IsDead and Traitormod.RoleManager.HasRole(client.Character, "Clown")
+-- end
 
 category.Init = function ()
     local spawnInstallation = function (submarine, position, prefab)
@@ -231,6 +231,21 @@ category.Products = {
         Limit = 3,
         IsLimitGlobal = false,
         Items = {"detonator"},
+    },
+
+    {
+        Identifier = "wombocombo",
+        Price = 450,
+        Limit = 4,
+        IsLimitGlobal = true,
+
+        CanBuy = function (client, product)
+            return not Traitormod.RoundEvents.IsEventActive("WomboCombo")
+        end,
+
+        Action = function ()
+            Traitormod.RoundEvents.TriggerEvent("WomboCombo")
+        end
     },
 
     {
