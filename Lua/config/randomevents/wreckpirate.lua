@@ -1,7 +1,7 @@
 local event = {}
 
 event.Name = "WreckPirate"
-event.MinRoundTime = 1
+event.MinRoundTime = 6
 event.MaxRoundTime = 15
 event.MinIntensity = 0
 event.MaxIntensity = 1
@@ -152,7 +152,6 @@ event.Start = function ()
         Traitormod.LostLivesThisRound[client.SteamID] = false
         client.SetClientCharacter(character)
 
-        Traitormod.SendMessageCharacter(character, "You are a pirate! Eliminate all coalition personnel at the convict station. It will be eventually home to our center of operations! \n\nIf you see any prisoners on the way, rescue them.", "InfoFrameTabButton.Mission")
         if Traitormod.RoleManager.GetRole(character) ~= nil then
             Traitormod.RoleManager.RemoveRole(character)
         end

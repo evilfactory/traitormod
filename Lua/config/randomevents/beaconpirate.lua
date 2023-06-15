@@ -5,7 +5,7 @@ event.MinRoundTime = 3
 event.MaxRoundTime = 20
 event.MinIntensity = 0
 event.MaxIntensity = 1
-event.ChancePerMinute = 0.12
+event.ChancePerMinute = 0.15
 event.OnlyOncePerRound = true
 
 event.AmountPoints = 900
@@ -166,7 +166,6 @@ event.Start = function ()
         Traitormod.LostLivesThisRound[client.SteamID] = false
         client.SetClientCharacter(character)
 
-        Traitormod.SendMessageCharacter(character, "You are a pirate! Eliminate all coalition personnel at the convict station. It will be eventually home to our center of operations! \n\nIf you see any prisoners on the way, rescue them.", "InfoFrameTabButton.Mission")
         if Traitormod.RoleManager.GetRole(character) ~= nil then
             Traitormod.RoleManager.RemoveRole(character)
         end
