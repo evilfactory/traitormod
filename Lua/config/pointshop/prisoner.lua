@@ -93,7 +93,7 @@ category.Products = {
     {
         Name = "Clown Gear",
         Price = 1500,
-        Limit = 2,
+        Limit = 1,
         IsLimitGlobal = true,
         Items = {"clownmask", "clowncostume", "toyhammer", "bikehorn"},
     },
@@ -101,8 +101,8 @@ category.Products = {
     {
         Name = "Enroll into Clown College",
         Price = 500,
-        Limit = 2,
-        IsLimitGlobal = true,
+        Limit = 1,
+        IsLimitGlobal = false,
         Action = function (client, product, items)
             client.Character.GiveTalent("enrollintoclowncollege")
         end
