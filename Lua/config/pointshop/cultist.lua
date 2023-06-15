@@ -1,6 +1,6 @@
 local category = {}
 
-category.Name = "Cultist"
+category.Name = "Traitor Medic"
 category.Decoration = "cultist"
 category.FadeToBlack = true
 
@@ -77,6 +77,14 @@ category.Products = {
     },
 
     {
+        Name = "Zealot Robes",
+        Price = 650,
+        Limit = 1,
+        IsLimitGlobal = false,
+        Items = {"zealotrobes"},
+    },
+
+    {
         Name = "Husk Auto-Injector",
         Price = 800,
         Limit = 1,
@@ -150,59 +158,6 @@ category.Products = {
         Limit = 5,
         Action = function (client, product, items)
             Entity.Spawner.AddCharacterToSpawnQueue("husk", client.Character.WorldPosition, function (character)
-            end)
-        end
-    },
-
-    {
-        Name = "Invisibility Gear",
-        Price = 800,
-        Limit = 1,
-        IsLimitGlobal = false,
-        Action = function (client)
-            local suit = ItemPrefab.GetItemPrefab("divingsuit")
-            Entity.Spawner.AddItemToSpawnQueue(suit, client.Character.Inventory, nil, nil, function (item)
-                local light = item.GetComponentString("LightComponent")
-
-                item.set_InventoryIconColor(Color(100, 100, 100, 50))
-                item.SpriteColor = Color(0, 0, 0, 0)
-                item.Tags = "smallitem"
-                light.LightColor = Color(0, 0, 0, 0)
-
-                local color = item.SerializableProperties[Identifier("SpriteColor")]
-                Networking.CreateEntityEvent(item, Item.ChangePropertyEventData(color, item))            
-                local invColor = item.SerializableProperties[Identifier("InventoryIconColor")]
-                Networking.CreateEntityEvent(item, Item.ChangePropertyEventData(invColor, item))
-                local lightColor = light.SerializableProperties[Identifier("LightColor")]
-                Networking.CreateEntityEvent(item, Item.ChangePropertyEventData(lightColor, light))
-
-                Entity.Spawner.AddItemToSpawnQueue(ItemPrefab.GetItemPrefab("oxygentank"), item.OwnInventory)
-            end)
-
-            local robes = ItemPrefab.GetItemPrefab("zealotrobes")
-            Entity.Spawner.AddItemToSpawnQueue(robes, client.Character.Inventory, nil, nil, function (item)
-
-                item.set_InventoryIconColor(Color(100, 100, 100, 50))
-                item.SpriteColor = Color(0, 0, 0, 0)
-                item.Tags = "smallitem"
-
-                local color = item.SerializableProperties[Identifier("SpriteColor")]
-                Networking.CreateEntityEvent(item, Item.ChangePropertyEventData(color, item))            
-                local invColor = item.SerializableProperties[Identifier("InventoryIconColor")]
-                Networking.CreateEntityEvent(item, Item.ChangePropertyEventData(invColor, item))
-            end)
-
-            local cap = ItemPrefab.GetItemPrefab("ironhelmet")
-            Entity.Spawner.AddItemToSpawnQueue(cap, client.Character.Inventory, nil, nil, function (item)
-
-                item.set_InventoryIconColor(Color(100, 100, 100, 50))
-                item.SpriteColor = Color(0, 0, 0, 0)
-                item.Tags = "smallitem"
-
-                local color = item.SerializableProperties[Identifier("SpriteColor")]
-                Networking.CreateEntityEvent(item, Item.ChangePropertyEventData(color, item))            
-                local invColor = item.SerializableProperties[Identifier("InventoryIconColor")]
-                Networking.CreateEntityEvent(item, Item.ChangePropertyEventData(invColor, item))
             end)
         end
     },

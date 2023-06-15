@@ -1,7 +1,7 @@
 local category = {}
 
 category.Name = "Convict Uplink"
-category.Decoration = "Separatists"
+category.Decoration = "group"
 category.FadeToBlack = true
 
 category.CanAccess = function(client)
@@ -40,6 +40,14 @@ category.Products = {
         Limit = 2,
         IsLimitGlobal = true,
         Items = {"wrench"},
+    },
+
+    {
+        Name = "Separatist Gear",
+        Price = 2750,
+        Limit = 1,
+        IsLimitGlobal = true,
+        Items = {"pirateclotheshard", "piratebodyarmor", "piratebandana"},
     },
 
     {
@@ -83,24 +91,26 @@ category.Products = {
     },
 
     {
-        Name = "Separatist Gear",
-        Price = 3250,
-        Limit = 1,
+        Name = "Clown Gear",
+        Price = 1200,
+        Limit = 2,
         IsLimitGlobal = true,
-        Items = {"pirateclotheshard", "piratebodyarmor", "piratebandana"},
+        Items = {"clownmask", "clowncostume"},
     },
 
     {
-        Name = "Suicide Vest",
-        Price = 5000,
-        Limit = 1,
+        Name = "Enroll into Clown College",
+        Price = 500,
+        Limit = 2,
         IsLimitGlobal = true,
-        Items = {"suicidevestDJL", "uex"},
+        Action = function (client, product, items)
+            client.Character.GiveTalent("enrollintoclowncollege")
+        end
     },
 
     {
         Name = "Molotov",
-        Price = 3500,
+        Price = 4500,
         Limit = 2,
         IsLimitGlobal = true,
         Items = {"molotovcoctail"},
@@ -115,65 +125,12 @@ category.Products = {
     },
 
     {
-        Name = "Mutated Pomegrenade",
-        Price = 1250,
-        Limit = 2,
-        IsLimitGlobal = true,
-        Items = {"badcreepingorange"},
-    },
-
-    {
         Name = "Boom Stick",
-        Price = 10000,
+        Price = 9100,
         Limit = 1,
         IsLimitGlobal = true,
         Items = {"shotgununique", 
         "shotgunshell", "shotgunshell", "shotgunshell","shotgunshell", "shotgunshell", "shotgunshell", "shotgunshell"},
-    },
-
-    {
-        Name = "Turn Off Lights For 3 Minutes",
-        Price = 950,
-        Limit = 1,
-        IsLimitGlobal = true,
-
-        CanBuy = function (client, product)
-            return not Traitormod.RoundEvents.IsEventActive("LightsOff")
-        end,
-
-        Action = function ()
-            Traitormod.RoundEvents.TriggerEvent("LightsOff")
-        end
-    },
-
-    {
-        Name = "Turn Off Communications For 2 Minutes",
-        Price = 1000,
-        Limit = 1,
-        IsLimitGlobal = true,
-
-        CanBuy = function (client, product)
-            return not Traitormod.RoundEvents.IsEventActive("CommunicationsOffline")
-        end,
-
-        Action = function ()
-            Traitormod.RoundEvents.TriggerEvent("CommunicationsOffline")
-        end
-    },
-
-    {
-        Name = "Sabotage Oxygen Generator [Warn Other Prisoners]",
-        Price = 9500,
-        Limit = 1,
-        IsLimitGlobal = true,
-
-        CanBuy = function (client, product)
-            return not Traitormod.RoundEvents.IsEventActive("OxygenGeneratorPoison")
-        end,
-
-        Action = function ()
-            Traitormod.RoundEvents.TriggerEvent("OxygenGeneratorPoison")
-        end
     },
 }
 

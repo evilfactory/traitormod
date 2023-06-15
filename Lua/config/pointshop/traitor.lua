@@ -1,7 +1,7 @@
 local category = {}
 
 category.Name = "Traitor"
-category.Decoration = "clown"
+category.Decoration = "Separatists"
 category.FadeToBlack = true
 
 category.CanAccess = function(client)
@@ -30,6 +30,14 @@ end)
 
 category.Products = {
     {
+        Name = "Separatist Gear",
+        Price = 1500,
+        Limit = 3,
+        IsLimitGlobal = true,
+        Items = {"pirateclotheshard", "piratebodyarmor", "piratehelmet"},
+    },
+
+    {
         Name = "Explosive Auto-Injector",
         Price = 2500,
         Limit = 1,
@@ -52,63 +60,10 @@ category.Products = {
             end)
         end
     },
-
-    {
-        Name = "Invisibility Gear",
-        Price = 800,
-        Limit = 1,
-        IsLimitGlobal = false,
-        Action = function (client)
-            local suit = ItemPrefab.GetItemPrefab("divingsuit")
-            Entity.Spawner.AddItemToSpawnQueue(suit, client.Character.Inventory, nil, nil, function (item)
-                local light = item.GetComponentString("LightComponent")
-
-                item.set_InventoryIconColor(Color(100, 100, 100, 50))
-                item.SpriteColor = Color(0, 0, 0, 0)
-                item.Tags = "smallitem"
-                light.LightColor = Color(0, 0, 0, 0)
-
-                local color = item.SerializableProperties[Identifier("SpriteColor")]
-                Networking.CreateEntityEvent(item, Item.ChangePropertyEventData(color, item))            
-                local invColor = item.SerializableProperties[Identifier("InventoryIconColor")]
-                Networking.CreateEntityEvent(item, Item.ChangePropertyEventData(invColor, item))
-                local lightColor = light.SerializableProperties[Identifier("LightColor")]
-                Networking.CreateEntityEvent(item, Item.ChangePropertyEventData(lightColor, light))
-
-                Entity.Spawner.AddItemToSpawnQueue(ItemPrefab.GetItemPrefab("oxygentank"), item.OwnInventory)
-            end)
-
-            local robes = ItemPrefab.GetItemPrefab("cultistrobes")
-            Entity.Spawner.AddItemToSpawnQueue(robes, client.Character.Inventory, nil, nil, function (item)
-
-                item.set_InventoryIconColor(Color(100, 100, 100, 50))
-                item.SpriteColor = Color(0, 0, 0, 0)
-                item.Tags = "smallitem"
-
-                local color = item.SerializableProperties[Identifier("SpriteColor")]
-                Networking.CreateEntityEvent(item, Item.ChangePropertyEventData(color, item))            
-                local invColor = item.SerializableProperties[Identifier("InventoryIconColor")]
-                Networking.CreateEntityEvent(item, Item.ChangePropertyEventData(invColor, item))
-            end)
-
-            local cap = ItemPrefab.GetItemPrefab("ironhelmet")
-            Entity.Spawner.AddItemToSpawnQueue(cap, client.Character.Inventory, nil, nil, function (item)
-
-                item.set_InventoryIconColor(Color(100, 100, 100, 50))
-                item.SpriteColor = Color(0, 0, 0, 0)
-                item.Tags = "smallitem"
-
-                local color = item.SerializableProperties[Identifier("SpriteColor")]
-                Networking.CreateEntityEvent(item, Item.ChangePropertyEventData(color, item))            
-                local invColor = item.SerializableProperties[Identifier("InventoryIconColor")]
-                Networking.CreateEntityEvent(item, Item.ChangePropertyEventData(invColor, item))
-            end)
-        end
-    },
     
     {
         Name = "Hacking Device",
-        Price = 4500,
+        Price = 3500,
         Limit = 1,
         IsLimitGlobal = true,
         Items = {"hackingdevice"},
@@ -252,18 +207,11 @@ category.Products = {
     },
 
     {
-        Name = "Sabotage Oxygen Generator",
-        Price = 2500,
+        Name = "Suicide Vest",
+        Price = 3500,
         Limit = 1,
         IsLimitGlobal = true,
-
-        CanBuy = function (client, product)
-            return not Traitormod.RoundEvents.IsEventActive("OxygenGeneratorPoison")
-        end,
-
-        Action = function ()
-            Traitormod.RoundEvents.TriggerEvent("OxygenGeneratorPoison")
-        end
+        Items = {"suicidevestDJL", "uex"},
     },
 }
 
