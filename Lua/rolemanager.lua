@@ -37,6 +37,8 @@ rm.AddObjective = function(objective)
             objective[key] = value
         end
     end
+
+    objective.Static()
 end
 
 rm.CheckObjectives = function(endRound)
@@ -196,7 +198,9 @@ rm.CallObjectiveFunction = function (functionName, ...)
     for character, role in pairs(rm.RoundRoles) do
         if not character.IsDead and role.Objectives then
             for _, objective in pairs(role.Objectives) do
-                objective[functionName](objective, ...)
+                if objective[functionName] then
+                    objective[functionName](objective, ...)
+                end
             end
         end
     end
@@ -219,6 +223,22 @@ end)
 Hook.Patch("Barotrauma.Items.Components.Repairable", "StopRepairing", function (instance, ptable)
     rm.CallObjectiveFunction("StopRepairing", instance.Item, ptable["character"])
 end)
+
+Hook.Patch("Barotrauma.HumanAIController", "StructureDamaged", function (instance, ptable)
+    local damage = ptable["damageAmount"]
+
+    if damage > 0 then return end
+    if ptable["character"] == nil then return end
+
+    rm.CallObjectiveFunction("HullRepaired", ptable["character"], damage)
+end, Hook.HookMethodType.After)
+
+Hook.Patch("Barotrauma.Character", "TryAdjustHealerSkill", function (character, ptable)
+    local healer = ptable["healer"]
+    local healthChange = ptable["healthChange"]
+
+    rm.CallObjectiveFunction("CharacterHealed", character, healer, healthChange)
+end, Hook.HookMethodType.After)
 
 rm.EndRound = function ()
     rm.CheckObjectives(true)

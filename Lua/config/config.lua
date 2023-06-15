@@ -144,18 +144,13 @@ config.GamemodeConfig = {
 config.RoleConfig = {
     Crew = {
         AvailableObjectives = {
-            ["captain"] = {},
-            ["engineer"] = {},
-            ["mechanic"] = {"Repair"},
-            ["janitor"] = {"Repair"},
-            ["staff"] = {"Repair"},
-            ["securityofficer"] = {"KillMonsters"},
-            ["warden"] = {"KillMonsters"},
-            ["guard"] = {"KillMonsters"},
-            ["headguard"] = {"KillMonsters"},
-            ["medic"] = {},
-            ["prisondoctor"] = {},
-            ["convict"] = {"Escape"},
+            ["warden"] = {"CrewSurvival", "KillSmallMonsters", "FinishAllObjectives"},
+            ["headguard"] = {"SecurityTeamSurvival", "KillLargeMonsters", "KillSmallMonsters"},
+            ["guard"] = {"KillLargeMonsters", "KillSmallMonsters", "FinishAllObjectives"},
+            ["prisondoctor"] = {"HealCharacters"},
+            ["staff"] = {"RepairElectrical", "RepairMechanical", "RepairHull"},
+            ["janitor"] = {"RepairElectrical", "RepairMechanical", "KillPets", "FinishAllObjectives"},
+            ["convict"] = {"Escape", "KillSmallMonsters"},
         }
     },
 

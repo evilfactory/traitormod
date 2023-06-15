@@ -34,6 +34,11 @@ function role:Start()
         end
     end
 
+    local finishObjectives = Traitormod.RoleManager.FindObjective("FinishAllObjectives"):new()
+    finishObjectives:Init(self.Character)
+    self:AssignObjective(finishObjectives)
+
+
     local text = self:Greet()
     local client = Traitormod.FindClientCharacter(self.Character)
     if client then
@@ -65,15 +70,14 @@ function role:Greet()
     local objectives = self:ObjectivesToString()
 
     local sb = Traitormod.StringBuilder:new()
-    sb("You are crew member of the submarine.\n\n")
-    sb("You have been assigned the following objectives which when completing all will grant you one live.\n\n")
+    sb(Traitormod.Language.CrewMember)
     sb(objectives)
 
     return sb:concat()
 end
 
 function role:OtherGreet()
-    return ""
+    return nil -- No other greet.
 end
 
 
