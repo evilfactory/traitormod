@@ -23,12 +23,13 @@ function role:Greet()
     partners = partners:concat(" ")
 
     local sb = Traitormod.StringBuilder:new()
-    sb("You are now a Separatist Agent!\nYou have separatist spies in the station (traitors) who you are allied with.\n")
+    sb("You are now a separatist pirate!\nEliminate all coalition personnel at the convict station.\n")
+    sb("If you see any prisoners on the way, rescue them. Another thing, do not fire at our spies.\n")
 
-    sb("Separatist Spies: %s\n", partners)
+    sb("\nSeparatist Spies: %s\n", partners)
 
     if self.TraitorBroadcast then
-        sb("\n\nUse !tc to communicate with the spies and other agents.")
+        sb("\n\nUse !tc to communicate with all separatist agents.")
     end
 
     return sb:concat()

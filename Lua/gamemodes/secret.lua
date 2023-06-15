@@ -41,16 +41,108 @@ function gm:Start()
         this:CharacterDeath(character)
     end)
 
-    self.TraitorType = Traitormod.RoleManager.Roles[weightedRandom.Choose(self.TraitorTypeChance)]
+    self:SelectAntagonists()
+end
 
-    if self.TraitorType.Name == "Cultist" then
-        self.RoundEndIcon = "oneofus"
-        Game.EnableControlHusk(true)
-    else
-        Game.EnableControlHusk(false)
+function gm:AssignAntagonists(antagonists)
+    local function AssignCrew()
+        for key, value in pairs(Client.ClientList) do
+            if value.Character ~= nil and value.Character.IsHuman and not value.SpectateOnly and not value.Character.IsDead and value.Character.TeamID == CharacterTeamType.Team1 then
+                local role = Traitormod.RoleManager.GetRole(value.Character)
+                if role == nil then
+                    role = Traitormod.RoleManager.Roles["Crew"]
+                    Traitormod.RoleManager.AssignRole(value.Character, role:new())
+                end
+            end
+        end
     end
 
-    self:SelectAntagonists(self.TraitorType)
+    local function Assign(roles)
+        for key, role in pairs(roles) do
+            if role.Name == "Cultist" then
+                self.RoundEndIcon = "oneofus"
+                Game.EnableControlHusk(true)
+            end
+        end
+
+        local newRoles = {}
+
+        for key, value in pairs(antagonists) do
+            table.insert(newRoles, roles[key]:new())
+        end
+
+        Traitormod.RoleManager.AssignRoles(antagonists, newRoles)
+
+        AssignCrew()
+    end
+
+    local role = Traitormod.RoleManager.Roles[weightedRandom.Choose(self.TraitorTypeChance)]
+
+    local roles = {}
+    for key, value in pairs(antagonists) do
+        table.insert(roles, role)
+    end
+    Assign(roles)
+end
+
+function gm:SelectAntagonists()
+    local this = self
+    local thisRoundNumber = Traitormod.RoundNumber
+
+    local delay = math.random(self.TraitorSelectDelayMin, self.TraitorSelectDelayMax)
+
+    Timer.Wait(function()
+        if thisRoundNumber ~= Traitormod.RoundNumber or not Game.RoundStarted then return end
+
+        local clientWeight = {}
+        local traitorChoices = 0
+        local playerInGame = 0
+        for key, value in pairs(Client.ClientList) do
+            -- valid traitor choices must be ingame, player was spawned before (has a character), is no spectator
+            if value.InGame and value.Character and not value.SpectateOnly then
+                -- filter by config
+                if this.TraitorFilter(value) > 0 and Traitormod.GetData(value, "NonTraitor") ~= true then
+                    -- players are alive or if respawning is on and config allows dead traitors (not supported yet)
+                    if not value.Character.IsDead and Traitormod.RoleManager.GetRole(value.Character) == nil then
+                        clientWeight[value] = (Traitormod.GetData(value, "Weight") or 0) * this.TraitorFilter(value)
+                        traitorChoices = traitorChoices + 1
+                    end
+                end
+                playerInGame = playerInGame + 1
+            end
+        end
+
+        if traitorChoices == 0 then
+            this:AssignAntagonists({})
+            Traitormod.Log("No players to assign traitors")
+            return
+        end
+
+        local amountTraitors = this.AmountTraitors(playerInGame)
+        if amountTraitors > traitorChoices then
+            amountTraitors = traitorChoices
+            Traitormod.Log("Not enough valid players to assign all traitors... New amount: " .. tostring(amountTraitors))
+        end
+
+        local antagonists = {}
+
+        for i = 1, amountTraitors, 1 do
+            local index = weightedRandom.Choose(clientWeight)
+
+            if index ~= nil then
+                Traitormod.Log("Chose " ..
+                    index.Character.Name .. " as traitor. Weight: " .. math.floor(clientWeight[index] * 100) / 100)
+
+                table.insert(antagonists, index.Character)
+
+                clientWeight[index] = nil
+
+                Traitormod.SetData(index, "Weight", 0)
+            end
+        end
+
+        self:AssignAntagonists(antagonists)
+    end, delay * 1000)
 end
 
 function gm:AwardCrew()
@@ -162,7 +254,7 @@ function gm:TraitorResults()
                 success = true
             end
 
-            sb("Objectives Completed: %s - Points Gained: %s\n", objectives, pointsGained)
+            sb(Traitormod.Language.SecretSummary, objectives, pointsGained)
         end
     end
 
@@ -183,77 +275,9 @@ function gm:End()
 
     gm:AwardCrew()
 
+    Game.EnableControlHusk(false)
+
     Hook.Remove("characterDeath", "Traitormod.Secret.CharacterDeath");
-end
-
-function gm:SelectAntagonists(role)
-    local this = self
-    local thisRoundNumber = Traitormod.RoundNumber
-
-    local delay = math.random(self.TraitorSelectDelayMin, self.TraitorSelectDelayMax)
-
-    Timer.Wait(function()
-        if thisRoundNumber ~= Traitormod.RoundNumber or not Game.RoundStarted then return end
-
-        local clientWeight = {}
-        local traitorChoices = 0
-        local playerInGame = 0
-        for key, value in pairs(Client.ClientList) do
-            -- valid traitor choices must be ingame, player was spawned before (has a character), is no spectator
-            if value.InGame and value.Character and not value.SpectateOnly then
-                -- filter by config
-                if this.TraitorFilter(value) > 0 and Traitormod.GetData(value, "NonTraitor") ~= true then
-                    -- players are alive or if respawning is on and config allows dead traitors (not supported yet)
-                    if not value.Character.IsDead then
-                        clientWeight[value] = (Traitormod.GetData(value, "Weight") or 0) * this.TraitorFilter(value)
-                        traitorChoices = traitorChoices + 1
-                    end
-                end
-                playerInGame = playerInGame + 1
-            end
-        end
-
-        if traitorChoices == 0 then
-            if Game.ServerSettings.AllowRespawn or MidRoundSpawn then
-                -- if more players to come, retry
-                Traitormod.Debug("Currently no valid player characters to assign traitors. Retrying...")
-                this:SelectAntagonists(role)
-            else
-                -- else this will never change, abort
-                Traitormod.Log("No players to assign traitors")
-            end
-
-            return
-        end
-
-        local amountTraitors = this.AmountTraitors(playerInGame)
-        if amountTraitors > traitorChoices then
-            amountTraitors = traitorChoices
-            Traitormod.Log("Not enough valid players to assign all traitors... New amount: " .. tostring(amountTraitors))
-        end
-
-        local antagonists = {}
-        local roles = {}
-
-        for i = 1, amountTraitors, 1 do
-            local index = weightedRandom.Choose(clientWeight)
-
-            if index ~= nil then
-                Traitormod.Log("Chose " ..
-                    index.Character.Name .. " as traitor. Weight: " .. math.floor(clientWeight[index] * 100) / 100)
-
-                table.insert(antagonists, index.Character)
-                table.insert(roles, role:new())
-
-                clientWeight[index] = nil
-
-                Traitormod.SetData(index, "Weight", 0)
-            end
-        end
-
-        Traitormod.RoleManager.AssignRoles(antagonists, roles)
-
-    end, delay * 1000)
 end
 
 function gm:Think()

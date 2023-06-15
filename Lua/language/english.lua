@@ -15,10 +15,11 @@ language.Tips = {
     "Doctors and normal guards can be traitors, but at a lower chance.",
     "If you have the Warden's ID, you can send a global announcement via !announce. Use this to communicate with the crew that do not have radios, or issue announcements for the prisoners and such. Make sure the ID doesn't get in the wrong hands though..",
     "Join our discord! discord.gg/SqeTDM9KSP",
-    "Got RDMed? You can send a message to all available admins with the '.ahelp' command."
+    "Got RDMed? You can send a message to all available admins with the '.ahelp' command.",
+    "Type !role to see information about your role."
 }
 
-language.Help = "\n!help - shows this help message\n!helptraitor - shows all traitor commands\n!helpadmin - lists all admin commands\n!traitor - show traitor information\n!pointshop - opens the point shop\n!points - show your points and lives\n!alive - list alive players (only while dead)\n!locatesub - shows you the distance and direction of the submarine, only for monsters\n!suicide - kills your character\n!version - shows running version of the traitormod\n!write - writes to your death logbook\n!announce [msg] - if you have the warden's ID, sends an announcement\n!alive - if you're dead; see all players, their jobs and if they're dead or alive"
+language.Help = "\n!role - see info about your current role\n!help - shows this help message\n!helptraitor - shows all traitor commands\n!helpadmin - lists all admin commands\n!traitor - show traitor information\n!pointshop - opens the point shop\n!points - show your points and lives\n!alive - list alive players (only while dead)\n!locatesub - shows you the distance and direction of the submarine, only for monsters\n!suicide - kills your character\n!version - shows running version of the traitormod\n!write - writes to your death logbook\n!announce [msg] - if you have the warden's ID, sends an announcement\n!alive - if you're dead; see all players, their jobs and if they're dead or alive"
 language.HelpTraitor = "\n!toggletraitor - toggles if the player can be selected as traitor\n!tc [msg] - sends a message to all traitors\n!tdm [Name] [msg] - sends a anonymous msg to given player"
 language.HelpAdmin = "\n!traitoralive - check if all traitors died\n!roundinfo - show round information (spoiler!)\n!allpoints - shows point amounts of all connected clients\n!addpoint [Client] [+/-Amount] - add points to a client\n!addlife [Client] [+/-Amount] - add life(s) to a client\n!revive [Client] - revives a given client character\n!void [Character Name] - sends a character to the void\n!unvoid [Character Name] - brings a character back from the void\n!vote [text] [option1] [option2] [...] - starts a vote on the server\n!intercom [msg] - sends a global announcement as 'intercom'"
 
@@ -39,6 +40,9 @@ language.TraitorWelcome = "You are a traitor!"
 language.TraitorDeath = "You have failed in your mission. As a result, the mission has been canceled and you will come back as part of the crew.\n\nYou are no longer a traitor, so play nice!"
 language.TraitorDirectMessage = "You received a secret message from a traitor:\n"
 language.TraitorBroadcast = "[Traitor %s]: %s"
+language.CultistBroadcast = "[Cultist %s]: %s"
+language.PirateBroadcast = "[Pirate %s]: %s"
+language.ServantBroadcast = "[Husk Servant %s]: %s"
 
 language.AgentNoticeCodewords = "There are other agents on this submarine. You dont know their names, but you do have a method of communication. Use the code words to greet the agent and code response to respond. Disguise such words in a normal-looking phrase so the crew doesn't suspect anything."
 
@@ -66,6 +70,7 @@ language.TraitorInfo = "Your traitor chance is %s%%, compared to the rest of the
 
 language.Points = " (%s Points)"
 language.Experience = " (%s XP)"
+language.CrewMember = "You are crew member of the station.\n\nYou have been assigned the following bonus objectives.\n\n"
 
 language.SkillsIncreased = "Good job on improving your skills."
 language.PointsAwarded = "You have been awarded %s points."
@@ -88,6 +93,7 @@ language.CommandTip = "(Type !traitor in chat to show this message again.)"
 language.CommandNotActive = "This command is deactivated."
 
 language.Completed = " (Completed)"
+language.Points = ""
 
 language.Objective = "Main Objectives:"
 language.SubObjective = "Sub Objectives (optional):"
@@ -103,6 +109,16 @@ language.ObjectiveKidnap = "Handcuff %s for %s seconds."
 language.ObjectivePoisonCaptain = "Poison %s with %s."
 language.SavePrisoner = "Free %s from this filthy prison."
 language.ObjectiveWreckGift = "Grab the gift"
+
+language.ObjectiveFinishAllObjectives = "Finish all objectives and gain 1 live."
+language.ObjectiveFinishRoundFast = "Finish the round in less than 20 minutes."
+language.ObjectiveHealCharacters = "Do (%s/%s) points of healing."
+language.ObjectiveKillMonsters = "Kill (%s/%s) %s."
+language.ObjectiveRepair = "Repair (%s/%s) %s"
+language.ObjectiveRepairHull = "Repair (%s/%s) damage from the hull."
+language.ObjectiveSecurityTeamSurvival = "Make sure at least one member of the security team survives."
+language.ObjectiveCrewSurvival = "Make sure at least 4 members of the crew survives."
+language.ObjectivePrisoner = "Keep atleast 3 convicts inside their cells."
 
 language.ObjectiveText = "Assassinate the crew in order to complete your mission."
 
@@ -122,5 +138,17 @@ language.TraitorMainObjectives ="Main Objectives successful"
 language.TraitorSubObjectives = "Sub Objectives successful"
 language.CrewDeaths = "Deaths"
 language.Rounds = "General Round stats"
+
+language.FakeHandcuffsUsage = "You can free yourself from these handcuffs using !fhc"
+
+language.ShipTooCloseToWall = "Cannot spawn ship, position is too close to a level wall."
+language.ShipTooCloseToShip = "Cannot spawn ship, position is too close to another submarine."
+
+language.Pets = "Pets"
+language.SmallCreatures = "Small Creatures"
+language.LargeCreatures = "Large Creatures"
+language.AbyssCreature = "Abyss Creature"
+language.ElectricalDevices = "Electrical Devices"
+language.MechanicalDevices = "Mechanical Devices"
 
 return language

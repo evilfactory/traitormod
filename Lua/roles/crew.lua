@@ -42,7 +42,7 @@ function role:Start()
     local text = self:Greet()
     local client = Traitormod.FindClientCharacter(self.Character)
     if client then
-        Traitormod.SendChatMessage(client, text, Color.Green)
+        Traitormod.SendChatMessage(client, text, Color.SpringGreen)
     end
 end
 
