@@ -92,10 +92,10 @@ category.Products = {
 
     {
         Name = "Clown Gear",
-        Price = 1200,
+        Price = 1500,
         Limit = 2,
         IsLimitGlobal = true,
-        Items = {"clownmask", "clowncostume"},
+        Items = {"clownmask", "clowncostume", "toyhammer", "bikehorn"},
     },
 
     {
