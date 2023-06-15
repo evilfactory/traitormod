@@ -60,6 +60,22 @@ function gm:Start()
             end
         end
     end
+
+    for key, value in pairs(Item.ItemList) do
+        for _, bannedItem in pairs(self.BannedItems) do
+            if value.Prefab.Identifier.Value == bannedItem then
+                Entity.Spawner.AddEntityToRemoveQueue(value)
+            end
+        end
+    end
+
+    Hook.Add("item.created", "Traitormod.PvP.BannedItems", function (item)
+        for _, bannedItem in pairs(self.BannedItems) do
+            if item.Prefab.Identifier.Value == bannedItem then
+                Entity.Spawner.AddEntityToRemoveQueue(item)
+            end
+        end
+    end)
 end
 
 function gm:AwardPoints()
@@ -80,7 +96,7 @@ function gm:AwardPoints()
             end
 
             local points = Traitormod.AwardPoints(client, amount)
-            Traitormod.SendMessage(client, "You have received " .. points .. " points.", "InfoFrameTabButton.Mission")
+            Traitormod.SendMessage(client, string.format(Traitormod.Language.ReceivedPoints, points), "InfoFrameTabButton.Mission")
         end
     end
 end
@@ -90,7 +106,7 @@ function gm:End()
         self:AwardPoints()
     end
 
-    Hook.Remove("item.created", "Traitormod.PvP.IdCard")
+    Hook.Remove("item.created", "Traitormod.PvP.BannedItems")
 
     -- first arg = mission id, second = message, third = completed, forth = list of characters
     return nil

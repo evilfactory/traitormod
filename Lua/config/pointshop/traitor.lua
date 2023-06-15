@@ -1,36 +1,79 @@
 local category = {}
 
-category.Name = "Traitor"
+category.Identifier = "traitor"
 category.Decoration = "Separatists"
 category.FadeToBlack = true
 
 category.CanAccess = function(client)
+    if client.Character.HasJob("prisondoctor") then return false end
     return client.Character and not client.Character.IsDead and Traitormod.RoleManager.HasRole(client.Character, "Traitor")
 end
 
-Hook.Patch("Barotrauma.Items.Components.Projectile", "HandleProjectileCollision", function (instance, ptable)
-    local target = ptable["target"]
+category.Init = function ()
+    Hook.Patch("Barotrauma.Items.Components.Projectile", "HandleProjectileCollision", function (instance, ptable)
+        local target = ptable["target"]
 
-    if not instance.Launcher then return end
-    if not instance.Launcher.HasTag("teleporter") then return end
-    if instance.User == nil then return end
-    if target == nil then return end
-    if target.Body == nil then return end
+        if not instance.Launcher then return end
+        if not instance.Launcher.HasTag("teleporter") then return end
+        if instance.User == nil then return end
+        if target == nil then return end
+        if target.Body == nil then return end
 
-    if tostring(target.Body.UserData) == "Barotrauma.Limb" then
-        local character = target.Body.UserData.character
+        if tostring(target.Body.UserData) == "Barotrauma.Limb" then
+            local character = target.Body.UserData.character
 
-        local oldPosition = instance.User.WorldPosition
-        instance.User.TeleportTo(character.WorldPosition)
-        character.TeleportTo(oldPosition)
-    else
-        instance.User.TeleportTo(instance.Item.WorldPosition)
-    end
-end)
+            local oldPosition = instance.User.WorldPosition
+            instance.User.TeleportTo(character.WorldPosition)
+            character.TeleportTo(oldPosition)
+        else
+            instance.User.TeleportTo(instance.Item.WorldPosition)
+        end
+    end)
+
+    Hook.Patch("Barotrauma.Items.Components.Wearable", "Equip", function(instance, ptable)
+        if not instance.Item.HasTag("chocker") then return end
+        if not instance.AllowedSlots[2] == InvSlotType.Head then return end
+
+        -- For some reason speechImpediment doesnt work
+        if ptable["character"] ~= nil then
+            ptable["character"].CanSpeak = false
+        end
+    end, Hook.HookMethodType.After)
+
+    Hook.Patch("Barotrauma.Items.Components.Wearable", "Unequip", function(instance, ptable)
+        if not instance.Item.HasTag("chocker") then return end
+        if not instance.AllowedSlots[2] == InvSlotType.Head then return end
+
+        -- For some reason speechImpediment doesnt work
+        if ptable["character"] ~= nil then
+            ptable["character"].CanSpeak = true
+        end
+    end, Hook.HookMethodType.After) 
+
+    Traitormod.AddCommand({"!freehandcuffs", "!freehandcuff", "!fhc"}, function (client, args)
+        if client.Character == nil or client.Character.IsDead then
+            Traitormod.SendMessage(client, "You are dead!")
+            return true
+        end
+        if not client.Character.IsHuman then return true end
+
+        local item = client.Character.Inventory.GetItemInLimbSlot(InvSlotType.RightHand)
+
+        if item ~= nil and item.Prefab.Identifier == "handcuffs" then
+            if not item.HasTag("fakehandcuffs") then
+                Traitormod.SendMessage(client, "This handcuff is not fake!")
+                return true
+            end
+            item.Drop(client.Character)
+        end
+        
+        return true
+    end)
+end
 
 category.Products = {
     {
-        Name = "Separatist Gear",
+        Identifier = "separatistgear",
         Price = 1500,
         Limit = 3,
         IsLimitGlobal = true,
@@ -38,17 +81,17 @@ category.Products = {
     },
 
     {
-        Name = "Explosive Auto-Injector",
+        Identifier = "explosiveautoinjector",
         Price = 2500,
         Limit = 1,
         IsLimitGlobal = false,
         Action = function (client)
             local prefabInjector = ItemPrefab.GetItemPrefab("autoinjectorheadset")
-            local prefabUEX = ItemPrefab.GetItemPrefab("uex")
+            local prefabExplosive = ItemPrefab.GetItemPrefab("c4block")
             Entity.Spawner.AddItemToSpawnQueue(prefabInjector, client.Character.Inventory, nil, nil, function (item)
-                Entity.Spawner.AddItemToSpawnQueue(prefabUEX, client.Character.Inventory, nil, nil, function (item2)
+                Entity.Spawner.AddItemToSpawnQueue(prefabExplosive, client.Character.Inventory, nil, nil, function (item2)
                     item2.Tags = "medical"
-                    item2.Description = "A modified UEX that can be put inside an Auto-Injector headset."
+                    item2.Description = "A modified C-4 Block that can be put inside an Auto-Injector headset."
                     item2.set_InventoryIconColor(Color(0, 0, 255))
                     item2.SpriteColor = Color(0, 0, 255, 255)
 
@@ -60,9 +103,8 @@ category.Products = {
             end)
         end
     },
-    
+
     {
-        Name = "Hacking Device",
         Price = 3500,
         Limit = 1,
         IsLimitGlobal = true,
@@ -70,7 +112,7 @@ category.Products = {
     },
 
     {
-        Name = "Teleporter Revolver",
+        Identifier = "teleporterrevolver",
         Price = 1800,
         Limit = 1,
         IsLimitGlobal = false,
@@ -96,7 +138,44 @@ category.Products = {
     },
 
     {
-        Name = "Boom Stick",
+        Identifier = "choke",
+        Price = 500,
+        Limit = 1,
+        IsLimitGlobal = false,
+        Action = function (client)
+            local revolver = ItemPrefab.GetItemPrefab("piratebandana")
+            Entity.Spawner.AddItemToSpawnQueue(revolver, client.Character.Inventory, nil, nil, function (item)
+                item.Tags = "chocker"
+                item.Description = Traitormod.Language.Pointshop.choke_desc
+
+                item.set_InventoryIconColor(Color(255, 0, 0, 50))
+                item.SpriteColor = Color(255, 0, 0, 50)
+
+                local color = item.SerializableProperties[Identifier("SpriteColor")]
+                Networking.CreateEntityEvent(item, Item.ChangePropertyEventData(color, item))            
+                local invColor = item.SerializableProperties[Identifier("InventoryIconColor")]
+                Networking.CreateEntityEvent(item, Item.ChangePropertyEventData(invColor, item))
+
+            end)
+        end
+    },
+
+    {
+        Identifier = "fakehandcuffs",
+        Price = 400,
+        Limit = 2,
+        IsLimitGlobal = false,
+        Action = function (client)
+            -- logic is implemented in pointshop/traitor.lua
+            local handcuffs = ItemPrefab.GetItemPrefab("handcuffs")
+            Entity.Spawner.AddItemToSpawnQueue(handcuffs, client.Character.Inventory, nil, nil, function (item)
+                item.Tags = "fakehandcuffs"
+                Traitormod.SendChatMessage(client, Traitormod.Language.FakeHandcuffsUsage , Color.Aqua)
+            end)
+        end
+    },
+
+    {
         Price = 3200,
         Limit = 1,
         IsLimitGlobal = false,
@@ -105,7 +184,6 @@ category.Products = {
     },
 
     {
-        Name = "Shotgun Shell (x8)",
         Price = 320,
         Limit = 5,
         IsLimitGlobal = false,
@@ -113,7 +191,6 @@ category.Products = {
     },
 
     {
-        Name = "Deadeye Carbine",
         Price = 2900,
         Limit = 1,
         IsLimitGlobal = false,
@@ -121,23 +198,20 @@ category.Products = {
     },
 
     {
-        Name = "SMG Magazine",
-        Price = 250,
+        Price = 200,
         Limit = 5,
         IsLimitGlobal = false,
         Items = {"smgmagazine"},
     },
 
     {
-        Name = "Prototype Steam Cannon",
-        Price = 1300,
+        Price = 1000,
         Limit = 1,
         IsLimitGlobal = false,
         Items = {"flamerunique", "incendiumfueltank"},
     },
 
     {
-        Name = "Detonator",
         Price = 950,
         Limit = 3,
         IsLimitGlobal = false,
@@ -145,7 +219,6 @@ category.Products = {
     },
 
     {
-        Name = "UEX",
         Price = 700,
         Limit = 5,
         IsLimitGlobal = false,
@@ -153,31 +226,36 @@ category.Products = {
     },
 
     {
-        Name = "Molotov",
-        Price = 950,
-        Limit = 5,
-        IsLimitGlobal = false,
-        Items = {"molotovcoctail"},
-    },
-
-    {
-        Name = "Stun Grenade",
-        Price = 600,
+        Price = 500,
         Limit = 3,
         IsLimitGlobal = false,
         Items = {"stungrenade"},
     },
 
     {
-        Name = "Mutated Pomegrenade",
-        Price = 530,
-        Limit = 3,
-        IsLimitGlobal = false,
-        Items = {"badcreepingorange"},
+        Price = 1200,
+        Limit = 5,
+        IsLimitGlobal = true,
+        Items = {"molotovcoctail"},
     },
 
     {
-        Name = "Turn Off Lights For 3 Minutes",
+        Identifier = "poisonoxygensupply",
+        Price = 1000,
+        Limit = 1,
+        IsLimitGlobal = true,
+
+        CanBuy = function (client, product)
+            return not Traitormod.RoundEvents.IsEventActive("OxygenGeneratorPoison")
+        end,
+
+        Action = function ()
+            Traitormod.RoundEvents.TriggerEvent("OxygenGeneratorPoison")
+        end
+    },
+
+    {
+        Identifier = "turnofflights",
         Price = 350,
         Limit = 1,
         IsLimitGlobal = true,
@@ -192,7 +270,7 @@ category.Products = {
     },
 
     {
-        Name = "Turn Off Communications For 2 Minutes",
+        Identifier = "turnoffcommunications",
         Price = 400,
         Limit = 1,
         IsLimitGlobal = true,
@@ -207,7 +285,6 @@ category.Products = {
     },
 
     {
-        Name = "Suicide Vest",
         Price = 3500,
         Limit = 1,
         IsLimitGlobal = true,

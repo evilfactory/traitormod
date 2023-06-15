@@ -14,7 +14,7 @@ end
 
 function role:Greet()
     local partners = Traitormod.StringBuilder:new()
-    local traitors = Traitormod.RoleManager.FindCharactersByRole("Cultist")
+    local traitors = Traitormod.RoleManager.FindAntagonists()
     for _, character in pairs(traitors) do
         if character ~= self.Character then
             partners('"%s" ', character.Name)
@@ -23,12 +23,13 @@ function role:Greet()
     partners = partners:concat(" ")
 
     local sb = Traitormod.StringBuilder:new()
-    sb("You are now a Husk Servant!\nYou directly follow orders made by the Husk Cultists.\n")
+    sb(Traitormod.Language.HuskServantYou)
 
-    sb("Husk Cultists: %s\n", partners)
+    sb("\n\n")
+    sb(Traitormod.Language.HuskCultists, partners)
 
     if self.TraitorBroadcast then
-        sb("\n\nYou cannot speak, but you can use !tc to communicate with the Husk Cultists.")
+        sb("\n\n%s", Traitormod.Language.HuskServantTcTip)
     end
 
     return sb:concat()
@@ -36,7 +37,7 @@ end
 
 function role:OtherGreet()
     local sb = Traitormod.StringBuilder:new()
-    sb("Husk Servant %s.", self.Character.Name)
+    sb(Traitormod.Language.HuskServantOther, self.Character.Name)
     return sb:concat()
 end
 

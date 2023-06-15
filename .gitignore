@@ -1,3 +1,4 @@
 *.json
 Submarines/temp.xml
 Submarines/temp.sub
+Lua/config/config.lua

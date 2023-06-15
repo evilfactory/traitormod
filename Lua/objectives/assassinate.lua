@@ -1,7 +1,7 @@
 local objective = Traitormod.RoleManager.Objectives.Objective:new()
 
 objective.Name = "Assassinate"
-objective.AmountPoints = 600
+objective.AmountPoints = 500
 objective.RoleFilter = { 
     ["he-chef"] = true,
     ["staff"] = true,
@@ -24,6 +24,14 @@ end
 
 function objective:IsCompleted()
     return self.Target.IsDead
+end
+
+function objective:TargetPreference(character)
+    if character.IsCaptain then
+        return false
+    end
+
+    return true
 end
 
 return objective

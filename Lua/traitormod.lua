@@ -32,6 +32,7 @@ Traitormod.RoundNumber = 0
 Traitormod.RoundTime = 0
 Traitormod.LostLivesThisRound = {}
 Traitormod.Commands = {}
+Traitormod.RespawnedCharacters = {}
 
 local pointsGiveTimer = -1
 
@@ -40,6 +41,43 @@ Traitormod.LoadData()
 if Traitormod.Config.RemotePoints then
     for key, value in pairs(Client.ClientList) do
         Traitormod.LoadRemoteData(value)
+    end
+end
+
+LuaUserData.RegisterType("Barotrauma.GameModePreset")
+LuaUserData.RegisterType("Barotrauma.Voting")
+Voting = LuaUserData.CreateStatic("Barotrauma.Voting")
+Traitormod.PreRoundStart = function (submarineInfo, chooseGamemode)
+    Traitormod.SelectedGamemode = nil
+
+    local description = submarineInfo.Description.Value
+    local subConfig = Traitormod.ParseSubmarineConfig(description)
+
+    if subConfig.Gamemode and Traitormod.Gamemodes[subConfig.Gamemode] then
+        Traitormod.SelectedGamemode = Traitormod.Gamemodes[subConfig.Gamemode]:new()
+        for key, value in pairs(subConfig) do
+            Traitormod.SelectedGamemode[key] = value
+        end
+    elseif Game.ServerSettings.GameModeIdentifier == "pvp" then
+        Traitormod.SelectedGamemode = Traitormod.Gamemodes.PvP:new()
+    elseif Game.ServerSettings.GameModeIdentifier == "multiplayercampaign" then
+        Traitormod.SelectedGamemode = Traitormod.Gamemodes.Gamemode:new()
+    elseif Game.ServerSettings.TraitorsEnabled == 1 and math.random() > 0.5 then
+        Traitormod.SelectedGamemode = Traitormod.Gamemodes.Secret:new()
+    elseif Game.ServerSettings.TraitorsEnabled == 2 then
+        Traitormod.SelectedGamemode = Traitormod.Gamemodes.Secret:new()
+    else
+        Traitormod.SelectedGamemode = Traitormod.Gamemodes.Gamemode:new()
+    end
+
+    if Traitormod.SelectedGamemode.RequiredGamemode then
+        Traitormod.OriginalGamemode = Game.ServerSettings.GameModeIdentifier
+        Game.NetLobbyScreen.SelectedModeIdentifier = Traitormod.SelectedGamemode.RequiredGamemode
+        chooseGamemode.Gamemode = Game.NetLobbyScreen.SelectedMode
+    end
+
+    if Traitormod.SelectedGamemode then
+        Traitormod.SelectedGamemode:PreStart()
     end
 end
 
@@ -65,29 +103,10 @@ Traitormod.RoundStart = function()
         Traitormod.SendWelcome(value)
     end
 
-    local function startsWith(String, Start)
-        return string.sub(String, 1, string.len(Start)) == Start
-    end
-
-    if Traitormod.Config.RemoveSkillBooks then
-        for key, value in pairs(Item.ItemList) do
-            if startsWith(value.Prefab.Identifier.Value, "skillbook") then
-                Entity.Spawner.AddEntityToRemoveQueue(value)
-            end
+    if Traitormod.Config.HideCrewList then
+        for key, value in pairs(Character.CharacterList) do
+            Networking.CreateEntityEvent(value, Character.RemoveFromCrewEventData.__new(value.TeamID, {}))
         end
-    end
-
-
-    Traitormod.SelectedGamemode = nil
-
-    if LuaUserData.IsTargetType(Game.GameSession.GameMode, "Barotrauma.PvPMode") then
-        Traitormod.SelectedGamemode = Traitormod.Gamemodes.PvP:new()
-    elseif LuaUserData.IsTargetType(Game.GameSession.GameMode, "Barotrauma.CampaignMode") then
-        Traitormod.SelectedGamemode = Traitormod.Gamemodes.Gamemode:new()
-    elseif Game.ServerSettings.TraitorsEnabled == 1 and math.random() > 0.5 then
-        Traitormod.SelectedGamemode = Traitormod.Gamemodes.Secret:new()
-    elseif Game.ServerSettings.TraitorsEnabled == 2 then
-        Traitormod.SelectedGamemode = Traitormod.Gamemodes.Secret:new()
     end
 
     if Traitormod.SelectedGamemode == nil then
@@ -97,10 +116,26 @@ Traitormod.RoundStart = function()
 
     Traitormod.Log("Starting gamemode " .. Traitormod.SelectedGamemode.Name)
 
+    if Traitormod.SubmarineBuilder then
+        Traitormod.SubmarineBuilder.RoundStart()
+    end
+
     if Traitormod.SelectedGamemode then
         Traitormod.SelectedGamemode:Start()
     end
 end
+
+Hook.Patch("Barotrauma.Networking.GameServer", "InitiateStartGame", function (instance, ptable)
+    local mode = {}
+    Traitormod.PreRoundStart(ptable["selectedSub"], mode)
+    if mode.Gamemode then
+        ptable["selectedMode"] = mode.Gamemode
+    end
+
+    if Traitormod.SubmarineBuilder then
+        ptable["selectedShuttle"] = Traitormod.SubmarineBuilder.BuildSubmarines()
+    end
+end)
 
 Hook.Add("roundStart", "Traitormod.RoundStart", function()
     Traitormod.RoundStart()
@@ -113,7 +148,7 @@ Hook.Add("missionsEnded", "Traitormod.MissionsEnded", function(missions)
     for key, value in pairs(Client.ClientList) do
         -- add weight based on if they're alive or not and if they were a traitor that past round
         Traitormod.AddData(value, "Weight", 1)
-        if value.Character and Traitormod.RoleManager.HasRole(value.Character, "Cultist") or Traitormod.RoleManager.HasRole(value.Character, "Traitor") then
+        if value.Character and Traitormod.RoleManager.IsAntagonist(value.Character) then
             -- do nothing
         elseif value.Character and value.Character.TeamID == CharacterTeamType.Team1 and not value.Character.IsDead then
             Traitormod.AddData(value, "Weight", 2)
@@ -160,6 +195,13 @@ Hook.Add("missionsEnded", "Traitormod.MissionsEnded", function(missions)
 end)
 
 Hook.Add("roundEnd", "Traitormod.RoundEnd", function()
+    if Traitormod.OriginalGamemode then
+        Game.NetLobbyScreen.SelectedModeIdentifier = Traitormod.OriginalGamemode
+        Traitormod.OriginalGamemode = nil
+    end
+
+    Traitormod.RespawnedCharacters = {}
+
     if Traitormod.SelectedGamemode then
         return Traitormod.SelectedGamemode:TraitorResults()
     end
@@ -263,13 +305,11 @@ Hook.Add("clientConnected", "Traitormod.ClientConnected", function (client)
         Traitormod.SendWelcome(client)
     end
 
-    if Traitormod.AbandonedCharacters[client.SteamID] and Traitormod.AbandonedCharacters[client.SteamID].IsDead then
-        -- client left while char was alive -> but char is dead, so adjust life
-        Traitormod.Debug(string.format("%s connected, but his character died in the meantime...",
-            Traitormod.ClientLogName(client)))
-
-        local lifeMsg, lifeIcon = Traitormod.AdjustLives(client, -1)
-        Traitormod.SendMessage(client, lifeMsg, lifeIcon)
+    if Traitormod.AbandonedCharacters[client.SteamID] then
+        if Traitormod.AbandonedCharacters[client.SteamID].IsDead then
+            -- client left while char was alive -> but char is dead
+            Traitormod.Debug(string.format("%s connected, but his character died in the meantime...", Traitormod.ClientLogName(client)))
+        end
 
         Traitormod.AbandonedCharacters[client.SteamID] = nil
     end
@@ -283,8 +323,7 @@ Hook.Add("clientDisconnected", "Traitormod.ClientDisconnected", function (client
 
     -- if character was alive while disconnecting, make sure player looses live if he rejoins the round
     if client.Character and not client.Character.IsDead and client.Character.IsHuman then
-        Traitormod.Debug(string.format("%s disconnected with an alive character. Remembering for rejoin...",
-            Traitormod.ClientLogName(client)))
+        Traitormod.Debug(string.format("%s disconnected with an alive character. Remembering for rejoin...", Traitormod.ClientLogName(client)))
         Traitormod.AbandonedCharacters[client.SteamID] = client.Character
     end
 end)
@@ -379,6 +418,7 @@ Traitormod.Voting = dofile(Traitormod.Path .. "/Lua/voting.lua")
 Traitormod.RoleManager = dofile(Traitormod.Path .. "/Lua/rolemanager.lua")
 Traitormod.Pointshop = dofile(Traitormod.Path .. "/Lua/pointshop.lua")
 Traitormod.RoundEvents = dofile(Traitormod.Path .. "/Lua/roundevents.lua")
+Traitormod.MidRoundSpawn = dofile(Traitormod.Path .. "/Lua/midroundspawn.lua")
 Traitormod.GhostRoles = dofile(Traitormod.Path .. "/Lua/ghostroles.lua")
 
 dofile(Traitormod.Path .. "/Lua/commands.lua")
@@ -389,6 +429,8 @@ dofile(Traitormod.Path .. "/Lua/traitormodmisc.lua")
 Traitormod.AddGamemode(dofile(Traitormod.Path .. "/Lua/gamemodes/gamemode.lua"))
 Traitormod.AddGamemode(dofile(Traitormod.Path .. "/Lua/gamemodes/secret.lua"))
 Traitormod.AddGamemode(dofile(Traitormod.Path .. "/Lua/gamemodes/pvp.lua"))
+Traitormod.AddGamemode(dofile(Traitormod.Path .. "/Lua/gamemodes/submarineroyale.lua"))
+Traitormod.AddGamemode(dofile(Traitormod.Path .. "/Lua/gamemodes/attackdefend.lua"))
 
 Traitormod.RoleManager.AddObjective(dofile(Traitormod.Path .. "/Lua/objectives/objective.lua"))
 Traitormod.RoleManager.AddObjective(dofile(Traitormod.Path .. "/Lua/objectives/assassinate.lua"))
@@ -399,10 +441,15 @@ Traitormod.RoleManager.AddObjective(dofile(Traitormod.Path .. "/Lua/objectives/s
 Traitormod.RoleManager.AddObjective(dofile(Traitormod.Path .. "/Lua/objectives/husk.lua"))
 Traitormod.RoleManager.AddObjective(dofile(Traitormod.Path .. "/Lua/objectives/turnhusk.lua"))
 Traitormod.RoleManager.AddObjective(dofile(Traitormod.Path .. "/Lua/objectives/destroycaly.lua"))
+Traitormod.RoleManager.AddObjective(dofile(Traitormod.Path .. "/Lua/objectives/assassinatedrunk.lua"))
+Traitormod.RoleManager.AddObjective(dofile(Traitormod.Path .. "/Lua/objectives/bananaslip.lua"))
+Traitormod.RoleManager.AddObjective(dofile(Traitormod.Path .. "/Lua/objectives/suffocatecrew.lua"))
+Traitormod.RoleManager.AddObjective(dofile(Traitormod.Path .. "/Lua/objectives/growmudraptors.lua"))
+Traitormod.RoleManager.AddObjective(dofile(Traitormod.Path .. "/Lua/objectives/assassinatepressure.lua"))
 Traitormod.RoleManager.AddObjective(dofile(Traitormod.Path .. "/Lua/objectives/save.lua"))
+Traitormod.RoleManager.AddObjective(dofile(Traitormod.Path .. "/Lua/objectives/destroyweapons.lua"))
+Traitormod.RoleManager.AddObjective(dofile(Traitormod.Path .. "/Lua/objectives/convert.lua"))
 
-Traitormod.RoleManager.AddObjective(dofile(Traitormod.Path .. "/Lua/objectives/crew/repair.lua"))
-Traitormod.RoleManager.AddObjective(dofile(Traitormod.Path .. "/Lua/objectives/crew/prisonerstay.lua"))
 Traitormod.RoleManager.AddObjective(dofile(Traitormod.Path .. "/Lua/objectives/crew/killmonsters.lua"))
 Traitormod.RoleManager.AddObjective(dofile(Traitormod.Path .. "/Lua/objectives/crew/killsmallmonsters.lua"))
 Traitormod.RoleManager.AddObjective(dofile(Traitormod.Path .. "/Lua/objectives/crew/killlargemonsters.lua"))
@@ -418,16 +465,33 @@ Traitormod.RoleManager.AddObjective(dofile(Traitormod.Path .. "/Lua/objectives/c
 Traitormod.RoleManager.AddObjective(dofile(Traitormod.Path .. "/Lua/objectives/crew/finishallobjectives.lua"))
 Traitormod.RoleManager.AddObjective(dofile(Traitormod.Path .. "/Lua/objectives/crew/crewsurvival.lua"))
 Traitormod.RoleManager.AddObjective(dofile(Traitormod.Path .. "/Lua/objectives/crew/escape.lua"))
+Traitormod.RoleManager.AddObjective(dofile(Traitormod.Path .. "/Lua/objectives/crew/prisonerstay.lua"))
 
 Traitormod.RoleManager.AddRole(dofile(Traitormod.Path .. "/Lua/roles/role.lua"))
 Traitormod.RoleManager.AddRole(dofile(Traitormod.Path .. "/Lua/roles/antagonist.lua"))
 Traitormod.RoleManager.AddRole(dofile(Traitormod.Path .. "/Lua/roles/traitor.lua"))
 Traitormod.RoleManager.AddRole(dofile(Traitormod.Path .. "/Lua/roles/cultist.lua"))
 Traitormod.RoleManager.AddRole(dofile(Traitormod.Path .. "/Lua/roles/huskservant.lua"))
-Traitormod.RoleManager.AddRole(dofile(Traitormod.Path .. "/Lua/roles/crew.lua"))
 Traitormod.RoleManager.AddRole(dofile(Traitormod.Path .. "/Lua/roles/pirate.lua"))
+Traitormod.RoleManager.AddRole(dofile(Traitormod.Path .. "/Lua/roles/crew.lua"))
+Traitormod.RoleManager.AddRole(dofile(Traitormod.Path .. "/Lua/roles/clown.lua"))
+
+if Traitormod.Config.Extensions then
+    for key, extension in pairs(Traitormod.Config.Extensions) do
+        local config = Traitormod.Config.ExtensionConfig[extension.Identifier or ""]
+        if config then
+            for key, value in pairs(config) do
+                extension[key] = value
+            end
+        end
+        if extension.Init then
+            extension.Init()
+        end
+    end
+end
 
 -- Round start call for reload during round
 if Game.RoundStarted then
+    Traitormod.PreRoundStart(Submarine.MainSub.Info, {})
     Traitormod.RoundStart()
 end

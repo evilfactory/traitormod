@@ -1,6 +1,6 @@
 local category = {}
 
-category.Name = "Maintenance"
+category.Identifier = "maintenance"
 
 category.CanAccess = function(client)
     return client.Character and not client.Character.IsDead and not client.Character.HasJob("convict")
@@ -8,42 +8,43 @@ end
 
 category.Products = {
     {
-        Name = "Screwdriver",
         Price = 90,
         Limit = 1,
         Items = {"screwdriver"}
     },
 
     {
-        Name = "Wrench",
         Price = 90,
         Limit = 1,
         Items = {"wrench"}
     },
 
     {
-        Name = "Welding Tool",
         Price = 160,
         Limit = 4,
         Items = {"weldingtool", "weldingfueltank"}
     },
 
     {
-        Name = "Fixfoam Grenade",
+        Price = 250,
+        Limit = 2,
+        Items = {"handheldstatusmonitor"}
+    },
+
+    {
         Price = 190,
         Limit = 4,
         Items = {"fixfoamgrenade", "fixfoamgrenade"}
     },
 
     {
-        Name = "Repair Pack",
         Price = 140,
         Limit = 4,
         Items = {"repairpack", "repairpack", "repairpack", "repairpack"}
     },
 
     {
-        Name = "Low Quality Fuel Rod",
+        Identifier = "fuelrodlowquality",
         Price = 260,
         Limit = 10,
 

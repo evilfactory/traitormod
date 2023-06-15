@@ -17,7 +17,7 @@ function role:CultistLoop(first)
 
         husk.OnAwarded = function()
             if client then
-                Traitormod.SendMessage(client, Traitormod.Language.AssassinationNextTarget, "")
+                Traitormod.SendMessage(client, Traitormod.Language.CultistNextTarget, "")
                 Traitormod.Stats.AddClientStat("TraitorMainObjectives", client, 1)
             end
 
@@ -122,14 +122,14 @@ function role:ObjectivesToString()
         -- Husk objectives are primary
         local buf = objective.Name == "Husk" and primary or secondary
 
-        if objective:IsCompleted() then
+        if objective:IsCompleted() or objective.Awarded then
             buf:append(" > ", objective.Text, Traitormod.Language.Completed)
         else
             buf:append(" > ", objective.Text, string.format(Traitormod.Language.Points, objective.AmountPoints))
         end
     end
     if #primary == 0 then
-        primary(" > No objectives yet... Stay futile.")
+        primary(Traitormod.Language.NoObjectivesYet)
     end
 
     return primary:concat("\n"), secondary:concat("\n")
@@ -137,7 +137,7 @@ end
 
 function role:Greet()
     local partners = Traitormod.StringBuilder:new()
-    local traitors = Traitormod.RoleManager.FindCharactersByRole("Cultist")
+    local traitors = Traitormod.RoleManager.FindAntagonists()
     for _, character in pairs(traitors) do
         if character ~= self.Character then
             partners('"%s" ', character.Name)
@@ -147,19 +147,20 @@ function role:Greet()
     local primary, secondary = self:ObjectivesToString()
 
     local sb = Traitormod.StringBuilder:new()
-    sb("You are a Husk Cultist!\nHumans that you manage to turn into a husk will be in your side and may help you.\n\n")
-    sb("Your main objectives are:\n")
+    sb("%s\n\n", Traitormod.Language.CultistYou)
+    sb("%s\n", Traitormod.Language.MainObjectivesYou)
     sb(primary)
-    sb("\n\nYour secondary objectives are:\n")
+    sb("\n\n%s\n", Traitormod.Language.SecondaryObjectivesYou)
     sb(secondary)
     sb("\n\n")
     if #traitors < 2 then
-        sb("You are the only Husk Cultist.")
+        sb(Traitormod.Language.SoloAntagonist)
     else
-        sb("Partners: %s\n", partners)
+        sb(Traitormod.Language.Partners, partners)
+        sb("\n")
 
         if self.TraitorBroadcast then
-            sb("Use !tc to communicate with your partners.")
+            sb(Traitormod.Language.TcTip)
         end
     end
     
@@ -169,10 +170,10 @@ end
 function role:OtherGreet()
     local sb = Traitormod.StringBuilder:new()
     local primary, secondary = self:ObjectivesToString()
-    sb("Husk Cultist %s.", self.Character.Name)
-    sb("\nTheir main objectives were:\n")
+    sb(Traitormod.Language.CultistOther, self.Character.Name)
+    sb("\n%s\n", Traitormod.Language.MainObjectivesOther)
     sb(primary)
-    sb("\nTheir secondary objectives were:\n")
+    sb("\n%s\n", Traitormod.Language.SecondaryObjectivesOther)
     sb(secondary)
     return sb:concat()
 end
@@ -190,7 +191,7 @@ function role:FilterTarget(objective, character)
         return false
     end
 
-    return Traitormod.RoleManager.Roles.Role.FilterTarget(self, objective, character)
+    return Traitormod.RoleManager.Roles.Antagonist.FilterTarget(self, objective, character)
 end
 
 Hook.Add("husk.clientControlHusk", "Traitormod.Cultist.HuskControl", function (client, husk)

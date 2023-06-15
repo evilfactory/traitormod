@@ -1,11 +1,11 @@
 local category = {}
 
-category.Name = "Traitor Medic"
+category.Identifier = "traitormedic"
 category.Decoration = "Separatists"
 category.FadeToBlack = true
 
 category.CanAccess = function(client)
-    return client.Character and client.Character.JobIdentifier == "prisondoctor" and not client.Character.IsDead and Traitormod.RoleManager.HasRole(client.Character, "Traitor")
+    return client.Character and client.Character.HasJob("prisondoctor") and not client.Character.IsDead and Traitormod.RoleManager.HasRole(client.Character, "Traitor")
 end
 
 local function GetRandomAlivePlayer()
@@ -27,7 +27,22 @@ end
 
 category.Products = {
     {
-        Name = "Put random person into coma (Dangerous)",
+        Identifier = "separatistgear",
+        Price = 1500,
+        Limit = 3,
+        IsLimitGlobal = true,
+        Items = {"pirateclotheshard", "piratebodyarmor", "piratehelmet"},
+    },
+
+    {
+        Price = 3500,
+        Limit = 1,
+        IsLimitGlobal = true,
+        Items = {"hackingdevice"},
+    },
+
+    {
+        Identifier = "randomcoma",
         Price = 1500,
         Limit = 1,
         IsLimitGlobal = true,
@@ -40,7 +55,7 @@ category.Products = {
     },
 
     {
-        Name = "Mycobacterium tuberculosis Sample",
+        Identifier = "arthurmorgan",
         Price = 1500,
         Limit = 2,
         IsLimitGlobal = true,
@@ -63,7 +78,6 @@ category.Products = {
     },
 
     {
-        Name = "Advanced Syringe Gun",
         Price = 450,
         Limit = 1,
         IsLimitGlobal = false,
@@ -71,7 +85,6 @@ category.Products = {
     },
 
     {
-        Name = "Surgical Bomb (UEX)",
         Price = 1750,
         Limit = 1,
         IsLimitGlobal = true,
@@ -79,7 +92,6 @@ category.Products = {
     },
 
     {
-        Name = "Surgical Bomb (C-4)",
         Price = 2900,
         Limit = 1,
         IsLimitGlobal = true,
@@ -87,7 +99,6 @@ category.Products = {
     },
 
     {
-        Name = "Surgical Bomb Detonator",
         Price = 50,
         Limit = 1,
         IsLimitGlobal = false,
@@ -95,7 +106,6 @@ category.Products = {
     },
 
     {
-        Name = "Europan Medicine",
         Price = 600,
         Limit = 1,
         IsLimitGlobal = false,
@@ -103,7 +113,6 @@ category.Products = {
     },
 
     {
-        Name = "Liquid Oxygenite",
         Price = 1100,
         Limit = 1,
         IsLimitGlobal = true,
@@ -112,7 +121,6 @@ category.Products = {
     },
 
     {
-        Name = "Fentanyl",
         Price = 2000,
         Limit = 2,
         IsLimitGlobal = false,
@@ -120,7 +128,6 @@ category.Products = {
     },
 
     {
-        Name = "Sufforin",
         Price = 2750,
         Limit = 1,
         IsLimitGlobal = false,
@@ -128,7 +135,6 @@ category.Products = {
     },
 
     {
-        Name = "Radiotoxin",
         Price = 900,
         Limit = 2,
         IsLimitGlobal = false,
@@ -136,7 +142,6 @@ category.Products = {
     },
 
     {
-        Name = "Endocrine Booster",
         Price = 1500,
         Limit = 1,
         IsLimitGlobal = false,
@@ -144,7 +149,6 @@ category.Products = {
     },
 
     {
-        Name = "Combat Stimulant",
         Price = 1500,
         Limit = 1,
         IsLimitGlobal = true,
@@ -152,7 +156,6 @@ category.Products = {
     },
 
     {
-        Name = "Raptor Bane Extract",
         Price = 900,
         Limit = 4,
         IsLimitGlobal = true,
@@ -160,7 +163,6 @@ category.Products = {
     },
 
     {
-        Name = "Pressure Stabilizer",
         Price = 3750,
         Limit = 1,
         IsLimitGlobal = false,
@@ -168,11 +170,70 @@ category.Products = {
     },
 
     {
-        Name = "Chloral Hydrate",
         Price = 400,
         Limit = 4,
         IsLimitGlobal = false,
         Items = {"chloralhydrate"},
+    },
+
+    {
+        Price = 1200,
+        Limit = 5,
+        IsLimitGlobal = true,
+        Items = {"molotovcoctail"},
+    },
+
+    {
+        Identifier = "choke",
+        Price = 500,
+        Limit = 1,
+        IsLimitGlobal = false,
+        Action = function (client)
+            local revolver = ItemPrefab.GetItemPrefab("piratebandana")
+            Entity.Spawner.AddItemToSpawnQueue(revolver, client.Character.Inventory, nil, nil, function (item)
+                item.Tags = "chocker"
+                item.Description = Traitormod.Language.Pointshop.choke_desc
+
+                item.set_InventoryIconColor(Color(255, 0, 0, 50))
+                item.SpriteColor = Color(255, 0, 0, 50)
+
+                local color = item.SerializableProperties[Identifier("SpriteColor")]
+                Networking.CreateEntityEvent(item, Item.ChangePropertyEventData(color, item))            
+                local invColor = item.SerializableProperties[Identifier("InventoryIconColor")]
+                Networking.CreateEntityEvent(item, Item.ChangePropertyEventData(invColor, item))
+
+            end)
+        end
+    },
+
+    {
+        Identifier = "fakehandcuffs",
+        Price = 400,
+        Limit = 2,
+        IsLimitGlobal = false,
+        Action = function (client)
+            -- logic is implemented in pointshop/traitor.lua
+            local handcuffs = ItemPrefab.GetItemPrefab("handcuffs")
+            Entity.Spawner.AddItemToSpawnQueue(handcuffs, client.Character.Inventory, nil, nil, function (item)
+                item.Tags = "fakehandcuffs"
+                Traitormod.SendChatMessage(client, Traitormod.Language.FakeHandcuffsUsage , Color.Aqua)
+            end)
+        end
+    },
+
+    {
+        Identifier = "turnoffcommunications",
+        Price = 400,
+        Limit = 1,
+        IsLimitGlobal = true,
+
+        CanBuy = function (client, product)
+            return not Traitormod.RoundEvents.IsEventActive("CommunicationsOffline")
+        end,
+
+        Action = function ()
+            Traitormod.RoundEvents.TriggerEvent("CommunicationsOffline")
+        end
     },
 }
 

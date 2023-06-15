@@ -2,9 +2,9 @@ if Traitormod.SubmarineBuilder == nil then
     return
 end
 
-Game.OverrideRespawnSub(true) -- remove respawn submarine logic
+Traitormod.DisableRespawnShuttle = false
 
-Traitormod.RespawnedCharacters = {}
+if Traitormod.Config.RespawnEnabled == false then return end
 
 local sb = Traitormod.SubmarineBuilder
 local submarineId = sb.AddSubmarine(Traitormod.Config.RespawnSubmarineFile)
@@ -146,6 +146,7 @@ local function ResetSubmarine(submarine)
 end
 
 Hook.Add("think", "RespawnShuttle.Think", function ()
+    if Traitormod.DisableRespawnShuttle then return end
     if not Game.RoundStarted then return end
     if not Traitormod.SubmarineBuilder.IsActive() then return end
 
@@ -160,7 +161,7 @@ Hook.Add("think", "RespawnShuttle.Think", function ()
             timerActive = true
             respawnTimer = Game.ServerSettings.RespawnInterval
             lastTimerDisplay = respawnTimer
-            RespawnMessage(string.format(Traitormod.Config.RespawnText, math.floor(respawnTimer)))
+            RespawnMessage(string.format(Traitormod.Config.RespawnText, math.ceil(respawnTimer)))
         end
     else
         timerActive = false
@@ -182,7 +183,7 @@ Hook.Add("think", "RespawnShuttle.Think", function ()
 
     if timerActive and (lastTimerDisplay - respawnTimer) > timerDisplayMax then
         lastTimerDisplay = respawnTimer
-        RespawnMessage(string.format(Traitormod.Config.RespawnText, math.floor(respawnTimer)))
+        RespawnMessage(string.format(Traitormod.Config.RespawnText, math.ceil(respawnTimer)))
     end
 
     if transportTimer <= 0 and not timerActive and transporting then
@@ -220,7 +221,7 @@ Hook.Add("roundEnd", "RespawnShuttle.RoundEnd", function ()
     respawnTimer = 0
     transportTimer = 0
     lastTimerDisplay = 0
-    Traitormod.RespawnedCharacters = {}
+    Traitormod.DisableRespawnShuttle = false
 end)
 
 Hook.Add("character.death", "RespawnShuttle.CharacterDeath", function (character)
@@ -237,6 +238,6 @@ Hook.Add("character.death", "RespawnShuttle.CharacterDeath", function (character
 
     if killer.IsHuman and killer.TeamID == CharacterTeamType.Team1 and not killer.IsDead and not Traitormod.RespawnedCharacters[killer] then
         Traitormod.AwardPoints(killerClient, Traitormod.Config.RespawnOnKillPoints)
-        Traitormod.SendMessage(killerClient, "You have received " .. Traitormod.Config.RespawnOnKillPoints .. " points.", "InfoFrameTabButton.Mission")
+        Traitormod.SendMessage(killerClient, string.format(Traitormod.Language.ReceivedPoints, Traitormod.Config.RespawnOnKillPoints), "InfoFrameTabButton.Mission")
     end
 end)

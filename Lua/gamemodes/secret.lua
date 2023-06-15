@@ -76,13 +76,58 @@ function gm:AssignAntagonists(antagonists)
         AssignCrew()
     end
 
-    local role = Traitormod.RoleManager.Roles[weightedRandom.Choose(self.TraitorTypeChance)]
+    if self.TraitorTypeSelectionMode == "Random" then
+        local role = Traitormod.RoleManager.Roles[weightedRandom.Choose(self.TraitorTypeChance)]
 
-    local roles = {}
-    for key, value in pairs(antagonists) do
-        table.insert(roles, role)
+        local roles = {}
+        for key, value in pairs(antagonists) do
+            table.insert(roles, role)
+        end
+        Assign(roles)
+    else
+        local options = {}
+        for key, value in pairs(self.TraitorTypeChance) do
+            table.insert(options, key)
+        end
+
+        local clients = {}
+
+        for key, value in pairs(antagonists) do
+            local client = Traitormod.FindClientCharacter(value)
+            if client then
+                table.insert(clients, client)
+            end
+        end
+
+        if #clients == 0 then
+            Assign({})
+            return
+        end
+
+        Traitormod.Voting.StartVote(Traitormod.Language.SecretTraitorAssigned, options, 25, function (results, clientVotes)
+            local highestVoted = nil
+            local highestedVotedRole = nil
+            for key, value in pairs(options) do
+                if highestVoted == nil or results[key] > highestVoted then
+                    highestVoted = results[key]
+                    highestedVotedRole = value
+                end
+            end
+
+            local roles = {}
+            for key, value in pairs(clientVotes) do
+                local role = ""
+                if value == -1 then
+                    role = Traitormod.RoleManager.Roles[highestedVotedRole]
+                else
+                    role = Traitormod.RoleManager.Roles[options[value]]
+                end
+
+                table.insert(roles, role)
+            end
+            Assign(roles)
+        end, clients)
     end
-    Assign(roles)
 end
 
 function gm:SelectAntagonists()
@@ -244,7 +289,7 @@ function gm:TraitorResults()
             local pointsGained = 0
 
             for key, value in pairs(role.Objectives) do
-                if value:IsCompleted() then
+                if value:IsCompleted() or value.IsAwarded then
                     objectives = objectives + 1
                     pointsGained = pointsGained + value.AmountPoints
                 end

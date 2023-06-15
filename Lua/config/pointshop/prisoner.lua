@@ -1,6 +1,6 @@
 local category = {}
 
-category.Name = "Convict Uplink"
+category.Identifier = "prisoner"
 category.Decoration = "group"
 category.FadeToBlack = true
 
@@ -9,13 +9,22 @@ category.CanAccess = function(client)
 end
 
 category.Products = {
-
     {
         Name = "Beanie",
         Price = 1,
         Limit = 1,
         IsLimitGlobal = false,
         Items = {"touque"},
+    },
+
+    {
+        Identifier = "randomitem",
+        Price = 750,
+        Limit = 2,
+        Action = function (client, product, items)
+            local item = randomItems[math.random(1, #randomItems)]
+            Entity.Spawner.AddItemToSpawnQueue(item, client.Character.WorldPosition, nil, nil, function () end)
+        end
     },
 
     {
@@ -43,7 +52,7 @@ category.Products = {
     },
 
     {
-        Name = "Separatist Gear",
+        Identifier = "separatistgear",
         Price = 2750,
         Limit = 1,
         IsLimitGlobal = true,
@@ -91,15 +100,15 @@ category.Products = {
     },
 
     {
-        Name = "Clown Gear",
-        Price = 1500,
+        Identifier = "clowngear",
+        Price = 2700,
         Limit = 1,
         IsLimitGlobal = true,
         Items = {"clownmask", "clowncostume", "toyhammer", "bikehorn"},
     },
 
     {
-        Name = "Enroll into Clown College",
+        Identifier = "enrollclown",
         Price = 500,
         Limit = 1,
         IsLimitGlobal = false,
@@ -110,7 +119,7 @@ category.Products = {
 
     {
         Name = "Molotov",
-        Price = 4500,
+        Price = 5500,
         Limit = 2,
         IsLimitGlobal = true,
         Items = {"molotovcoctail"},

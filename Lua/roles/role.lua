@@ -55,9 +55,18 @@ function role:FindValidTarget(objective)
     local targets = {}
     local debug = ""
     for key, value in pairs(Character.CharacterList) do
-        if self:FilterTarget(objective, value) then
+        if self:FilterTarget(objective, value) and objective:TargetPreference(value) and Vector2.Distance(value.WorldPosition, self.Character.WorldPosition) < 8000 then
             table.insert(targets, value)
             debug = debug .. " | " .. value.Name .. " (" .. tostring(value.Info.Job.Prefab.Identifier) .. value.TeamID .. ")"
+        end
+    end
+
+    if #targets == 0 then -- if theres no targets, lets ignore preference
+        for key, value in pairs(Character.CharacterList) do
+            if self:FilterTarget(objective, value) then
+                table.insert(targets, value)
+                debug = debug .. " | " .. value.Name .. " (" .. tostring(value.Info.Job.Prefab.Identifier) .. value.TeamID .. ")"
+            end
         end
     end
 

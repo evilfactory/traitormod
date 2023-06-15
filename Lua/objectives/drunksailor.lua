@@ -12,7 +12,7 @@ function objective:Start(target)
 
     self.TargetName = Traitormod.GetJobString(self.Target)
 
-    self.Text = string.format("Give %s more than 80% drunkness.", self.TargetName)
+    self.Text = string.format(Traitormod.Language.ObjectiveDrunkSailor, self.TargetName)
 
     return true
 end

@@ -11,8 +11,8 @@ function objective:Start(target)
         return false
     end
 
-    if not self.Character.JobIdentifier == "prisondoctor" then
-        Traitormod.Debug("PoisonCaptain is only available for medics.")
+    if not self.Character.HasJob("prisondoctor") then
+        Traitormod.Debug("PoisonWarden is only available for medics.")
         return false
     end
 

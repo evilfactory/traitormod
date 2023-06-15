@@ -1,13 +1,13 @@
 local category = {}
 
-category.Name = "Death Spawn"
+category.Identifier = "deathspawn"
 category.Decoration = "huskinvite"
 
 category.CanAccess = function(client)
     return client.Character == nil or client.Character.IsDead or not client.Character.IsHuman
 end
 
-local function SpawnCreature(species, client, insideHuman)
+local function SpawnCreature(species, client, product, paidPrice, insideHuman)
     local waypoints = Submarine.MainSub.GetWaypoints(true)
 
     if LuaUserData.IsTargetType(Game.GameSession.GameMode, "Barotrauma.PvPMode") then
@@ -46,341 +46,484 @@ local function SpawnCreature(species, client, insideHuman)
 
     Entity.Spawner.AddCharacterToSpawnQueue(species, spawnPosition, function (character)
         client.SetClientCharacter(character)
+        Traitormod.Pointshop.TrackRefund(client, product, paidPrice)
     end)
 end
 
 category.Products = {
     {
-        Name = "Spawn as Crawler",
+        Identifier = "spawnascrawler",
+        Price = 400,
+        Limit = 5,
+        IsLimitGlobal = true,
+        PricePerLimit = 100,
+        Timeout = 60,
+
+        RoundPrice = {
+            PriceReduction = 300,
+            StartTime = 15,
+            EndTime = 30,
+        },
+
+        Action = function (client, product, items, paidPrice)
+            SpawnCreature("crawler", client, product, paidPrice)
+        end
+    },
+
+    {
+        Identifier = "spawnascrawlerhusk",
+        Price = 500,
+        Limit = 3,
+        IsLimitGlobal = true,
+        PricePerLimit = 100,
+        Timeout = 60,
+
+        RoundPrice = {
+            PriceReduction = 300,
+            StartTime = 15,
+            EndTime = 30,
+        },
+
+        Action = function (client, product, items, paidPrice)
+            SpawnCreature("Crawlerhusk", client, product, paidPrice)
+        end
+    },
+
+    {
+        Identifier = "spawnaslegacycrawler",
         Price = 400,
         Limit = 4,
         IsLimitGlobal = true,
         PricePerLimit = 100,
         Timeout = 60,
 
-        Action = function (client, product, items)
-            SpawnCreature("crawler", client)
+        RoundPrice = {
+            PriceReduction = 300,
+            StartTime = 15,
+            EndTime = 30,
+        },
+
+        Action = function (client, product, items, paidPrice)
+            SpawnCreature("legacycrawler", client, product, paidPrice)
         end
     },
---[[
+
     {
-        Name = "Spawn as Zombie Sprinter",
-        Price = 750,
-        Limit = 2,
+        Identifier = "spawnaslegacyhusk",
+        Price = 450,
+        Limit = 5,
         IsLimitGlobal = true,
-        PricePerLimit = 750,
+        PricePerLimit = 0,
         Timeout = 60,
 
-        Action = function (client, product, items)
-            SpawnCreature("Humanzombiesprinter", client)
+        RoundPrice = {
+            PriceReduction = 300,
+            StartTime = 15,
+            EndTime = 30,
+        },
+
+        Action = function (client, product, items, paidPrice)
+            SpawnCreature("legacyhusk", client, product, paidPrice)
         end
     },
-temporarily removed
+
     {
-        Name = "Spawn as Zombie Staggerer",
-        Price = 510,
-        Limit = 2,
+        Identifier = "spawnascrawlerbaby",
+        Price = 250,
+        Limit = 4,
         IsLimitGlobal = true,
-        PricePerLimit = 350,
+        PricePerLimit = 10,
         Timeout = 60,
 
-        Action = function (client, product, items)
-            SpawnCreature("Humanzombiestaggerernatural", client)
-        end
-    },
---]]
-    
-    {
-        Name = "Spawn as Spineling",
-        Price = 600,
-        Limit = 2,
-        IsLimitGlobal = true,
-        PricePerLimit = 100,
-        Timeout = 60,
+        RoundPrice = {
+            PriceReduction = 100,
+            StartTime = 15,
+            EndTime = 30,
+        },
 
-        Action = function (client, product, items)
-            SpawnCreature("spineling", client)
+        Action = function (client, product, items, paidPrice)
+            SpawnCreature("crawler_hatchling", client, product, paidPrice)
         end
     },
 
     {
-        Name = "Spawn as Mudraptor",
-        Price = 850,
-        Limit = 3,
+        Identifier = "spawnasmudraptorbaby",
+        Price = 400,
+        Limit = 5,
         IsLimitGlobal = true,
         PricePerLimit = 150,
         Timeout = 60,
 
-        Action = function (client, product, items)
-            SpawnCreature("mudraptor", client)
+        RoundPrice = {
+            PriceReduction = 200,
+            StartTime = 15,
+            EndTime = 30,
+        },
+
+        Action = function (client, product, items, paidPrice)
+            SpawnCreature("mudraptor_hatchling", client, product, paidPrice)
         end
     },
 
     {
-        Name = "Spawn as Bombshark",
+        Identifier = "spawnasthresherbaby",
+        Price = 700,
+        Limit = 5,
+        IsLimitGlobal = true,
+        PricePerLimit = 250,
+        Timeout = 60,
+
+        RoundPrice = {
+            PriceReduction = 400,
+            StartTime = 15,
+            EndTime = 30,
+        },
+
+        Action = function (client, product, items, paidPrice)
+            SpawnCreature("tigerthresher_hatchling", client, product, paidPrice)
+        end
+    },
+
+    {
+        Identifier = "spawnasspineling",
         Price = 1000,
-        Limit = 2,
+        Limit = 1,
         IsLimitGlobal = true,
-        PricePerLimit = 300,
+        PricePerLimit = 250,
         Timeout = 60,
 
-        Action = function (client, product, items)
-            SpawnCreature("bombshark", client)
+        RoundPrice = {
+            PriceReduction = 700,
+            StartTime = 15,
+            EndTime = 30,
+        },
+
+        Action = function (client, product, items, paidPrice)
+            SpawnCreature("spineling", client, product, paidPrice)
         end
     },
 
     {
-        Name = "Spawn as Nightraptor",
-        Price = 935,
-        Limit = 2,
-        IsLimitGlobal = true,
-        PricePerLimit = 350,
-        Timeout = 60,
-
-        Action = function (client, product, items)
-            SpawnCreature("nightraptor", client)
-        end
-    },
-
-    {
-        Name = "Spawn as Mantis",
-        Price = 980,
-        Limit = 2,
-        IsLimitGlobal = true,
-        PricePerLimit = 200,
-        Timeout = 60,
-
-        Action = function (client, product, items)
-            SpawnCreature("mantis", client)
-        end
-    },
-
-    {
-        Name = "Spawn as Husk",
+        Identifier = "spawnasmudraptor",
         Price = 1000,
+        Limit = 3,
+        IsLimitGlobal = true,
+        PricePerLimit = 100,
+        Timeout = 60,
+
+        RoundPrice = {
+            PriceReduction = 700,
+            StartTime = 15,
+            EndTime = 35,
+        },
+
+        Action = function (client, product, items, paidPrice)
+            SpawnCreature("mudraptor", client, product, paidPrice)
+        end
+    },
+
+    {
+        Identifier = "spawnasmantis",
+        Price = 1100,
         Limit = 2,
         IsLimitGlobal = true,
         PricePerLimit = 200,
         Timeout = 60,
 
-        Action = function (client, product, items)
-            SpawnCreature("husk", client)
+        RoundPrice = {
+            PriceReduction = 800,
+            StartTime = 15,
+            EndTime = 30,
+        },
+
+        Action = function (client, product, items, paidPrice)
+            SpawnCreature("mantis", client, product, paidPrice)
         end
     },
 
     {
-        Name = "Spawn as Bone Thresher",
-        Price = 2150,
-        Limit = 2,
+        Identifier = "spawnashusk",
+        Price = 1600,
+        Limit = 4,
         IsLimitGlobal = true,
-        PricePerLimit = 750,
-        Enabled = true,
+        PricePerLimit = 400,
         Timeout = 60,
 
-        Action = function (client, product, items)
-            SpawnCreature("Bonethresher", client)
+        RoundPrice = {
+            PriceReduction = 1000,
+            StartTime = 15,
+            EndTime = 35,
+        },
+
+        Action = function (client, product, items, paidPrice)
+            SpawnCreature("husk", client, product, paidPrice)
         end
     },
 
     {
-        Name = "Spawn as Tiger Thresher",
-        Price = 850,
-        Limit = 2,
-        IsLimitGlobal = true,
-        PricePerLimit = 350,
-        Enabled = true,
-        Timeout = 60,
-
-        Action = function (client, product, items)
-            SpawnCreature("Tigerthresher", client)
-        end
-    },
-
-    {
-        Name = "Spawn as Legacy Moloch (Horrible)",
-        Price = 2500,
-        Limit = 1,
-        IsLimitGlobal = true,
-        PricePerLimit = 350,
-        Enabled = true,
-        Timeout = 60,
-
-        Action = function (client, product, items)
-            SpawnCreature("legacymoloch", client)
-        end
-    },
-
-    {
-        Name = "Spawn as Hammerhead",
-        Price = 2500,
-        Limit = 2,
-        IsLimitGlobal = true,
-        PricePerLimit = 1000,
-        Enabled = true,
-        Timeout = 60,
-
-        Action = function (client, product, items)
-            SpawnCreature("hammerhead", client)
-        end
-    },
-
-    {
-        Name = "Spawn as Golden Hammerhead",
-        Price = 2750,
-        Limit = 1,
-        IsLimitGlobal = true,
-        PricePerLimit = 1000,
-        Enabled = true,
-        Timeout = 60,
-
-        Action = function (client, product, items)
-            SpawnCreature("Hammerheadgold", client)
-        end
-    },
-
-    {
-        Name = "Spawn as Hammerhead Matriarch",
-        Price = 6000,
-        Limit = 1,
-        IsLimitGlobal = true,
-        PricePerLimit = 1000,
-        Enabled = true,
-        Timeout = 60,
-
-        Action = function (client, product, items)
-            SpawnCreature("hammerheadmatriarch", client)
-        end
-    },
-
-    {
-        Name = "Spawn as Fractal Squid",
-        Price = 850,
-        Limit = 2,
-        IsLimitGlobal = true,
-        PricePerLimit = 200,
-        Timeout = 60,
-
-        Action = function (client, product, items)
-            SpawnCreature("fractalsquid", client)
-        end
-    },
-
-    {
-        Name = "Spawn as Fractal Guardian",
+        Identifier = "spawnashuskedhuman",
         Price = 3000,
-        Limit = 1,
+        Limit = 3,
         IsLimitGlobal = true,
-        PricePerLimit = 1000,
+        PricePerLimit = 400,
         Timeout = 60,
 
-        Action = function (client, product, items)
-            SpawnCreature("fractalguardian", client)
+        RoundPrice = {
+            PriceReduction = 2100,
+            StartTime = 15,
+            EndTime = 35,
+        },
+
+        Action = function (client, product, items, paidPrice)
+            SpawnCreature("Humanhusk", client, product, paidPrice)
         end
     },
 
     {
-        Name = "Spawn as Fractal Guardian (Steam Cannon)",
-        Price = 3350,
-        Limit = 1,
-        IsLimitGlobal = true,
-        PricePerLimit = 1000,
-        Timeout = 60,
-
-        Action = function (client, product, items)
-            SpawnCreature("fractalguardian2", client)
-        end
-    },
-
-    {
-        Name = "Spawn as Fractal Guardian (Plasma Cutter)",
-        Price = 3850,
-        Limit = 1,
-        IsLimitGlobal = true,
-        PricePerLimit = 1000,
-        Timeout = 60,
-
-        Action = function (client, product, items)
-            SpawnCreature("fractalguardian3", client)
-        end
-    },
-
-    {
-        Name = "Spawn as Giant Spineling",
-        Price = 8500,
-        Limit = 1,
-        IsLimitGlobal = true,
-        PricePerLimit = 1750,
-        Enabled = true,
-        Timeout = 60,
-
-        Action = function (client, product, items)
-            SpawnCreature("Spineling_giant", client)
-        end
-    },
-
-    {
-        Name = "Spawn as Veteran Mudraptor",
-        Price = 7500,
+        Identifier = "spawnasbonethresher",
+        Price = 1800,
         Limit = 2,
         IsLimitGlobal = true,
-        PricePerLimit = 650,
+        PricePerLimit = 500,
         Enabled = true,
         Timeout = 60,
 
-        Action = function (client, product, items)
-            SpawnCreature("Mudraptor_veteran", client)
+        RoundPrice = {
+            PriceReduction = 1000,
+            StartTime = 15,
+            EndTime = 35,
+        },
+
+        Action = function (client, product, items, paidPrice)
+            SpawnCreature("Bonethresher", client, product, paidPrice)
         end
     },
 
     {
-        Name = "Spawn as Latcher",
-        Price = 35000,
-        Limit = 1,
+        Identifier = "spawnastigerthresher",
+        Price = 2500,
+        Limit = 2,
         IsLimitGlobal = true,
-        PricePerLimit = 50000,
+        PricePerLimit = 500,
+        Enabled = true,
         Timeout = 60,
 
-        Action = function (client, product, items)
-            SpawnCreature("latcher", client)
+        RoundPrice = {
+            PriceReduction = 1500,
+            StartTime = 15,
+            EndTime = 35,
+        },
+
+        Action = function (client, product, items, paidPrice)
+            SpawnCreature("Tigerthresher", client, product, paidPrice)
         end
     },
 
     {
-        Name = "Spawn as Charybdis",
+        Identifier = "spawnaslegacymoloch",
+        Price = 2500,
+        Limit = 1,
+        IsLimitGlobal = true,
+        PricePerLimit = 500,
+        Enabled = true,
+        Timeout = 60,
+
+        Action = function (client, product, items, paidPrice)
+            SpawnCreature("legacymoloch", client, product, paidPrice)
+        end
+    },
+
+    {
+        Identifier = "spawnaslegacycarrier",
+        Price = 500,
+        Limit = 1,
+        IsLimitGlobal = true,
+        PricePerLimit = 500,
+        Enabled = true,
+        Timeout = 60,
+
+        Action = function (client, product, items, paidPrice)
+            SpawnCreature("Carrier", client, product, paidPrice)
+        end
+    },
+
+    {
+        Identifier = "spawnashammerhead",
+        Price = 2500,
+        Limit = 2,
+        IsLimitGlobal = true,
+        PricePerLimit = 600,
+        Enabled = true,
+        Timeout = 60,
+
+        RoundPrice = {
+            PriceReduction = 1500,
+            StartTime = 15,
+            EndTime = 35,
+        },
+
+        Action = function (client, product, items, paidPrice)
+            SpawnCreature("hammerhead", client, product, paidPrice)
+        end
+    },
+
+    {
+        Identifier = "spawnasfractalguardian",
+        Price = 4900,
+        Limit = 2,
+        IsLimitGlobal = true,
+        PricePerLimit = 1000,
+        Timeout = 60,
+
+        RoundPrice = {
+            PriceReduction = 2500,
+            StartTime = 15,
+            EndTime = 40,
+        },
+
+        Action = function (client, product, items, paidPrice)
+            SpawnCreature("fractalguardian", client, product, paidPrice)
+        end
+    },
+
+    {
+        Identifier = "spawnasgiantspineling",
+        Price = 20000,
+        Limit = 1,
+        IsLimitGlobal = true,
+        PricePerLimit = 1000,
+        Enabled = true,
+        Timeout = 60,
+
+        RoundPrice = {
+            PriceReduction = 19000,
+            StartTime = 50,
+            EndTime = 60,
+        },
+
+        Action = function (client, product, items, paidPrice)
+            SpawnCreature("Spineling_giant", client, product, paidPrice)
+        end
+    },
+
+    {
+        Identifier = "spawnasveteranmudraptor",
+        Price = 5000,
+        Limit = 2,
+        IsLimitGlobal = true,
+        PricePerLimit = 1000,
+        Enabled = true,
+        Timeout = 60,
+
+        RoundPrice = {
+            PriceReduction = 3500,
+            StartTime = 20,
+            EndTime = 60,
+        },
+
+        Action = function (client, product, items, paidPrice)
+            SpawnCreature("Mudraptor_veteran", client, product, paidPrice)
+        end
+    },
+
+    {
+        Identifier = "spawnaslatcher",
         Price = 50000,
         Limit = 1,
         IsLimitGlobal = true,
-        PricePerLimit = 50000,
+        PricePerLimit = 0,
         Timeout = 60,
 
-        Action = function (client, product, items)
-            SpawnCreature("charybdis", client)
+        RoundPrice = {
+            PriceReduction = 49000,
+            StartTime = 50,
+            EndTime = 60,
+        },
+
+        Action = function (client, product, items, paidPrice)
+            SpawnCreature("latcher", client, product, paidPrice)
         end
     },
 
     {
-        Name = "Spawn as Endworm",
-        Price = 90000,
+        Identifier = "spawnascharybdis",
+        Price = 80000,
         Limit = 1,
         IsLimitGlobal = true,
-        PricePerLimit = 20000,
-        Timeout = 80,
+        PricePerLimit = 0,
+        Timeout = 60,
 
-        Action = function (client, product, items)
-            SpawnCreature("endworm", client)
+        RoundPrice = {
+            PriceReduction = 79000,
+            StartTime = 50,
+            EndTime = 60,
+        },
+
+        Action = function (client, product, items, paidPrice)
+            SpawnCreature("charybdis", client, product, paidPrice)
         end
     },
 
     {
-        Name = "Spawn as Cyborg Worm",
-        Price = 250000,
+        Identifier = "spawnasendworm",
+        Price = 100000,
         Limit = 1,
         IsLimitGlobal = true,
-        PricePerLimit = 60000000,
-        Timeout = 80,
+        PricePerLimit = 0,
+        Timeout = 60,
 
-        Action = function (client, product, items)
-            SpawnCreature("cyborgworm", client)
+        RoundPrice = {
+            PriceReduction = 80000,
+            StartTime = 50,
+            EndTime = 60,
+        },
+
+        Action = function (client, product, items, paidPrice)
+            SpawnCreature("endworm", client, product, paidPrice)
+        end
+    },
+
+    {
+        Identifier = "spawnaspeanut",
+        Price = 50,
+        Limit = 2,
+        IsLimitGlobal = false,
+
+        Action = function (client, product, items, paidPrice)
+            SpawnCreature("peanut", client, product, paidPrice, true)
+        end
+    },
+
+    {
+        Identifier = "spawnasorangeboy",
+        Price = 50,
+        Limit = 2,
+        IsLimitGlobal = false,
+
+        Action = function (client, product, items, paidPrice)
+            SpawnCreature("orangeboy", client, product, paidPrice, true)
+        end
+    },
+
+    {
+        Identifier = "spawnascthulhu",
+        Price = 50,
+        Limit = 2,
+        IsLimitGlobal = false,
+
+        Action = function (client, product, items, paidPrice)
+            SpawnCreature("balloon", client, product, paidPrice, true)
+        end
+    },
+
+    {
+        Identifier = "spawnaspsilotoad",
+        Price = 50,
+        Limit = 2,
+        IsLimitGlobal = false,
+
+        Action = function (client, product, items, paidPrice)
+            SpawnCreature("psilotoad", client, product, paidPrice, true)
         end
     },
 }

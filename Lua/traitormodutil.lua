@@ -1,4 +1,11 @@
-Traitormod.Config = loadfile(Traitormod.Path .. "/Lua/config/config.lua")(Traitormod.Config)
+Traitormod.Config = dofile(Traitormod.Path .. "/Lua/config/baseconfig.lua")
+
+if not File.Exists(Traitormod.Path .. "/Lua/config/config.lua") then
+    File.Write(Traitormod.Path .. "/Lua/config/config.lua", File.Read(Traitormod.Path .. "/Lua/config/config.lua.example"))
+end
+
+-- user config
+loadfile(Traitormod.Path .. "/Lua/config/config.lua")(Traitormod.Config)
 
 Traitormod.Patching = loadfile(Traitormod.Path .. "/Lua/xmlpatching.lua")(Traitormod.Path)
 
@@ -8,6 +15,20 @@ Traitormod.Languages = {
 
 Traitormod.DefaultLanguage = Traitormod.Languages[1]
 Traitormod.Language = Traitormod.DefaultLanguage
+
+for key, value in pairs(Traitormod.Languages) do
+    if Traitormod.Config.Language == value.Name then
+        Traitormod.Language = value
+
+        for key, value in pairs(Traitormod.DefaultLanguage) do
+            if Traitormod.Language[key] == nil then -- in case the language being loaded doesnt have a specific localization for a key, use the default language
+                Traitormod.Language[key] = value
+            end
+        end
+
+        break
+    end
+end
 
 local json = dofile(Traitormod.Path .. "/Lua/json.lua")
 
@@ -287,11 +308,11 @@ Traitormod.Debug = function (message)
     end
 end
 
-Traitormod.Error = function (message)
+Traitormod.Error = function (message, ...)
     Game.Log("[TraitorMod-Error] " .. message, 9)
     
     if Traitormod.Config.DebugLogs then
-        printerror(message)
+        printerror(string.format(message, ...))
     end
 end
 
@@ -487,17 +508,19 @@ end
 
 Traitormod.SendWelcome = function(client)
     if Traitormod.Config.SendWelcomeMessage or Traitormod.Config.SendWelcomeMessage == nil then
-        Game.SendDirectChatMessage("Type !help for a list of commands.", "| Prison Traitor Mod v" .. Traitormod.VERSION .. " |\n" .. Traitormod.GetDataInfo(client), nil, ChatMessageType.Server, client)
+        Game.SendDirectChatMessage("", "| Traitor Mod v" .. Traitormod.VERSION .. " |\n" .. Traitormod.GetDataInfo(client), nil, ChatMessageType.Server, client)
     end
 end
 
-Traitormod.SendClientMessage = function (text, icon, color, client)
-    local messageChat = ChatMessage.Create("", text, ChatMessageType.Default, nil, nil)
-    messageChat.Color = color
-    Game.SendDirectChatMessage(messageChat, client)
+Traitormod.ParseSubmarineConfig = function (description)
+    local startIndex, endIndex = string.find(description, "%[traitormod%]")
 
-    local messageBox = ChatMessage.Create("", text, ChatMessageType.ServerMessageBoxInGame, nil, nil)
-    messageBox.IconStyle = icon
-    if color then messageBox.Color = color end
-    Game.SendDirectChatMessage(messageBox, client)
+    if startIndex == nil then return {} end
+
+    local configString = string.sub(description, endIndex + 1)
+    local success, result = pcall(json.decode, configString)
+
+    if not success then return {} end
+
+    return result
 end

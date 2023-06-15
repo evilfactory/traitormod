@@ -9,7 +9,7 @@ event.ChancePerMinute = 0.001
 event.OnlyOncePerRound = true
 
 event.Start = function ()
-    local text = "The oxygen generator has been sabotaged and is now supplying sufforin into the air, you have about 15 seconds to get a diving mask or a diving suit before you receive a high enough dose!"
+    local text = Traitormod.Language.OxygenPoison
     Traitormod.RoundEvents.SendEventMessage(text, "GameModeIcon.pvp", Color.Red)
 
     local function GivePoison(character)
@@ -21,7 +21,7 @@ event.Start = function ()
         if headGear ~= nil and headGear.Prefab.Identifier == "clowndivingmask" then return end
 
         local poison = AfflictionPrefab.Prefabs["sufforinpoisoning"]
-        character.CharacterHealth.ApplyAffliction(character.AnimController.MainLimb, poison.Instantiate(15))
+        character.CharacterHealth.ApplyAffliction(character.AnimController.MainLimb, poison.Instantiate(20))
     end
 
 
@@ -37,7 +37,7 @@ end
 
 event.End = function (isEndRound)
     if not isEndRound then
-        local text = "The oxygen from the oxygen generator is now safe to breathe again."
+        local text = Traitormod.Language.OxygenSafe
 
         Traitormod.RoundEvents.SendEventMessage(text, "GameModeIcon.multiplayercampaign")
     end

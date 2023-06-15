@@ -2,7 +2,7 @@ local objective = Traitormod.RoleManager.Objectives.Objective:new()
 
 objective.Name = "StealCaptainID"
 objective.RoleFilter = {["warden"] = true}
-objective.AmountPoints = 1500
+objective.AmountPoints = 1300
 
 function objective:Start(target)
     -- if no valid captain found, abort

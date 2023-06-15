@@ -12,7 +12,7 @@ function objective:Start(target)
 
     self.TargetName = Traitormod.GetJobString(self.Target) .. " " .. self.Target.Name
 
-    self.Text = string.format("Turn %s into a full husk.", self.TargetName)
+    self.Text = string.format(Traitormod.Language.ObjectiveHusk, self.TargetName)
 
     return true
 end

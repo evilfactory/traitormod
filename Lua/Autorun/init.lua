@@ -1,7 +1,7 @@
 if CLIENT then return end
 
 Traitormod = {}
-Traitormod.VERSION = "2.4.3"
+Traitormod.VERSION = "1.0"
 
 print(">> Traitor Mod v" .. Traitormod.VERSION)
 print(">> I thank Evil Factory and all the other contributors for making this fork possible.")

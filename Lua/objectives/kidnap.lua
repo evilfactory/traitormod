@@ -1,8 +1,16 @@
 local objective = Traitormod.RoleManager.Objectives.Objective:new()
 
 objective.Name = "Kidnap"
-objective.RoleFilter = { ["convict"] = false }
 objective.AmountPoints = 2500
+objective.RoleFilter = { 
+    ["he-chef"] = true,
+    ["staff"] = true,
+    ["janitor"] = true,
+    ["prisondoctor"] = true,
+    ["guard"] = true,
+    ["warden"] = true,
+    ["headguard"] = true,
+}
 
 function objective:Start(target)
     self.Target = target

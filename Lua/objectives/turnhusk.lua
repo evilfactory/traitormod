@@ -7,7 +7,7 @@ objective.AlwaysActive = true
 objective.DontLooseLives = true
 
 function objective:Start()
-    self.Text = "Turn yourself into a husk."
+    self.Text = Traitormod.Language.ObjectiveTurnHusk
 
     self.OldCharacter = self.Character
 

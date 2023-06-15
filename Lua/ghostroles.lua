@@ -13,7 +13,7 @@ gr.Ask = function (name, callback, character)
     name = string.lower(name)
     gr.Roles[name] = {Callback = callback, Taken = false, Character = character}
 
-    local text = "[Ghost Role] New ghost role available: %s (type in chat ‖color:gui.orange‖!ghostrole %s‖color:end‖ to accept)"
+    local text = Traitormod.Language.GhostRoleAvailable
 
     text = string.format(text, name, name)
 
@@ -56,17 +56,17 @@ end
 
 Traitormod.AddCommand({"!ghostrole", "!ghostroles"}, function(client, args)
     if not config.Enabled then
-        Traitormod.SendMessage(client, "Ghost roles are disabled.")
+        Traitormod.SendMessage(client, Traitormod.Language.GhostRolesDisabled)
         return true
     end
 
     if client.Character ~= nil and not client.Character.IsDead then
-        Traitormod.SendMessage(client, "Only spectators can use ghost roles.")
+        Traitormod.SendMessage(client, Traitormod.Language.GhostRolesSpectator)
         return true
     end
 
     if not client.InGame then
-        Traitormod.SendMessage(client, "You must be in game to use ghost roles.")
+        Traitormod.SendMessage(client, Traitormod.Language.GhostRolesInGame)
         return true
     end
 
@@ -77,9 +77,9 @@ Traitormod.AddCommand({"!ghostrole", "!ghostroles"}, function(client, args)
         local roles = ""
         for key, value in pairs(gr.Roles) do
             if value.Character and value.Character.IsDead then
-                roles = roles .. key .. "(Dead)\n"
+                roles = roles .. key .. Traitormod.Language.GhostRolesDead .. "\n"
             elseif value.Taken then
-                roles = roles .. key .. "(Already Taken)\n"
+                roles = roles .. key .. Traitormod.Language.GhostRolesTaken .. "\n"
             else
                 roles = roles .. key .. "\n"
             end
@@ -87,22 +87,23 @@ Traitormod.AddCommand({"!ghostrole", "!ghostroles"}, function(client, args)
 
         if roles == "" then roles = "None" end
 
-        Traitormod.SendMessage(client, "Ghost role not found, did you type the name correctly? Available roles: \n\n" .. roles)
+        Traitormod.SendMessage(client, Traitormod.Language.GhostRolesNotFound .. roles)
         return true
     end
 
     if gr.Roles[name].Taken then
-        Traitormod.SendMessage(client, "Someone already took this ghost role.")
+        Traitormod.SendMessage(client, Traitormod.Language.GhostRolesTook)
         return true
     end
 
     if gr.Roles[name].Character and gr.Roles[name].Character.IsDead then
-        Traitormod.SendMessage(client, "Seems this ghost role is already dead, too bad!")
+        Traitormod.SendMessage(client, Traitormod.Language.GhostRolesAlreadyDead)
         return true
     end
 
     Traitormod.Log(Traitormod.ClientLogName(client) .. " took the ghost role of " .. name .. ".")
 
+    Traitormod.MidRoundSpawn.SetSpawnedClient(client, true)
     gr.Roles[name].Callback(client)
     gr.Roles[name].Taken = true
 
@@ -126,7 +127,7 @@ Hook.Add("think", "Traitormod.GhostRoles.Think", function (...)
 
     for key, client in pairs(Client.ClientList) do
         if client.Character == nil or client.Character.IsDead then
-            local chatMessage = ChatMessage.Create("Ghost Roles", "Ghost roles available: " .. roles .. "\n\nUse !ghostrole name to pick a role.", ChatMessageType.Default, nil, nil)
+            local chatMessage = ChatMessage.Create("Ghost Roles", string.format(Traitormod.Language.GhostRolesReminder, roles), ChatMessageType.Default, nil, nil)
             chatMessage.Color = Color(255, 100, 10, 255)
             Game.SendDirectChatMessage(chatMessage, client)
         end

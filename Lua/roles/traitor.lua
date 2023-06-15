@@ -10,7 +10,7 @@ function role:AssasinationLoop(first)
     local assassinate = Traitormod.RoleManager.Objectives.Assassinate:new()
     assassinate:Init(self.Character)
     local target = self:FindValidTarget(assassinate)
-    if not self.Character.IsDead and assassinate:Start(target) and self.Character.JobIdentifier ~= "convict" then
+    if not self.Character.IsDead and assassinate:Start(target) then
         self:AssignObjective(assassinate)
 
         local num = self:CompletedObjectives("Assassinate")
@@ -123,14 +123,14 @@ function role:ObjectivesToString()
         -- Assassinate objectives are primary
         local buf = objective.Name == "Assassinate" and primary or secondary
 
-        if objective:IsCompleted() then
+        if objective:IsCompleted() or objective.Awarded then
             buf:append(" > ", objective.Text, Traitormod.Language.Completed)
         else
             buf:append(" > ", objective.Text, string.format(Traitormod.Language.Points, objective.AmountPoints))
         end
     end
     if #primary == 0 then
-        primary(" > No objectives yet... Stay futile.")
+        primary(Traitormod.Language.NoObjectivesYet)
     end
 
     return primary:concat("\n"), secondary:concat("\n")
@@ -138,7 +138,7 @@ end
 
 function role:Greet()
     local partners = Traitormod.StringBuilder:new()
-    local traitors = Traitormod.RoleManager.FindCharactersByRole("Traitor")
+    local traitors = Traitormod.RoleManager.FindAntagonists()
     for _, character in pairs(traitors) do
         if character ~= self.Character then
             partners('"%s" ', character.Name)
@@ -148,19 +148,20 @@ function role:Greet()
     local primary, secondary = self:ObjectivesToString()
 
     local sb = Traitormod.StringBuilder:new()
-    sb("You are a traitor!\n\n")
-    sb("Your main objectives are:\n")
+    sb("%s\n\n", Traitormod.Language.TraitorYou)
+    sb("%s\n", Traitormod.Language.MainObjectivesYou)
     sb(primary)
-    sb("\n\nYour secondary objectives are:\n")
+    sb("\n\n%s\n", Traitormod.Language.SecondaryObjectivesYou)
     sb(secondary)
     sb("\n\n")
     if #traitors < 2 then
-        sb("You are the only traitor.")
+        sb(Traitormod.Language.SoloAntagonist)
     elseif self.TraitorMethodCommunication == "Names" then
-        sb("Partners: %s\n", partners)
+        sb(Traitormod.Language.Partners, partners)
+        sb("\n")
 
         if self.TraitorBroadcast then
-            sb("Use !tc to communicate with your partners.")
+            sb(Traitormod.Language.TcTip)
         end
     elseif self.TraitorMethodCommunication == "Codewords" then
         sb("Use code words the find your partners\n")
@@ -180,10 +181,10 @@ end
 function role:OtherGreet()
     local sb = Traitormod.StringBuilder:new()
     local primary, secondary = self:ObjectivesToString()
-    sb("Traitor %s.", self.Character.Name)
-    sb("\nTheir main objectives were:\n")
+    sb(Traitormod.Language.TraitorOther, self.Character.Name)
+    sb("\n%s\n", Traitormod.Language.MainObjectivesOther)
     sb(primary)
-    sb("\nTheir secondary objectives were:\n")
+    sb("\n%s\n", Traitormod.Language.SecondaryObjectivesOther)
     sb(secondary)
     return sb:concat()
 end
@@ -207,7 +208,7 @@ function role:FilterTarget(objective, character)
         return false
     end
 
-    return Traitormod.RoleManager.Roles.Role.FilterTarget(self, objective, character)
+    return Traitormod.RoleManager.Roles.Antagonist.FilterTarget(self, objective, character)
 end
 
 return role

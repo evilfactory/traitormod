@@ -5,7 +5,7 @@ objective.AmountPoints = 400
 objective.EndRoundObjective = true
 
 function objective:Start(target)
-    self.Text = Traitormod.Language.SecurityTeamSurvival
+    self.Text = Traitormod.Language.ObjectiveSecurityTeamSurvival
 
     return true
 end

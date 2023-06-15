@@ -1,3 +1,5 @@
+Game.OverrideRespawnSub(true) -- remove respawn submarine logic
+
 local sb = {}
 
 local linkedSubmarineHeader = [[<LinkedSubmarine description="" checkval="2040186250" price="1000" initialsuppliesspawned="false" type="Player" tags="Shuttle" gameversion="0.17.4.0" dimensions="1270,451" cargocapacity="0" recommendedcrewsizemin="1" recommendedcrewsizemax="2" recommendedcrewexperience="Unknown" requiredcontentpackages="Vanilla" name="%s" filepath="Content/Submarines/Selkie.sub" pos="-64,-392.5" linkedto="4" originallinkedto="0" originalmyport="0">%s</LinkedSubmarine>]]
@@ -29,7 +31,9 @@ end
 
 sb.Submarines = {}
 
-sb.AddSubmarine = function (path, name)
+sb.AddSubmarine = function (path, name, isTemporary)
+    isTemporary = isTemporary or false
+
     local submarineInfo = SubmarineInfo(path)
 
     name = name or submarineInfo.Name
@@ -41,7 +45,7 @@ sb.AddSubmarine = function (path, name)
 
     local data = string.sub(xml, endPos + 1, startPos - 1)
 
-    table.insert(sb.Submarines, {Name = name, Data = data})
+    table.insert(sb.Submarines, {Name = name, Data = data, IsTemporary = isTemporary})
 
     return name
 end
@@ -55,6 +59,7 @@ sb.FindSubmarine = function (name)
 end
 
 sb.ResetSubmarineSteering = function (submarine)
+    if submarine == nil then error("ResetSubmarineSteering: submarine was nil", 2) end
     for _, item in pairs(submarine.GetItems(true)) do
         local steering = item.GetComponentString("Steering")
         if steering then
@@ -83,13 +88,10 @@ sb.BuildSubmarines = function()
     local submarineInfo = SubmarineInfo(Traitormod.Path .. "/Submarines/temp.sub")
 
     sb.UpdateLobby(submarineInfo)
+    return submarineInfo
 end
 
-Hook.HookMethod("Barotrauma.Networking.GameServer", "TryStartGame", {}, function ()
-    sb.BuildSubmarines()
-end)
-
-Hook.Add("roundStart", "SubmarineBuilder.RoundStart", function ()
+sb.RoundStart = function ()
     if Game.GetRespawnSub() == nil then return end
 
     for _, item in pairs(Game.GetRespawnSub().GetItems(false)) do
@@ -112,6 +114,14 @@ Hook.Add("roundStart", "SubmarineBuilder.RoundStart", function ()
         end
 
         sb.ResetSubmarineSteering(submarine)
+    end
+end
+
+Hook.Add("roundEnd", "SubmarineBuilder.RoundEnd", function ()
+    for key, value in pairs(sb.Submarines) do
+        if value.IsTemporary then
+            sb.Submarines[key] = nil
+        end
     end
 end)
 
