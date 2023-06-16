@@ -43,6 +43,10 @@ language.TraitorWelcome = "You are a traitor!"
 language.TraitorDeath = "You have failed in your mission. As a result, the mission has been canceled and you will come back as part of the crew.\n\nYou are no longer a traitor, so play nice!"
 language.TraitorDirectMessage = "You received a secret message from a traitor:\n"
 language.TraitorBroadcast = "[Traitor %s]: %s"
+language.ClownBroadcast = "[Clown %s]: %s"
+language.CultistBroadcast = "[Cultist %s]: %s"
+language.PirateBroadcast = "[Pirate %s]: %s"
+language.HuskBroadcast = "[Husk Servant %s]: %s"
 
 language.NoObjectivesYet = " > No objectives yet... Stay futile."
 
@@ -165,6 +169,7 @@ language.ObjectiveRepair = "Repair (%s/%s) %s"
 language.ObjectiveRepairHull = "Repair (%s/%s) damage from the hull."
 language.ObjectiveSecurityTeamSurvival = "Make sure at least one member of the security team survives."
 language.ObjectiveCleanBody = "Dump %s's body out the airlock once they have expired."
+language.ObjectiveCrewSurvival = "Ensure atleast 5 members of the crew survive."
 
 language.ObjectiveText = "Assassinate the crew in order to complete your mission."
 

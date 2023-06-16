@@ -382,7 +382,7 @@ category.Products = {
             }
 
             info.Name = possibleNames[math.random(1, #possibleNames)]
-            info.Job = Job(JobPrefab.Get("TheClownOfLife"))
+            info.Job = Job(JobPrefab.Get("securityofficer"))
         
             local character = Character.Create(info, positions[math.random(#positions)], info.Name, 0, false, true)
             local affliction = AfflictionPrefab.Prefabs["deliriuminepoisoning"].Instantiate(35)
