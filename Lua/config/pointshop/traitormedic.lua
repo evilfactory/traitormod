@@ -42,6 +42,13 @@ category.Products = {
     },
 
     {
+        Price = 1500,
+        Limit = 1,
+        IsLimitGlobal = true,
+        Items = {"organscalpel_brain"},
+    },
+
+    {
         Identifier = "randomcoma",
         Price = 1500,
         Limit = 1,

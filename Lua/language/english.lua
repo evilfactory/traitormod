@@ -347,7 +347,8 @@ language.Pointshop = {
     other = "Other",
     traitormedic = "Traitor Doctor",
     prisoner = "Convict Uplink",
-    eventmanager = "Event Manager Spawn",
+    chef = "Cooking",
+    janitor = "Janitorial",
 }
 
 language.FakeHandcuffsUsage = "You can free yourself from these handcuffs using !fhc"

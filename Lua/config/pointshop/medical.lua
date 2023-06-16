@@ -16,56 +16,86 @@ end
 
 category.Products = {
     {
-        Price = 130,
+        Price = 200,
         Limit = 4,
         Items = {"bandage", "bandage"}
     },
 
     {
-        Price = 130,
+        Price = 200,
         Limit = 3,
         Items = {"opium", "opium"}
     },
 
     {
-        Price = 550,
+        Price = 560,
         Limit = 4,
         Items = {"bloodpackominus"}
     },
 
     {
-        Price = 300,
+        Price = 310,
         Limit = 8,
         Items = {"bloodpackoplus"}
     },
 
     {
-        Price = 80,
+        Price = 450,
+        Limit = 1,
+        Items = {"osteosynthesisimplants"}
+    },
+
+    {
+        Price = 650,
+        Limit = 1,
+        Items = {"spinalimplant"}
+    },
+
+    {
+        Price = 1000,
+        Limit = 1,
+        Items = {"stasisbag"}
+    },
+
+    {
+        Price = 310,
+        Limit = 8,
+        Items = {"ointment"}
+    },
+
+    {
+        Price = 400,
+        Limit = 3,
+        Items = {"deusizine"}
+    },
+
+    {
+        Price = 110,
         Limit = 4,
         Items = {"ethanol"}
     },
 
     {
-        Price = 70,
+        Price = 100,
         Limit = 4,
         Items = {"chlorine"}
     },
 
     {
-        Price = 60,
+        Price = 100,
         Limit = 4,
         Items = {"sulphuricacid"}
     },
 
     {
-        Price = 105,
+        Price = 95,
         Limit = 4,
         Items = {"alienblood"}
     },
 
     {
-        Price = 80,
-        Limit = 8,
+        Price = 300,
+        Limit = 3,
         Items = {"meth"}
     },
 
@@ -76,44 +106,44 @@ category.Products = {
     },
 
     {
-        Price = 60,
-        Limit = 5,
+        Price = 130,
+        Limit = 2,
         Items = {"adrenalinegland"}
     },
 
     {
-        Price = 70,
-        Limit = 5,
+        Price = 110,
+        Limit = 3,
         Items = {"aquaticpoppy"}
     },
 
     {
-        Price = 50,
-        Limit = 5,
+        Price = 110,
+        Limit = 3,
         Items = {"elastinplant"}
     },
 
     {
-        Price = 60,
-        Limit = 5,
+        Price = 110,
+        Limit = 3,
         Items = {"fiberplant"}
     },
 
     {
-        Price = 65,
-        Limit = 5,
+        Price = 110,
+        Limit = 3,
         Items = {"yeastshroom"}
     },
 
     {
-        Price = 80,
-        Limit = 5,
+        Price = 250,
+        Limit = 3,
         Items = {"slimebacteria"}
     },
 
     {
         Price = 250,
-        Limit = 5,
+        Limit = 2,
         Items = {"swimbladder"}
     },
 

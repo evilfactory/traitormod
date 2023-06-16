@@ -1,7 +1,7 @@
 local objective = Traitormod.RoleManager.Objectives.Objective:new()
 
 objective.Name = "MakeDrugs"
-objective.AmountPoints = 700
+objective.AmountPoints = 550
 objective.Progress = 0
 
 function objective:Start(target)
