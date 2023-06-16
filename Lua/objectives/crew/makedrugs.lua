@@ -13,7 +13,7 @@ function objective:Start(target)
                 objective.Progress = objective.Progress + 1
                 self.Text = "Make ("..objective.Progress.."/5) medical items."
             end
-        end, 2500)
+        end, 6000)
     end)
 
     return true
