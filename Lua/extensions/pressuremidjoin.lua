@@ -8,7 +8,10 @@ extension.Init = function ()
         local limb = character.AnimController.MainLimb
         character.CharacterHealth.ApplyAffliction(limb, pressurePrefab)
         Networking.CreateEntityEvent(character, Character.RemoveFromCrewEventData.__new(character.TeamID, {}))
-        Traitormod.RoleManager.AssignRole(character, "Crew")
+
+        Timer.Wait(function ()
+            Traitormod.RoleManager.AssignRole(character, Traitormod.RoleManager.Roles.Crew:new())
+        end, 500)
     end)
 end
 
