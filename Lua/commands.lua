@@ -25,6 +25,18 @@ Traitormod.AddCommand("!announce", function(client, args)
         Game.SendDirectChatMessage("", feedback, nil, Traitormod.Config.ChatMessageType, client)
     return true end
 
+    if client.Character.IsUnconscious
+        or client.Character.IsRagdolled
+        or HF.HasAffliction(client.Character,"sym_unconsciousness",0.1)
+        or HF.HasAffliction(client.Character,"givein",0.1)
+        or HF.HasAffliction(client.Character,"anesthesia",15)
+        or HF.HasAffliction(client.Character,"paralysis",99)
+    then
+        feedback = "You're unconcious."
+        Game.SendDirectChatMessage("", feedback, nil, Traitormod.Config.ChatMessageType, client)
+        return true
+    end
+
     for item in client.Character.Inventory.AllItems do
         if #args > 0 and item.Prefab.Identifier == "idcard" and item.GetComponentString("IdCard").OwnerJobId == "warden" and client.Character.TeamID ~= CharacterTeamType.Team2 then
             local msg = ""
