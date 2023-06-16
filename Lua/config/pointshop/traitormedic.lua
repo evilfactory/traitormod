@@ -5,7 +5,7 @@ category.Decoration = "Separatists"
 category.FadeToBlack = true
 
 category.CanAccess = function(client)
-    return client.Character and client.Character.HasJob("prisondoctor") and client.Character.IsDead and Traitormod.RoleManager.HasRole(client.Character, "Traitor")
+    return client.Character and not client.Character.IsDead and client.Character.HasJob("prisondoctor") and Traitormod.RoleManager.HasRole(client.Character, "Traitor")
 end
 
 local function GetRandomAlivePlayer()

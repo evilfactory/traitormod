@@ -10,7 +10,9 @@ extension.Init = function ()
         Networking.CreateEntityEvent(character, Character.RemoveFromCrewEventData.__new(character.TeamID, {}))
 
         Timer.Wait(function ()
-            Traitormod.RoleManager.AssignRole(character, Traitormod.RoleManager.Roles.Crew:new())
+            if character.TeamID == CharacterTeamType.Team1 and Timer.GetTime() > 35 then
+                Traitormod.RoleManager.AssignRole(character, Traitormod.RoleManager.Roles.Crew:new())
+            end
         end, 500)
     end)
 end

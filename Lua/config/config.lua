@@ -120,13 +120,12 @@ config.GamemodeConfig = {
         TraitorTypeSelectionMode = "Vote", -- Vote | Random
         TraitorTypeChance = {
             Traitor = 50, -- Traitors have 33% chance of being a normal traitor
-            Cultist = 50,
-            Clown = 50,
+            Cultist = 20,
+            Clown = 30,
         },
 
         AmountTraitors = function (amountPlayers)
             config.TestMode = false
-            if amountPlayers > 18 and math.random() < 0.25 then return 4 end
             if amountPlayers > 14 then return 3 end
             if amountPlayers > 7 then return 2 end            
             if amountPlayers > 3 then return 1 end

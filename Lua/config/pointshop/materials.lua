@@ -3,6 +3,7 @@ local category = {}
 category.Identifier = "materials"
 
 category.CanAccess = function(client)
+    if not client.Character or client.Character.IsDead then return false end
     if not client.Character.HasJob("convict") then
         return true
     elseif client.Character.Submarine ~= Submarine.MainSub then
