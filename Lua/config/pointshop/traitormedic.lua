@@ -5,7 +5,7 @@ category.Decoration = "Separatists"
 category.FadeToBlack = true
 
 category.CanAccess = function(client)
-    return client.Character and client.Character.HasJob("prisondoctor") and not client.Character.IsDead and Traitormod.RoleManager.HasRole(client.Character, "Traitor")
+    return client.Character and client.Character.HasJob("prisondoctor") and client.Character.IsDead and Traitormod.RoleManager.HasRole(client.Character, "Traitor")
 end
 
 local function GetRandomAlivePlayer()
@@ -163,7 +163,7 @@ category.Products = {
     },
 
     {
-        Price = 3750,
+        Price = 1850,
         Limit = 1,
         IsLimitGlobal = false,
         Items = {"pressurestabilizer"},

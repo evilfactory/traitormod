@@ -23,7 +23,7 @@ function objective:IsCompleted()
         return false 
     end
 
-    if self.Target.Submarine ~= Submarine.MainSub then
+    if Vector2.Distance(self.Target.WorldPosition, Submarine.MainSub.WorldPosition) > 9000 then
         return true
     end
 

@@ -34,5 +34,13 @@ function objective:IsFailed()
     return false
 end
 
+function objective:TargetPreference(character)
+    if character.HasJob("warden") or character.HasJob("headguard") then
+        return false
+    end
+
+    return true
+end
+
 
 return objective

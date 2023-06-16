@@ -184,8 +184,9 @@ config.RoleConfig = {
             ["guard"] = {"KillLargeMonsters", "KillSmallMonsters", "KeepPrisonersInside"},
             ["prisondoctor"] = {"HealCharacters", "RepairHull"},
             ["staff"] = {"RepairElectrical", "RepairMechanical", "RepairHull"},
-            ["janitor"] = {"RepairElectrical", "RepairMechanical", "KillPets"},
+            ["janitor"] = {"CleanBodies", "GetHonkMother", "KillPets"},
             ["convict"] = {"Escape", "KillSmallMonsters"},
+            ["he-chef"] = {"Make4FoodItems", "CookMeth"},
         }
     },
 
@@ -217,7 +218,7 @@ config.RoleConfig = {
     },
 
     Traitor = {
-        SubObjectives = {"StealCaptainID", "Survive", "Kidnap", "PoisonCaptain", "DestroyWeapons"},
+        SubObjectives = {"StealCaptainID", "Survive", "Kidnap", "PoisonCaptain", "DestroyWeapons", "SavePrisoner"},
         MinSubObjectives = 2,
         MaxSubObjectives = 3,
 
@@ -238,7 +239,7 @@ config.RoleConfig = {
     },
 
     Clown = {
-        SubObjectives = {"BananaSlip", "SuffocateCrew", "AssassinateDrunk", "GrowMudraptors", "Survive", "ClownConvert"},
+        SubObjectives = {"BananaSlip", "SuffocateCrew", "AssassinateDrunk", "GrowMudraptors", "Survive", "ClownConvert", "OnAcid"},
         MinSubObjectives = 3,
         MaxSubObjectives = 3,
 

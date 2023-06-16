@@ -27,7 +27,7 @@ function objective:IsCompleted()
 end
 
 function objective:TargetPreference(character)
-    if character.IsCaptain then
+    if character.HasJob("warden") or character.HasJob("headguard") then
         return false
     end
 

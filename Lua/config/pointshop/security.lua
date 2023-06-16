@@ -5,7 +5,7 @@ category.Decoration = "security"
 
 category.CanAccess = function(client)
     return client.Character and not client.Character.IsDead and 
-    (client.Character.HasJob("guard") or client.Character.HasJob("guard") or client.Character.HasJob("headguard"))
+    (client.Character.HasJob("guard") or client.Character.HasJob("warden") or client.Character.HasJob("headguard"))
 end
 
 category.Products = {

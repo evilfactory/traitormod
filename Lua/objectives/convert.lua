@@ -23,7 +23,7 @@ function objective:Start(target)
 end
 
 function objective:IsCompleted()
-    return self.Target.IsDead and character.Inventory.GetItemInLimbSlot(InvSlotType.Head).Prefab.Identifier == "clownmask"
+    return self.Target.IsDead and self.Target.Inventory.GetItemInLimbSlot(InvSlotType.Head).Prefab.Identifier == "clownmask"
 end
 
 return objective

@@ -11,7 +11,7 @@ function objective:Start(target)
 end
 
 function objective:IsCompleted()
-    if self.Character.Submarine ~= Submarine.MainSub then
+    if Vector2.Distance(self.Character.WorldPosition, Submarine.MainSub.WorldPosition) > 10000 then
         return true
     end
 

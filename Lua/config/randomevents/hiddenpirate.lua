@@ -1,10 +1,10 @@
 local event = {}
 
 event.Name = "HiddenPirate"
-event.MinRoundTime = 5
+event.MinRoundTime = 7
 event.MinIntensity = 0
 event.MaxIntensity = 0.3
-event.ChancePerMinute = 0.018
+event.ChancePerMinute = 0.01
 event.OnlyOncePerRound = true
 
 event.Start = function ()
@@ -22,7 +22,7 @@ event.Start = function ()
 
     local info = CharacterInfo(Identifier("human"))
     info.Name = "Pirate " .. info.Name
-    info.Job = Job(JobPrefab.Get("securityofficer"))
+    info.Job = Job(JobPrefab.Get("guard"))
 
     local character = Character.Create(info, area.WorldPosition, info.Name, 0, false, true)
 
@@ -39,12 +39,20 @@ event.Start = function ()
     oldClothes.Drop()
     Entity.Spawner.AddEntityToRemoveQueue(oldClothes)
 
+    local vest = character.Inventory.GetItemInLimbSlot(InvSlotType.OuterClothes)
+    vest.Drop()
+    Entity.Spawner.AddEntityToRemoveQueue(vest)
+
+    local helmet = character.Inventory.GetItemInLimbSlot(InvSlotType.Head)
+    helmet.Drop()
+    Entity.Spawner.AddEntityToRemoveQueue(helmet)
+
     Entity.Spawner.AddItemToSpawnQueue(ItemPrefab.GetItemPrefab("pirateclothes"), character.Inventory, nil, nil, function (item)
         character.Inventory.TryPutItem(item, character.Inventory.FindLimbSlot(InvSlotType.InnerClothes), true, false, character)
     end)
 
-    --local text = "An enemy pirate has been detected near the pumps."
-    --Traitormod.RoundEvents.SendEventMessage(text, "GameModeIcon.sandbox")
+    local text = "A separatist agent has been detected near the pumps."
+    Traitormod.RoundEvents.SendEventMessage(text, "GameModeIcon.sandbox")
 
     event.End()
 end

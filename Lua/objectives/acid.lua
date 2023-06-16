@@ -10,11 +10,6 @@ function objective:Start(target)
         return false
     end
 
-    if not self.Character.HasJob("prisondoctor") then
-        Traitormod.Debug("OnAcid is only available for medics.")
-        return false
-    end
-
     self.TargetName = Traitormod.GetJobString(self.Target) .. " " .. self.Target.Name
 
     self.Text = string.format("Inject %s with deliriumine.", self.TargetName)

@@ -271,7 +271,7 @@ category.Products = {
     },
 
     {
-        Price = 1750,
+        Price = 2100,
         Limit = 1,
         Items = {"pressurestabilizer"}
     },
@@ -388,7 +388,7 @@ category.Products = {
             local affliction = AfflictionPrefab.Prefabs["deliriuminepoisoning"].Instantiate(35)
             local afflictionInsane = AfflictionPrefab.Prefabs["psychosis"].Instantiate(10)
             local afflictionPressure = AfflictionPrefab.Prefabs["pressurestabilized"].Instantiate(290)
-            local afflictionVigor = AfflictionPrefab.Prefabs["vigor"].Instantiate(350)
+            local afflictionVigor = AfflictionPrefab.Prefabs["strengthen"].Instantiate(350)
             character.CanSpeak = false
             character.TeamID = CharacterTeamType.None
             character.GiveTalent("psychoclown", true)
@@ -424,6 +424,7 @@ category.Products = {
             Entity.Spawner.AddItemToSpawnQueue(ItemPrefab.GetItemPrefab("clowncostume"), character.Inventory, nil, nil, function (item)
                 character.Inventory.TryPutItem(item, character.Inventory.FindLimbSlot(InvSlotType.InnerClothes), true, false, character)
                 item.NonPlayerTeamInteractable = true
+                item.Description = "A mysterious force is preventing you from grabbing it.."
                 local prop = item.SerializableProperties[Identifier("NonPlayerTeamInteractable")]
                 Networking.CreateEntityEvent(item, Item.ChangePropertyEventData(prop, item))
             end)
@@ -431,18 +432,17 @@ category.Products = {
             Entity.Spawner.AddItemToSpawnQueue(ItemPrefab.GetItemPrefab("clownmask"), character.Inventory, nil, nil, function (item)
                 character.Inventory.TryPutItem(item, character.Inventory.FindLimbSlot(InvSlotType.Head), true, false, character)
                 item.NonPlayerTeamInteractable = true
+                item.Description = "A mysterious force is preventing you from grabbing it.."
                 local prop = item.SerializableProperties[Identifier("NonPlayerTeamInteractable")]
                 Networking.CreateEntityEvent(item, Item.ChangePropertyEventData(prop, item))
             end)
 
             Entity.Spawner.AddItemToSpawnQueue(ItemPrefab.GetItemPrefab("boardingaxe"), character.Inventory, nil, nil, function (item)
                 item.NonPlayerTeamInteractable = true
+                item.Description = "A mysterious force is preventing you from grabbing it.."
                 local prop = item.SerializableProperties[Identifier("NonPlayerTeamInteractable")]
                 Networking.CreateEntityEvent(item, Item.ChangePropertyEventData(prop, item))
             end)
-           
-            Entity.Spawner.AddItemToSpawnQueue(ItemPrefab.GetItemPrefab("divingknife"), character.Inventory, nil, nil, function (item)  end)
-            Entity.Spawner.AddItemToSpawnQueue(ItemPrefab.GetItemPrefab("divingknife"), character.Inventory, nil, nil, function (item)  end)
 
             Entity.Spawner.AddItemToSpawnQueue(ItemPrefab.GetItemPrefab("bikehorn"), character.Inventory, nil, nil, function (item)
                 item.NonPlayerTeamInteractable = true

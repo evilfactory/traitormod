@@ -8,6 +8,13 @@ category.CanAccess = function(client)
     return client.Character and not client.Character.IsDead and client.Character.HasJob("convict")
 end
 
+local randomItems = {}
+for prefab in ItemPrefab.Prefabs do
+    if prefab.CanBeSold or prefab.CanBeBought then
+        table.insert(randomItems, prefab)
+    end
+end
+
 category.Products = {
     {
         Name = "Beanie",
@@ -15,6 +22,12 @@ category.Products = {
         Limit = 1,
         IsLimitGlobal = false,
         Items = {"touque"},
+    },
+
+    {
+        Price = 100,
+        Limit = 2,
+        Items = {"cigaretteDJL"}
     },
 
     {
@@ -53,10 +66,10 @@ category.Products = {
 
     {
         Identifier = "separatistgear",
-        Price = 2750,
+        Price = 2500,
         Limit = 1,
         IsLimitGlobal = true,
-        Items = {"pirateclotheshard", "piratebodyarmor", "piratebandana"},
+        Items = {"pirateclothes", "piratebodyarmor", "piratebandana"},
     },
 
     {

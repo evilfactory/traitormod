@@ -10,6 +10,10 @@ for prefab in ItemPrefab.Prefabs do
     end
 end
 
+category.CanAccess = function(client)
+    return client.Character and not client.Character.IsDead and client.Character.HasJob("prisondoctor")
+end
+
 category.Products = {
     {
         Price = 130,
@@ -24,9 +28,15 @@ category.Products = {
     },
 
     {
-        Price = 125,
-        Limit = 2,
-        Items = {"antibloodloss1"}
+        Price = 550,
+        Limit = 4,
+        Items = {"bloodpackominus"}
+    },
+
+    {
+        Price = 300,
+        Limit = 8,
+        Items = {"bloodpackoplus"}
     },
 
     {
@@ -60,8 +70,8 @@ category.Products = {
     },
 
     {
-        Price = 150,
-        Limit = 8,
+        Price = 200,
+        Limit = 1,
         Items = {"paralyxis"}
     },
 
@@ -108,15 +118,8 @@ category.Products = {
     },
 
     {
-        Identifier = "gardeningkit",
-        Price = 100,
-        Limit = 2,
-        Items = {"raptorbaneseed", "creepingorangevineseed", "saltvineseed", "tobaccovineseed", "smallplanter", "fertilizer", "wateringcan"}
-    },
-
-    {
-        Price = 1800,
-        Limit = 2,
+        Price = 2300,
+        Limit = 1,
         Items = {"advancedgenesplicer"}
     },
 
