@@ -63,7 +63,7 @@ category.Products = {
         Price = 600,
         Limit = 1,
         IsLimitGlobal = true,
-        Items = {"he_distiller"}
+        Items = {"he-distiller"}
     },
 
     {

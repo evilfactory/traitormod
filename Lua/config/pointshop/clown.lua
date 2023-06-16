@@ -414,9 +414,9 @@ category.Products = {
             local idCard = character.Inventory.GetItemInLimbSlot(InvSlotType.Card)
             if idCard then
                 idCard.NonPlayerTeamInteractable = true
-                idCard.AddTag("name: "..info.Name)
-                idCard.AddTag("job: clown")
-                idCard.Description = "This belongs to "..info.Name.." the clown. A mysterious force is preventing you from taking this ID."
+                idCard.AddTag("name:"..info.Name)
+                idCard.AddTag("job:clown")
+                idCard.Description = "A mysterious force is preventing you from taking this ID."
                 local prop = idCard.SerializableProperties[Identifier("NonPlayerTeamInteractable")]
                 Networking.CreateEntityEvent(idCard, Item.ChangePropertyEventData(prop, idCard))
             end

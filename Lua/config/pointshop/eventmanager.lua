@@ -59,12 +59,6 @@ category.Products = {
         PricePerLimit = 0,
         Timeout = 0,
 
-        RoundPrice = {
-            PriceReduction = 0,
-            StartTime = 0,
-            EndTime = 0,
-        },
-
         Action = function (client, product, items, paidPrice)
             SpawnCreature("crawler", client, product, paidPrice)
         end
@@ -77,12 +71,6 @@ category.Products = {
         IsLimitGlobal = true,
         PricePerLimit = 0,
         Timeout = 0,
-
-        RoundPrice = {
-            PriceReduction = 0,
-            StartTime = 0,
-            EndTime = 0,
-        },
 
         Action = function (client, product, items, paidPrice)
             SpawnCreature("Crawlerhusk", client, product, paidPrice)
@@ -97,12 +85,6 @@ category.Products = {
         PricePerLimit = 0,
         Timeout = 0,
 
-        RoundPrice = {
-            PriceReduction = 0,
-            StartTime = 0,
-            EndTime = 0,
-        },
-
         Action = function (client, product, items, paidPrice)
             SpawnCreature("spineling", client, product, paidPrice)
         end
@@ -115,12 +97,6 @@ category.Products = {
         IsLimitGlobal = true,
         PricePerLimit = 0,
         Timeout = 0,
-
-        RoundPrice = {
-            PriceReduction = 0,
-            StartTime = 0,
-            EndTime = 0,
-        },
 
         Action = function (client, product, items, paidPrice)
             SpawnCreature("mudraptor", client, product, paidPrice)
@@ -135,12 +111,6 @@ category.Products = {
         PricePerLimit = 0,
         Timeout = 0,
 
-        RoundPrice = {
-            PriceReduction = 0,
-            StartTime = 0,
-            EndTime = 0,
-        },
-
         Action = function (client, product, items, paidPrice)
             SpawnCreature("mantis", client, product, paidPrice)
         end
@@ -154,12 +124,6 @@ category.Products = {
         PricePerLimit = 0,
         Timeout = 0,
 
-        RoundPrice = {
-            PriceReduction = 0,
-            StartTime = 0,
-            EndTime = 0,
-        },
-
         Action = function (client, product, items, paidPrice)
             SpawnCreature("husk", client, product, paidPrice)
         end
@@ -172,12 +136,6 @@ category.Products = {
         IsLimitGlobal = true,
         PricePerLimit = 0,
         Timeout = 60,
-
-        RoundPrice = {
-            PriceReduction = 0,
-            StartTime = 0,
-            EndTime = 0,
-        },
 
         Action = function (client, product, items, paidPrice)
             SpawnCreature("Humanhusk", client, product, paidPrice)
@@ -193,12 +151,6 @@ category.Products = {
         Enabled = true,
         Timeout = 0,
 
-        RoundPrice = {
-            PriceReduction = 0,
-            StartTime = 0,
-            EndTime = 0,
-        },
-
         Action = function (client, product, items, paidPrice)
             SpawnCreature("Bonethresher", client, product, paidPrice)
         end
@@ -212,12 +164,6 @@ category.Products = {
         PricePerLimit = 0,
         Enabled = true,
         Timeout = 0,
-
-        RoundPrice = {
-            PriceReduction = 0,
-            StartTime = 0,
-            EndTime = 0,
-        },
 
         Action = function (client, product, items, paidPrice)
             SpawnCreature("Tigerthresher", client, product, paidPrice)
@@ -247,12 +193,6 @@ category.Products = {
         Enabled = true,
         Timeout = 0,
 
-        RoundPrice = {
-            PriceReduction = 0,
-            StartTime = 0,
-            EndTime = 0,
-        },
-
         Action = function (client, product, items, paidPrice)
             SpawnCreature("hammerhead", client, product, paidPrice)
         end
@@ -267,12 +207,6 @@ category.Products = {
         Enabled = true,
         Timeout = 0,
 
-        RoundPrice = {
-            PriceReduction = 0,
-            StartTime = 0,
-            EndTime = 0,
-        },
-
         Action = function (client, product, items, paidPrice)
             SpawnCreature("hammerheadmatriarch", client, product, paidPrice)
         end
@@ -285,12 +219,6 @@ category.Products = {
         IsLimitGlobal = true,
         PricePerLimit = 0,
         Timeout = 0,
-
-        RoundPrice = {
-            PriceReduction = 0,
-            StartTime = 0,
-            EndTime = 0,
-        },
 
         Action = function (client, product, items, paidPrice)
             SpawnCreature("fractalguardian", client, product, paidPrice)
@@ -305,12 +233,6 @@ category.Products = {
         PricePerLimit = 0,
         Timeout = 0,
 
-        RoundPrice = {
-            PriceReduction = 0,
-            StartTime = 0,
-            EndTime = 0,
-        },
-
         Action = function (client, product, items, paidPrice)
             SpawnCreature("fractalguardian2", client, product, paidPrice)
         end
@@ -323,12 +245,6 @@ category.Products = {
         IsLimitGlobal = true,
         PricePerLimit = 0,
         Timeout = 0,
-
-        RoundPrice = {
-            PriceReduction = 0,
-            StartTime = 0,
-            EndTime = 0,
-        },
 
         Action = function (client, product, items, paidPrice)
             SpawnCreature("fractalguardian3", client, product, paidPrice)
@@ -344,12 +260,6 @@ category.Products = {
         Enabled = true,
         Timeout = 0,
 
-        RoundPrice = {
-            PriceReduction = 0,
-            StartTime = 0,
-            EndTime = 0,
-        },
-
         Action = function (client, product, items, paidPrice)
             SpawnCreature("Spineling_giant", client, product, paidPrice)
         end
@@ -364,12 +274,6 @@ category.Products = {
         Enabled = true,
         Timeout = 60,
 
-        RoundPrice = {
-            PriceReduction = 0,
-            StartTime = 0,
-            EndTime = 0,
-        },
-
         Action = function (client, product, items, paidPrice)
             SpawnCreature("Mudraptor_veteran", client, product, paidPrice)
         end
@@ -382,12 +286,6 @@ category.Products = {
         IsLimitGlobal = true,
         PricePerLimit = 0,
         Timeout = 0,
-
-        RoundPrice = {
-            PriceReduction = 0,
-            StartTime = 0,
-            EndTime = 0,
-        },
 
         Action = function (client, product, items, paidPrice)
             SpawnCreature("latcher", client, product, paidPrice)
@@ -402,12 +300,6 @@ category.Products = {
         PricePerLimit = 0,
         Timeout = 0,
 
-        RoundPrice = {
-            PriceReduction = 0,
-            StartTime = 0,
-            EndTime = 0,
-        },
-
         Action = function (client, product, items, paidPrice)
             SpawnCreature("charybdis", client, product, paidPrice)
         end
@@ -421,12 +313,6 @@ category.Products = {
         PricePerLimit = 0,
         Timeout = 60,
 
-        RoundPrice = {
-            PriceReduction = 0,
-            StartTime = 0,
-            EndTime = 0,
-        },
-
         Action = function (client, product, items, paidPrice)
             SpawnCreature("endworm", client, product, paidPrice)
         end
@@ -439,12 +325,6 @@ category.Products = {
         IsLimitGlobal = true,
         PricePerLimit = 0,
         Timeout = 80,
-
-        RoundPrice = {
-            PriceReduction = 0,
-            StartTime = 0,
-            EndTime = 0,
-        },
 
         Action = function (client, product, items, paidPrice)
             SpawnCreature("cyborgworm", client, product, paidPrice)

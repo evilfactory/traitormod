@@ -320,20 +320,6 @@ category.Products = {
     },
 
     {
-        Identifier = "spawnaslegacymoloch",
-        Price = 2500,
-        Limit = 1,
-        IsLimitGlobal = true,
-        PricePerLimit = 500,
-        Enabled = true,
-        Timeout = 60,
-
-        Action = function (client, product, items, paidPrice)
-            SpawnCreature("legacymoloch", client, product, paidPrice)
-        end
-    },
-
-    {
         Identifier = "spawnaslegacycarrier",
         Price = 500,
         Limit = 1,
@@ -366,26 +352,7 @@ category.Products = {
             SpawnCreature("hammerhead", client, product, paidPrice)
         end
     },
-
-    {
-        Identifier = "spawnasfractalguardian",
-        Price = 4900,
-        Limit = 2,
-        IsLimitGlobal = true,
-        PricePerLimit = 1000,
-        Timeout = 60,
-
-        RoundPrice = {
-            PriceReduction = 2500,
-            StartTime = 15,
-            EndTime = 40,
-        },
-
-        Action = function (client, product, items, paidPrice)
-            SpawnCreature("fractalguardian", client, product, paidPrice)
-        end
-    },
-
+    
     {
         Identifier = "spawnasgiantspineling",
         Price = 20000,
