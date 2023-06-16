@@ -8,10 +8,12 @@ function objective:Start(target)
     self.Text = "Make ("..objective.Progress.."/5) medical items."
 
     Hook.Add("item.created", "MedicObjective", function (item)
-        if item.HasTag("medical") then
-            objective.Progress = objective.Progress + 1
-            self.Text = "Make ("..objective.Progress.."/5) medical items."
-        end
+        Timer.Wait(function ()
+            if item.HasTag("medical") and not item.HasTag("notarget") then
+                objective.Progress = objective.Progress + 1
+                self.Text = "Make ("..objective.Progress.."/5) medical items."
+            end
+        end, 2500)
     end)
 
     return true
