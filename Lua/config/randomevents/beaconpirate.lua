@@ -158,7 +158,7 @@ event.Start = function ()
 
     event.ItemReward = character.Inventory.GetItemInLimbSlot(InvSlotType.Card)
 
-    for key, item in pairs(character.Inventory.AllItems) do
+    for item in character.Inventory.AllItems do
         item.AddTag("notarget")
     end
 

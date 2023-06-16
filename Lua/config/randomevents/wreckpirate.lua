@@ -144,7 +144,7 @@ event.Start = function ()
         Entity.Spawner.AddItemToSpawnQueue(ItemPrefab.GetItemPrefab("oxygenitetank"), item.OwnInventory)
     end)
 
-    for key, item in pairs(character.Inventory.AllItems) do
+    for item in character.Inventory.AllItems do
         item.AddTag("notarget")
     end
 
