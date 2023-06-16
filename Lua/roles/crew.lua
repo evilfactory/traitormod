@@ -41,8 +41,10 @@ function role:Start()
 
     local text = self:Greet()
     local client = Traitormod.FindClientCharacter(self.Character)
-    if client then
+    if client and not self.Character.HasJob("convict") then
         Traitormod.SendChatMessage(client, text, Color.MediumSpringGreen)
+    elseif client then
+        Traitormod.SendChatMessage(client, text, Color.MonoGameOrange)
     end
 end
 
@@ -70,7 +72,11 @@ function role:Greet()
     local objectives = self:ObjectivesToString()
 
     local sb = Traitormod.StringBuilder:new()
-    sb(Traitormod.Language.CrewMember)
+    if self.Character.HasJob("convict") then
+        sb(Traitormod.Language.PrisonerMessage)
+    else
+        sb(Traitormod.Language.CrewMember)
+    end
     sb(objectives)
 
     return sb:concat()

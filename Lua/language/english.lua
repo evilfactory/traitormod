@@ -51,7 +51,8 @@ language.SecondaryObjectivesYou = "Your secondary objectives are:"
 language.MainObjectivesOther = "Their main objectives were:"
 language.SecondaryObjectivesOther = "Their secondary objectives were:"
 
-language.CrewMember = "You are crew member of the submarine.\n\nYou have been assigned the following bonus objectives.\n\n"
+language.CrewMember = "You are crew member of the station.\n\nYou have been assigned the following bonus objectives.\n\n"
+language.PrisonerMessage = "You are a convict of the station.\n\nYou have been assigned the following bonus objectives.\n\n"
 
 language.SoloAntagonist = "You are the only antagonist."
 language.Partners = "Partners: %s"

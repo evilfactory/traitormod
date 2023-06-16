@@ -24,7 +24,7 @@ Traitormod.AddCommand("!tc", function(client, args)
 
                 if targetClient then
                     Game.SendDirectChatMessage("",
-                        string.format(Traitormod.Language.TraitorBroadcast, Traitormod.ClientLogName(client), msg), nil,
+                        string.format("["..clientRole.Name.."]", Traitormod.ClientLogName(client), msg), nil,
                         ChatMessageType.Error, targetClient)
                 end
             end
