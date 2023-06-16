@@ -5,7 +5,7 @@ objective.AmountPoints = 500
 objective.Monster = {
     Identifiers = {"Crawler", "Crawlerhusk", "Husk", "Tigerthresher", "Bonethresher", "Mudraptor", "Mudraptor_unarmored", "Spineling"},
     Text = Traitormod.Language.SmallCreatures,
-    Amount = 6,
+    Amount = 4,
 }
 
 return objective

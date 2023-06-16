@@ -10,7 +10,7 @@ function objective:Start(target)
     Hook.Add("item.created", "ChefCookingOilObjective", function (item)
         if item.HasTag("fooditem") then
             objective.Progress = objective.Progress + 1
-            self.Text = "Cook ("..objective.Progress.."/2) meth on a stove"
+            self.Text = "Make ("..objective.Progress.."/4) food items."
         end
     end)
 

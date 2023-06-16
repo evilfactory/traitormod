@@ -92,8 +92,8 @@ config.GamemodeConfig = {
         EnableRandomEvents = true,
         EndGameDelaySeconds = 15,
 
-        TraitorSelectDelayMin = 200,
-        TraitorSelectDelayMax = 300,
+        TraitorSelectDelayMin = 85,
+        TraitorSelectDelayMax = 135,
 
         PointsGainedFromHandcuffedTraitors = 1000,
         DistanceToEndOutpostRequired = 8000,
@@ -182,7 +182,7 @@ config.RoleConfig = {
             ["warden"] = {"CrewSurvival", "KillSmallMonsters"},
             ["headguard"] = {"SecurityTeamSurvival", "KillLargeMonsters", "KillSmallMonsters"},
             ["guard"] = {"KillLargeMonsters", "KillSmallMonsters", "KeepPrisonersInside"},
-            ["prisondoctor"] = {"HealCharacters", "RepairHull"},
+            ["prisondoctor"] = {"HealCharacters", "MakeDrugs"},
             ["staff"] = {"RepairElectrical", "RepairMechanical", "RepairHull"},
             ["janitor"] = {"CleanBodies", "GetHonkMother", "KillPets"},
             ["convict"] = {"Escape", "KillSmallMonsters"},
@@ -316,7 +316,7 @@ config.RandomEventConfig = {
         dofile(Traitormod.Path .. "/Lua/config/randomevents/shadymission.lua"),
         dofile(Traitormod.Path .. "/Lua/config/randomevents/oxygengenpoison.lua"),
         dofile(Traitormod.Path .. "/Lua/config/randomevents/oxygengenhusk.lua"),
-        dofile(Traitormod.Path .. "/Lua/config/randomevents/prisoner.lua"),
+        --dofile(Traitormod.Path .. "/Lua/config/randomevents/prisoner.lua"),
         dofile(Traitormod.Path .. "/Lua/config/randomevents/randomlights.lua"),
         dofile(Traitormod.Path .. "/Lua/config/randomevents/clownmagic.lua"),
     }
