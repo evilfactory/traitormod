@@ -5,8 +5,7 @@ category.Decoration = "Separatists"
 category.FadeToBlack = true
 
 category.CanAccess = function(client)
-    if client.Character.HasJob("prisondoctor") then return false end
-    return client.Character and not client.Character.IsDead and Traitormod.RoleManager.HasRole(client.Character, "Traitor")
+    return client.Character and not client.Character.IsDead and Traitormod.RoleManager.HasRole(client.Character, "Traitor") and not client.Character.HasJob("prisondoctor")
 end
 
 category.Init = function ()
