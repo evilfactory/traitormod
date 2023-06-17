@@ -18,9 +18,17 @@ local lastTimerDisplay = 0
 
 local function RespawnMessage(msg)
     for key, client in pairs(Client.ClientList) do
-        local chatMessage = ChatMessage.Create("", msg, ChatMessageType.Default, nil, nil)
-        chatMessage.Color = Color(178, 35, 199, 255)
-        Game.SendDirectChatMessage(chatMessage, client)
+        local canReceive = true
+        if Traitormod.Config.RespawnTextOnlySpectators then
+            if client.Character and not client.Character.IsDead then
+                canReceive = false
+            end
+        end
+        if canReceive then
+            local chatMessage = ChatMessage.Create("", msg, ChatMessageType.Default, nil, nil)
+            chatMessage.Color = Color(178, 35, 199, 255)
+            Game.SendDirectChatMessage(chatMessage, client)
+        end
     end
 
     Traitormod.Log(msg)

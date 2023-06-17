@@ -45,6 +45,7 @@ config.RespawnText = "Respawn in %s seconds."
 config.RespawnTeam = CharacterTeamType.Team1
 config.RespawnOnKillPoints = 0
 config.RespawnEnabled = true -- set this to false to disable respawn, respawn shuttle override features will still be active, there just wont be any respawns
+config.RespawnTextOnlySpectators = false
 
 -- Allows players that just joined the server to instantly spawn
 config.MidRoundSpawn = false
