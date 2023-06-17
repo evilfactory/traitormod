@@ -189,6 +189,22 @@ category.Products = {
             {Identifier = "wire"}
         },
     },
+
+    {
+        Price = 100,
+        Limit = 4,
+        Items = {
+            {Identifier = "button"}
+        },
+    },
+
+    {
+        Price = 100,
+        Limit = 4,
+        Items = {
+            {Identifier = "switch"}
+        },
+    },
 }
 
 return category
