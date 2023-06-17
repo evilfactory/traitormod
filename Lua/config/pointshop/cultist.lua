@@ -50,7 +50,12 @@ category.Init = function ()
                     local character = injector.ParentInventory.Owner
                     if character.Inventory.GetItemInLimbSlot(InvSlotType.Headset) == injector then
                         local affliction = AfflictionPrefab.Prefabs["huskinfection"].Instantiate(95)
-                        character.CharacterHealth.ApplyAffliction(character.AnimController.MainLimb, affliction)    
+                        character.CharacterHealth.ApplyAffliction(character.AnimController.MainLimb, affliction)
+
+                        local newAffliction = character.CharacterHealth.GetAffliction("huskinfection", true)
+                        if newAffliction then
+                            newAffliction._strength = newAffliction._strength + 100
+                        end
                     end
                 end
             end
@@ -124,8 +129,8 @@ category.Products = {
 
     {
         Identifier = "huskautoinjector",
-        Price = 600,
-        Limit = 2,
+        Price = 350,
+        Limit = 5,
         IsLimitGlobal = false,
         Action = function (client)
             local prefabInjector = ItemPrefab.GetItemPrefab("autoinjectorheadset")
