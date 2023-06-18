@@ -69,6 +69,10 @@ category.Init = function ()
         
         -- it will revive the character and give it the husk infection
         character.Revive()
+        Timer.Wait(function ()
+            local client = Traitormod.FindClientCharacter(character)
+            client.SetClientCharacter(character)
+        end, 1500)
         local infection = AfflictionPrefab.Prefabs["huskinfection"]
         character.CharacterHealth.ApplyAffliction(character.AnimController.MainLimb, infection.Instantiate(100))
 
