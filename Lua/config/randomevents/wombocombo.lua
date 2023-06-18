@@ -11,17 +11,17 @@ event.FlickerAmount = 3 -- one cycle of On and Off
 event.Lights = {} -- (key=item, value=originalLightComponentColor)
 
 event.Start = function ()
-
     -- Applying afflications
+    local poison = AfflictionPrefab.Prefabs["deliriuminepoisoning"]
+    local psychosis = AfflictionPrefab.Prefabs["psychosis"]
+    local hallucination = AfflictionPrefab.Prefabs["hallucinating"]
+
     local function GiveWombo(character)
         if character.Submarine ~= Submarine.MainSub then return end
         if character.IsDead then return end
-
-        local poison = AfflictionPrefab.Prefabs["deliriuminepoisoning"]
+        
         character.CharacterHealth.ApplyAffliction(character.AnimController.MainLimb, poison.Instantiate(100))
-        local psychosis = AfflictionPrefab.Prefabs["psychosis"]
         character.CharacterHealth.ApplyAffliction(character.AnimController.MainLimb, psychosis.Instantiate(100))
-        local hallucination = AfflictionPrefab.Prefabs["hallucinating"]
         character.CharacterHealth.ApplyAffliction(character.AnimController.MainLimb, hallucination.Instantiate(100))
     end
     for key, value in pairs(Character.CharacterList) do
@@ -68,7 +68,7 @@ event.Start = function ()
         end, i * event.Time/event.FlickerAmount * 60000)
     end
 
-    -- end this event
+    -- end the event
     Timer.Wait(event.End, event.Time * 60000)
 end
 
@@ -76,6 +76,11 @@ end
 event.End = function ()
     for item, _ in pairs(event.Lights) do
         event.Lights[item] = nil
+    end
+    if not isEndRound then
+        local text = Traitormod.Language.OxygenSafe
+
+        Traitormod.RoundEvents.SendEventMessage(text, "GameModeIcon.multiplayercampaign")
     end
 end
 

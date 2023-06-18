@@ -2,11 +2,11 @@ local category = {}
 
 category.Identifier = "clown"
 category.Decoration = "cultist"
--- category.FadeToBlack = true
+category.FadeToBlack = true
 
--- category.CanAccess = function(client)
---     return client.Character and not client.Character.IsDead and Traitormod.RoleManager.HasRole(client.Character, "Clown")
--- end
+category.CanAccess = function(client)
+    return client.Character and not client.Character.IsDead and Traitormod.RoleManager.HasRole(client.Character, "Clown")
+end
 
 category.Init = function ()
     local spawnInstallation = function (submarine, position, prefab)
