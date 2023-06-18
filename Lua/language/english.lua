@@ -249,6 +249,8 @@ language.PointshopRefunded = "You have been refunded %s points for your %s purch
 
 
 language.Pointshop = {
+    revivalfluid = "Revival Fluid",
+    revivalfluid_desc = "‖color:gui.yellow‖Revives a dead corpse as a husk‖color:end‖",
     fakehandcuffs = "Fake Cuffs",
     choke = "Chocker",
     choke_desc = "‖color:gui.red‖Silences the target‖color:end‖",

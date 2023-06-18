@@ -57,6 +57,22 @@ category.Init = function ()
         end
     end)
 
+    -- revivalfluid logic
+    Hook.Patch("Barotrauma.Items.Components.MeleeWeapon", "HandleImpact", function (instance, ptable)
+        if not instance.Item.HasTag("revivalfluid") then return end
+
+        local limb = ptable["targetFixture"].Body.UserData
+        if limb == nil or not LuaUserData.IsTargetType(limb, "Barotrauma.Limb") then return end
+        
+        local character = limb.character
+        if character == nil or not character.IsHuman or not character.IsDead then return end
+        
+        -- it will revive the character and give it the husk infection
+        character.Revive()
+        local infection = AfflictionPrefab.Prefabs["huskinfection"]
+        character.CharacterHealth.ApplyAffliction(character.AnimController.MainLimb, infection.Instantiate(100))
+
+    end)
 
     Hook.Add("meleeWeapon.handleImpact",  "Cultist.Stinger", function (melee, target)
         if melee.Item.Prefab.Identifier ~= "huskstinger" then return end
@@ -226,6 +242,27 @@ category.Products = {
         Limit = 5,
         Action = function (client, product, items)
             Entity.Spawner.AddCharacterToSpawnQueue("husk", client.Character.WorldPosition, function (character)
+            end)
+        end
+    },
+
+    {
+        Identifier = "revivalfluid",
+        Price = 2750,
+        Limit = 1,
+        IsLimitGlobal = false,
+        Action = function (client, product, items)
+            local prefabHuskeggs = ItemPrefab.GetItemPrefab("huskeggs")
+            Entity.Spawner.AddItemToSpawnQueue(prefabHuskeggs, client.Character.Inventory, nil, nil, function (item)
+                item.Tags = "revivalfluid"
+                item.Description = Traitormod.Language.Pointshop.revivalfluid_desc
+                
+                item.set_InventoryIconColor(Color(255, 191, 0))
+                item.SpriteColor = Color(255, 191, 0)
+                local color = item.SerializableProperties[Identifier("SpriteColor")]
+                Networking.CreateEntityEvent(item, Item.ChangePropertyEventData(color, item))
+                local invColor = item.SerializableProperties[Identifier("InventoryIconColor")]
+                Networking.CreateEntityEvent(item, Item.ChangePropertyEventData(invColor, item))
             end)
         end
     },
