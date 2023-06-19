@@ -18,6 +18,8 @@ language.Help = "\n!help - shows this help message\n!helptraitor - shows all tra
 language.HelpTraitor = "\n!toggletraitor - toggles if the player can be selected as traitor\n!tc [msg] - sends a message to all traitors\n!tannounce [msg] - sends a traitor announcement for traitors\n!tdm [Name] [msg] - sends a anonymous msg to given player"
 language.HelpAdmin = "\n!traitoralive - check if all traitors died\n!roundinfo - show round information (spoiler!)\n!allpoints - shows point amounts of all connected clients\n!addpoint [Client] [+/-Amount] - add points to a client\n!addlife [Client] [+/-Amount] - add life(s) to a client\n!revive [Client] - revives a given client character\n!void [Character Name] - sends a character to the void\n!unvoid [Character Name] - brings a character back from the void\n!vote [text] [option1] [option2] [...] - starts a vote on the server\n!giveghostrole [text] [character] - assigns a character with the specified name as a ghost role"
 
+language.TestingMode = "1P testing mode - no points can be gained or lost"
+
 language.NoTraitor = "You aren't a traitor."
 language.TraitorOn = "You can be selected as traitor."
 language.TraitorOff = "You can not be chosen traitor.\n\nUse !toggletraitor to change that."
@@ -336,5 +338,22 @@ language.LargeCreatures = "Large Creatures"
 language.AbyssCreature = "Abyss Creature"
 language.ElectricalDevices = "Electrical Devices"
 language.MechanicalDevices = "Mechanical Devices"
+
+language.CMDAliveToUse = "You must be alive to use this command."
+language.CMDNoRole = "You have no special role."
+language.CMDAlreadyDead = "You are already dead!"
+language.CMDHandcuffed = "You cant use this command while handcuffed."
+language.CMDKnockedDown = "You cant this command while knocked down."
+language.GamemodeNone = "Gamemode: None"
+language.CMDPermisionPoints = "You do not have permissions to add points."
+language.CMDInvalidNumber = "Invalid number value."
+language.CMDClientNotFound = "Couldn't find a client with name / steamID."
+language.CMDCharacterNotFound = "Couldn't find a character with the specified name."
+language.CMDAdminAddedPointsEveryone = "Admin added %s points to everyone."
+language.CMDAdminAddedPoints = "Admin added %s points to %s."
+language.CMDAdminAddedLives = "Admin added %s lives to %s."
+language.CMDOnlyMonsters = "Only monsters are able to use this command."
+language.CMDLocateSub = "Submarine is %sm away from you, at %s."
+language.CMDRoundTime = "This round has been going for %s minutes."
 
 return language

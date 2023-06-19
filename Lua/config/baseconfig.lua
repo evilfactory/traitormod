@@ -134,7 +134,7 @@ config.GamemodeConfig = {
             if amountPlayers > 7 then return 2 end            
             if amountPlayers > 3 then return 1 end
             if amountPlayers == 1 then 
-                Traitormod.SendMessageEveryone("1P testing mode - no points can be gained or lost") 
+                Traitormod.SendMessageEveryone(Traitormod.Language.TestingMode)
                 config.TestMode = true
                 return 1
             end

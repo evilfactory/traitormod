@@ -435,7 +435,9 @@ Traitormod.GetDataInfo = function(client, showWeights)
     if showWeights then
         local maxPoints = 0
         for index, value in pairs(Client.ClientList) do
-            maxPoints = maxPoints + (Traitormod.GetData(value, "Weight") or 0)
+            if value.Character and not value.Character.IsDead then
+                maxPoints = maxPoints + (Traitormod.GetData(value, "Weight") or 0)
+            end
         end
     
         local percentage = (Traitormod.GetData(client, "Weight") or 0) / maxPoints * 100
