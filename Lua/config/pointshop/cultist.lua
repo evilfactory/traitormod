@@ -2,11 +2,11 @@ local category = {}
 
 category.Identifier = "cultist"
 category.Decoration = "cultist"
--- category.FadeToBlack = true
+category.FadeToBlack = true
 
--- category.CanAccess = function(client)
---     return client.Character and not client.Character.IsDead and Traitormod.RoleManager.HasRole(client.Character, "Cultist")
--- end
+category.CanAccess = function(client)
+    return client.Character and not client.Character.IsDead and Traitormod.RoleManager.HasRole(client.Character, "Cultist")
+end
 
 LuaUserData.MakeMethodAccessible(Descriptors["Barotrauma.StatusEffect"], "set_Afflictions")
 LuaUserData.MakeFieldAccessible(Descriptors["Barotrauma.Affliction"], "_strength")
@@ -77,10 +77,10 @@ category.Init = function ()
         end
 
         Timer.Wait(function ()
-            pcall(function()
-                local client = Traitormod.FindClientCharacter(character)
+            local client = Traitormod.FindClientCharacter(character)
+            if client then
                 client.SetClientCharacter(character)
-            end)
+            end
         end, 1500)
 
     end)
