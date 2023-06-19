@@ -213,7 +213,7 @@ category.Products = {
     },
 
     {
-        Price = 3200,
+        Price = 1800,
         Limit = 1,
         IsLimitGlobal = false,
         Items = {"shotgununique", 
@@ -228,7 +228,7 @@ category.Products = {
     },
 
     {
-        Price = 2900,
+        Price = 1600,
         Limit = 1,
         IsLimitGlobal = false,
         Items = {"smgunique", "smgmagazine", "smgmagazine"},
