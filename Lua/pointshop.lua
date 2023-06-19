@@ -523,10 +523,13 @@ Hook.Add("roundEnd", "TraitorMod.PointShop.RoundEnd", function ()
     ps.ResetProductLimits()
     ps.ActiveCategories = {}
 
+    if Traitormod.Config.TestMode then return end
     if config.PointShopConfig.DeathSpawnRefundAtEndRound then
         for client, refundTable in pairs(ps.Refunds) do
-            -- it will also remove elements in the ps.Refunds
-            refundProduct(client, refundTable)
+            if client ~= nil and not client.character.IsDead and not client.character.IsPet then
+                -- it will also remove elements in the ps.Refunds
+                refundProduct(client, refundTable)
+            end
         end
     end 
 end)
