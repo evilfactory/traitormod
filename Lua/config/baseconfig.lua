@@ -323,6 +323,7 @@ config.RandomEventConfig = {
 config.PointShopConfig = {
     Enabled = true,
     DeathTimeoutTime = 60,
+    DeathSpawnRefundAtEndRound = true,
     ItemCategories = {
         dofile(Traitormod.Path .. "/Lua/config/pointshop/clown.lua"),
         dofile(Traitormod.Path .. "/Lua/config/pointshop/cultist.lua"),

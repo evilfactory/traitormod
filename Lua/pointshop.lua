@@ -506,9 +506,28 @@ Hook.Add("roundStart", "TraitormMod.PointShop.RoundStart", function ()
     end
 end)
 
+local function refundProduct(client, refundTable, increaseProduct)
+    -- it will not increase the amount of the product at the end of the round
+    if increaseProduct ~= nil then
+        -- increase the amount of the product
+        ps.UseProductLimit(client, refundTable.Product, increaseProduct)
+    end
+
+    Traitormod.AwardPoints(client, refundTable.Price)
+    Traitormod.SendMessage(client, string.format(Traitormod.Language.PointshopRefunded, refundTable.Price, ps.GetProductName(refundTable.Product)))
+
+    ps.Refunds[client] = nil
+end
+
 Hook.Add("roundEnd", "TraitorMod.PointShop.RoundEnd", function ()
     ps.ResetProductLimits()
     ps.ActiveCategories = {}
+
+    if config.PointShopConfig.DeathSpawnRefundAtEndRound then
+        for client, refundTable in pairs(ps.Refunds) do
+            refundProduct(client, refundTable)
+        end
+    end 
 end)
 
 Hook.Add("characterDeath", "Traitormod.Pointshop.Death", function (character)
@@ -517,15 +536,11 @@ Hook.Add("characterDeath", "Traitormod.Pointshop.Death", function (character)
     if client == nil then return end
     if Traitormod.Config.TestMode then return end
 
-    local refund = ps.Refunds[client]
+    local refundTable = ps.Refunds[client]
 
-    if refund and refund.Time + 15 > Timer.GetTime() then
-        ps.UseProductLimit(client, refund.Product, -1)
-
-        Traitormod.AwardPoints(client, refund.Price)
-        Traitormod.SendMessage(client, string.format(Traitormod.Language.PointshopRefunded, refund.Price, ps.GetProductName(refund.Product)))
-
-        ps.Refunds[client] = nil
+    -- check if the character died in the first 15 seconds in order to get a refund
+    if refundTable and refundTable.Time + 15 > Timer.GetTime() then
+        refundProduct(client, refundTable, -1)
     else
         ps.Timeouts[client.SteamID] = Timer.GetTime() + config.PointShopConfig.DeathTimeoutTime
     end
