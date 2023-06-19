@@ -439,6 +439,7 @@ Traitormod.RoleManager.AddObjective(dofile(Traitormod.Path .. "/Lua/objectives/b
 Traitormod.RoleManager.AddObjective(dofile(Traitormod.Path .. "/Lua/objectives/suffocatecrew.lua"))
 Traitormod.RoleManager.AddObjective(dofile(Traitormod.Path .. "/Lua/objectives/growmudraptors.lua"))
 Traitormod.RoleManager.AddObjective(dofile(Traitormod.Path .. "/Lua/objectives/assassinatepressure.lua"))
+Traitormod.RoleManager.AddObjective(dofile(Traitormod.Path .. "/Lua/objectives/stealidcard.lua"))
 
 Traitormod.RoleManager.AddObjective(dofile(Traitormod.Path .. "/Lua/objectives/crew/killmonsters.lua"))
 Traitormod.RoleManager.AddObjective(dofile(Traitormod.Path .. "/Lua/objectives/crew/killsmallmonsters.lua"))

@@ -43,4 +43,12 @@ function objective:IsFailed()
     return false
 end
 
+function objective:TargetPreference(character)
+    if character.IsCaptain then
+        return false
+    end
+
+    return true
+end
+
 return objective

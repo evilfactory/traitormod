@@ -41,8 +41,7 @@ function objective:IsCompleted()
 
         self.SecondsLeft = math.max(0, self.SecondsLeft - (Timer.GetTime() - self.lastTimer))
 
-        self.Text = string.format(Traitormod.Language.ObjectiveKidnap, self.TargetName,
-            math.floor(self.SecondsLeft))
+        self.Text = string.format(Traitormod.Language.ObjectiveKidnap, self.TargetName, math.floor(self.SecondsLeft))
 
         self.lastTimer = Timer.GetTime()
 
