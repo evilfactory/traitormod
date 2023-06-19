@@ -525,6 +525,7 @@ Hook.Add("roundEnd", "TraitorMod.PointShop.RoundEnd", function ()
 
     if config.PointShopConfig.DeathSpawnRefundAtEndRound then
         for client, refundTable in pairs(ps.Refunds) do
+            -- it will also remove elements in the ps.Refunds
             refundProduct(client, refundTable)
         end
     end 
@@ -544,6 +545,8 @@ Hook.Add("characterDeath", "Traitormod.Pointshop.Death", function (character)
     else
         ps.Timeouts[client.SteamID] = Timer.GetTime() + config.PointShopConfig.DeathTimeoutTime
     end
+    -- this line will make sure it doesnt stay in the memory
+    ps.Refunds[client] = nil
 end)
 
 for _, category in pairs(config.PointShopConfig.ItemCategories) do
