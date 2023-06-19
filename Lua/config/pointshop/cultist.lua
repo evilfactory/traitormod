@@ -2,11 +2,11 @@ local category = {}
 
 category.Identifier = "cultist"
 category.Decoration = "cultist"
-category.FadeToBlack = true
+-- category.FadeToBlack = true
 
-category.CanAccess = function(client)
-    return client.Character and not client.Character.IsDead and Traitormod.RoleManager.HasRole(client.Character, "Cultist")
-end
+-- category.CanAccess = function(client)
+--     return client.Character and not client.Character.IsDead and Traitormod.RoleManager.HasRole(client.Character, "Cultist")
+-- end
 
 LuaUserData.MakeMethodAccessible(Descriptors["Barotrauma.StatusEffect"], "set_Afflictions")
 LuaUserData.MakeFieldAccessible(Descriptors["Barotrauma.Affliction"], "_strength")
@@ -69,12 +69,19 @@ category.Init = function ()
         
         -- it will revive the character and give it the husk infection
         character.Revive()
-        Timer.Wait(function ()
-            local client = Traitormod.FindClientCharacter(character)
-            client.SetClientCharacter(character)
-        end, 1500)
         local infection = AfflictionPrefab.Prefabs["huskinfection"]
         character.CharacterHealth.ApplyAffliction(character.AnimController.MainLimb, infection.Instantiate(100))
+        local affliction = character.CharacterHealth.GetAffliction("huskinfection", true)
+        if affliction then
+            affliction._strength = 100
+        end
+
+        Timer.Wait(function ()
+            pcall(function()
+                local client = Traitormod.FindClientCharacter(character)
+                client.SetClientCharacter(character)
+            end)
+        end, 1500)
 
     end)
 
