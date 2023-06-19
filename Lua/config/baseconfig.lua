@@ -5,6 +5,10 @@ local config = {}
 config.DebugLogs = true
 
 ----- USER FEEDBACK -----
+config.Languages = {
+    dofile(Traitormod.Path .. "/Lua/language/english.lua"), -- If it can't find a specific language key, it will always fallback to the first language on the list.
+    --dofile(Traitormod.Path .. "/Lua/language/russian.lua") -- example
+}
 config.Language = "English"
 config.SendWelcomeMessage = true
 config.ChatMessageType = ChatMessageType.Private    -- Error = red | Private = green | Dead = blue | Radio = yellow

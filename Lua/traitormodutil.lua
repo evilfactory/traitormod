@@ -9,9 +9,7 @@ loadfile(Traitormod.Path .. "/Lua/config/config.lua")(Traitormod.Config)
 
 Traitormod.Patching = loadfile(Traitormod.Path .. "/Lua/xmlpatching.lua")(Traitormod.Path)
 
-Traitormod.Languages = {
-    dofile(Traitormod.Path .. "/Lua/language/english.lua")
-}
+Traitormod.Languages = Traitormod.Config.Languages
 
 Traitormod.DefaultLanguage = Traitormod.Languages[1]
 Traitormod.Language = Traitormod.DefaultLanguage
