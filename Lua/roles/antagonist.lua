@@ -23,19 +23,19 @@ Traitormod.AddCommand("!tc", function(client, args)
                 local targetClient = Traitormod.FindClientCharacter(character)
                 local header = nil
 
-                if role.Name == "Clown" then
-                    header = Traitormod.Language.ClownBroadcast
-                elseif role.Name == "Traitor" then
-                    header = Traitormod.Language.TraitorBroadcast
-                elseif role.Name == "Pirate" then
-                    header = Traitormod.Language.PirateBroadcast
-                elseif role.Name == "Cultist" then
-                    header = Traitormod.Language.CultistBroadcast
-                elseif role.Name == "HuskServant" then
-                    header = Traitormod.Language.HuskBroadcast
-                end
-
                 if targetClient then
+                    if role.Name == "Clown" then
+                        header = Traitormod.Language.ClownBroadcast
+                    elseif role.Name == "Traitor" then
+                        header = Traitormod.Language.TraitorBroadcast
+                    elseif role.Name == "Pirate" then
+                        header = Traitormod.Language.PirateBroadcast
+                    elseif role.Name == "Cultist" then
+                        header = Traitormod.Language.CultistBroadcast
+                    elseif role.Name == "HuskServant" then
+                        header = Traitormod.Language.HuskBroadcast
+                    end
+                    
                     Game.SendDirectChatMessage("",
                         string.format(header, Traitormod.ClientLogName(client), msg), nil,
                         ChatMessageType.Error, targetClient)
