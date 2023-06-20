@@ -8,7 +8,7 @@ end
 
 
 local peopleInOutpost = 0
-local n = 1
+local ghostRoleNumber = 1
 Hook.Add("think", "Traitormod.MiscThink", function ()
     if timer > Timer.GetTime() then return end
     if not Game.RoundStarted then return end
@@ -36,10 +36,10 @@ Hook.Add("think", "Traitormod.MiscThink", function ()
             local client = Traitormod.FindClientCharacter(character)
             if not Traitormod.GhostRoles.IsGhostRole(character) and not client then
                 if Traitormod.Config.GhostRoleConfig.MiscGhostRoles[character.SpeciesName.Value] then
-                    Traitormod.GhostRoles.Ask(character.Name .. " " .. n, function (client)
+                    Traitormod.GhostRoles.Ask(character.Name .. " " .. ghostRoleNumber, function (client)
                         client.SetClientCharacter(character)
                     end, character)
-                    n = n + 1
+                    ghostRoleNumber = ghostRoleNumber + 1
                 end
             end
         end
@@ -69,6 +69,7 @@ end)
 
 Hook.Add("roundEnd", "Traitormod.MiscEnd", function ()
     peopleInOutpost = 0
+    ghostRoleNumber = 1
     huskBeacons = {}
 end)
 
