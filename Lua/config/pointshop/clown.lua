@@ -40,6 +40,24 @@ category.Init = function ()
 
         end
     end)
+
+    Hook.Add("traitormod.terminalWrite", "Traitormod.Pointshop.IdCardLocator", function (item, client, output)
+        if not item.HasTag("idcardlocator") then return end
+        if not client.Character then return end
+
+        if output ~= "scan" then return end
+
+        local terminal = item.GetComponentString("Terminal")
+    
+        for key, value in pairs(Util.GetItemsById("idcard")) do
+            local distance = Vector2.Distance(client.Character.WorldPosition, value.WorldPosition)
+            local idCard = value.GetComponentString("IdCard")
+
+            terminal.ShowMessage = string.format(Traitormod.Language.Pointshop.idcardlocator_result, tostring(idCard.OwnerJob.Name), idCard.OwnerName, math.floor(distance))
+        end
+
+        terminal.SyncHistory()
+    end)
 end
 
 category.Products = {
@@ -129,6 +147,32 @@ category.Products = {
                 for key, value in pairs(items) do
                     Entity.Spawner.AddItemToSpawnQueue(ItemPrefab.Prefabs[value], item.OwnInventory)
                 end
+            end)
+        end
+    },
+
+    {
+        Identifier = "idcardlocator",
+        Price = 500,
+        Limit = 1,
+        IsLimitGlobal = false,
+        Action = function (client)
+            local logbook = ItemPrefab.GetItemPrefab("logbook")
+            Entity.Spawner.AddItemToSpawnQueue(logbook, client.Character.Inventory, nil, nil, function (item)
+                item.Description = Traitormod.Language.Pointshop.idcardlocator_desc
+                item.set_InventoryIconColor(Color(255, 0, 0, 255))
+                item.SpriteColor = Color(255, 0, 0, 255)
+                item.Tags = "idcardlocator"
+
+                local color = item.SerializableProperties[Identifier("SpriteColor")]
+                Networking.CreateEntityEvent(item, Item.ChangePropertyEventData(color, item))
+                local invColor = item.SerializableProperties[Identifier("InventoryIconColor")]
+                Networking.CreateEntityEvent(item, Item.ChangePropertyEventData(invColor, item))
+
+                local terminal = item.GetComponentString("Terminal")
+                terminal.ShowMessage = "Type \"scan\" to scan for id cards."
+                terminal.SyncHistory()
+        
             end)
         end
     },
