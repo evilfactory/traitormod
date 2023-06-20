@@ -239,21 +239,6 @@ category.Products = {
     },
 
     {
-        Identifier = "poisonoxygensupply",
-        Price = 1000,
-        Limit = 1,
-        IsLimitGlobal = true,
-
-        CanBuy = function (client, product)
-            return not Traitormod.RoundEvents.IsEventActive("OxygenGeneratorPoison")
-        end,
-
-        Action = function ()
-            Traitormod.RoundEvents.TriggerEvent("OxygenGeneratorPoison")
-        end
-    },
-
-    {
         Identifier = "turnofflights",
         Price = 350,
         Limit = 1,
