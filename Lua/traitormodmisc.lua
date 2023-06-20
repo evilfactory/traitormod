@@ -116,3 +116,13 @@ if Traitormod.Config.DeathLogBook then
         return true
     end)
 end
+
+Traitormod.CountAliveConvictsInsideMainSub = function ()
+    local count = 0
+    for key, plr in pairs(Client.ClientList) do
+        if plr.Character and not plr.Character.IsDead and plr.Character.IsHuman and plr.Character.JobIdentifier == "convict" and plr.Character.Submarine == Submarine.MainSub then
+            count = count + 1
+        end
+    end
+    return count
+end

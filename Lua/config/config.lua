@@ -87,7 +87,7 @@ end
 ----- GAMEMODE -----
 config.GamemodeConfig = {
     Secret = {
-        PointshopCategories = {"clown", "traitor", "cultist", "prisoner", "maintenance", "materials", "medical", "traitormedic", "security", "ships", "eventmanager", "chef", "janitor"},
+        PointshopCategories = {"clown", "traitormedic", "traitor", "cultist", "deathspawn", "prisoner", "maintenance", "materials", "medical", "security", "ships", "eventmanager", "chef", "janitor"},
         EndOnComplete = true,           -- end round everyone but traitors are dead
         EnableRandomEvents = true,
         EndGameDelaySeconds = 15,
