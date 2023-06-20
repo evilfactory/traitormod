@@ -1,7 +1,7 @@
 local role = Traitormod.RoleManager.Roles.Antagonist:new()
 role.Name = "Clown"
 
-local MAIN_OBJECTIVE = "Assassinate"
+local MAIN_OBJECTIVE = "StealIDCard"
 
 function role:ClownLoop(first)
     if not Game.RoundStarted then return end
@@ -13,6 +13,7 @@ function role:ClownLoop(first)
     mainObjective:Init(self.Character)
     local target = self:FindValidTarget(mainObjective)
     if not self.Character.IsDead and mainObjective:Start(target) then
+        table.insert(self.StolenTargets, target)
         self:AssignObjective(mainObjective)
 
         local client = Traitormod.FindClientCharacter(self.Character)
@@ -43,9 +44,13 @@ function role:ClownLoop(first)
 end
 
 function role:Start()
+    self.StolenTargets = {}
+
     Traitormod.Stats.AddCharacterStat("Traitor", self.Character, 1)
 
-    self:ClownLoop(true)
+    for i = 1, 3, 1 do
+        self:ClownLoop(true)      
+    end
 
     local pool = {}
     for key, value in pairs(self.SubObjectives) do pool[key] = value end
@@ -181,7 +186,13 @@ end
 function role:FilterTarget(objective, character)
     if not self.SelectBotsAsTargets and character.IsBot then return false end
 
-    if objective.Name == "Assassinate" and self.SelectUniqueTargets then
+    for key, value in pairs(self.StolenTargets) do
+        if value == character then
+            return false
+        end
+    end
+
+    if objective.Name == MAIN_OBJECTIVE and self.SelectUniqueTargets then
         for key, value in pairs(Traitormod.RoleManager.FindCharactersByRole("Clown")) do
             local targetRole = Traitormod.RoleManager.GetRole(value)
 

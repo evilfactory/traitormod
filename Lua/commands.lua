@@ -585,6 +585,8 @@ Traitormod.AddCommand("!ongoingevents", function (client, args)
 end)
 
 Traitormod.AddCommand("!giveghostrole", function (client, args)
+    if not client.HasPermission(ClientPermissions.ConsoleCommands) then return end
+    
     if #args < 2 then
         Traitormod.SendMessage(client, "Usage: !giveghostrole <ghost role name> <character>")
         return true

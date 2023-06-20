@@ -55,6 +55,14 @@ function gm:AssignAntagonists(antagonists)
                 end
             end
         end
+
+        Hook.Add("traitormod.midroundspawn", "Traitormod.Secret.MidRoundSpawn", function (client, character)
+            local role = Traitormod.RoleManager.GetRole(character)
+            if role == nil then
+                role = Traitormod.RoleManager.Roles["Crew"]
+                Traitormod.RoleManager.AssignRole(character, role:new())
+            end
+        end)
     end
 
     local function Assign(roles)
@@ -322,7 +330,8 @@ function gm:End()
 
     Game.EnableControlHusk(false)
 
-    Hook.Remove("characterDeath", "Traitormod.Secret.CharacterDeath");
+    Hook.Remove("characterDeath", "Traitormod.Secret.CharacterDeath")
+    Hook.Remove("traitormod.midroundspawn", "Traitormod.Secret.MidRoundSpawn")
 end
 
 function gm:Think()
