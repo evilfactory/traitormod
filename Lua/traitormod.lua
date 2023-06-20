@@ -387,9 +387,15 @@ Hook.Patch("Barotrauma.Items.Components.Terminal", "ServerEventRead", function(i
     local output = msg.ReadString()
     msg.BitPosition = rewindBit -- this is so the game can still read the net message, as you cant read the same bit twice
 
+    local item = instance.Item
+
+    Hook.Call("traitormod.terminalWrite", item, client, output)
+end, Hook.HookMethodType.Before)
+
+
+Hook.Add("traitormod.terminalWrite", "Traitormod.PointItem", function (item, client, output)
     if output ~= "claim" then return end
 
-    local item = instance.Item
     local data = Traitormod.PointItems[item]
 
     if data == nil then return end
@@ -406,9 +412,7 @@ Hook.Patch("Barotrauma.Items.Components.Terminal", "ServerEventRead", function(i
     terminal.SyncHistory()
 
     Traitormod.PointItems[item] = nil
-
-end, Hook.HookMethodType.Before)
-
+end)
 
 if Traitormod.Config.OverrideRespawnSubmarine then
     Traitormod.SubmarineBuilder = dofile(Traitormod.Path .. "/Lua/submarinebuilder.lua")
