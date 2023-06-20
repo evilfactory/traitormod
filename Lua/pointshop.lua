@@ -526,7 +526,7 @@ Hook.Add("roundEnd", "TraitorMod.PointShop.RoundEnd", function ()
     if Traitormod.Config.TestMode then return end
     if config.PointShopConfig.DeathSpawnRefundAtEndRound then
         for client, refundTable in pairs(ps.Refunds) do
-            if client ~= nil and not client.Character.IsPet then -- client.Character is surely alive
+            if client.Character ~= nil and not client.Character.IsPet then -- client.Character is surely alive
                 -- it will also remove elements in the ps.Refunds
                 refundProduct(client, refundTable)
             end
