@@ -171,6 +171,7 @@ language.ObjectiveRepairHull = "Repair (%s/%s) damage from the hull."
 language.ObjectiveSecurityTeamSurvival = "Make sure at least one member of the security team survives."
 language.ObjectiveCleanBody = "Dump %s's body out the airlock once they have expired."
 language.ObjectiveCrewSurvival = "Ensure atleast 3 members of the crew survive."
+language.ObjectivePrisoner = "Ensure atleast %s convicts are in their cells at the end of the round."
 
 language.ObjectiveText = "Assassinate the crew in order to complete your mission."
 
