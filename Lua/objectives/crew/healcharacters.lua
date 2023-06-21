@@ -1,8 +1,8 @@
 local objective = Traitormod.RoleManager.Objectives.Objective:new()
 
 objective.Name = "HealCharacters"
-objective.AmountPoints = 400
-objective.Amount = 500
+objective.AmountPoints = 350
+objective.Amount = 200
 
 function objective:Start(target)
     self.Progress = 0
@@ -15,7 +15,7 @@ end
 function objective:CharacterHealed(character, healer, amount)
     if healer ~= self.Character then return end
 
-    self.Progress = self.Progress + amount
+    self.Progress = self.Progress + amount + 2
     self.Text = string.format(Traitormod.Language.ObjectiveHealCharacters, math.floor(self.Progress), self.Amount, self.MinCondition)
 end
 
