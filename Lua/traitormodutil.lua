@@ -470,6 +470,17 @@ Traitormod.ClientLogName = function(client, name)
     return log
 end
 
+Traitormod.CharacterLogName = function(character, name)
+    if name == nil then name = character.Name end
+
+    local client = Traitormod.FindClientCharacter(character)
+
+    name = string.gsub(name, "%‖", "")
+
+    local log = "‖metadata:" .. client.SteamID .. "‖" .. name .. "‖end‖"
+    return log
+end
+
 Traitormod.InsertString = function(str1, str2, pos)
     return str1:sub(1,pos)..str2..str1:sub(pos+1)
 end
