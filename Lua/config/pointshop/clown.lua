@@ -514,21 +514,6 @@ category.Products = {
     },
 
     {
-        Identifier = "clownmagic",
-        Price = 900,
-        Limit = 4,
-        IsLimitGlobal = true,
-
-        CanBuy = function (client, product)
-            return not Traitormod.RoundEvents.IsEventActive("ClownMagic")
-        end,
-
-        Action = function ()
-            Traitormod.RoundEvents.TriggerEvent("ClownMagic")
-        end
-    },
-
-    {
         Identifier = "randomizelights",
         Price = 300,
         Limit = 3,
