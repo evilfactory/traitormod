@@ -18,7 +18,7 @@ end
 function objective:IsCompleted()
     local count = Traitormod.CountAliveConvictsInsideMainSub()
 
-    if count > objective.MinCount then
+    if count >= objective.MinCount then
         return true
     end
 
