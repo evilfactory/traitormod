@@ -16,7 +16,7 @@ function objective:IsCompleted()
         if value.HasJob("janitor") or value.HasJob("staff") and not value.IsDead and value.TeamID == CharacterTeamType.Team1 then
             objective.Count = objective.Count + 1
 
-            if objective.Count > 4 then
+            if objective.Count > 3 then
                 return true
             end
         end
