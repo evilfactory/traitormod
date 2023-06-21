@@ -161,6 +161,17 @@ Traitormod.SendMessage = function (client, text, icon)
     Game.SendDirectChatMessage("", text, nil, Traitormod.Config.ChatMessageType, client)
 end
 
+Traitormod.SendClientMessage = function (text, icon, color, client)
+    local messageChat = ChatMessage.Create("", text, ChatMessageType.Default, nil, nil)
+    if color then messageChat.Color = color end
+    Game.SendDirectChatMessage(messageChat, client)
+
+    local messageBox = ChatMessage.Create("", text, ChatMessageType.ServerMessageBoxInGame, nil, nil)
+    if icon then messageBox.IconStyle = icon end
+    if color then messageBox.Color = color end
+    Game.SendDirectChatMessage(messageBox, client)
+end
+
 Traitormod.SendChatMessage = function (client, text, color)
     if not client or not text or text == "" then
         return
