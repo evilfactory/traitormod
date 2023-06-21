@@ -2,7 +2,7 @@ local objective = Traitormod.RoleManager.Objectives.Objective:new()
 
 objective.Name = "HealCharacters"
 objective.AmountPoints = 350
-objective.Amount = 200
+objective.Amount = 150
 
 function objective:Start(target)
     self.Progress = 0
