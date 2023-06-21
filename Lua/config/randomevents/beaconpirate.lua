@@ -44,6 +44,7 @@ event.Start = function ()
     event.EnteredMainSub = false
 
     character.CanSpeak = true
+    character.TeamID = CharacterTeamType.Team2
     character.GiveJobItems(nil)
 
     local idCard = character.Inventory.GetItemInLimbSlot(InvSlotType.Card)
@@ -164,7 +165,6 @@ event.Start = function ()
 
     local text = "There have been reports about a notorious pirate with a PUCS suit terrorizing these waters, the pirate was detected recently inside a beacon station - eliminate the pirate to claim a reward of " .. event.AmountPoints .. " points for the entire crew."
     Traitormod.RoundEvents.SendEventMessage(text, "CrewWalletIconLarge")
-    character.TeamID = CharacterTeamType.Team2
 
     Traitormod.GhostRoles.Ask("Beacon Pirate", function (client)
         Traitormod.LostLivesThisRound[client.SteamID] = false
