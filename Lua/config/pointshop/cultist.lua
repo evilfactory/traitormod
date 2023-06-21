@@ -56,8 +56,33 @@ category.Init = function ()
             end
         end
     end)
+    --revival fluid
+    Hook.Patch("Barotrauma.Items.Components.MeleeWeapon", "HandleImpact", function (instance, ptable)
+        if not instance.Item.HasTag("revivalfluid") then return end
 
+        local limb = ptable["targetFixture"].Body.UserData
+        if limb == nil or not LuaUserData.IsTargetType(limb, "Barotrauma.Limb") then return end
+        
+        local character = limb.character
+        if character == nil or not character.IsHuman or not character.IsDead then return end
+        
+        -- it will revive the character and give it the husk infection
+        character.Revive()
+        local infection = AfflictionPrefab.Prefabs["huskinfection"]
+        character.CharacterHealth.ApplyAffliction(character.AnimController.MainLimb, infection.Instantiate(100))
+        local affliction = character.CharacterHealth.GetAffliction("huskinfection", true)
+        if affliction then
+            affliction._strength = 100
+        end
 
+        Timer.Wait(function ()
+            local client = Traitormod.FindClientCharacter(character)
+            if client then
+                client.SetClientCharacter(character)
+            end
+        end, 1500)
+    end)
+    --cultist stinger gives husk
     Hook.Add("meleeWeapon.handleImpact",  "Cultist.Stinger", function (melee, target)
         if melee.Item.Prefab.Identifier ~= "huskstinger" then return end
         if not LuaUserData.IsTargetType(target.UserData, "Barotrauma.Limb") then return end
@@ -238,52 +263,20 @@ category.Products = {
     },
 
     {
-        Identifier = "invisibilitygear",
-        Price = 800,
+        Identifier = "revivalfluid",
+        Price = 1350,
         Limit = 1,
         IsLimitGlobal = false,
-        Action = function (client)
-            local suit = ItemPrefab.GetItemPrefab("divingsuit")
-            Entity.Spawner.AddItemToSpawnQueue(suit, client.Character.Inventory, nil, nil, function (item)
-                local light = item.GetComponentString("LightComponent")
-
-                item.set_InventoryIconColor(Color(100, 100, 100, 50))
-                item.SpriteColor = Color(0, 0, 0, 0)
-                item.Tags = "smallitem"
-                light.LightColor = Color(0, 0, 0, 0)
-
+        Action = function (client, product, items)
+            local prefabHuskeggs = ItemPrefab.GetItemPrefab("huskeggs")
+            Entity.Spawner.AddItemToSpawnQueue(prefabHuskeggs, client.Character.Inventory, nil, nil, function (item)
+                item.Tags = "revivalfluid"
+                item.Description = Traitormod.Language.Pointshop.revivalfluid_desc
+                
+                item.set_InventoryIconColor(Color(255, 191, 0))
+                item.SpriteColor = Color(255, 191, 0)
                 local color = item.SerializableProperties[Identifier("SpriteColor")]
-                Networking.CreateEntityEvent(item, Item.ChangePropertyEventData(color, item))            
-                local invColor = item.SerializableProperties[Identifier("InventoryIconColor")]
-                Networking.CreateEntityEvent(item, Item.ChangePropertyEventData(invColor, item))
-                local lightColor = light.SerializableProperties[Identifier("LightColor")]
-                Networking.CreateEntityEvent(item, Item.ChangePropertyEventData(lightColor, light))
-
-                Entity.Spawner.AddItemToSpawnQueue(ItemPrefab.GetItemPrefab("oxygentank"), item.OwnInventory)
-            end)
-
-            local robes = ItemPrefab.GetItemPrefab("zealotrobes")
-            Entity.Spawner.AddItemToSpawnQueue(robes, client.Character.Inventory, nil, nil, function (item)
-
-                item.set_InventoryIconColor(Color(100, 100, 100, 50))
-                item.SpriteColor = Color(0, 0, 0, 0)
-                item.Tags = "smallitem"
-
-                local color = item.SerializableProperties[Identifier("SpriteColor")]
-                Networking.CreateEntityEvent(item, Item.ChangePropertyEventData(color, item))            
-                local invColor = item.SerializableProperties[Identifier("InventoryIconColor")]
-                Networking.CreateEntityEvent(item, Item.ChangePropertyEventData(invColor, item))
-            end)
-
-            local cap = ItemPrefab.GetItemPrefab("ironhelmet")
-            Entity.Spawner.AddItemToSpawnQueue(cap, client.Character.Inventory, nil, nil, function (item)
-
-                item.set_InventoryIconColor(Color(100, 100, 100, 50))
-                item.SpriteColor = Color(0, 0, 0, 0)
-                item.Tags = "smallitem"
-
-                local color = item.SerializableProperties[Identifier("SpriteColor")]
-                Networking.CreateEntityEvent(item, Item.ChangePropertyEventData(color, item))            
+                Networking.CreateEntityEvent(item, Item.ChangePropertyEventData(color, item))
                 local invColor = item.SerializableProperties[Identifier("InventoryIconColor")]
                 Networking.CreateEntityEvent(item, Item.ChangePropertyEventData(invColor, item))
             end)
