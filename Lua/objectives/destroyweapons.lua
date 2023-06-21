@@ -12,7 +12,7 @@ function objective:Start(target)
         end
     end
 
-    self.Amount = math.min(3, #self.Items)
+    self.Amount = math.min(2, #self.Items)
 
     if self.Amount == 0 then return false end
 
