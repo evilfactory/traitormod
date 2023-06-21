@@ -302,13 +302,14 @@ Traitormod.AddCommand({"!intercom"}, function (client, args)
 
     if #args < 1 then
         Traitormod.SendMessage(client, "Incorrect amount of arguments. usage: !announce [msg] - If you need to announce something with more than one word, surround it in quotations.")
-    
         return true
     end
 
     local text = table.remove(args, 1)
 
-    Traitormod.RoundEvents.SendEventMessage("Intercom: "..text, "GameModeIcon.sandbox", Color.LightGreen)
+    for key, value in pairs(Client.ClientList) do
+        Traitormod.SendClientMessage(text, nil, Color.LightGreen, value)
+    end
 
     return true
 end)
