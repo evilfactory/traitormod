@@ -387,7 +387,7 @@ category.Products = {
     {
         Identifier = "insaneclown",
         Price = 1100,
-        Limit = 1,
+        Limit = 2,
         IsLimitGlobal = true,
         Action = function (client, product, items)
             local characters = {}
