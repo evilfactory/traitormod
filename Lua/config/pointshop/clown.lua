@@ -51,9 +51,9 @@ category.Init = function ()
     
         for key, value in pairs(Util.GetItemsById("idcard")) do
             local distance = Vector2.Distance(client.Character.WorldPosition, value.WorldPosition)
-            local idCard = value.GetComponentString("IdCard")
+            local ownerJobName = idCard.OwnerJob and idCard.OwnerJob.Name or "Unknown"
 
-            terminal.ShowMessage = string.format(Traitormod.Language.Pointshop.idcardlocator_result, tostring(idCard.OwnerJob.Name), idCard.OwnerName, math.floor(distance))
+            terminal.ShowMessage = string.format(Traitormod.Language.Pointshop.idcardlocator_result, tostring(ownerJobName), idCard.OwnerName, math.floor(distance))
         end
 
         terminal.SyncHistory()
