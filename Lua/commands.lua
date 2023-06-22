@@ -1,6 +1,6 @@
 ----- USER COMMANDS -----
 Traitormod.AddCommand("!help", function (client, args)
-    Traitormod.SendMessage(client, Traitormod.Language.Help) --test
+    Traitormod.SendMessage(client, Traitormod.Language.Help)
 
     return true
 end)
