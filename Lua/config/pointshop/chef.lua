@@ -14,9 +14,9 @@ category.Products = {
     },
 
     {
-        Price = 350,
-        Limit = 2,
-        Items = {"he-ketchup"}
+        Price = 300,
+        Limit = 3,
+        Items = {"he-flour", "he-flour"}
     },
 
     {
