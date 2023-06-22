@@ -3,11 +3,7 @@ local objective = Traitormod.RoleManager.Objectives.Objective:new()
 objective.Name = "KeepPrisonersInside"
 objective.AmountPoints = 400
 objective.EndRoundObjective = true
-objective.MinCount = 6
-
-if objective.MinCount > 3 then
-    objective.MinCount = objective.MinCount - 3
-end
+objective.MinCount = 2
 
 function objective:Start(target)
     self.Text = string.format(Traitormod.Language.ObjectivePrisoner, objective.MinCount)
