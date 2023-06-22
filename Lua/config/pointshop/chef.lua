@@ -8,96 +8,96 @@ end
 
 category.Products = {
     {
-        Price = 300,
+        Price = 85,
         Limit = 3,
         Items = {"he-sugar", "he-sugar"}
     },
 
     {
-        Price = 300,
+        Price = 85,
         Limit = 3,
         Items = {"he-flour", "he-flour"}
     },
 
     {
-        Price = 350,
+        Price = 250,
         Limit = 2,
         Items = {"he-ketchup"}
     },
 
     {
-        Price = 500,
-        Limit = 2,
+        Price = 150,
+        Limit = 3,
         Items = {"he-crawlermeatchunk"}
     },
 
     {
-        Price = 750,
-        Limit = 2,
+        Price = 350,
+        Limit = 3,
         Items = {"he-threshermeatchunk"}
     },
 
     {
-        Price = 400,
+        Price = 250,
         Limit = 2,
         Items = {"he-milk"}
     },
 
     {
-        Price = 410,
+        Price = 125,
         Limit = 4,
         Items = {"creepingorange"}
     },
 
     {
-        Price = 310,
+        Price = 100,
         Limit = 4,
         Items = {"saltbulb"}
     },
 
     {
-        Price = 510,
-        Limit = 3,
+        Price = 150,
+        Limit = 4,
         Items = {"bubbleberries"}
     },
 
     {
-        Price = 450,
+        Price = 100,
         Limit = 1,
         IsLimitGlobal = true
         Items = {"he-jarcrate"}
     },
 
     {
-        Price = 500,
+        Price = 250,
         Limit = 1,
         IsLimitGlobal = true,
         Items = {"he-refillstation"}
     },
 
     {
-        Price = 500,
+        Price = 325,
         Limit = 1,
         IsLimitGlobal = true,
         Items = {"he-brewkettle"}
     },
 
     {
-        Price = 400,
+        Price = 150,
         Limit = 1,
         IsLimitGlobal = true,
         Items = {"he-cafeteriacart"}
     },
 
     {
-        Price = 750,
+        Price = 375,
         Limit = 1,
         IsLimitGlobal = true,
         Items = {"he-bottleprinter"}
     },
 
     {
-        Price = 600,
+        Price = 425,
         Limit = 1,
         IsLimitGlobal = true,
         Items = {"he-distiller"}
@@ -116,20 +116,20 @@ category.Products = {
     },
 
     {
-        Price = 150,
+        Price = 135,
         Limit = 5,
         Items = {"ethanol"}
     },
 
     {
-        Price = 150,
+        Price = 125,
         Limit = 5,
         Items = {"yeastshroom"}
     },
 
     {
-        Price = 300,
-        Limit = 5,
+        Price = 15,
+        Limit = 15,
         Items = {"he-glassfragments"}
     },
 }
