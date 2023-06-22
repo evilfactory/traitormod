@@ -6,10 +6,16 @@ objective.Progress = 0
 
 function objective:Start(target)
     self.Text = "Make ("..objective.Progress.."/4) food items."
+    self.Progress = 0
 
     Hook.Add("item.created", "ChefCookingOilObjective", function (item)
+        local parent = item.ParentInventory
+            
+        if parent == nil then return end
+        if LuaUserData.IsTargetType(parent.Owner, "Barotrauma.Character") then return end
+            
         if item.HasTag("fooditem") then
-            objective.Progress = objective.Progress + 1
+            self.Progress = self.Progress + 1
             self.Text = "Make ("..objective.Progress.."/4) food items."
         end
     end)
@@ -18,8 +24,9 @@ function objective:Start(target)
 end
 
 function objective:IsCompleted()
-    if objective.Progress > 3 then
+    if self.Progress > 3 then
         Hook.Remove("item.created", "ChefCookingOilObjective")
+        self.Text = "Make (4/4) food items."
         return true
     end
 
