@@ -5,7 +5,7 @@ objective.AmountPoints = 400
 objective.EndRoundObjective = true
 objective.MinCount = 6
 
-if objective.MintCount > 3 then
+if objective.MinCount > 3 then
     objective.MinCount = objective.MinCount - 3
 end
 
