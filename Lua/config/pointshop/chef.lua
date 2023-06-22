@@ -9,8 +9,20 @@ end
 category.Products = {
     {
         Price = 300,
-        Limit = 2,
+        Limit = 3,
         Items = {"he-sugar", "he-sugar"}
+    },
+
+    {
+        Price = 350,
+        Limit = 2,
+        Items = {"he-ketchup"}
+    },
+
+    {
+        Price = 350,
+        Limit = 2,
+        Items = {"he-ketchup"}
     },
 
     {
@@ -27,8 +39,33 @@ category.Products = {
 
     {
         Price = 400,
-        Limit = 3,
+        Limit = 2,
         Items = {"he-milk"}
+    },
+
+    {
+        Price = 410,
+        Limit = 4,
+        Items = {"creepingorange"}
+    },
+
+    {
+        Price = 310,
+        Limit = 4,
+        Items = {"saltbulb"}
+    },
+
+    {
+        Price = 510,
+        Limit = 3,
+        Items = {"bubbleberries"}
+    },
+
+    {
+        Price = 450,
+        Limit = 1,
+        IsLimitGlobal = true
+        Items = {"he-jarcrate"}
     },
 
     {
