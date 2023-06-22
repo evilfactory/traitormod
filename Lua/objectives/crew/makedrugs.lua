@@ -2,10 +2,10 @@ local objective = Traitormod.RoleManager.Objectives.Objective:new()
 
 objective.Name = "MakeDrugs"
 objective.AmountPoints = 550
-objective.Progress = 0
 
 function objective:Start(target)
     self.Text = "Make ("..objective.Progress.."/5) chemicals or opioids."
+    self.Progress = 0
 
     Hook.Add("item.created", "MedicObjective", function (item)
         local parent = item.ParentInventory
@@ -25,8 +25,8 @@ function objective:Start(target)
              or item.Identifier == "tonicliquid"
              or item.Identifier == "pressurestabilizer")
          then
-            objective.Progress = objective.Progress + 1
-            self.Text = "Make ("..objective.Progress.."/5) chemicals or opioids."
+            self.Progress = self.Progress + 1
+            self.Text = "Make ("..self.Progress.."/5) chemicals or opioids."
          end
     end)
 
@@ -34,8 +34,10 @@ function objective:Start(target)
 end
 
 function objective:IsCompleted()
-    if objective.Progress > 4 then
+    if self.Progress > 4 then
         Hook.Remove("item.created", "MedicObjective")
+        self.Progress = 5
+        self.Text = "Make (5/5) chemicals or opioids."
         return true
     end
 
