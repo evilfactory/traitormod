@@ -2,7 +2,6 @@ local objective = Traitormod.RoleManager.Objectives.Objective:new()
 
 objective.Name = "Make4FoodItems"
 objective.AmountPoints = 600
-objective.Progress = 0
 
 function objective:Start(target)
     self.Text = "Make (0/4) food items."
