@@ -35,14 +35,14 @@ category.Products = {
     },
 
     {
-        Price = 3500,
+        Price = 3100,
         Limit = 1,
         IsLimitGlobal = true,
         Items = {"hackingdevice"},
     },
 
     {
-        Price = 1500,
+        Price = 1300,
         Limit = 1,
         IsLimitGlobal = true,
         Items = {"organscalpel_brain"},
@@ -50,7 +50,7 @@ category.Products = {
 
     {
         Identifier = "randomcoma",
-        Price = 1500,
+        Price = 900,
         Limit = 1,
         IsLimitGlobal = true,
         Action = function (client)
@@ -63,7 +63,7 @@ category.Products = {
 
     {
         Identifier = "arthurmorgan",
-        Price = 1500,
+        Price = 1000,
         Limit = 2,
         IsLimitGlobal = true,
         Action = function (client)
@@ -92,14 +92,14 @@ category.Products = {
     },
 
     {
-        Price = 1750,
+        Price = 1250,
         Limit = 1,
         IsLimitGlobal = true,
         Items = {"surgerybomb"},
     },
 
     {
-        Price = 2900,
+        Price = 2000,
         Limit = 1,
         IsLimitGlobal = true,
         Items = {"surgeryC4Block"},
@@ -113,14 +113,14 @@ category.Products = {
     },
 
     {
-        Price = 600,
+        Price = 350,
         Limit = 1,
         IsLimitGlobal = false,
         Items = {"skillbookeuropanmedicine"},
     },
 
     {
-        Price = 1100,
+        Price = 800,
         Limit = 1,
         IsLimitGlobal = true,
         Items = {"liquidoxygenite", "liquidoxygenite", "liquidoxygenite", "liquidoxygenite",
@@ -128,35 +128,35 @@ category.Products = {
     },
 
     {
-        Price = 2000,
+        Price = 850,
         Limit = 2,
         IsLimitGlobal = false,
         Items = {"antidama2", "antidama2", "antidama2"},
     },
 
     {
-        Price = 2750,
-        Limit = 1,
+        Price = 1100,
+        Limit = 2,
         IsLimitGlobal = false,
         Items = {"sufforin"},
     },
 
     {
-        Price = 900,
-        Limit = 2,
+        Price = 750,
+        Limit = 3,
         IsLimitGlobal = false,
         Items = {"radiotoxin"},
     },
 
     {
-        Price = 1500,
+        Price = 900,
         Limit = 1,
         IsLimitGlobal = false,
         Items = {"endocrinebooster"},
     },
 
     {
-        Price = 1500,
+        Price = 900,
         Limit = 1,
         IsLimitGlobal = true,
         Items = {"combatstimulantsyringe"},
@@ -177,10 +177,10 @@ category.Products = {
     },
 
     {
-        Price = 400,
+        Price = 200,
         Limit = 4,
         IsLimitGlobal = false,
-        Items = {"chloralhydrate"},
+        Items = {"chloralhydrate", "chloralhydrate"},
     },
 
     {
