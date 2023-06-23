@@ -106,6 +106,9 @@ event.Start = function ()
     Entity.Spawner.AddItemToSpawnQueue(ItemPrefab.GetItemPrefab("oxygenitetank"), character.Inventory)
     Entity.Spawner.AddItemToSpawnQueue(ItemPrefab.GetItemPrefab("oxygenitetank"), character.Inventory)
 
+    Entity.Spawner.AddItemToSpawnQueue(ItemPrefab.GetItemPrefab("combatstimulantsyringe"), character.OwnInventory)
+    Entity.Spawner.AddItemToSpawnQueue(ItemPrefab.GetItemPrefab("tourniquet"), character.OwnInventory)
+
     for i = 1, 12, 1 do
         Entity.Spawner.AddItemToSpawnQueue(ItemPrefab.GetItemPrefab("shotgunshell"), character.Inventory)
     end
@@ -140,8 +143,7 @@ event.Start = function ()
         character.Inventory.TryPutItem(item, character.Inventory.FindLimbSlot(InvSlotType.InnerClothes), true, false, character)
     end)
 
-    Entity.Spawner.AddItemToSpawnQueue(ItemPrefab.GetItemPrefab("pucs"), character.Inventory, nil, nil, function (item)
-        Entity.Spawner.AddItemToSpawnQueue(ItemPrefab.GetItemPrefab("combatstimulantsyringe"), item.OwnInventory)
+    Entity.Spawner.AddItemToSpawnQueue(ItemPrefab.GetItemPrefab("scp_renegadedivingsuit"), character.Inventory, nil, nil, function (item)
         Entity.Spawner.AddItemToSpawnQueue(ItemPrefab.GetItemPrefab("oxygenitetank"), item.OwnInventory)
     end)
 
@@ -149,7 +151,7 @@ event.Start = function ()
         item.AddTag("notarget")
     end
 
-    local text = "There have been reports about a notorious pirate with a PUCS suit terrorizing these waters, the pirate was detected recently inside a wrecked submarine - eliminate the pirate to claim a reward of " .. event.AmountPoints .. " points for the entire crew."
+    local text = "There have been reports about a notorious pirate wearing a separatist dive suit terrorizing these waters, the pirate was detected recently inside a wrecked submarine - eliminate the pirate to claim a reward of " .. event.AmountPoints .. " points for the entire crew."
     Traitormod.RoundEvents.SendEventMessage(text, "CrewWalletIconLarge")
 
     Traitormod.GhostRoles.Ask("Wreck Pirate", function (client)
