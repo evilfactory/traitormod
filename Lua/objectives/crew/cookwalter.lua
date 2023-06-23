@@ -16,7 +16,7 @@ function objective:Start(target)
             
         if item.Prefab.Identifier == "meth" then
             self.Progress = self.Progress + 1
-            self.Text = "Cook ("..objective.Progress.."/2) meth on a stove"
+            self.Text = "Cook ("..self.Progress.."/2) meth on a stove"
         end
     end)
 
