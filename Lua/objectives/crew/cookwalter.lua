@@ -4,7 +4,7 @@ objective.Name = "CookMeth"
 objective.AmountPoints = 400
 
 function objective:Start(target)
-    self.Text = "Cook ("..objective.Progress.."/2) meth on a stove"
+    self.Text = "Cook (0/2) meth on a stove"
     self.Progress = 0
 
     Hook.Add("item.created", "ChefCookingMethObjective", function (item)
