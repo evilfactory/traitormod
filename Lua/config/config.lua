@@ -183,8 +183,8 @@ config.RoleConfig = {
             ["guard"] = {"KillLargeMonsters", "KillSmallMonsters", "KeepPrisonersInside"},
             ["prisondoctor"] = {"HealCharacters", "MakeDrugs"},
             ["staff"] = {"RepairElectrical", "RepairMechanical", "RepairHull"},
-            ["janitor"] = {"CleanBodies", "GetHonkMother", "KillPets"},
-            ["convict"] = {"Escape", "KillSmallMonsters"},
+            ["janitor"] = {"CleanBodies", "KillPets"},
+            ["convict"] = {"Escape"},
             ["he-chef"] = {"Make4FoodItems", "CookMeth"},
         }
     },
