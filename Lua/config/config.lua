@@ -147,7 +147,7 @@ config.GamemodeConfig = {
             if client.Character.HasJob("headguard") then return 0 end
             if client.Character.HasJob("convict") then return 0 end
             if client.Character.HasJob("guard") then return 0 end
-            if client.Character.HasJob("prisondoctor") then return 0.7 end
+            if client.Character.HasJob("prisondoctor") then return 0.6 end
             if client.Character.HasJob("he-chef") then return 0.8 end
 
             return 1
