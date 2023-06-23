@@ -14,55 +14,55 @@ category.Products = {
     },
 
     {
-        Price = 400,
+        Price = 150,
         Limit = 2,
         Items = {"opium", "opium"}
     },
 
     {
-        Price = 250,
+        Price = 75,
         Limit = 5,
         Items = {"ethanol"}
     },
 
     {
-        Price = 450,
+        Price = 250,
         Limit = 3,
         Items = {"respawndivingsuit"}
     },
 
     {
-        Price = 2850,
+        Price = 1750,
         Limit = 1,
         Items = {"frogsparalyzantsprayer"}
     },
 
     {
-        Price = 750,
+        Price = 500,
         Limit = 1,
         Items = {"clownmask"}
     },
 
     {
-        Price = 750,
+        Price = 500,
         Limit = 1,
         Items = {"clowncostume"}
     },
 
     {
-        Price = 200,
+        Price = 150,
         Limit = 3,
         Items = {"clowncrate"}
     },
 
     {
-        Price = 500,
+        Price = 85,
         Limit = 1,
         Items = {"scp_memehorn"}
     },
 
     {
-        Price = 600,
+        Price = 200,
         Limit = 2,
         Items = {"he-beerclownjuice"}
     },
