@@ -16,7 +16,7 @@ function objective:Start(target)
             
         if item.HasTag("fooditem") then
             self.Progress = self.Progress + 1
-            self.Text = "Make ("..objective.Progress.."/4) food items."
+            self.Text = "Make ("..self.Progress.."/4) food items."
         end
     end)
 
