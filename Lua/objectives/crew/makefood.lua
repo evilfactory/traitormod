@@ -5,7 +5,7 @@ objective.AmountPoints = 600
 objective.Progress = 0
 
 function objective:Start(target)
-    self.Text = "Make ("..objective.Progress.."/4) food items."
+    self.Text = "Make (0/4) food items."
     self.Progress = 0
 
     Hook.Add("item.created", "ChefCookingOilObjective", function (item)
