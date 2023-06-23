@@ -264,8 +264,8 @@ category.Products = {
 
     {
         Identifier = "revivalfluid",
-        Price = 1350,
-        Limit = 1,
+        Price = 1150,
+        Limit = 2,
         IsLimitGlobal = false,
         Action = function (client, product, items)
             local prefabHuskeggs = ItemPrefab.GetItemPrefab("huskeggs")
