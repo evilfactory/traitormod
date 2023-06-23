@@ -21,9 +21,9 @@ function objective:Start(target)
 
     self.TargetName = Traitormod.GetJobString(target) .. " " .. target.Name
 
-    self.Text = string.format(Traitormod.Language.ObjectiveKidnap, self.TargetName, math.floor(self.SecondsLeft))
-
     self.SecondsLeft = self.Seconds
+
+    self.Text = string.format(Traitormod.Language.ObjectiveKidnap, self.TargetName, math.floor(self.SecondsLeft))
 
     return true
 end
