@@ -4,8 +4,8 @@ objective.Name = "MakeDrugs"
 objective.AmountPoints = 550
 
 function objective:Start(target)
-    self.Text = "Make ("..objective.Progress.."/5) chemicals or opioids."
     self.Progress = 0
+    self.Text = "Make ("..self.Progress.."/5) chemicals or opioids."
 
     Hook.Add("item.created", "MedicObjective", function (item)
         local parent = item.ParentInventory
