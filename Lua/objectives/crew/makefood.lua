@@ -11,7 +11,9 @@ function objective:Start(target)
         local parent = item.ParentInventory
             
         if parent == nil then return end
+        print("argument 1 passed")
         if LuaUserData.IsTargetType(parent.Owner, "Barotrauma.Character") then return end
+        print("argument 2 passed")
             
         if item.HasTag("fooditem") then
             self.Progress = self.Progress + 1
