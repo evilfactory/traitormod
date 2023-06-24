@@ -12,6 +12,7 @@ function objective:Start(target)
             
         if parent == nil then return end
         print("argument 1 passed")
+        print(tostring(parent))
         if LuaUserData.IsTargetType(parent.Owner, "Barotrauma.Character") then return end
         print("argument 2 passed")
             
