@@ -14,8 +14,8 @@ end
 
 function objective:CharacterHealed(character, healer, amount)
     if healer ~= self.Character then return end
-
-    self.Progress = self.Progress + amount + 2
+    
+    self.Progress = self.Progress + amount
     self.Text = string.format(Traitormod.Language.ObjectiveHealCharacters, math.floor(self.Progress), self.Amount, self.MinCondition)
 end
 

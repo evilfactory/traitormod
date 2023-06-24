@@ -8,18 +8,16 @@ function objective:Start(target)
     self.Progress = 0
 
     Hook.Add("item.created", "ChefCookingOilObjective", function (item)
-        local parent = item.ParentInventory
-            
-        if parent == nil then return end
-        print("argument 1 passed")
-        print(tostring(parent))
-        if LuaUserData.IsTargetType(parent.Owner, "Barotrauma.Character") then return end
-        print("argument 2 passed")
-            
-        if item.HasTag("fooditem") then
-            self.Progress = self.Progress + 1
-            self.Text = "Make ("..self.Progress.."/4) food items."
-        end
+        Timer.Wait(function ()
+            local parent = item.ParentInventory
+            if parent == nil then return end
+            if LuaUserData.IsTargetType(parent.Owner, "Barotrauma.Character") then return end
+                
+            if item.HasTag("fooditem") then
+                self.Progress = self.Progress + 1
+                self.Text = "Make ("..self.Progress.."/4) food items."
+            end
+        end, 750)
     end)
 
     return true

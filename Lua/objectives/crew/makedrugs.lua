@@ -4,40 +4,32 @@ objective.Name = "MakeDrugs"
 objective.AmountPoints = 550
 
 function objective:Start(target)
-    self.Text = "Make (0/5) chemicals or opioids."
+    self.Text = "Make (0/10) medical items."
     self.Progress = 0
 
     Hook.Add("item.created", "MedicObjective", function (item)
-        local parent = item.ParentInventory
+        Timer.Wait(function ()
+            local parent = item.ParentInventory
             
-        if parent == nil then return end
-        if LuaUserData.IsTargetType(parent.Owner, "Barotrauma.Character") then return end
-        if parent.Owner.Prefab.Identifier ~= "medicalfabricator" then return end
-            
-        if (item.Identifier == "antidama1"
-             or item.Identifier == "antidama2"
-             or item.Identifier == "combatstimulantsyringe"
-             or item.Identifier == "opium"
-             or item.Identifier == "steroids"
-             or item.Identifier == "deusizine"
-             or item.Identifier == "meth"
-             or item.Identifier == "pomegrenadeextract"
-             or item.Identifier == "tonicliquid"
-             or item.Identifier == "pressurestabilizer")
-         then
-            self.Progress = self.Progress + 1
-            self.Text = "Make ("..self.Progress.."/5) chemicals or opioids."
-         end
+            if parent == nil then return end
+            if LuaUserData.IsTargetType(parent.Owner, "Barotrauma.Character") then return end
+            if parent.Owner.Prefab.Identifier ~= "medicalfabricator" then return end
+
+            if item.HasTag("medical") then
+                self.Progress = self.Progress + 1
+                self.Text = "Make ("..self.Progress.."/10) medical items."
+             end
+        end, 750)
     end)
 
     return true
 end
 
 function objective:IsCompleted()
-    if self.Progress > 4 then
+    if self.Progress > 9 then
         Hook.Remove("item.created", "MedicObjective")
-        self.Progress = 5
-        self.Text = "Make (5/5) chemicals or opioids."
+        self.Progress = 10
+        self.Text = "Make (10/10) medical items."
         return true
     end
 
