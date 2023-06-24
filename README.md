@@ -1,7 +1,7 @@
-__**The Traitor Mode**__
+__**Prison RP Traitors**__
 
-> Evil Factory's Traitor Mod is a server-sided mod that overrides the vanilla traitor mode. If a round starts with enough players, some crew members may be selected as traitor and receive new objectives to prevent the rest of the crew from achieving their mission. The traitors are selected by a weight system, assuring that players who have not been traitors so often will be more likely to be chosen. 
-> Captains and Security Officers are always loyal to the ship and need to work together to find and restrain all traitors so the crew can complete their mission.
+> Television's Prison RP Traitor Mod is a fork of Evil Factory's traitormod that keeps in mind the custom roles and objectives that the RP mode offers.
+> The high-ranking members are always loyal to the coalition and need to work together to find and restrain all traitors so the crew can complete their mission.
 
 __**The Points System**__
 
@@ -30,14 +30,20 @@ __**Traitor Types**__
 > • *Kidnapping*
 > Put a selected crewmate in handcuffs for a given time.
 > 
-> • *Poison Captain*
-> Inject the acting captain with poison. This is only available for medic traitors
+> • *Poison Warden*
+> Inject the warden with poison. This is only available for medic traitors
 > 
 > • *Steal Captain ID*
 > Take the ID card from your acting captain and put it in your inventory.
 > 
 > • *Survive*
 > Finish at least one main objective and be alive at the end of the round. Can be set to be always active.
+>
+> • *Deconstruct weapons*
+> Deconstruct 2 weapons to prevent the coalition from fighting back.
+
+## Medic Traitor
+>Medic traitors are a variant of the normal traitor that are medics. They have access to a special pointshop and objectives.
 
 ## Husk Cultist
 
