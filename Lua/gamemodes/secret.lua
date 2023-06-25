@@ -326,6 +326,12 @@ function gm:End()
         self:CheckHandcuffedTraitors(character)
     end
 
+    for key, character in pairs(Character.CharacterList) do
+        if character.IsHuman then
+            Networking.CreateEntityEvent(character, Character.AddToCrewEventData.__new(character.TeamID, {}))
+        end
+    end
+
     gm:AwardCrew()
 
     Game.EnableControlHusk(false)
