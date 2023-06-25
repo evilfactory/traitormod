@@ -185,7 +185,7 @@ event.Start = function ()
 
         if character.Submarine == Submarine.MainSub and not event.EnteredMainSub then
             event.EnteredMainSub = true
-            Traitormod.RoundEvents.SendEventMessage("Attention! A dangerous PUCS pirate has been detected inside the main submarine!")
+            Traitormod.RoundEvents.SendEventMessage("Attention! A dangerous separatist pirate has been detected inside the main submarine!")
         end
     end)
 end
