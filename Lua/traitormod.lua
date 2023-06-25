@@ -86,6 +86,7 @@ Traitormod.RoundStart = function()
     pointsGiveTimer = Timer.GetTime() + Traitormod.Config.ExperienceTimer
 
     Traitormod.CodeWords = Traitormod.SelectCodeWords()
+    Game.ExecuteCommand('enablecheats')
 
     -- give XP to players based on stored points
     for key, value in pairs(Client.ClientList) do
