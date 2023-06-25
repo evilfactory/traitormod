@@ -44,7 +44,9 @@ Traitormod.AddCommand("!announce", function(client, args)
                 msg = msg .. " " .. word
             end
 
-            Traitormod.RoundEvents.SendEventMessage("Warden's Announcement: "..msg, "GameModeIcon.sandbox", Color.LightBlue)
+            for key, value in pairs(Client.ClientList) do
+               Traitormod.SendClientMessage("Warden's Announcement:"..msg, nil, Color.LightBlue, value)
+            end
             return true
         elseif client.Character and client.Character.TeamID == CharacterTeamType.Team2 and #args > 0 then
             local msg = ""
