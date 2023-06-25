@@ -4,7 +4,11 @@ category.Identifier = "eventmanager"
 category.Decoration = "ManAndHisRaptor"
 
 category.CanAccess = function(client)
-    return client.HasPermission(ClientPermissions.ConsoleCommands)
+    if client.HasPermission(ClientPermissions.ManageRound) then
+        return true
+    else
+        return false
+    end
 end
 
 local function SpawnCreature(species, client, product, paidPrice, insideHuman)
