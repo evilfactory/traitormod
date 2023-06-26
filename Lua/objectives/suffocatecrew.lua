@@ -20,7 +20,7 @@ function objective:IsCompleted()
     if causeOfDeath == nil then return false end
 
     if causeOfDeath.Type == CauseOfDeathType.Affliction then
-        return causeOfDeath.Affliction.Identifier == "oxygenlow"
+        return causeOfDeath.Affliction.Identifier == "Neurotrauma"
     end
 
     if causeOfDeath.Type == CauseOfDeathType.Suffocation or causeOfDeath.Type == CauseOfDeathType.Drowning then
