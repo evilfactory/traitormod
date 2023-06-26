@@ -13,23 +13,25 @@ function objective:Start(target)
 end
 
 function objective:IsCompleted()
-    if not self.Target.IsDead then return false end
-
-    local causeOfDeath = self.Target.CauseOfDeath
-
-    if causeOfDeath == nil then return false end
-
-    if causeOfDeath.Type == CauseOfDeathType.Affliction then
-        return causeOfDeath.Affliction.Identifier == "Neurotrauma"
+    if self.Target == nil then
+        return false
     end
 
-    if causeOfDeath.Type == CauseOfDeathType.Suffocation or causeOfDeath.Type == CauseOfDeathType.Drowning then
+    local aff = self.Target.CharacterHealth.GetAffliction("respiratoryarrest", true)
+
+    if aff ~= nil and aff.Strength > 15 then
         return true
     end
 end
 
 function objective:IsFailed()
-    if self.Target.IsDead then return true end
+    if self.Target == nil then
+        return false
+    end
+
+    if self.Target.IsDead then
+        return true
+    end
 
     return not conditionsMet
 end
