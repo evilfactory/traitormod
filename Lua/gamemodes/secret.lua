@@ -26,9 +26,29 @@ function gm:CharacterDeath(character)
     end
 
     local liveMsg, liveIcon = Traitormod.AdjustLives(client, -1)
-    Traitormod.SetData(client, "Name", nil)
 
     Traitormod.SendMessage(client, liveMsg, liveIcon)
+end
+
+function Traitormod.randomizeCharacterName(character)
+    local client = Traitormod.FindClientCharacter(character)
+    local randomName = ""
+
+    if client then
+        if character.IsMale then
+            randomName = Traitormod.GetRandomName("male")
+        else
+            randomName = Traitormod.GetRandomName("female")
+        end
+
+        if Traitormod.GetData(client, "RPName") == nil then
+            Traitormod.SetData(client, "RPName", randomName)
+            Traitormod.SaveData()
+        end
+
+        character.Info.Rename(Traitormod.GetData(client, "RPName"))
+        Traitormod.Log(Traitormod.ClientLogName(client).." has spawned in as "..Traitormod.GetData(client, "RPName"))
+    end
 end
 
 function gm:Start()
@@ -43,23 +63,8 @@ function gm:Start()
     end)
 
     Hook.Add("character.giveJobItems", "Traitormod.Secret.giveJobItems", function(character, waypoint)
-        local client = Traitormod.FindClientCharacter(character)
-        local randomName = ""
         Networking.CreateEntityEvent(character, Character.RemoveFromCrewEventData.__new(character.TeamID, {}))
-
-        if client then
-            if character.IsMale then
-                randomName = Traitormod.GetRandomName("male")
-            else
-                randomName = Traitormod.GetRandomName("female")
-            end
-
-            if Traitormod.GetData(client, "Name") == nil then
-                Traitormod.SetData(client, "Name", randomName)
-            end
-
-            character.Info.Rename(Traitormod.GetData(client, "Name"))
-        end
+        Traitormod.randomizeCharacterName(character)
     end)
 
     self:SelectAntagonists()

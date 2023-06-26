@@ -103,13 +103,15 @@ Traitormod.RoundStart = function()
         -- Send Welcome message
         Traitormod.SendWelcome(value)
     end
-   --[[
+
     if Traitormod.Config.HideCrewList then
-        for key, value in pairs(Character.CharacterList) do
-            Networking.CreateEntityEvent(value, Character.RemoveFromCrewEventData.__new(value.TeamID, {}))
+        for key, character in pairs(Character.CharacterList) do
+            if character.IsHuman then
+                Networking.CreateEntityEvent(character, Character.RemoveFromCrewEventData.__new(character.TeamID, {}))
+                Traitormod.randomizeCharacterName(character)
+            end
         end
     end
-   --]]
 
     if Traitormod.SelectedGamemode == nil then
         Traitormod.Log("No gamemode selected!")
@@ -141,6 +143,15 @@ end)
 
 Hook.Add("roundStart", "Traitormod.RoundStart", function()
     Traitormod.RoundStart()
+end)
+
+Hook.Add("characterDeath", "Traitormod.CharacterDeath", function(character)
+    if not character.IsHuman then return end
+    local client = Traitormod.FindClientCharacter(character)
+
+    if client then
+        Traitormod.SetData(client, "RPName", nil)
+    end
 end)
 
 Hook.Add("missionsEnded", "Traitormod.MissionsEnded", function(missions)
