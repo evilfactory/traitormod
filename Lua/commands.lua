@@ -209,7 +209,7 @@ Traitormod.AddCommand("!alive", function (client, args)
     local msg = ""
     for index, value in pairs(Character.CharacterList) do
         if value.IsHuman and not value.IsBot then
-            local job = tostring(Character.Info.Job.Prefab.Name)
+            local job = tostring(client.Character.Info.Job.Prefab.Name)
             local targetClient = Traitormod.FindClientCharacter(value)
             
             if value.IsDead then
