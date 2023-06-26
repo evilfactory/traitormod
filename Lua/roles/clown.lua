@@ -48,7 +48,7 @@ function role:Start()
 
     Traitormod.Stats.AddCharacterStat("Traitor", self.Character, 1)
 
-    for i = 1, 3, 1 do
+    for i = 1, 2, 1 do
         self:ClownLoop(true)      
     end
 
