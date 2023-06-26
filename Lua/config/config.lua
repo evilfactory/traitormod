@@ -33,6 +33,8 @@ config.EnableControlHusk = false     -- EXPERIMENTAL: enable to control husked c
 config.DeathLogBook = true
 config.HideCrewList = true -- EXPERIMENTAL
 config.RoleplayNames = true -- if you want a rp name on round start
+config.RoleIntros = true -- messages for each role everytime the round starts
+config.NLRMessage = true
 
 -- This overrides the game's respawn shuttle, and uses it as a submarine injector, to spawn submarines in game easily. Respawn should still work as expected, but the shuttle submarine file needs to be manually added here.
 -- Note: If this is disabled, traitormod will disable all functions related to submarine spawning.

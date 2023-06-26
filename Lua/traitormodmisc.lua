@@ -131,6 +131,7 @@ end
 Hook.Add("roundStart", "MessagesOnRoundStart", function ()
     Timer.Wait(function ()
         for key, value in pairs(Client.ClientList) do
+            if not Traitormod.Config.RoleIntros then return end
             local name = Traitormod.GetData(client, "RPName")
 
             if not name then
@@ -170,6 +171,7 @@ Hook.Add("roundStart", "MessagesOnRoundStart", function ()
     end, 25000)
 
     Timer.Wait(function ()
+        if not Traitormod.Config.NLRMessage then return end
         Traitormod.RoundEvents.SendEventMessage("Remember, NLR! You don't remember anything about your past lives.", "GameModeIcon.pvp", Color.Red)
     end, 37000)
 end)
