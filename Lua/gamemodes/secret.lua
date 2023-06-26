@@ -47,6 +47,8 @@ function Traitormod.randomizeCharacterName(character)
         end
 
         character.Info.Rename(Traitormod.GetData(client, "RPName"))
+        local property = character.Info.SerializableProperties[Identifier("Name")]
+        Networking.CreateEntityEvent(character.Info.Name, Item.ChangePropertyEventData(property, character.Info.Name))
         Traitormod.Log(Traitormod.ClientLogName(client).." has spawned in as "..Traitormod.GetData(client, "RPName"))
     end
 end
