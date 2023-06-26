@@ -11,6 +11,18 @@ Traitormod.AddCommand("!helpadmin", function (client, args)
     return true
 end)
 
+Traitormod.AddCommand("!name", function (client, args)
+    local name = Traitormod.GetData(client, "RPName")
+
+    if name then
+        Traitormod.SendMessage(client, "Your RP name is "..name..". You will have this name til your character dies.")
+    else
+        Traitormod.SendMessage(client, "You do not have an RP name.")
+    end
+
+    return true
+end)
+
 Traitormod.AddCommand("!helptraitor", function (client, args)
     Traitormod.SendMessage(client, Traitormod.Language.HelpTraitor)
 
