@@ -63,8 +63,8 @@ function gm:Start()
     end)
 
     Hook.Add("character.giveJobItems", "Traitormod.Secret.giveJobItems", function(character, waypoint)
-        Networking.CreateEntityEvent(character, Character.RemoveFromCrewEventData.__new(character.TeamID, {}))
-        Traitormod.randomizeCharacterName(character)
+        if Traitormod.Config.HideCrewList then Networking.CreateEntityEvent(character, Character.RemoveFromCrewEventData.__new(character.TeamID, {})) end
+        if Traitormod.Config.RoleplayNames then Traitormod.randomizeCharacterName(character) end
     end)
 
     self:SelectAntagonists()

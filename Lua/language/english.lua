@@ -400,7 +400,7 @@ language.MaleNames = {"Liam","Noah","James","Oliver","Benjamin","Elijah","Lucas"
 "Roderick","Roland","Romeo","Ronnie","Rosendo","Roy","Rupert","Sammie","Saul","Sergei","Seth","Shelby","Sidney","Simon","Son",
 "Sonny","Steve","Stevie","Sylvester","Terrance","Terrell","Timur","Tod","Todd","Tommie","Tory","Travis","Tyson","Ulof","Waldo",
 "Warner","Vasili","Wilford","Will","Willie","Willy","Winston","Virgil","Virgilio","Zachary","Clark","Johnathan","Sans","Kieran","Javier","Leviticus",
-"Angelo","Colm","Rains","Flaco","Jean-Luc","Zubin","Dutch","Hercule"}
+"Angelo","Colm","Rains","Flaco","Jean-Luc","Zubin","Dutch","Hercule","Gaylord","Banana","Xalamus","Foob","Dillinger","Carl","Freddie","Micah"}
 
 language.FemaleNames = {"Emma","Olivia","Ava","Isabella","Sophia","Charlotte","Mia","Amelia","Harper","Evelyn","Abigail","Emily","Penelope",
 "Elizabeth","Mila","Ella","Avery","Ashlynn","Camila","Aria","Scarlett","Victoria","Madison","Luna","Grace","Chloe","Layla","Riley",
@@ -451,6 +451,6 @@ language.LastNames = {"Smith","Hall","Stewart","Price","Johnson","Allen","Sanche
 "Tate","Terry","Thompkins","Tootle","Tseng","Tyson","Ulrich","Walls","Vaughn","Vazquez","Veach","Weaver","Velazquez","Welden","Wheeling",
 "Whitely","Wiley","Williams","Zhang","Barotrauma","van der Linde","Matthews","Pinhead","Marston","Escuella","MacGuire","Trelawny","Duffy","Cornwall",
 "O'Driscoll","Bronte","Falls","Hernández","Granger","Adler","Picard","Hawley","Federman","Horowitz","Cantor","Compson","Dickens","Fussar","Valdespino",
-"Boolean"}
+"Boolean","Man","Harnley","Guitar","Fentanyl","Bones","Dingle","Delcan","Truther","Leana"}
 
 return language

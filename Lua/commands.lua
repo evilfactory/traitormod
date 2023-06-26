@@ -17,7 +17,7 @@ Traitormod.AddCommand("!name", function (client, args)
     if name then
         Traitormod.SendMessage(client, "Your RP name is "..name..". You will have this name til your character dies.")
     else
-        Traitormod.SendMessage(client, "You do not have an RP name.")
+        Traitormod.SendMessage(client, "You do not have a RP name.")
     end
 
     return true

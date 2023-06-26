@@ -151,6 +151,7 @@ Hook.Add("characterDeath", "Traitormod.CharacterDeath", function(character)
 
     if client then
         Traitormod.SetData(client, "RPName", nil)
+        Traitormod.SaveData()
     end
 end)
 
