@@ -304,7 +304,7 @@ Traitormod.AddCommand({"!intercom"}, function (client, args)
 
     local text = table.remove(args, 1)
 
-    Traitormod.RoundEvents.SendEventMessage(text)
+    Traitormod.RoundEvents.SendEventMessage(text, nil, Color.LightGreen)
 
     return true
 end)
