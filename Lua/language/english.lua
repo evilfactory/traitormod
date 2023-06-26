@@ -107,6 +107,8 @@ language.CrewWins = "The crew successfully completed their mission!"
 language.TraitorHandcuffed = "The crew handcuffed the traitor %s."
 language.TraitorsWin = "The traitors succeeded in completing their objectives!"
 
+language.CMDPlaytime = "Your playtime is %s."
+
 language.TraitorsRound = "Traitors of the round:"
 language.NoTraitors = "No traitors."
 language.TraitorAlive = "You survived as a traitor."

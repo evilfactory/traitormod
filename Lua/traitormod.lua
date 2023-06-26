@@ -439,6 +439,7 @@ Traitormod.RoundEvents = dofile(Traitormod.Path .. "/Lua/roundevents.lua")
 Traitormod.MidRoundSpawn = dofile(Traitormod.Path .. "/Lua/midroundspawn.lua")
 Traitormod.GhostRoles = dofile(Traitormod.Path .. "/Lua/ghostroles.lua")
 
+dofile(Traitormod.Path .. "/Lua/playtime.lua")
 dofile(Traitormod.Path .. "/Lua/commands.lua")
 dofile(Traitormod.Path .. "/Lua/statistics.lua")
 dofile(Traitormod.Path .. "/Lua/respawnshuttle.lua")

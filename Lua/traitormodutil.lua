@@ -564,3 +564,6 @@ Traitormod.GetRandomName = function (gender)
     return fullname
 end
 
+Traitormod.FormatTime = function(seconds)
+    return TimeSpan.FromSeconds(seconds).ToString()
+end
