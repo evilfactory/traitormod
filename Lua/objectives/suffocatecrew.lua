@@ -29,20 +29,7 @@ function objective:IsCompleted()
 end
 
 function objective:IsFailed()
-    if not self.Target.IsDead then return false end
-
-    local causeOfDeath = self.Target.CauseOfDeath
-
-    if causeOfDeath == nil then return false end
-
-    local conditionsMet = false
-    if causeOfDeath.Type == CauseOfDeathType.Affliction and causeOfDeath.Affliction.Identifier == "oxygenlow" then
-        conditionsMet = true
-    end
-
-    if causeOfDeath.Type == CauseOfDeathType.Suffocation or causeOfDeath.Type == CauseOfDeathType.Drowning then
-        conditionsMet = true
-    end
+    if self.Target.IsDead then return true end
 
     return not conditionsMet
 end
