@@ -137,6 +137,10 @@ Hook.Add("roundStart", "MessagesOnRoundStart", function ()
                 name = "Sans Undertale"
             end
 
+            if not Traitormod.Config.RoleplayNames then
+                name = value.Name
+            end
+
             if value.Character and value.Character.JobIdentifier == "warden" then
                 local text = "Welcome to your station, Warden "..name..". You're one of the pillars of what makes this station works. Make sure everything goes smoothly. (OOC: !announce command to announce stuff)"
                 Traitormod.SendClientMessage(text, "TalentPointNotification", Color.LightBlue, value)
