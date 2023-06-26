@@ -8,10 +8,6 @@ extension.Init = function ()
         local pressurePrefab = AfflictionPrefab.Prefabs["pressurestabilized"].Instantiate(30)
         local limb = character.AnimController.MainLimb
         character.CharacterHealth.ApplyAffliction(limb, pressurePrefab)
-        Networking.CreateEntityEvent(character, Character.RemoveFromCrewEventData.__new(character.TeamID, {}))
-
-        local info = CharacterInfo(Identifier("human"))
-        Character.Info.Name = info.Name
     end)
 end
 

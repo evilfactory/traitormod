@@ -26,6 +26,7 @@ function gm:CharacterDeath(character)
     end
 
     local liveMsg, liveIcon = Traitormod.AdjustLives(client, -1)
+    Traitormod.SetData(client, "Name", nil)
 
     Traitormod.SendMessage(client, liveMsg, liveIcon)
 end
@@ -39,6 +40,26 @@ function gm:Start()
 
     Hook.Add("characterDeath", "Traitormod.Secret.CharacterDeath", function(character, affliction)
         this:CharacterDeath(character)
+    end)
+
+    Hook.Add("character.giveJobItems", "Traitormod.Secret.giveJobItems", function(character, waypoint)
+        local client = Traitormod.FindClientCharacter(character)
+        local randomName = ""
+        Networking.CreateEntityEvent(character, Character.RemoveFromCrewEventData.__new(character.TeamID, {}))
+
+        if client then
+            if character.IsMale then
+                randomName = Traitormod.GetRandomName("male")
+            else
+                randomName = Traitormod.GetRandomName("female")
+            end
+
+            if Traitormod.GetData(client, "Name") == nil then
+                Traitormod.SetData(client, "Name", randomName)
+            end
+
+            character.Info.Rename(Traitormod.GetData(client, "Name"))
+        end
     end)
 
     self:SelectAntagonists()
@@ -338,6 +359,7 @@ function gm:End()
 
     Hook.Remove("characterDeath", "Traitormod.Secret.CharacterDeath")
     Hook.Remove("traitormod.midroundspawn", "Traitormod.Secret.MidRoundSpawn")
+    Hook.Remove("character.giveJobItems", "Traitormod.Secret.giveJobItems")
 end
 
 function gm:Think()

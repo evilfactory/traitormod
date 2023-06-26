@@ -546,3 +546,19 @@ Traitormod.ParseSubmarineConfig = function (description)
 
     return result
 end
+
+Traitormod.GetRandomName = function (gender)
+    local firstname = "Unknown"
+
+    if gender == "male" then
+        firstname = Traitormod.Language.MaleNames[math.random(1, #Traitormod.Language.MaleNames)]
+    elseif gender == "female" then
+        firstname = Traitormod.Language.FemaleNames[math.random(1, #Traitormod.Language.FemaleNames)]
+    end
+
+    local lastname = Traitormod.Language.LastNames[math.random(1, #Traitormod.Language.LastNames)]
+    local fullname = firstname.." "..lastname
+
+    return fullname
+end
+
