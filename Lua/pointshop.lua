@@ -278,7 +278,7 @@ end
 ps.BuyProduct = function(client, product)
     local price = 0
     if not Traitormod.Config.TestMode then
-        local points = Traitormod.GetData(client, "Points") or 0
+        local points = Traitormod.GetPoints(client)
         price = ps.GetProductPrice(client, product)
 
         if product.CanBuy then
@@ -323,12 +323,12 @@ ps.HandleProductBuy = function (client, product, result, quantity)
     elseif result == ps.ProductBuyFailureReason.NoStock then
         textPromptUtils.Prompt(Traitormod.Language.PointshopNoStock, {}, client, function (id, client) end, "gambler")
     elseif result == nil then
-        textPromptUtils.Prompt(string.format(Traitormod.Language.PointshopPurchased, ps.GetProductName(product), ps.GetProductPrice(client, product), math.floor(Traitormod.GetData(client, "Points") or 0)), {}, client, function (id, client) end, "gambler")
+        textPromptUtils.Prompt(string.format(Traitormod.Language.PointshopPurchased, ps.GetProductName(product), ps.GetProductPrice(client, product), Traitormod.GetPointsRounded(client)), {}, client, function (id, client) end, "gambler")
 
         if true then return end
         -- Don't let the player rebuy products that need installation or have timelimit
         if ps.GetProductHasInstallation(product) or product.Timeout ~= nil or ps.GetProductLimit(client, product) < 2 then
-            textPromptUtils.Prompt(string.format(Traitormod.Language.PointshopPurchased, ps.GetProductName(product), ps.GetProductPrice(client, product), math.floor(Traitormod.GetData(client, "Points") or 0)), {}, client, function (id, client) end, "gambler")
+            textPromptUtils.Prompt(string.format(Traitormod.Language.PointshopPurchased, ps.GetProductName(product), ps.GetProductPrice(client, product), Traitormod.GetPointsRounded(client)), {}, client, function (id, client) end, "gambler")
             return
         end
         -- Buy again menu
@@ -338,7 +338,7 @@ ps.HandleProductBuy = function (client, product, result, quantity)
             table.insert(options, " - " .. tostring(i))
         end
         -- Handle rebuying multiple times
-        textPromptUtils.Prompt(string.format("Purchased %sx \"%s\" for %s points\n\nNew point balance is: %s points.\nIf you want to buy again enter the amount:", quantity, ps.GetProductName(product), ps.GetProductPrice(client, product) * quantity, math.floor(Traitormod.GetData(client, "Points") or 0)), options, client, function (id, client)
+        textPromptUtils.Prompt(string.format("Purchased %sx \"%s\" for %s points\n\nNew point balance is: %s points.\nIf you want to buy again enter the amount:", quantity, ps.GetProductName(product), ps.GetProductPrice(client, product) * quantity, Traitormod.GetPointsRounded(client)), options, client, function (id, client)
             -- id-1 is the quantity that player chose
             if id > 1 then
                 local successCount = 0 -- If you select more than product has in stock it will handle it
@@ -386,7 +386,7 @@ ps.ShowCategoryItems = function(client, category)
         table.insert(options, "") -- FIXME: some hud scaling settings will hide list items
     end
 
-    local points = Traitormod.GetData(client, "Points") or 0
+    local points = Traitormod.GetPoints(client)
 
     textPromptUtils.Prompt(
         string.format(Traitormod.Language.PointshopWishBuy, math.floor(points)), 
@@ -443,7 +443,7 @@ ps.ShowCategory = function(client)
     table.insert(options, "")
     table.insert(options, "") -- FIXME: for some reason when the bar is full, the last item is never shown?
 
-    local points = Traitormod.GetData(client, "Points") or 0
+    local points = Traitormod.GetPoints(client)
 
     -- note: we have two different client variables here to prevent cheating
     textPromptUtils.Prompt(string.format(Traitormod.Language.PointshopWishCategory, math.floor(points)), options, client, function (id, client2)
