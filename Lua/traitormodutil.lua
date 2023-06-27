@@ -445,7 +445,7 @@ Traitormod.GetDataInfo = function(client, showWeights)
     if showWeights then
         local maxPoints = 0
         for index, value in pairs(Client.ClientList) do
-            if value.Character and not value.Character.IsDead then
+            if value.Character and not value.Character.IsDead or not Game.RoundStarted then
                 maxPoints = maxPoints + (Traitormod.GetData(value, "Weight") or 0)
             end
         end
