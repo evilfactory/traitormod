@@ -12,26 +12,3 @@ Traitormod.AddCommand({"!playtime", "!pt"}, function (client, args)
     )
     return true
 end)
-
-
--- A more optimized way : ( unimplemented )
-
--- local playtimes = {}
-
-
--- Hook.Add("roundStart", "Traitormod.Playtime.ClientDisconnected", function (client)
---     playtimes[]
--- end)
-
-
--- Hook.Add("roundEnd", "Traitormod.Playtime.ClientDisconnected", function (client)
---     playtimes[]
--- end)
-
--- Hook.Add("client.connected", "Traitormod.Playtime.ClientDisconnected", function (client)
---     playtimes[]
--- end)
-
--- Hook.Add("client.disconnected", "Traitormod.Playtime.ClientDisconnected", function (client)
---     Traitormod.AddData(client, "Playtime", amount)
--- end)
