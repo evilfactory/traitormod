@@ -524,3 +524,7 @@ Traitormod.ParseSubmarineConfig = function (description)
 
     return result
 end
+
+Traitormod.FormatTime = function(seconds)
+    return TimeSpan.FromSeconds(seconds).ToString()
+end

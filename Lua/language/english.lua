@@ -358,6 +358,7 @@ language.CMDAdminAddedPoints = "Admin added %s points to %s."
 language.CMDAdminAddedLives = "Admin added %s lives to %s."
 language.CMDOnlyMonsters = "Only monsters are able to use this command."
 language.CMDLocateSub = "Submarine is %sm away from you, at %s."
-language.CMDRoundTime = "This round has been going for %s minutes."
+language.CMDRoundTime = "This round has been going for %s."
+language.CMDPlaytime = "Your playtime is %s."
 
 return language
