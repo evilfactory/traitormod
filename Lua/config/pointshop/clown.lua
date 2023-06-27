@@ -294,6 +294,24 @@ category.Products = {
     },
 
     {
+        Identifier = "wombocombo",
+        Price = 450,
+        Limit = 4,
+        IsLimitGlobal = true,
+
+        CanBuy = function (client, product)
+            return not (Traitormod.RoundEvents.IsEventActive("WomboCombo") or
+                        Traitormod.RoundEvents.IsEventActive("CommunicationsOffline") or 
+                        Traitormod.RoundEvents.IsEventActive("RandomLights") or
+                        Traitormod.RoundEvents.IsEventActive("LightsOff"))
+        end,
+
+        Action = function ()
+            Traitormod.RoundEvents.TriggerEvent("WomboCombo")
+        end
+    },
+
+    {
         Identifier = "clownmagic",
         Price = 450,
         Limit = 4,
@@ -315,7 +333,8 @@ category.Products = {
         IsLimitGlobal = true,
 
         CanBuy = function (client, product)
-            return not Traitormod.RoundEvents.IsEventActive("RandomLights")
+            return not (Traitormod.RoundEvents.IsEventActive("RandomLights") or
+                        Traitormod.RoundEvents.IsEventActive("LightsOff"))
         end,
 
         Action = function ()
