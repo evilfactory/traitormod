@@ -443,7 +443,7 @@ Traitormod.AddCommand("!giveghostrole", function (client, args)
 end)
 
 Traitormod.AddCommand("!roundtime", function (client, args)
-    Traitormod.SendMessage(client, string.format(Traitormod.Language.CMDRoundTime, math.floor(Traitormod.RoundTime / 60)))
+    Traitormod.SendMessage(client, string.format(Traitormod.Language.CMDRoundTime, Traitormod.FormatTime(math.ceil(Traitormod.RoundTime))))
 
     return true
 end)
