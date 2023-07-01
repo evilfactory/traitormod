@@ -405,7 +405,7 @@ language.MaleNames = {"Liam","Noah","James","Oliver","Benjamin","Elijah","Lucas"
 "Roderick","Roland","Romeo","Ronnie","Rosendo","Roy","Rupert","Sammie","Saul","Sergei","Seth","Shelby","Sidney","Simon","Son",
 "Sonny","Steve","Stevie","Sylvester","Terrance","Terrell","Timur","Tod","Todd","Tommie","Tory","Travis","Tyson","Ulof","Waldo",
 "Warner","Vasili","Wilford","Will","Willie","Willy","Winston","Virgil","Virgilio","Zachary","Clark","Johnathan","Sans","Kieran","Javier","Leviticus",
-"Angelo","Colm","Rains","Flaco","Jean-Luc","Zubin","Dutch","Hercule","Gaylord","Banana","Xalamus","Foob","Dillinger","Carl","Freddie","Micah"}
+"Angelo","Colm","Rains","Flaco","Jean-Luc","Zubin","Dutch","Hercule","Gaylord","Banana","Xalamus","Foob","Dillinger","Carl","Freddie","Micah","Uncle","Mr.","Artie"}
 
 language.FemaleNames = {"Emma","Olivia","Ava","Isabella","Sophia","Charlotte","Mia","Amelia","Harper","Evelyn","Abigail","Emily","Penelope",
 "Elizabeth","Mila","Ella","Avery","Ashlynn","Camila","Aria","Scarlett","Victoria","Madison","Luna","Grace","Chloe","Layla","Riley",
@@ -427,7 +427,7 @@ language.FemaleNames = {"Emma","Olivia","Ava","Isabella","Sophia","Charlotte","M
 "Michele","Mikaela","Miranda","Muoi","Natalia","Natashia","Nicole","Nola","Noriko","Page","Pamela","Paula","Peggie","Phoenix","Priscilla",
 "Randi","Reatha","Renata","Rhonda","Roberta","Roselle","Rosina","Roslyn","Rowena","Ruthie","Sabrina","Sage","Sanda","Sara","Serena","Sharie","Shayla",
 "Shelly","Sherise","Sherita","Sherry","Shin","Shirlee","Siena","Socorro","Stefany","Stephane","Summer","Susy","Synthia","Tania",
-"Tanika","Tanya","Tawanda","Tera","Tessie","Thea","Tisha","Tracy","Trista","Trudie","Trudy","Valerie","Vanessa","Velma","Yahaira","Zandra","Kieran"}
+"Tanika","Tanya","Tawanda","Tera","Tessie","Thea","Tisha","Tracy","Trista","Trudie","Trudy","Valerie","Vanessa","Velma","Yahaira","Zandra","Kieran","Ms.","Mrs.","Miss","Aunt","Artie"}
 
 language.LastNames = {"Smith","Hall","Stewart","Price","Johnson","Allen","Sanchez","Bennett","Jones","Williams","Young","Morris","Wood",
 "Hernandez","Rogers","Barnes","Brown","King","Reed","Ross","Davis","Wright","Cook","Henderson","Miller","Lopez","Morgan","Coleman","Wilson",
@@ -456,6 +456,6 @@ language.LastNames = {"Smith","Hall","Stewart","Price","Johnson","Allen","Sanche
 "Tate","Terry","Thompkins","Tootle","Tseng","Tyson","Ulrich","Walls","Vaughn","Vazquez","Veach","Weaver","Velazquez","Welden","Wheeling",
 "Whitely","Wiley","Williams","Zhang","Barotrauma","van der Linde","Matthews","Pinhead","Marston","Escuella","MacGuire","Trelawny","Duffy","Cornwall",
 "O'Driscoll","Bronte","Falls","Hernández","Granger","Adler","Picard","Hawley","Federman","Horowitz","Cantor","Compson","Dickens","Fussar","Valdespino",
-"Boolean","Man","Harnley","Guitar","Fentanyl","Bones","Dingle","Delcan","Truther","Leana"}
+"Boolean","Man","Harnley","Guitar","Fentanyl","Bones","Dingle","Delcan","Truther","Leana","Dolittle","Gaylord"}
 
 return language
