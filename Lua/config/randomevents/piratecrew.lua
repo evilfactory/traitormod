@@ -67,7 +67,7 @@ event.Start = function ()
 
     event.Pirates = {}
 
-    local crew = {"mechanic", "engineer", "captain", "securityofficer"}
+    local crew = {"guard", "warden", "guard", "prisondoctor"}
     for k, v in pairs(crew) do
         local info = CharacterInfo(Identifier("human"))
         info.Name = "Pirate " .. info.Name
