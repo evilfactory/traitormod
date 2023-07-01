@@ -132,7 +132,7 @@ Hook.Add("roundStart", "MessagesOnRoundStart", function ()
     Timer.Wait(function ()
         if not Traitormod.Config.RoleIntros then return end
         for key, value in pairs(Client.ClientList) do
-            local name = Traitormod.GetData(client, "RPName")
+            local name = Traitormod.GetData(value, "RPName")
 
             if not name then
                 name = "Sans Undertale"
