@@ -8,6 +8,29 @@ end
 
 category.Products = {
     {
+        Price = 250,
+        Limit = 1,
+
+        Items = {"scp_hardeneddivingmask"},
+    },
+
+    {
+        Price = 2200,
+        Limit = 1,
+        IsLimitGlobal = true,
+
+        Items = {"scp_liquidatorsuit"},
+    },
+
+    {
+        Price = 950,
+        Limit = 2,
+        IsLimitGlobal = true,
+
+        Items = {"scp_heavyhazmatuniform"},
+    },
+
+    {
         Price = 50,
         Limit = 1,
         Items = {"flashlight"}
@@ -87,29 +110,6 @@ category.Products = {
         Limit = 1,
 
         Items = {"fuelrod"},
-    },
-
-    {
-        Price = 650,
-        Limit = 1,
-
-        Items = {"scp_hardeneddivingmask"},
-    },
-
-    {
-        Price = 3900,
-        Limit = 1,
-        IsLimitGlobal = true,
-
-        Items = {"scp_liquidatorsuit"},
-    },
-
-    {
-        Price = 2500,
-        Limit = 2,
-        IsLimitGlobal = true,
-
-        Items = {"scp_heavyhazmatuniform"},
     },
 }
 

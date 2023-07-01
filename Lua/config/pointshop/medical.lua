@@ -16,6 +16,12 @@ end
 
 category.Products = {
     {
+        Price = 850,
+        Limit = 1,
+        Items = {"scp_combatmedicuniform"}
+    },
+
+    {
         Price = 75,
         Limit = 4,
         Items = {"bandage", "bandage"}
