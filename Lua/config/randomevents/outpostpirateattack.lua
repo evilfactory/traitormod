@@ -34,7 +34,7 @@ event.Start = function()
     for i = 1, 2, 1 do
         local info = CharacterInfo(Identifier("human"))
         info.Name = "Pirate " .. info.Name
-        info.Job = Job(JobPrefab.Get("securityofficer"))
+        info.Job = Job(JobPrefab.Get("guard"))
 
         local character = Character.Create(info, outpost - Vector2(0, 5000), info.Name, 0, false, true)
 
