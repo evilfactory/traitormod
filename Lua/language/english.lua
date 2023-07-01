@@ -12,6 +12,7 @@ language.Tips = {
     "Ghost roles might become available when you are dead, you can use !ghostrole to claim them.",
     "Typing !kill in chat as a ghost role simply returns it to the list of available ghost roles, rather than killing it.",
     "Dying in the first 15 seconds as a creature refunds the price of it fully.",
+    "Monsters can use the command !m to talk to other monsters."
 }
 
 language.Help = "\n!help - shows this help message\n!helptraitor - shows all traitor commands\n!helpadmin - lists all admin commands\n!traitor - show traitor information\n!pointshop - opens the point shop\n!points - show your points and lives\n!alive - list alive players (only while dead)\n!locatesub - shows you the distance and direction of the submarine, only for monsters\n!suicide - kills your character\n!version - shows running version of the traitormod\n!write - writes to your death logbook\n!roundtime - shows the current round time"
@@ -360,5 +361,6 @@ language.CMDOnlyMonsters = "Only monsters are able to use this command."
 language.CMDLocateSub = "Submarine is %sm away from you, at %s."
 language.CMDRoundTime = "This round has been going for %s."
 language.CMDPlaytime = "Your playtime is %s."
+language.CMDMonsterBroadcast = "[%s %s]: %s"
 
 return language

@@ -589,6 +589,33 @@ Traitormod.AddCommand({"!locatesub", "!locatesubmarine"}, function (client, args
 end)
 
 
+Traitormod.AddCommand({"!monster", "!m"}, function (client, args)
+    if client.Character == nil or client.Character.IsHuman then
+        Traitormod.SendMessage(client, Traitormod.Language.CMDOnlyMonsters)
+        return true
+    end
+
+    if #args < 1 then
+        Traitormod.SendMessage(client, "Usage: !monster message")
+        return true
+    end
+
+    local msg = ""
+    for word in args do
+        msg = msg .. " " .. word
+    end
+
+    for _, client in pairs(Client.ClientList) do
+        if (not client.Character or client.Character.IsDead) or not client.Character.IsHuman then
+            Game.SendDirectChatMessage("",
+                string.format(Traitormod.Language.CMDMonsterBroadcast, client.Character.Name, Traitormod.ClientLogName(client), msg), nil,
+                ChatMessageType.Error, client)
+        end
+    end
+
+    return true
+end)
+
 local preventSpam = {}
 Traitormod.AddCommand({"!droppoints", "!droppoint", "!dropoint", "!dropoints"}, function (client, args)
     if preventSpam[client] ~= nil and Timer.GetTime() < preventSpam[client] then
