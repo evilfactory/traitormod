@@ -90,7 +90,7 @@ end
 ----- GAMEMODE -----
 config.GamemodeConfig = {
     Secret = {
-        PointshopCategories = {"clown", "traitormedic", "traitor", "cultist", "deathspawn", "prisoner", "maintenance", "materials", "medical", "security", "ships", "eventmanager", "chef", "janitor"},
+        PointshopCategories = {"clown", "traitormedic", "traitor", "cultist", "deathspawn", "prisoner", "maintenance", "materials", "medical", "security", "ships", "eventmanager", "eventships", "chef", "janitor"},
         EndOnComplete = true,           -- end round everyone but traitors are dead
         EnableRandomEvents = true,
         EndGameDelaySeconds = 15,
@@ -331,7 +331,6 @@ config.PointShopConfig = {
         dofile(Traitormod.Path .. "/Lua/config/pointshop/clown.lua"),
         dofile(Traitormod.Path .. "/Lua/config/pointshop/cultist.lua"),
         dofile(Traitormod.Path .. "/Lua/config/pointshop/traitormedic.lua"),
-        dofile(Traitormod.Path .. "/Lua/config/pointshop/eventmanager.lua"),
         dofile(Traitormod.Path .. "/Lua/config/pointshop/prisoner.lua"),
         dofile(Traitormod.Path .. "/Lua/config/pointshop/traitor.lua"),
         dofile(Traitormod.Path .. "/Lua/config/pointshop/security.lua"),
@@ -345,6 +344,8 @@ config.PointShopConfig = {
         dofile(Traitormod.Path .. "/Lua/config/pointshop/ships.lua"),
         dofile(Traitormod.Path .. "/Lua/config/pointshop/janitor.lua"),
         dofile(Traitormod.Path .. "/Lua/config/pointshop/chef.lua"),
+        dofile(Traitormod.Path .. "/Lua/config/pointshop/eventmanager.lua"),
+        dofile(Traitormod.Path .. "/Lua/config/pointshop/eventships.lua"),
     }
 }
 
