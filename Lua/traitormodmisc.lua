@@ -130,8 +130,8 @@ end
 
 Hook.Add("roundStart", "MessagesOnRoundStart", function ()
     Timer.Wait(function ()
+        if not Traitormod.Config.RoleIntros then return end
         for key, value in pairs(Client.ClientList) do
-            if not Traitormod.Config.RoleIntros then return end
             local name = Traitormod.GetData(client, "RPName")
 
             if not name then
