@@ -456,6 +456,6 @@ language.LastNames = {"Smith","Hall","Stewart","Price","Johnson","Allen","Sanche
 "Tate","Terry","Thompkins","Tootle","Tseng","Tyson","Ulrich","Walls","Vaughn","Vazquez","Veach","Weaver","Velazquez","Welden","Wheeling",
 "Whitely","Wiley","Williams","Zhang","Barotrauma","van der Linde","Matthews","Pinhead","Marston","Escuella","MacGuire","Trelawny","Duffy","Cornwall",
 "O'Driscoll","Bronte","Falls","Hernández","Granger","Adler","Picard","Hawley","Federman","Horowitz","Cantor","Compson","Dickens","Fussar","Valdespino",
-"Boolean","Man","Harnley","Guitar","Fentanyl","Bones","Dingle","Delcan","Truther","Leana","Dolittle","Gaylord"}
+"Boolean","Man","Harnley","Guitar","Fentanyl","Bones","Dingle","Delcan","Truther","Leana","Dolittle","Gaylord",""}
 
 return language
