@@ -605,11 +605,11 @@ Traitormod.AddCommand({"!monster", "!m"}, function (client, args)
         msg = msg .. " " .. word
     end
 
-    for _, client in pairs(Client.ClientList) do
-        if (not client.Character or client.Character.IsDead) or not client.Character.IsHuman then
+    for _, targetClient in pairs(Client.ClientList) do
+        if (not targetClient.Character or targetClient.Character.IsDead) or not targetClient.Character.IsHuman then
             Game.SendDirectChatMessage("",
                 string.format(Traitormod.Language.CMDMonsterBroadcast, client.Character.Name, Traitormod.ClientLogName(client), msg), nil,
-                ChatMessageType.Error, client)
+                ChatMessageType.Error, targetClient)
         end
     end
 
