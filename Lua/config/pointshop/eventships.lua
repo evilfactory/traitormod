@@ -12,7 +12,7 @@ end
 category.Init = function ()
     if Traitormod.SubmarineBuilder then
         category.StreamChalkId = Traitormod.SubmarineBuilder.AddSubmarine(Traitormod.Path .. "/Submarines/Stream Chalk.sub", "[P]Stream Chalk")
-        category.Separatist = Traitormod.SubmarineBuilder.AddSubmarine("Content/Submarines/Separtist_Fighter.sub", "Separatist Fighter Ship")
+        category.Separatist = Traitormod.SubmarineBuilder.AddSubmarine(Traitormod.Path .. "/Submarines/Separtist_Fighter.sub", "Separatist Fighter Ship")
         category.Unknown = Traitormod.SubmarineBuilder.AddSubmarine(Traitormod.Path .. "/Submarines/Unknown.sub", "Unknown")
         category.Coalition_Dropship = Traitormod.SubmarineBuilder.AddSubmarine(Traitormod.Path .. "/Submarines/Coalition_Dropship.sub", "Coalition Dropship")
         category.CoalitionRescueShuttle = Traitormod.SubmarineBuilder.AddSubmarine(Traitormod.Path .. "/Submarines/Coalition Hemulen.sub", "Coalition Rescue Shuttle")
