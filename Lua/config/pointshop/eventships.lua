@@ -2,11 +2,7 @@ local category = {}
 
 category.Identifier = "eventships"
 category.CanAccess = function(client)
-    if client.HasPermission(ClientPermissions.ManageRound) then
-        return true
-    else
-        return false
-    end
+    return false
 end
 
 category.Init = function ()
