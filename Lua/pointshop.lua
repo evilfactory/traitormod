@@ -528,6 +528,7 @@ Hook.Add("roundEnd", "TraitorMod.PointShop.RoundEnd", function ()
         for client, refundTable in pairs(ps.Refunds) do
             if client.Character ~= nil and not client.Character.IsPet then -- client.Character is surely alive
                 -- it will also remove elements in the ps.Refunds
+                refundTable.Price = refundTable.Price * math.min(client.Character.Vitality / client.Character.MaxVitality, 1)
                 refundProduct(client, refundTable)
             end
         end
