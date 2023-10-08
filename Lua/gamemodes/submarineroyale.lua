@@ -186,6 +186,7 @@ function gm:Start()
 
             table.remove(submarines, submarineIndex)
             AutoItemPlacer.RegenerateLoot(submarine)
+            submarine.GodMode = false
         end
     end
 
@@ -201,6 +202,7 @@ function gm:Start()
             value.SetPosition(goodPosition.Position.ToVector2())
             self.badPositions[goodPosition] = true  
             AutoItemPlacer.RegenerateLoot(value)
+            value.GodMode = false
         end
 
         if value.Info.Name == "+Cargo Ship" then
