@@ -261,10 +261,46 @@ function gm:Start()
             attacker.Info.GiveExperience(5000)
         end
     end)
+
+
+    Traitormod.AddCommand({"!players"}, function (client, args)
+        if client.Character == nil or not client.InGame then
+            Traitormod.SendMessage(client, Traitormod.Language.CMDAliveToUse)
+            return true
+        end
+
+        local text = ""
+
+        local center = client.Character.WorldPosition
+        for key, value in pairs(Client.ClientList) do
+            if value.Character and not value.Character.IsDead then
+                local target = value.Character.WorldPosition
+
+                local distance = Vector2.Distance(center, target) * Physics.DisplayToRealWorldRatio
+        
+                local diff = center - target
+        
+                local angle = math.deg(math.atan2(diff.X, diff.Y)) + 180
+        
+                local function degreeToOClock(v)
+                    local oClock = math.floor(v / 30)
+                    if oClock == 0 then oClock = 12 end
+                    return oClock .. " o'clock"
+                end
+
+                text = text .. string.format(Traitormod.Language.CMDLocatePlayer, Client.Name, math.floor(distance), degreeToOClock(angle)) .. "\n"
+            end
+        end
+
+        Game.SendDirectChatMessage("", text, nil, ChatMessageType.Error, client)
+
+        return true
+    end)
 end
 
 function gm:End()
     Hook.Remove("characterDeath", "SubmarineRoyale.SpawnAntiRad")
+    Traitormod.RemoveCommand("!players")
 end
 
 function gm:Think()
