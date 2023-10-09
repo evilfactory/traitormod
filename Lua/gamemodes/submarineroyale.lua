@@ -127,8 +127,13 @@ function gm:PreStart()
     if Traitormod.SubmarineBuilder == nil then return end
 
     Traitormod.SubmarineBuilder.AddSubmarine(Traitormod.Path .. "/Submarines/Royale/SmallLoot.sub", "+Small Loot", true)
-    Traitormod.SubmarineBuilder.AddSubmarine(Traitormod.Path .. "/Submarines/Royale/BigLoot.sub", "+Cargo Ship", true)
-    Traitormod.SubmarineBuilder.AddSubmarine(Traitormod.Path .. "/Submarines/Royale/BigLoot2.sub", "+Attack Ship", true)
+
+    if math.random() > 0.5 then
+        Traitormod.SubmarineBuilder.AddSubmarine(Traitormod.Path .. "/Submarines/Royale/BigLoot.sub", "+Cargo Ship", true)
+    else
+        Traitormod.SubmarineBuilder.AddSubmarine(Traitormod.Path .. "/Submarines/Royale/BigLoot2.sub", "+Attack Ship", true)
+    end
+
     Traitormod.SubmarineBuilder.AddSubmarine(Traitormod.Path .. "/Submarines/Royale/Shuttle_Railgun_Mod.sub", "+Railgun Module", true)
     Traitormod.SubmarineBuilder.AddSubmarine(Traitormod.Path .. "/Submarines/Royale/Chaingun_Mod.sub", "+Chaingun Module", true)
     Traitormod.SubmarineBuilder.AddSubmarine(Traitormod.Path .. "/Submarines/Royale/coilgun_mod.sub", "+Coilgun Module", true)
