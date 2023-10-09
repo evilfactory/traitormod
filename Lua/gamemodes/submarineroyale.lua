@@ -268,6 +268,22 @@ function gm:End()
 end
 
 function gm:Think()
+    local aliveClientCount = 0
+    for _, client in pairs(Client.ClientList) do
+        if client.Character and not client.Character.IsDead and client.Character.IsHuman then
+            aliveClientCount = aliveClientCount + 1
+        end
+    end
+
+    if aliveClientCount < 2 and not self.Ending then
+        Traitormod.SendMessageEveryone(Traitormod.Language.SubmarineRoyaleEnd)
+        Timer.Wait(function ()
+            Game.EndGame()
+        end, 5000)
+
+        self.Ending = true
+    end
+
     if not self.radiationEnabled then return end
 
     for key, value in pairs(Client.ClientList) do
