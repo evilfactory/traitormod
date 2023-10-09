@@ -293,7 +293,7 @@ function gm:Start()
                     return oClock .. " o'clock"
                 end
 
-                text = text .. string.format(Traitormod.Language.CMDLocatePlayer, Client.Name, math.floor(distance), degreeToOClock(angle)) .. "\n"
+                text = text .. string.format(Traitormod.Language.CMDLocatePlayer, value.Name, math.floor(distance), degreeToOClock(angle)) .. "\n"
             end
         end
 
