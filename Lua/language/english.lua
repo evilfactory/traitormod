@@ -26,6 +26,8 @@ language.TraitorOn = "You can be selected as traitor."
 language.TraitorOff = "You can not be chosen traitor.\n\nUse !toggletraitor to change that."
 language.RoundNotStarted = "Round not started."
 
+language.SubmarineRoyaleEnd = "Round ends."
+
 language.ReceivedPoints = "You have received %s points."
 
 language.AllTraitorsDead = "All traitors dead!"
