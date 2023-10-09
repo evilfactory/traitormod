@@ -293,7 +293,9 @@ function gm:Start()
                     return oClock .. " o'clock"
                 end
 
-                text = text .. string.format(Traitormod.Language.CMDLocatePlayer, value.Name, math.floor(distance), degreeToOClock(angle)) .. "\n"
+                local submarineName = value.Character.Submarine and value.Character.Submarine.Info.Name or "Unknown"
+
+                text = text .. string.format(Traitormod.Language.CMDLocatePlayer, value.Name, math.floor(distance), degreeToOClock(angle), submarineName) .. "\n"
             end
         end
 
