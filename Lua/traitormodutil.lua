@@ -189,7 +189,7 @@ end
 
 Traitormod.MissionIdentifier =  "easterbunny" -- can be any defined Traitor mission id in vanilla xml, mainly used for icon
 Traitormod.SendTraitorMessageBox = function (client, text, icon)
-    Game.SendTraitorMessage(client, text, icon or Traitormod.MissionIdentifier, TraitorMessageType.ServerMessageBox);
+    --Game.SendTraitorMessage(client, text, icon or Traitormod.MissionIdentifier, TraitorMessageType.ServerMessageBox);
     Game.SendDirectChatMessage("", text, nil, Traitormod.Config.ChatMessageType, client)
 end
 
@@ -202,7 +202,7 @@ Traitormod.UpdateVanillaTraitor = function (client, enabled, objectiveSummary, m
 
     client.Character.IsTraitor = enabled
     client.Character.TraitorCurrentObjective = objectiveSummary
-    Game.SendTraitorMessage(client, objectiveSummary, missionIdentifier or Traitormod.MissionIdentifier, TraitorMessageType.Objective)
+    --Game.SendTraitorMessage(client, objectiveSummary, missionIdentifier or Traitormod.MissionIdentifier, TraitorMessageType.Objective)
 end
 
 -- send feedback to the character for completing a traitor objective and update vanilla traitor state

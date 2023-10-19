@@ -62,9 +62,7 @@ Traitormod.PreRoundStart = function (submarineInfo, chooseGamemode)
         Traitormod.SelectedGamemode = Traitormod.Gamemodes.PvP:new()
     elseif Game.ServerSettings.GameModeIdentifier == "multiplayercampaign" then
         Traitormod.SelectedGamemode = Traitormod.Gamemodes.Gamemode:new()
-    elseif Game.ServerSettings.TraitorsEnabled == 1 and math.random() > 0.5 then
-        Traitormod.SelectedGamemode = Traitormod.Gamemodes.Secret:new()
-    elseif Game.ServerSettings.TraitorsEnabled == 2 then
+    elseif math.random() <= Game.ServerSettings.TraitorProbability then
         Traitormod.SelectedGamemode = Traitormod.Gamemodes.Secret:new()
     else
         Traitormod.SelectedGamemode = Traitormod.Gamemodes.Gamemode:new()
@@ -196,7 +194,8 @@ Hook.Add("roundEnd", "Traitormod.RoundEnd", function()
     Traitormod.RespawnedCharacters = {}
 
     if Traitormod.SelectedGamemode then
-        return Traitormod.SelectedGamemode:TraitorResults()
+        --return Traitormod.SelectedGamemode:TraitorResults()
+        return nil
     end
 end)
 
