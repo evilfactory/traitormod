@@ -8,12 +8,12 @@ extension.Init = function ()
     local timer = {}
 
     local function GetParalysisAmount(character)
-        local paralysis = character.CharacterHealth.GetAfflictionStrength("paralysis")
+        local paralysis = character.CharacterHealth.GetAfflictionStrengthByIdentifier("paralysis")
         if paralysis > 0 then
             return paralysis
         end
 
-        local slowParalysis = character.CharacterHealth.GetAfflictionStrength("slowparalysis")
+        local slowParalysis = character.CharacterHealth.GetAfflictionStrengthByIdentifier("slowparalysis")
         if slowParalysis > 0 then
             return slowParalysis
         end
