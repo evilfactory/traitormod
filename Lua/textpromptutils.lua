@@ -4,7 +4,7 @@ local promptIDToCallback = {}
 
 local function SendEventMessage(msg, options, id, eventSprite, fadeToBlack, client)
     local message = Networking.Start()
-    message.WriteByte(Byte(18)) -- net header
+    message.WriteByte(Byte(17)) -- net header
     message.WriteByte(Byte(0)) -- conversation
 
     message.WriteUInt16(UShort(id)) -- ushort identifier 0
