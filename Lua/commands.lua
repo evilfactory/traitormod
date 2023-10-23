@@ -198,7 +198,7 @@ Traitormod.AddCommand({"!allpoint", "!allpoints"}, function (client, args)
     local messageToSend = ""
 
     for index, value in pairs(Client.ClientList) do
-        messageToSend = messageToSend .. "\n" .. value.Name .. ": " .. math.floor(Traitormod.GetData(value, "Points") or 0) .. " Points - " .. math.floor(Traitormod.GetData(value, "Weight") or 0) .. " Weight"
+        messageToSend = messageToSend .. "\n" .. value.Name .. ": " .. Traitormod.GetPointsRounded(value) .. " Points - " .. math.floor(Traitormod.GetData(value, "Weight") or 0) .. " Weight"
     end
 
     Traitormod.SendMessage(client, messageToSend)
@@ -640,7 +640,7 @@ Traitormod.AddCommand({"!droppoints", "!droppoint", "!dropoint", "!dropoints"}, 
         return true
     end
 
-    local availablePoints = Traitormod.GetData(client, "Points") or 0
+    local availablePoints = Traitormod.GetPoints(client)
 
     if amount > availablePoints then
         Traitormod.SendMessage(client, "You don't have enough points to drop.")

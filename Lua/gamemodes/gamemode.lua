@@ -4,6 +4,28 @@ gm.Name = "Gamemode"
 
 function gm:PreStart()
     Traitormod.Pointshop.Initialize(self.PointshopCategories or {})
+        
+    Hook.Patch("Barotrauma.Networking.GameServer", "AssignJobs", function (instance, ptable)
+        local gamemode = Traitormod.SelectedGamemode
+        if gamemode.RoleLock == nil then return end
+
+        for index, client in pairs(ptable["unassigned"]) do
+            local flag = false
+            local jobName = client.AssignedJob.Prefab.Identifier.ToString()
+            for role, params in pairs(gamemode.RoleLock.LockedRoles) do
+                if jobName == role then
+                    if gamemode.RoleLock.LockIf(client, params) then 
+                        flag = true
+                    end
+                    break
+                end
+            end
+            if flag then
+                Traitormod.SendMessage(client, string.format(Traitormod.Language.RoleLocked, jobName))
+                client.AssignedJob = Traitormod.GetJobVariant(gamemode.RoleLock.SubstituteRoles[math.random(1, #gamemode.RoleLock.SubstituteRoles)])
+            end
+        end
+    end, Hook.HookMethodType.After)
 end
 
 function gm:Start()

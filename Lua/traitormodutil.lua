@@ -47,7 +47,7 @@ Traitormod.LoadRemoteData = function (client, loaded)
         end
 
         if result.Points then
-            local originalPoints = Traitormod.GetData(client, "Points") or 0
+            local originalPoints = Traitormod.GetPoints(client)
             Traitormod.Log("Retrieved points from server for " .. client.SteamID .. ": " .. originalPoints .. " -> " .. result.Points)
             Traitormod.SetData(client, "Points", result.Points)
         end
@@ -118,6 +118,18 @@ end
 
 Traitormod.AddData = function(client, name, amount)
     Traitormod.SetData(client, name, math.max((Traitormod.GetData(client, name) or 0) + amount, 0))
+end
+
+Traitormod.GetPoints = function(client)
+    return Traitormod.GetData(client, "Points") or 0
+end
+
+Traitormod.GetPointsRounded = function(client)
+    return math.floor(Traitormod.GetPoints(client))
+end
+
+Traitormod.GetPlaytime = function(client)
+    return math.ceil(Traitormod.GetData(client, "Playtime") or 0) -- In seconds
 end
 
 Traitormod.FindClient = function (name)
@@ -335,7 +347,7 @@ Traitormod.LoadExperience = function (client)
         Traitormod.Error("Loading experience failed! Client.Character or .Info was null! " .. Traitormod.ClientLogName(client))
         return 
     end
-    local amount = Traitormod.Config.AmountExperienceWithPoints(Traitormod.GetData(client, "Points") or 0)
+    local amount = Traitormod.Config.AmountExperienceWithPoints(Traitormod.GetPoints(client))
     local max = Traitormod.Config.MaxExperienceFromPoints or 2000000000     -- must be int32
 
     if amount > max then
@@ -404,7 +416,7 @@ Traitormod.AdjustLives = function (client, amount)
         -- if no lives left, reduce amount of points, reset to maxLives
         Traitormod.Log("Player ".. client.Name .." lost all lives. Reducing points...")
         if not Traitormod.Config.TestMode then  
-            local oldAmount = Traitormod.GetData(client, "Points") or 0
+            local oldAmount = Traitormod.GetPoints(client)
             local newAmount = Traitormod.Config.PointsLostAfterNoLives(oldAmount)
             Traitormod.SetData(client, "Points", newAmount)
             Traitormod.Stats.AddClientStat("PointsLost", client, oldAmount - newAmount)
@@ -447,7 +459,7 @@ Traitormod.GetDataInfo = function(client, showWeights)
         weightInfo = "\n\n" .. string.format(Traitormod.Language.TraitorInfo, math.floor(percentage))
     end
 
-    return string.format(Traitormod.Language.PointsInfo, math.floor(Traitormod.GetData(client, "Points") or 0), Traitormod.GetData(client, "Lives") or Traitormod.Config.MaxLives, Traitormod.Config.MaxLives) .. weightInfo
+    return string.format(Traitormod.Language.PointsInfo, Traitormod.GetPointsRounded(client), Traitormod.GetData(client, "Lives") or Traitormod.Config.MaxLives, Traitormod.Config.MaxLives) .. weightInfo
 end
 
 Traitormod.ClientLogName = function(client, name)
@@ -527,4 +539,9 @@ end
 
 Traitormod.FormatTime = function(seconds)
     return TimeSpan.FromSeconds(seconds).ToString()
+end
+
+Traitormod.GetJobVariant = function(jobId)
+    local prefab = JobPrefab.Get(jobId)
+    return JobVariant.__new(prefab, 0)
 end
