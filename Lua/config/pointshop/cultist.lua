@@ -76,7 +76,7 @@ category.Init = function ()
         do -- speed up affliction, since its capped at 50% by default
             local affliction = character.CharacterHealth.GetAffliction("huskinfection", true)
             if affliction then
-                affliction._strength = affliction._strength + 2
+                affliction._strength = affliction._strength + 8
             end
         end
     end)
