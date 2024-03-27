@@ -123,6 +123,9 @@ config.GamemodeConfig = {
         },
         PointsGainedFromCrewMissionsCompleted = 1000,
         LivesGainedFromCrewMissionsCompleted = 1,
+        MissionEndAdditionalReward = function ()
+            return 0
+        end,
 
         TraitorTypeSelectionMode = "Vote", -- Vote | Random
         TraitorTypeChance = {

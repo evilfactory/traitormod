@@ -221,6 +221,10 @@ function gm:AwardCrew()
         end
     end
 
+    if self.MissionEndAdditionalReward then
+        missionReward = missionReward + self.MissionEndAdditionalReward()
+    end
+
     for key, value in pairs(Client.ClientList) do
         if value.Character ~= nil
             and value.Character.IsHuman
