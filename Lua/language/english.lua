@@ -186,6 +186,8 @@ language.WreckPirate = "There have been reports about a notorious pirate with a 
 language.PirateInside = "Attention! A dangerous PUCS pirate has been detected inside the main submarine!"
 language.PirateKilled = "The PUCS pirate has been killed, the crew has received a reward of %s points."
 
+language.WomboCombo = "Your mind is shattering into fragments of emptiness and your soul is imploding on itself."
+language.WomboCombo = "Then Clown said, “Let there be chaos,” and there was chaos."
 language.ClownMagic = "You feel a strange sensation, and suddenly you're somewhere else."
 language.CommunicationsOffline = "Something is interfering with all our communications systems. It's been estimated that communications will be offline for atleast %s minutes."
 language.CommunicationsBack = "Communications are back online."
@@ -264,6 +266,7 @@ language.Pointshop = {
     clowntalenttree = "Clown Talent Tree",
     invisibilitygear = "Invisibility Gear",
     clownmagic = "Clown Magic (Randomly swaps places of people)",
+    wombocombo = "Wombo Combo (Causes chaos)",
     randomizelights = "Randomize Lights",
     fuelrodlowquality = "Low Quality Fuel Rod",
     gardeningkit = "Gardening Kit",
