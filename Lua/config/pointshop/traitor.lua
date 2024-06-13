@@ -101,8 +101,8 @@ category.Products = {
         Limit = 1,
         IsLimitGlobal = false,
         Action = function (client)
-            local suit = ItemPrefab.GetItemPrefab("divingsuit")
-            Entity.Spawner.AddItemToSpawnQueue(suit, client.Character.Inventory, nil, nil, function (item)
+            local prefabSuit = ItemPrefab.GetItemPrefab("divingsuit")
+            Entity.Spawner.AddItemToSpawnQueue(prefabSuit, client.Character.Inventory, nil, nil, function (item)
                 local light = item.GetComponentString("LightComponent")
 
                 item.set_InventoryIconColor(Color(100, 100, 100, 50))
@@ -120,8 +120,8 @@ category.Products = {
                 Entity.Spawner.AddItemToSpawnQueue(ItemPrefab.GetItemPrefab("oxygentank"), item.OwnInventory)
             end)
 
-            local robes = ItemPrefab.GetItemPrefab("cultistrobes")
-            Entity.Spawner.AddItemToSpawnQueue(robes, client.Character.Inventory, nil, nil, function (item)
+            local prefabRobes = ItemPrefab.GetItemPrefab("cultistrobes")
+            Entity.Spawner.AddItemToSpawnQueue(prefabRobes, client.Character.Inventory, nil, nil, function (item)
 
                 item.set_InventoryIconColor(Color(100, 100, 100, 50))
                 item.SpriteColor = Color(0, 0, 0, 0)
@@ -133,8 +133,8 @@ category.Products = {
                 Networking.CreateEntityEvent(item, Item.ChangePropertyEventData(invColor, item))
             end)
 
-            local cap = ItemPrefab.GetItemPrefab("ironhelmet")
-            Entity.Spawner.AddItemToSpawnQueue(cap, client.Character.Inventory, nil, nil, function (item)
+            local prefabHelmet = ItemPrefab.GetItemPrefab("ironhelmet")
+            Entity.Spawner.AddItemToSpawnQueue(prefabHelmet, client.Character.Inventory, nil, nil, function (item)
 
                 item.set_InventoryIconColor(Color(100, 100, 100, 50))
                 item.SpriteColor = Color(0, 0, 0, 0)
@@ -154,8 +154,8 @@ category.Products = {
         Limit = 1,
         IsLimitGlobal = false,
         Action = function (client)
-            local revolver = ItemPrefab.GetItemPrefab("revolver")
-            Entity.Spawner.AddItemToSpawnQueue(revolver, client.Character.Inventory, nil, nil, function (item)
+            local prefabRevolver = ItemPrefab.GetItemPrefab("revolver")
+            Entity.Spawner.AddItemToSpawnQueue(prefabRevolver, client.Character.Inventory, nil, nil, function (item)
                 item.Tags = "teleporter"
                 item.Description = "‖color:gui.red‖A special revolver with teleportation features...‖color:end‖"
 
@@ -180,8 +180,8 @@ category.Products = {
         Limit = 1,
         IsLimitGlobal = false,
         Action = function (client)
-            local revolver = ItemPrefab.GetItemPrefab("ironhelmet")
-            Entity.Spawner.AddItemToSpawnQueue(revolver, client.Character.Inventory, nil, nil, function (item)
+            local prefabHelmet = ItemPrefab.GetItemPrefab("ironhelmet")
+            Entity.Spawner.AddItemToSpawnQueue(prefabHelmet, client.Character.Inventory, nil, nil, function (item)
                 item.Tags = "chocker"
                 item.Description = Traitormod.Language.Pointshop.choke_desc
 
@@ -204,8 +204,8 @@ category.Products = {
         IsLimitGlobal = false,
         Action = function (client)
             -- logic is implemented in pointshop/traitor.lua
-            local handcuffs = ItemPrefab.GetItemPrefab("handcuffs")
-            Entity.Spawner.AddItemToSpawnQueue(handcuffs, client.Character.Inventory, nil, nil, function (item)
+            local prefabHandcuffs = ItemPrefab.GetItemPrefab("handcuffs")
+            Entity.Spawner.AddItemToSpawnQueue(prefabHandcuffs, client.Character.Inventory, nil, nil, function (item)
                 item.Tags = "fakehandcuffs"
                 Traitormod.SendChatMessage(client, Traitormod.Language.FakeHandcuffsUsage , Color.Aqua)
             end)
