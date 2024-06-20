@@ -123,6 +123,8 @@ language.Death = "You lost a life. You have %s left before you lose points."
 language.NoLives = "You lost all your lives. As a result you lose some points."
 language.MaxLives = "You have the maximum amount of lives."
 
+language.RoleLocked = "You didn't meet the requirements to be selected as a %s."
+
 language.Codewords = "Code Words: %s"
 language.CodeResponses = "Code Responses: %s"
 
