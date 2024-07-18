@@ -62,9 +62,9 @@ Traitormod.PreRoundStart = function (submarineInfo, chooseGamemode)
         Traitormod.SelectedGamemode = Traitormod.Gamemodes.PvP:new()
     elseif Game.ServerSettings.GameModeIdentifier == "multiplayercampaign" then
         Traitormod.SelectedGamemode = Traitormod.Gamemodes.Gamemode:new()
-    elseif Game.ServerSettings.TraitorsEnabled == 1 and math.random() > 0.5 then
+    elseif Game.ServerSettings.traitorProbability == 0 and math.random() > 0.5 then
         Traitormod.SelectedGamemode = Traitormod.Gamemodes.Secret:new()
-    elseif Game.ServerSettings.TraitorsEnabled == 2 then
+    elseif Game.ServerSettings.TraitorsEnabled > 0 then
         Traitormod.SelectedGamemode = Traitormod.Gamemodes.Secret:new()
     else
         Traitormod.SelectedGamemode = Traitormod.Gamemodes.Gamemode:new()
