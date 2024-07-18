@@ -33,11 +33,11 @@ category.Products = {
         Items = {"opium", "opium"}
     },
 
-    {
+    --[[{
         Price = 200,
         Limit = 4,
         Items = {"bloodpackominus"}
-    },
+    },]] --bloodpack minus doesnt exist
 
     {
         Price = 120,
