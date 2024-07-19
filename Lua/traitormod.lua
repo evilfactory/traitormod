@@ -231,6 +231,8 @@ Hook.Add("characterCreated", "Traitormod.CharacterCreated", function(character)
     -- delay handling, otherwise client won't be found
     Timer.Wait(function()
         local client = Traitormod.FindClientCharacter(character)
+
+        if client == nil then return end
         
         Traitormod.Stats.AddClientStat("Spawns", client, 1)
 
@@ -240,7 +242,7 @@ Hook.Add("characterCreated", "Traitormod.CharacterCreated", function(character)
         else
             Traitormod.Error("Loading experience on characterCreated failed! Client was nil after 1sec")
         end
-    end, 1000)
+    end, 10000)
 end)
 
 local tipDelay = 0
