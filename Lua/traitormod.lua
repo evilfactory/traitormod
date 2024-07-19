@@ -240,7 +240,7 @@ Hook.Add("characterCreated", "Traitormod.CharacterCreated", function(character)
         else
             Traitormod.Error("Loading experience on characterCreated failed! Client was nil after 1sec")
         end
-    end, 1000)
+    end, 10000)
 end)
 
 local tipDelay = 0
