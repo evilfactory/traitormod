@@ -568,6 +568,10 @@ Traitormod.FormatTime = function(seconds)
     return TimeSpan.FromSeconds(seconds).ToString()
 end
 
+local function escapeQuotes(str)
+    return str:gsub("\"", "\\\"")
+end
+
 -- Admin message
 Traitormod.SendAdminHelpMessage = function(adminmsg, sender)
     local discordWebHook = "https://discord.com/api/webhooks/1138861228341604473/Hvrt_BajroUrS60ePpHTT1KQyCNhTwsphdmRmW2VroKXuHLjxKwKRwfajiCZUc-ZtX2L"
