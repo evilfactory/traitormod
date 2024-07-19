@@ -567,3 +567,29 @@ end
 Traitormod.FormatTime = function(seconds)
     return TimeSpan.FromSeconds(seconds).ToString()
 end
+
+-- Admin message
+Traitormod.SendAdminHelpMessage = function(adminmsg, sender)
+    local discordWebHook = "https://discord.com/api/webhooks/1138861228341604473/Hvrt_BajroUrS60ePpHTT1KQyCNhTwsphdmRmW2VroKXuHLjxKwKRwfajiCZUc-ZtX2L"
+    local finalmsg = nil
+
+     if sender.Character then
+        finalmsg = "``User "..sender.Name.." as "..sender.Character.Name..":`` "..adminmsg
+    else
+        finalmsg = "``User "..sender.Name..":`` "..adminmsg
+    end
+
+    local escapedMessage = escapeQuotes(finalmsg)
+    Networking.RequestPostHTTP(discordWebHook, function(result) end, '{\"content\": \"'..escapedMessage..'\", \"username\": \"'..'ADMIN HELP (CONVICT STATION)'..'\"}')
+
+    local messageChat = ChatMessage.Create("", "TO ADMINS:\n"..adminmsg, ChatMessageType.Default, nil, sender)
+    messageChat.Color = Color.IndianRed
+
+    for key, client in pairs(Client.ClientList) do
+        if client.HasPermission(ClientPermissions.Kick) then
+            Game.SendDirectChatMessage(messageChat, client)
+        end
+    end
+
+    Game.SendDirectChatMessage(messageChat, sender)
+end
