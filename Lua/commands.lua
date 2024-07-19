@@ -809,3 +809,19 @@ Traitormod.AddCommand({"!droppoints", "!droppoint", "!dropoint", "!dropoints"}, 
 
     return true
 end)
+
+Traitormod.AddCommand({"!ahelp", "!adminhelp"}, function (client, args)
+    local adminmsg = ""
+    if #args > 0 then
+        for word in args do
+            adminmsg = adminmsg .. " " .. word
+        end
+    else
+        Traitormod.SendMessage(client, "Incorrect usage of !ahelp/!adminhelp CMD. Usage: !ahelp/!adminhelp [msg]")
+        return true
+    end
+
+    Traitormod.SendAdminHelpMessage(adminmsg, client)
+
+    return true
+end)
