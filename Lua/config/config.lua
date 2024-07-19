@@ -8,7 +8,7 @@ config.ChatMessageType = ChatMessageType.Private    -- Error = red | Private = g
 
 config.Extensions = {
     dofile(Traitormod.Path .. "/Lua/extensions/weaponnerfs.lua"),
-    dofile(Traitormod.Path .. "/Lua/extensions/paralysisnerf.lua"),
+    --dofile(Traitormod.Path .. "/Lua/extensions/paralysisnerf.lua"),
     dofile(Traitormod.Path .. "/Lua/extensions/pressuremidjoin.lua"),
 }
 

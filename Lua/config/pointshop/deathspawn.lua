@@ -107,6 +107,44 @@ category.Products = {
             SpawnCreature("mudraptor", client, product, paidPrice)
         end
     },
+    
+    {
+        Identifier = "spawnasveteranmudraptor",
+        Price = 2750,
+        Limit = 1,
+        IsLimitGlobal = true,
+        PricePerLimit = 0,
+        Timeout = 60,
+
+        RoundPrice = {
+            PriceReduction = 300,
+            StartTime = 15,
+            EndTime = 30,
+        },
+
+        Action = function (client, product, items, paidPrice)
+            SpawnCreature("mudraptor_veteran", client, product, paidPrice)
+        end
+    },
+
+    {
+        Identifier = "spawnastigerthresher",
+        Price = 2500,
+        Limit = 2,
+        IsLimitGlobal = true,
+        PricePerLimit = 0,
+        Timeout = 60,
+
+        RoundPrice = {
+            PriceReduction = 300,
+            StartTime = 15,
+            EndTime = 30,
+        },
+
+        Action = function (client, product, items, paidPrice)
+            SpawnCreature("tigerthresher", client, product, paidPrice)
+        end
+    },
 
     {
         Identifier = "spawnasmantis",
