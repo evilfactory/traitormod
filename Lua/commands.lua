@@ -825,3 +825,80 @@ Traitormod.AddCommand({"!ahelp", "!adminhelp"}, function (client, args)
 
     return true
 end)
+
+Traitormod.AddCommand({"!achat", "!adminchat"}, function (sender, args)
+    if not sender.HasPermission(ClientPermissions.Kick) then return end
+
+    local finalmsg = ""
+    if #args > 0 then
+        for word in args do
+            finalmsg = finalmsg .. " " .. word
+        end
+    else
+        return true
+    end
+
+    local messageChat = ChatMessage.Create("", "ADMIN CHAT:\n"..finalmsg, ChatMessageType.Default, sender.Character, sender)
+    messageChat.Color = Color.IndianRed
+
+    for client in Client.ClientList do
+        if client.HasPermission(ClientPermissions.Kick) then
+            Game.SendDirectChatMessage(messageChat, client)
+        end
+    end
+
+    return true
+end)
+
+Traitormod.AddCommand({"!apm", "!adminpm", "!adminmsg", "amsg"}, function (sender, args)
+    if not sender.HasPermission(ClientPermissions.Kick) then return end
+
+    local adminmsg = ""
+    local targetClient = nil
+    if #args > 1 then
+        targetClient = table.remove(args, 1)
+        -- find character by client name
+        for client in Client.ClientList do
+            if client.Name == targetClient or client.SteamID == targetClient then
+                targetClient = client
+                break
+            end
+        end
+
+        -- get the message to be pm'd
+        for word in args do
+            adminmsg = adminmsg .. " " .. word
+        end
+    else
+        return true
+    end
+
+    if targetClient == nil then
+        Traitormod.SendMessage(sender, "That player does not exist.")
+        return true
+    end
+
+    local finalmsg = adminmsg.."\n\nTo respond, type use the admin help button or the command !adminhelp."
+    local messageChat = ChatMessage.Create(sender.Name.." to "..targetClient.Name, "ADMIN PM:\n"..finalmsg, ChatMessageType.Default, nil, sender)
+    messageChat.Color = Color.IndianRed
+
+    Game.SendDirectChatMessage(messageChat, targetClient)
+
+    for client in Client.ClientList do
+        if client.HasPermission(ClientPermissions.Kick) then
+            Game.SendDirectChatMessage(messageChat, client)
+        end
+    end
+
+    local discordWebHook = "https://discord.com/api/webhooks/1138861228341604473/Hvrt_BajroUrS60ePpHTT1KQyCNhTwsphdmRmW2VroKXuHLjxKwKRwfajiCZUc-ZtX2L"
+    local hookmsg = string.format("``Admin %s`` to ``User %s:`` %s", sender.Name, targetClient.Name, adminmsg)
+
+    local function escapeQuotes(str)
+        return str:gsub("\"", "\\\"")
+    end
+
+    local escapedMessage = escapeQuotes(hookmsg)
+    Networking.RequestPostHTTP(discordWebHook, function(result) end, '{\"content\": \"'..escapedMessage..'\", \"username\": \"'..'ADMIN HELP (CONVICT STATION)'..'\"}')
+
+    return true
+end)
