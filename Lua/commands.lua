@@ -882,7 +882,12 @@ Traitormod.AddCommand({"!apm", "!adminpm", "!adminmsg", "amsg"}, function (sende
     local messageChat = ChatMessage.Create(sender.Name.." to "..targetClient.Name, "ADMIN PM:\n"..finalmsg, ChatMessageType.Default, nil, sender)
     messageChat.Color = Color.IndianRed
 
-    Game.SendDirectChatMessage(messageChat, targetClient)
+    if finalmsg == nil then
+        Traitormod.SendMessage(sender, "Enter a valid message")
+    else
+        Game.SendDirectChatMessage(messageChat, targetClient)
+    end
+
 
     for client in Client.ClientList do
         if client.HasPermission(ClientPermissions.Kick) then

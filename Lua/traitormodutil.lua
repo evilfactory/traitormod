@@ -202,6 +202,14 @@ end
 
 Traitormod.MissionIdentifier =  "easterbunny" -- can be any defined Traitor mission id in vanilla xml, mainly used for icon
 Traitormod.SendTraitorMessageBox = function (client, text, icon)
+    if client == nil then
+        print("client check failed")
+    elseif text == nil then
+        print("text check failed")
+    elseif icon == nil then
+        print("icon check failed")
+    end
+    --line 213 is broken in some form, checks implemented to see what is nil
     Game.SendTraitorMessage(client, text, icon or Traitormod.MissionIdentifier, TraitorMessageType.ServerMessageBox);
     Game.SendDirectChatMessage("", text, nil, Traitormod.Config.ChatMessageType, client)
 end
