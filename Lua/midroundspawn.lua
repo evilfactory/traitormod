@@ -37,15 +37,13 @@ m.CrewHasJob = function(job)
     return false
 end
 
-m.GetJobVariant = function(jobId)
-    local prefab = JobPrefab.Get(jobId)
-    return JobVariant.__new(prefab, 0)
-end
+
 
 -- TryCreateClientCharacter inspied by Oiltanker
 m.TryCreateClientCharacter = function(submarine, client)
     local session = Game.GameSession
     local crewManager = session.CrewManager
+    
 
     -- fix client char info
     if client.CharacterInfo == nil then client.CharacterInfo = CharacterInfo("human", client.Name) end
@@ -53,15 +51,15 @@ m.TryCreateClientCharacter = function(submarine, client)
     local jobPreference = client.JobPreferences[1]
 
     if jobPreference == nil then
-        -- if no jobPreference, set assistant
-        jobPreference = m.GetJobVariant("convict")
+        -- if no jobPreference, set convict
+        jobPreference = Traitormod.GetJobVariant("convict")
 
     elseif preventMultiCaptain and jobPreference.Prefab.Identifier == "warden" and jobPreference.Prefab.Identifier == "headguard" then
         -- if crew has a captain, spawn as security
         if (m.CrewHasJob("warden") or m.CrewHasJob("headguard")) then
             Traitormod.Log(client.Name .. " tried to mid-round spawn as second power role - assigning janitor instead.")
             -- set jobPreference = security
-            jobPreference = m.GetJobVariant("janitor")
+            jobPreference = Traitormod.GetJobVariant("janitor")
         end
     end
 

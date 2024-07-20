@@ -739,6 +739,35 @@ Traitormod.AddCommand("!triggerevent", function (client, args)
     return true
 end)
 
+Traitormod.AddCommand("!clientname", function(client, args)
+    if not client.HasPermission(ClientPermissions.ConsoleCommands) then return end
+
+    if #args < 1 then
+        Traitormod.SendMessage(client, "Usage: !clientname <playername>")
+        return true
+    end
+
+    
+
+    local playername = args[1]
+    for i,character in pairs(Character.CharacterList) do
+        if character.Name == playername then
+            for i,client2 in pairs(client.ClientList) do
+                if client2.Character.Name == character.Name then
+                    Traitormod.SendMessage(character.Name," is ",client.Name)
+
+                else
+                    Traitormod.SendMessage("character has no client? tf did you do?")
+                end
+            end
+        else
+            Traitormod.SendMessage("incorrect client name")
+        end
+    end
+
+    return true
+end)
+
 Traitormod.AddCommand({"!locatesub", "!locatesubmarine"}, function (client, args)
     if client.Character == nil or not client.InGame then
         Traitormod.SendMessage(client, "You must be alive to use this command.")
