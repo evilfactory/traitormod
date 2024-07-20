@@ -116,6 +116,23 @@ config.GamemodeConfig = {
             ClearAlienRuins = 2000,
             Default = 1000,
         },
+
+        RoleLock = {
+            LockIf = function(client, params)
+                local time = params[1]
+                local points = params[2]
+                if Traitormod.GetPlaytime(client) <= time and Traitormod.GetPoints(client) <= points then return true end
+                return false
+            end
+            ,
+            -- If the client doesnt meet the requirements, it wont be selected as that role, right now these are just test times
+            LockedRoles = { 
+                ["guard"] = {4*60*60, 100000000000000000},
+                ["warden"] = {6*60*60, 20000}
+            },
+            SubstituteRoles = {"convict"},{"janitor"},{"staff"} -- A random one will be selected
+        },
+
         PointsGainedFromCrewMissionsCompleted = 1000,
         LivesGainedFromCrewMissionsCompleted = 1,
 

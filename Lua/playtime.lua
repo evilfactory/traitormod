@@ -7,7 +7,7 @@ end)
 Traitormod.AddCommand({"!playtime", "!pt"}, function (client, args)
     Traitormod.SendChatMessage(
         client,
-        string.format(Traitormod.Language.CMDPlaytime, Traitormod.FormatTime(math.ceil(Traitormod.GetData(client, "Playtime") or 0))),
+        string.format(Traitormod.Language.CMDPlaytime, Traitormod.FormatTime(Traitormod.GetPlaytime(client))),
         Color.Green
     )
     return true
