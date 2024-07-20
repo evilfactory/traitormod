@@ -121,7 +121,7 @@ config.GamemodeConfig = {
             LockIf = function(client, params)
                 local time = params[1]
                 local points = params[2]
-                if Traitormod.GetPlaytime(client) <= time and Traitormod.GetPoints(client) <= points then return true end
+                if Traitormod.GetPlaytime(client) <= time * 60 * 60 then return true end
                 return false
             end
             ,
