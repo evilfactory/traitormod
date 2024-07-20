@@ -128,7 +128,7 @@ config.GamemodeConfig = {
             -- If the client doesnt meet the requirements, it wont be selected as that role, right now these are just test times
             LockedRoles = { 
                 ["guard"] = {4} -- 4 hours
-                ["warden"] = {6*60*60, 20000}
+                ["warden"] = {6} -- 6 hours
             },
             SubstituteRoles = {"convict"},{"janitor"},{"staff"} -- A random one will be selected
         },
