@@ -120,15 +120,14 @@ config.GamemodeConfig = {
         RoleLock = {
             LockIf = function(client, params)
                 local time = params[1]
-                local points = params[2]
-                if Traitormod.GetPlaytime(client) <= time and Traitormod.GetPoints(client) <= points then return true end
+                if Traitormod.GetPlaytime(client) <= time * 60 * 60 then return true end
                 return false
             end
             ,
             -- If the client doesnt meet the requirements, it wont be selected as that role, right now these are just test times
             LockedRoles = { 
-                ["guard"] = {4*60*60, 100000000000000000},
-                ["warden"] = {6*60*60, 20000}
+                ["guard"] = {4}, -- 4 hours
+                ["warden"] = {6} -- 6 hours
             },
             SubstituteRoles = {"convict"},{"janitor"},{"staff"} -- A random one will be selected
         },
