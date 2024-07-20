@@ -335,7 +335,7 @@ Traitormod.AddCommand({"!traitorcom"}, function (client, args)
 
     for key, player in pairs(Client.ClientList) do
         if player and player.Character and player.HasPermission(ClientPermissions.ConsoleCommands) or Traitormod.RoleManager.HasRole(player.Character, "Traitor") then
-            Traitormod.SendTraitorMessageBox(player, text)
+            Traitormod.SendTraitorMessageBox(player, text, "GameModeIcon.pvp")
         end
     end
 
