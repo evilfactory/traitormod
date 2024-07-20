@@ -32,7 +32,7 @@ config.RagdollOnDisconnect = false
 config.EnableControlHusk = false     -- EXPERIMENTAL: enable to control husked character after death
 config.DeathLogBook = true
 config.HideCrewList = true -- EXPERIMENTAL
-config.RoleplayNames = true -- if you want a rp name on round start
+config.RoleplayNames = false -- if you want a rp name on round start
 config.RoleIntros = true -- messages for each role everytime the round starts
 config.NLRMessage = true
 
