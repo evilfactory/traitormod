@@ -102,7 +102,9 @@ Traitormod.AddCommand({"!votewarden", "!wardenvote"}, function (client, args)
     -- Filter clients with the "warden" job
     local wardenClients = {}
     for _, client in pairs(Client.ClientList) do
-        print(client.PreferredJob[1].ToString)
+        if client.PreferredJob == "warden" then
+            table.insert(wardenClients, client)
+        end
     end
 
     if #wardenClients == 0 then
