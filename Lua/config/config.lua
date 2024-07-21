@@ -361,3 +361,5 @@ config.GhostRoleConfig = {
 }
 
 return config
+
+
