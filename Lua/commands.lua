@@ -948,9 +948,7 @@ function GetClientByName(inputName)
     return nil
 end
 
-local json = require("json")
-
-local json = require("json")
+local json = require("/mnt/data/json")
 
 Traitormod.AddCommand({"!roleban", "!banrole", "!jobban", "!banjob"}, function (sender, args)
     if not sender.HasPermission(ClientPermissions.Kick) then return end
