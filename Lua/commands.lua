@@ -371,13 +371,9 @@ Traitormod.AddCommand({"!funny"}, function (client, args)
 
     if #args > 0 then
         -- if client name is given, revive related character
-        local name = table.remove(args, 1)
+        local name = Traitormod.GetClientByName(table.remove(args, 1))
         -- find character by client name
-        for player in Client.ClientList do
-            if player.Name == name or player.SteamID == name then
-                funnyClient = player
-            end
-        end
+                funnyClient = name
     end
 
     Entity.Spawner.AddCharacterToSpawnQueue("mudraptor", spawnPosition, function (character)
@@ -423,7 +419,7 @@ Traitormod.AddCommand({"!addpoint", "!addpoints"}, function (client, args)
         return true
     end
 
-    local found = Traitormod.FindClient(name)
+    local found = Traitormod.FindClient(Traitormod.GetClientByName(name))
 
     if found == nil then
         Traitormod.SendMessage(client, "Couldn't find a client with name / steamID " .. name)
@@ -924,7 +920,7 @@ Traitormod.AddCommand({"!apm", "!adminpm", "!adminmsg", "amsg"}, function (sende
     return true
 end)
 
-function GetClientByName(inputName)
+function Traitormod.GetClientByName(inputName)
     inputName = inputName:lower()
 
     -- Find by client name
@@ -978,7 +974,7 @@ Traitormod.AddCommand({"!roleban", "!banrole", "!jobban", "!banjob"}, function (
     end
 
     -- Get the target client
-    local targetClient = GetClientByName(targetClientInput)
+    local targetClient = Traitormod.GetClientByName(targetClientInput)
     
     if targetClient == nil then
         Traitormod.SendMessage(sender, "That player does not exist.")
@@ -1043,7 +1039,7 @@ Traitormod.AddCommand({"!unbanrole", "!roleunban", "!jobunban", "!unbanjob"}, fu
     end
 
     -- Get the target client
-    local targetClient = getClientByName(targetClientInput)
+    local targetClient = Traitormod.GetClientByName(targetClientInput)
     
     if targetClient == nil then
         Traitormod.SendMessage(sender, "That player does not exist.")
