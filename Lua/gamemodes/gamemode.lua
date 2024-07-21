@@ -9,41 +9,87 @@ function gm:PreStart()
 
     Hook.Patch("Barotrauma.Networking.GameServer", "AssignJobs", function (instance, ptable)
         local gamemode = Traitormod.SelectedGamemode
-        if gamemode.RoleLock == nil then return end
+        if not gamemode or not gamemode.RoleLock then 
+            print("No RoleLock found.")
+            return 
+        end
+    
+        for index, client in pairs(ptable["unassigned"]) do
+            local jobName = client.AssignedJob.Prefab.Identifier.ToString()
+            local flag = false
+    
+            for role, params in pairs(gamemode.RoleLock.LockedRoles) do
+                if jobName == role then
+                    if gamemode.RoleLock.LockIf(client, params) then 
+                        flag = true
+                        print(string.format("Client %s meets RoleLock condition for job %s", client.Name, jobName))
+                    end
+                    break
+                end
+            end
+    
+            if flag then
+                Traitormod.SendMessage(client, string.format(Traitormod.Language.RoleLocked, jobName))
+                client.AssignedJob = Traitormod.GetJobVariant(gamemode.RoleLock.SubstituteRoles[math.random(1, #gamemode.RoleLock.SubstituteRoles)])
+                print(string.format("Client %s reassigned to new job due to RoleLock", client.Name))
+            end
+        end
+    end, Hook.HookMethodType.After)
 
+    Hook.Patch("Barotrauma.Networking.GameServer", "AssignJobs", function (instance, ptable)
+        local validJobs = { "prisondoctor", "guard", "headguard", "warden", "staff", "janitor", "convict", "he-chef" }
+    
         -- Load banned jobs from JSON
         local bannedJobs = json.loadBannedJobs()
-
+        print("Banned jobs loaded: ", bannedJobs)
+    
         for index, client in pairs(ptable["unassigned"]) do
-            local flag = false
             local jobName = client.AssignedJob.Prefab.Identifier.ToString()
             local steamID = client.SteamID
-
+            local flag = false
+    
+            print(string.format("Checking client %s with job %s and SteamID %s", client.Name, jobName, steamID))
+    
             -- Check if the client is banned from the assigned job
             if bannedJobs[steamID] then
                 for _, bannedJob in ipairs(bannedJobs[steamID]) do
                     if jobName == bannedJob then
                         flag = true
+                        print(string.format("Client %s is banned from job %s", client.Name, jobName))
                         break
                     end
                 end
             end
-
-            -- Check RoleLock conditions
-            if not flag then
-                for role, params in pairs(gamemode.RoleLock.LockedRoles) do
-                    if jobName == role then
-                        if gamemode.RoleLock.LockIf(client, params) then 
-                            flag = true
-                        end
-                        break
-                    end
-                end
-            end
-
+    
+            -- If the client is banned from the job, find a substitute role
             if flag then
-                Traitormod.SendMessage(client, string.format(Traitormod.Language.RoleLocked, jobName))
-                client.AssignedJob = Traitormod.GetJobVariant(gamemode.RoleLock.SubstituteRoles[math.random(1, #gamemode.RoleLock.SubstituteRoles)])
+                local substituteRoles = {}
+    
+                -- Create a list of jobs that the client is not banned from
+                for _, validJob in ipairs(validJobs) do
+                    local isBanned = false
+    
+                    for _, bannedJob in ipairs(bannedJobs[steamID]) do
+                        if validJob == bannedJob then
+                            isBanned = true
+                            break
+                        end
+                    end
+    
+                    if not isBanned then
+                        table.insert(substituteRoles, validJob)
+                    end
+                end
+    
+                -- Choose a random job from the substitute roles
+                if #substituteRoles > 0 then
+                    local newJobName = substituteRoles[math.random(1, #substituteRoles)]
+                    client.AssignedJob = Traitormod.GetJobVariant(newJobName)
+                    Traitormod.SendMessage(client, string.format(Traitormod.Language.RoleLocked, jobName))
+                    print(string.format("Client %s reassigned to new job %s due to job ban", client.Name, newJobName))
+                else
+                    print("No available substitute roles found for client " .. client.Name)
+                end
             end
         end
     end, Hook.HookMethodType.After)
