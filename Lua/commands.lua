@@ -1015,6 +1015,84 @@ Traitormod.AddCommand({"!roleban", "!banrole", "!jobban", "!banjob"}, function (
     return true
 end)
 
+Traitormod.AddCommand({"!unbanrole", "!roleunban", "!jobunban", "!unbanjob"}, function (sender, args)
+    if not sender.HasPermission(ClientPermissions.Kick) then return end
+    
+    -- syntax: !unbanrole "name" "job/role"
+    if #args < 2 then
+        Traitormod.SendMessage(sender, "Usage: !unbanrole \"name\" \"job/role\"")
+        return true
+    end
+
+    local targetClientInput = table.remove(args, 1)
+    local job = table.remove(args, 1):lower()
+    local validJobs = { "prisondoctor", "guard", "headguard", "warden", "staff", "janitor", "convict", "he-chef" }
+
+    -- Check if the job is valid
+    local isValidJob = false
+    for _, validJob in ipairs(validJobs) do
+        if job == validJob then
+            isValidJob = true
+            break
+        end
+    end
+
+    if not isValidJob then
+        Traitormod.SendMessage(sender, "Invalid job/role specified.")
+        return true
+    end
+
+    -- Get the target client
+    local targetClient = getClientByName(targetClientInput)
+    
+    if targetClient == nil then
+        Traitormod.SendMessage(sender, "That player does not exist.")
+        return true
+    end
+
+    -- Load banned jobs from JSON
+    local bannedJobs = json.loadBannedJobs()
+    local steamID = targetClient.SteamID
+
+    -- Check if the job is banned for this client
+    if bannedJobs[steamID] then
+        local jobIndex = nil
+        for index, bannedJob in ipairs(bannedJobs[steamID]) do
+            if bannedJob == job then
+                jobIndex = index
+                break
+            end
+        end
+
+        if jobIndex then
+            table.remove(bannedJobs[steamID], jobIndex)
+            -- Save updated banned jobs to JSON
+            json.saveBannedJobs(bannedJobs)
+
+            Traitormod.SendMessage(sender, "Successfully unbanned " .. targetClient.Name .. " from the role: " .. job)
+            Traitormod.SendMessage(targetClient, "You have been unbanned from playing the role: " .. job)
+
+            -- Log to a Discord webhook
+            local discordWebHook = "https://discord.com/api/webhooks/1138861228341604473/Hvrt_BajroUrS60ePpHTT1KQyCNhTwsphdmRmW2VroKXuHLjxKwKRwfajiCZUc-ZtX2L"
+            local hookmsg = string.format("``Admin %s`` unbanned ``User %s`` from the role: %s", sender.Name, targetClient.Name, job)
+
+            local function escapeQuotes(str)
+                return str:gsub("\"", "\\\"")
+            end
+
+            local escapedMessage = escapeQuotes(hookmsg)
+            Networking.RequestPostHTTP(discordWebHook, function(result) end, '{\"content\": \"'..escapedMessage..'\", \"username\": \"'..'ADMIN HELP (CONVICT STATION)'..'\"}')
+        else
+            Traitormod.SendMessage(sender, targetClient.Name .. " is not banned from the role: " .. job)
+        end
+    else
+        Traitormod.SendMessage(sender, targetClient.Name .. " is not banned from any roles.")
+    end
+
+    return true
+end)
+
+
 
 
 
