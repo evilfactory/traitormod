@@ -899,7 +899,7 @@ Traitormod.AddCommand({"!apm", "!adminpm", "!adminmsg", "amsg"}, function (sende
         if targetClient == nil then
             for character in Character.CharacterList do
                 if character.Name:lower():find(targetClientInput, 1, true) then
-                    for i,client in pairs(Character.CharacterList) do
+                    for i,client in pairs(Client.ClientList) do
                         if client.Character.Name == character.Name then
                             targetClient = character.Client
                             break
