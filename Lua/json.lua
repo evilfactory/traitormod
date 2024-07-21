@@ -388,25 +388,22 @@ local File = {}
 
 -- Load banned jobs from file
 function json.loadBannedJobs()
-  local filePath = Traitormod.Path .. "/Lua/banned_jobs.json"
 
   -- Check if file exists
-  if not File.Exists(filePath) or File.Exists(filePath) == nil then
-      -- Create the file with an empty JSON object if it doesn't exist
-      File.Write(filePath, "{}")
+  if not File.Exists(Traitormod.Path .. "/Lua/banned_jobs.json") then
+    File.Write(Traitormod.Path .. "/Lua/banned_jobs.json", "{}")
   end
 
   -- Read the content of the file
-  local content = File.ReadAllText(filePath)
+  local content = File.ReadAllText(Traitormod.Path .. "/Lua/banned_jobs.json")
   return json.decode(content)
 end
 
 -- Save banned jobs to file
 function json.saveBannedJobs(bannedJobs)
-    local filePath = Traitormod.Path .. "/Lua/banned_jobs.json"
 
     -- Write the JSON data to the file
-    File.Write(filePath, json.encode(bannedJobs))
+    File.Write(Traitormod.Path .. "/Lua/banned_jobs.json", json.encode(bannedJobs))
 end
 
 return json
