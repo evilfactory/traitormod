@@ -5,7 +5,7 @@ gm.Name = "Gamemode"
 function gm:PreStart()
     Traitormod.Pointshop.Initialize(self.PointshopCategories or {})
 
-    local json = require("/mnt/data/json")
+    local json = require("json")
 
     Hook.Patch("Barotrauma.Networking.GameServer", "AssignJobs", function (instance, ptable)
         local gamemode = Traitormod.SelectedGamemode
