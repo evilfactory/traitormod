@@ -977,33 +977,8 @@ Traitormod.AddCommand({"!roleban", "!banrole", "!jobban", "!banjob"}, function (
         return true
     end
 
-    -- Function to get the client by name or character name
-    local function getClientByName(inputName)
-        inputName = inputName:lower()
-
-        -- Find by client name
-        for client in Client.ClientList do
-            if client.Name:lower():find(inputName, 1, true) or client.SteamID == inputName then
-                return client
-            end
-        end
-
-        -- Find by character name
-        for character in Character.CharacterList do
-            if character.Name:lower():find(inputName, 1, true) then
-                for _, client in pairs(Client.ClientList) do
-                    if client.Character.Name == character.Name then
-                        return client
-                    end
-                end
-            end
-        end
-
-        return nil
-    end
-
     -- Get the target client
-    local targetClient = getClientByName(targetClientInput)
+    local targetClient = GetClientByName(targetClientInput)
     
     if targetClient == nil then
         Traitormod.SendMessage(sender, "That player does not exist.")
@@ -1024,7 +999,7 @@ Traitormod.AddCommand({"!roleban", "!banrole", "!jobban", "!banjob"}, function (
     json.saveBannedJobs(bannedJobs)
 
     Traitormod.SendMessage(sender, "Successfully banned " .. targetClient.Name .. " from the role: " .. job)
-    Traitormod.SendMessage(targetClient, "You have been banned from the role: " .. job)
+    Traitormod.SendMessage(targetClient, "You have been banned from playing the role: " .. job)
 
     -- Log to a Discord webhook
     local discordWebHook = "https://discord.com/api/webhooks/1138861228341604473/Hvrt_BajroUrS60ePpHTT1KQyCNhTwsphdmRmW2VroKXuHLjxKwKRwfajiCZUc-ZtX2L"
@@ -1039,6 +1014,7 @@ Traitormod.AddCommand({"!roleban", "!banrole", "!jobban", "!banjob"}, function (
 
     return true
 end)
+
 
 
 
