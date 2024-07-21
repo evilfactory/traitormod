@@ -385,4 +385,24 @@ function json.decode(str)
 end
 
 
+-- Load banned jobs from file
+function json.loadBannedJobs()
+  local file = io.open("banned_jobs.json", "r")
+  if not file then
+      return {}
+  end
+  local content = file:read("*a")
+  file:close()
+  return json.decode(content)
+end
+
+-- Save banned jobs to file
+function json.saveBannedJobs(bannedJobs)
+  local file = io.open("banned_jobs.json", "w")
+  file:write(json.encode(bannedJobs))
+  file:close()
+end
+
+
 return json
+

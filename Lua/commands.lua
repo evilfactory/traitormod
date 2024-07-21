@@ -882,43 +882,20 @@ end)
 Traitormod.AddCommand({"!apm", "!adminpm", "!adminmsg", "amsg"}, function (sender, args)
     if not sender.HasPermission(ClientPermissions.Kick) then return end
 
-    local adminmsg = ""
-    local targetClient = nil
-    if #args > 1 then
-        targetClientInput = table.remove(args, 1):lower()
+    if #args <= 1 then return true end
 
-        -- find character by client name or character name
-        for client in Client.ClientList do
-            if client.Name:lower():find(targetClientInput, 1, true) or client.SteamID == targetClientInput then
-                targetClient = client
-                break
-            end
-        end
-
-        -- If not found by client name, search by character name
-        if targetClient == nil then
-            for character in Character.CharacterList do
-                if character.Name:lower():find(targetClientInput, 1, true) then
-                    for i,client in pairs(Client.ClientList) do
-                        if client.Character.Name == character.Name then
-                            targetClient = character.Client
-                            break
-                        end
-                    end
-                end
-            end
-        end
-
-        -- get the message to be pm'd
-        for _, word in ipairs(args) do
-            adminmsg = adminmsg .. " " .. word
-        end
-    else
-        return true
-    end
+    local targetClientInput = table.remove(args, 1)
+    local targetClient = GetClientByName(targetClientInput)
 
     if targetClient == nil then
         Traitormod.SendMessage(sender, "That player does not exist.")
+        return true
+    end
+
+    local adminmsg = table.concat(args, " ")
+
+    if adminmsg == "" then
+        Traitormod.SendMessage(sender, "Enter a valid message")
         return true
     end
 
@@ -926,11 +903,7 @@ Traitormod.AddCommand({"!apm", "!adminpm", "!adminmsg", "amsg"}, function (sende
     local messageChat = ChatMessage.Create(sender.Name.." to "..targetClient.Name, "ADMIN PM:\n"..finalmsg, ChatMessageType.Default, nil, sender)
     messageChat.Color = Color.IndianRed
 
-    if finalmsg == nil then
-        Traitormod.SendMessage(sender, "Enter a valid message")
-    else
-        Game.SendDirectChatMessage(messageChat, targetClient)
-    end
+    Game.SendDirectChatMessage(messageChat, targetClient)
 
     for client in Client.ClientList do
         if client.HasPermission(ClientPermissions.Kick) then
@@ -950,5 +923,124 @@ Traitormod.AddCommand({"!apm", "!adminpm", "!adminmsg", "amsg"}, function (sende
 
     return true
 end)
+
+function GetClientByName(inputName)
+    inputName = inputName:lower()
+
+    -- Find by client name
+    for client in Client.ClientList do
+        if client.Name:lower():find(inputName, 1, true) or client.SteamID == inputName then
+            return client
+        end
+    end
+
+    -- Find by character name
+    for character in Character.CharacterList do
+        if character.Name:lower():find(inputName, 1, true) then
+            for i, client in pairs(Client.ClientList) do
+                if client.Character.Name == character.Name then
+                    return client
+                end
+            end
+        end
+    end
+
+    return nil
+end
+
+local json = require("/mnt/data/json")
+
+Traitormod.AddCommand({"!roleban", "!banrole", "!jobban", "!banjob"}, function (sender, args)
+    if not sender.HasPermission(ClientPermissions.Kick) then return end
+    
+    -- syntax: !roleban "name" "job/role"
+    if #args < 2 then
+        Traitormod.SendMessage(sender, "Usage: !roleban \"name\" \"job/role\"")
+        return true
+    end
+
+    local targetClientInput = table.remove(args, 1)
+    local job = table.remove(args, 1):lower()
+    local validJobs = { "prisondoctor", "guard", "headguard", "warden", "staff", "janitor", "convict", "he-chef" }
+
+    -- Check if the job is valid
+    local isValidJob = false
+    for _, validJob in ipairs(validJobs) do
+        if job == validJob then
+            isValidJob = true
+            break
+        end
+    end
+
+    if not isValidJob then
+        Traitormod.SendMessage(sender, "Invalid job/role specified.")
+        return true
+    end
+
+    -- Function to get the client by name or character name
+    local function getClientByName(inputName)
+        inputName = inputName:lower()
+
+        -- Find by client name
+        for client in Client.ClientList do
+            if client.Name:lower():find(inputName, 1, true) or client.SteamID == inputName then
+                return client
+            end
+        end
+
+        -- Find by character name
+        for character in Character.CharacterList do
+            if character.Name:lower():find(inputName, 1, true) then
+                for _, client in pairs(Client.ClientList) do
+                    if client.Character.Name == character.Name then
+                        return client
+                    end
+                end
+            end
+        end
+
+        return nil
+    end
+
+    -- Get the target client
+    local targetClient = getClientByName(targetClientInput)
+    
+    if targetClient == nil then
+        Traitormod.SendMessage(sender, "That player does not exist.")
+        return true
+    end
+
+    -- Load banned jobs from JSON
+    local bannedJobs = json.loadBannedJobs()
+    local steamID = targetClient.SteamID
+
+    -- Add job to banned jobs
+    if not bannedJobs[steamID] then
+        bannedJobs[steamID] = {}
+    end
+    table.insert(bannedJobs[steamID], job)
+
+    -- Save banned jobs to JSON
+    json.saveBannedJobs(bannedJobs)
+
+    Traitormod.SendMessage(sender, "Successfully banned " .. targetClient.Name .. " from the role: " .. job)
+    Traitormod.SendMessage(targetClient, "You have been banned from the role: " .. job)
+
+    -- Log to a Discord webhook
+    local discordWebHook = "https://discord.com/api/webhooks/1138861228341604473/Hvrt_BajroUrS60ePpHTT1KQyCNhTwsphdmRmW2VroKXuHLjxKwKRwfajiCZUc-ZtX2L"
+    local hookmsg = string.format("``Admin %s`` banned ``User %s`` from the role: %s", sender.Name, targetClient.Name, job)
+
+    local function escapeQuotes(str)
+        return str:gsub("\"", "\\\"")
+    end
+
+    local escapedMessage = escapeQuotes(hookmsg)
+    Networking.RequestPostHTTP(discordWebHook, function(result) end, '{\"content\": \"'..escapedMessage..'\", \"username\": \"'..'ADMIN HELP (CONVICT STATION)'..'\"}')
+
+    return true
+end)
+
+
+
 
 
