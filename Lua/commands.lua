@@ -885,17 +885,32 @@ Traitormod.AddCommand({"!apm", "!adminpm", "!adminmsg", "amsg"}, function (sende
     local adminmsg = ""
     local targetClient = nil
     if #args > 1 then
-        targetClient = table.remove(args, 1)
-        -- find character by client name
+        targetClientInput = table.remove(args, 1):lower()
+
+        -- find character by client name or character name
         for client in Client.ClientList do
-            if client.Name == targetClient or client.SteamID == targetClient then
+            if client.Name:lower():find(targetClientInput, 1, true) or client.SteamID == targetClientInput then
                 targetClient = client
                 break
             end
         end
 
+        -- If not found by client name, search by character name
+        if targetClient == nil then
+            for character in Character.CharacterList do
+                if character.Name:lower():find(targetClientInput, 1, true) then
+                    for i,client in pairs(Character.CharacterList) do
+                        if client.Character.Name == character.Name then
+                            targetClient = character.Client
+                            break
+                        end
+                    end
+                end
+            end
+        end
+
         -- get the message to be pm'd
-        for word in args do
+        for _, word in ipairs(args) do
             adminmsg = adminmsg .. " " .. word
         end
     else
@@ -917,7 +932,6 @@ Traitormod.AddCommand({"!apm", "!adminpm", "!adminmsg", "amsg"}, function (sende
         Game.SendDirectChatMessage(messageChat, targetClient)
     end
 
-
     for client in Client.ClientList do
         if client.HasPermission(ClientPermissions.Kick) then
             Game.SendDirectChatMessage(messageChat, client)
@@ -936,3 +950,5 @@ Traitormod.AddCommand({"!apm", "!adminpm", "!adminmsg", "amsg"}, function (sende
 
     return true
 end)
+
+
