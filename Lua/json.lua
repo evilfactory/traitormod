@@ -398,9 +398,17 @@ end
 
 -- Save banned jobs to file
 function json.saveBannedJobs(bannedJobs)
-  local file = io.open("banned_jobs.json", "w")
+  -- Attempt to create the file if it doesn't exist
+  local file = io.open("banned_jobs.json", "a+")
   if not file then
-    error("Could not open file for writing: banned_jobs.json")
+      error("Could not create file: banned_jobs.json")
+  end
+  file:close()
+
+  -- Open the file for writing
+  file = io.open("banned_jobs.json", "w")
+  if not file then
+      error("Could not open file for writing: banned_jobs.json")
   end
   file:write(json.encode(bannedJobs))
   file:close()
