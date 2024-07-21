@@ -94,7 +94,7 @@ function gm:PreStart()
         end
     end, Hook.HookMethodType.After)
 
-    Hook.Patch("Barotrauma.Networking.GameServer", "AssignJobs", function (instance, ptable)
+    --[[Hook.Patch("Barotrauma.Networking.GameServer", "AssignJobs", function (instance, ptable)
         -- Determine the client with the most votes for warden
         local maxVotes = 0
         local wardenClientName = nil
@@ -126,7 +126,7 @@ function gm:PreStart()
                 end
             end
         end
-    end, Hook.HookMethodType.After)    
+    end, Hook.HookMethodType.After)]]    
 end
 
 function gm:Start()

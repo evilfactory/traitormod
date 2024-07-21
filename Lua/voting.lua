@@ -92,7 +92,7 @@ Traitormod.AddCommand("!vote", function (client, args)
     return true
 end)
 
-Traitormod.AddCommand({"!startwardenvote"}, function (client, args)
+--[[Traitormod.AddCommand({"!startwardenvote"}, function (client, args)
     if not client.HasPermission(ClientPermissions.ConsoleCommands) then return end
 
     -- Filter clients with the "warden" job
@@ -182,6 +182,6 @@ Hook.Add("think", "Traitormod.WardenVoting.Think", function ()
             wardenVoteResults = {}
         end
     end
-end)
+end)]]
 
 return vt
