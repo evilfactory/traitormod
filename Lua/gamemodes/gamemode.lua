@@ -93,6 +93,40 @@ function gm:PreStart()
             end
         end
     end, Hook.HookMethodType.After)
+
+    Hook.Patch("Barotrauma.Networking.GameServer", "AssignJobs", function (instance, ptable)
+        -- Determine the client with the most votes for warden
+        local maxVotes = 0
+        local wardenClientName = nil
+        for clientName, votes in pairs(wardenVoteResults) do
+            if votes > maxVotes then
+                maxVotes = votes
+                wardenClientName = clientName
+            end
+        end
+    
+        if not wardenClientName then
+            print("No warden selected by vote.")
+            return
+        end
+    
+        for index, client in pairs(ptable["unassigned"]) do
+            local jobName = client.AssignedJob.Prefab.Identifier.ToString()
+    
+            -- Ensure only the voted client becomes the warden
+            if jobName == "warden" then
+                if client.Name ~= wardenClientName then
+                    local validJobs = { "prisondoctor", "guard", "headguard", "staff", "janitor", "convict", "he-chef" }
+                    local newJobName = validJobs[math.random(1, #validJobs)]
+                    client.AssignedJob = Traitormod.GetJobVariant(newJobName)
+                    Traitormod.SendMessage(client, "You have been reassigned from the warden role to: " .. newJobName)
+                    print(string.format("Client %s reassigned to new job %s due to warden vote", client.Name, newJobName))
+                else
+                    print(string.format("Client %s assigned as warden based on vote", client.Name))
+                end
+            end
+        end
+    end, Hook.HookMethodType.After)    
 end
 
 function gm:Start()

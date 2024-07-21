@@ -92,4 +92,52 @@ Traitormod.AddCommand("!vote", function (client, args)
     return true
 end)
 
+Traitormod.AddCommand({"!votewarden", "!wardenvote"}, function (client, args)
+    if not client.HasPermission(ClientPermissions.ConsoleCommands) then return end
+    if not client.InGame then
+        Traitormod.SendMessage(client, "You must be in game to use this command.")
+        return true
+    end
+
+    -- Filter clients with the "warden" job
+    local wardenClients = {}
+    for _, client in pairs(Client.ClientList) do
+        if client.AssignedJob and client.AssignedJob.Prefab.Identifier == "warden" then
+            table.insert(wardenClients, client)
+        end
+    end
+
+    if #wardenClients == 0 then
+        Traitormod.SendMessage(client, "No clients have the 'warden' job.")
+        return true
+    end
+
+    local options = {}
+    for _, wardenClient in ipairs(wardenClients) do
+        table.insert(options, wardenClient.Name)
+    end
+
+    vt.StartVote("Vote for Warden", options, 25, function (results)
+        local message = Traitormod.StringBuilder:new()
+        message("Warden Vote Results:\n\n")
+        for key, value in pairs(results) do
+            message("%s: %s Votes\n", options[key], value)
+        end
+
+        for _, target in pairs(Client.ClientList) do
+            local chatMessage = ChatMessage.Create("", message:concat(), ChatMessageType.Default, nil, nil)
+            chatMessage.Color = Color(255, 255, 255, 255)
+            Game.SendDirectChatMessage(chatMessage, target)
+        end
+
+        -- Store the results
+        wardenVoteResults = {}
+        for key, value in pairs(results) do
+            wardenVoteResults[options[key]] = value
+        end
+    end)
+
+    return true
+end)
+
 return vt
