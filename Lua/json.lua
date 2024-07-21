@@ -384,8 +384,6 @@ function json.decode(str)
   return res
 end
 
-local File = {}
-
 -- Load banned jobs from file
 function json.loadBannedJobs()
 
@@ -395,7 +393,7 @@ function json.loadBannedJobs()
   end
 
   -- Read the content of the file
-  local content = File.ReadAllText(Traitormod.Path .. "/Lua/banned_jobs.json")
+  local content = File.Read(Traitormod.Path .. "/Lua/banned_jobs.json")
   return json.decode(content)
 end
 
