@@ -391,7 +391,7 @@ function json.loadBannedJobs()
   local filePath = Traitormod.Path .. "/Lua/banned_jobs.json"
 
   -- Check if file exists
-  if not File.Exists(filePath) then
+  if not File.Exists(filePath) or File.Exists(filePath) == nil then
       -- Create the file with an empty JSON object if it doesn't exist
       File.Write(filePath, "{}")
   end
