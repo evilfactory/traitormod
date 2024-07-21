@@ -384,44 +384,30 @@ function json.decode(str)
   return res
 end
 
+local File = {}
 
 -- Load banned jobs from file
 function json.loadBannedJobs()
-  local file = io.open("banned_jobs.json", "r")
-  if not file then
-    return {}
+  local filePath = Traitormod.Path .. "/Lua/banned_jobs.json"
+
+  -- Check if file exists
+  if not File.Exists(filePath) then
+      -- Create the file with an empty JSON object if it doesn't exist
+      File.Write(filePath, "{}")
   end
-  local content = file:read("*a")
-  file:close()
+
+  -- Read the content of the file
+  local content = File.ReadAllText(filePath)
   return json.decode(content)
 end
 
 -- Save banned jobs to file
 function json.saveBannedJobs(bannedJobs)
-  local filePath = "banned_jobs.json"
+    local filePath = Traitormod.Path .. "/Lua/banned_jobs.json"
 
-  -- Check if file exists, if not, create it with an empty JSON object
-  local file = io.open(filePath, "r")
-  if not file then
-      file = io.open(filePath, "w")
-      if not file then
-          error("Could not create file: " .. filePath)
-      end
-      file:write("{}")
-      file:close()
-  else
-      file:close()
-  end
-
-  -- Open the file for writing
-  file = io.open(filePath, "w")
-  if not file then
-      error("Could not open file for writing: " .. filePath)
-  end
-  file:write(json.encode(bannedJobs))
-  file:close()
+    -- Write the JSON data to the file
+    File.Write(filePath, json.encode(bannedJobs))
 end
-
 
 return json
 
