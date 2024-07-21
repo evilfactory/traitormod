@@ -94,8 +94,8 @@ end)
 
 Traitormod.AddCommand({"!votewarden", "!wardenvote"}, function (client, args)
     if not client.HasPermission(ClientPermissions.ConsoleCommands) then return end
-    if not client.InGame then
-        Traitormod.SendMessage(client, "You must be in game to use this command.")
+    if client.InGame then
+        Traitormod.SendMessage(client, "You must be in game lobby to use this command.")
         return true
     end
 
