@@ -389,7 +389,7 @@ end
 function json.loadBannedJobs()
   local file = io.open("banned_jobs.json", "r")
   if not file then
-      return {}
+    return {}
   end
   local content = file:read("*a")
   file:close()
@@ -399,6 +399,9 @@ end
 -- Save banned jobs to file
 function json.saveBannedJobs(bannedJobs)
   local file = io.open("banned_jobs.json", "w")
+  if not file then
+    error("Could not open file for writing: banned_jobs.json")
+  end
   file:write(json.encode(bannedJobs))
   file:close()
 end
