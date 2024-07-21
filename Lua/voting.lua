@@ -94,15 +94,11 @@ end)
 
 Traitormod.AddCommand({"!startwardenvote"}, function (client, args)
     if not client.HasPermission(ClientPermissions.ConsoleCommands) then return end
-    if not client.InGame then
-        Traitormod.SendMessage(client, "You must be in game to use this command.")
-        return true
-    end
 
     -- Filter clients with the "warden" job
     wardenCandidates = {}
     for _, client in pairs(Client.ClientList) do
-        if client.AssignedJob and client.AssignedJob.Prefab.Identifier == "warden" then
+        if client.PreferredJob == "warden" then
             table.insert(wardenCandidates, client)
         end
     end
@@ -126,6 +122,7 @@ Traitormod.AddCommand({"!startwardenvote"}, function (client, args)
     return true
 end)
 
+
 Traitormod.AddCommand({"!votewarden"}, function (client, args)
     if not wardenVoteInProgress then
         Traitormod.SendMessage(client, "No warden vote in progress.")
@@ -148,6 +145,7 @@ Traitormod.AddCommand({"!votewarden"}, function (client, args)
 
     return true
 end)
+
 
 Hook.Add("think", "Traitormod.WardenVoting.Think", function ()
     if wardenVoteInProgress and Timer.GetTime() > wardenVoteTimer then
@@ -178,20 +176,10 @@ Hook.Add("think", "Traitormod.WardenVoting.Think", function ()
         if winnerIndex then
             local winner = wardenCandidates[winnerIndex]
             Traitormod.SendMessage(nil, string.format("Warden Vote Results:\nWinner: %s with %d votes", winner.Name, maxVotes))
+            wardenVoteResults = {[winner.Name] = maxVotes}
         else
             Traitormod.SendMessage(nil, "Warden Vote Results:\nNo votes cast.")
-        end
-
-        -- Assign warden role based on vote results
-        for _, client in pairs(Client.ClientList) do
-            local jobName = client.AssignedJob.Prefab.Identifier.ToString()
-            if jobName == "warden" and client ~= wardenCandidates[winnerIndex] then
-                local validJobs = { "prisondoctor", "guard", "headguard", "staff", "janitor", "convict", "he-chef" }
-                local newJobName = validJobs[math.random(1, #validJobs)]
-                client.AssignedJob = Traitormod.GetJobVariant(newJobName)
-                Traitormod.SendMessage(client, "You have been reassigned from the warden role to: " .. newJobName)
-                print(string.format("Client %s reassigned to new job %s due to warden vote", client.Name, newJobName))
-            end
+            wardenVoteResults = {}
         end
     end
 end)

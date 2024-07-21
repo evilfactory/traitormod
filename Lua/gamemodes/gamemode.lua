@@ -98,7 +98,7 @@ function gm:PreStart()
         -- Determine the client with the most votes for warden
         local maxVotes = 0
         local wardenClientName = nil
-        for clientName, votes in pairs(wardenVoteResults) do
+        for clientName, votes in pairs(WardenVoteResults) do
             if votes > maxVotes then
                 maxVotes = votes
                 wardenClientName = clientName
