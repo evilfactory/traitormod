@@ -85,7 +85,7 @@ function gm:PreStart()
                 if #substituteRoles > 0 then
                     local newJobName = substituteRoles[math.random(1, #substituteRoles)]
                     client.AssignedJob = Traitormod.GetJobVariant(newJobName)
-                    Traitormod.SendMessage(client, string.format(Traitormod.Language.RoleLocked, jobName))
+                    Traitormod.SendMessage(client, "You have been banned from playing the role: " .. jobName)
                     print(string.format("Client %s reassigned to new job %s due to job ban", client.Name, newJobName))
                 else
                     print("No available substitute roles found for client " .. client.Name)
