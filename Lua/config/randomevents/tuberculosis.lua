@@ -16,7 +16,7 @@ event.Start = function ()
 
     for i = 1, infectedCount do
         local randomCharacter = Character.CharacterList[math.random(#Character.CharacterList)]
-        while infectedCharacters[randomCharacter] do
+        while infectedCharacters[randomCharacter] or randomCharacter.IsDead or randomCharacter.TeamID ~= 1 do
             randomCharacter = Character.CharacterList[math.random(#Character.CharacterList)]
         end
         infectedCharacters[randomCharacter] = true
@@ -38,9 +38,8 @@ event.Start = function ()
         local text = "Attention crew!\n\nOur sensors have detected the presence of Tuberculosis pathogens in the air. It appears that one or more individuals on the station have been infected. Please take immediate precautions:\n\n1. Wear protective masks.\n2. Avoid close contact with others.\n3. Report any symptoms to the medical team immediately.\n\nStay safe and follow all health protocols."
         Traitormod.RoundEvents.SendEventMessage(text, "EyeButton")
         print(string.format("Tuberculosis outbreak event started. Number of characters infected: %d. Infected characters: %s", infectedCount, table.concat(infectedCharacterNames, ", ")))
-    end, 6000)
+    end, 60000)
 
-    Timer.Wait(event.End, event.Time * 60000)
 end
 
 return event
