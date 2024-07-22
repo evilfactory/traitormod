@@ -203,6 +203,7 @@ language.CommunicationsOffline = "Something is interfering with all our communic
 language.CommunicationsBack = "Communications are back online."
 language.EmergencyTeam = "A group of engineers and mechanics have entered the submarine to assist with repairs."
 language.LightsOff = "All lights suddenly turn off, but power is still on? What's going on?"
+language.Tuber = "Attention crew!\n\nOur sensors have detected the presence of Tuberculosis pathogens in the air. It appears that one or more individuals on the station have been infected. Please take immediate precautions:\n\n1. Wear protective masks.\n2. Avoid close contact with others.\n3. Report any symptoms to the medical team immediately.\n\nStay safe and follow all health protocols."
 language.MaintenanceToolsDelivery = "A delivery of maintenance tools has been made into the cargo area of the ship. The supplies are inside a yellow crate."
 language.MedicalDelivery = "A medical delivery has been made into the medical area of the ship. The medical supplies are inside a red medical crate."
 language.PrisonerAboard = "A prisoner is aboard the submarine, keep the prisoner alive and handcuffed until the submarine arrives at it's destination for the crew to receive %s Points."
