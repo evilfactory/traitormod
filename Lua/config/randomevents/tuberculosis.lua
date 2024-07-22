@@ -4,7 +4,7 @@ event.Name = "tboutbreak"
 event.MinRoundTime = 2
 event.MinIntensity = 0
 event.MaxIntensity = 0.1
-event.ChancePerMinute = 0.05
+event.ChancePerMinute = 0.025
 event.OnlyOncePerRound = true
 
 event.ColorsToRevert = {}
