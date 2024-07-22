@@ -868,7 +868,7 @@ Traitormod.AddCommand({"!apm", "!adminpm", "!adminmsg", "amsg"}, function (sende
     if #args <= 1 then return true end
 
     local targetClientInput = table.remove(args, 1)
-    local targetClient = GetClientByName(targetClientInput)
+    local targetClient = Traitormod.GetClientByName(targetClientInput)
 
     if targetClient == nil then
         Traitormod.SendMessage(sender, "That player does not exist.")
