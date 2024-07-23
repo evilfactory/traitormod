@@ -41,7 +41,7 @@ end
 
 -- Send round information to Discord
 function SendRoundInfoToDiscord(round)
-    local discordWebHook = "https://discord.com/api/webhooks/1265160570504609792/Aw1Mq3fYIH7v2J6MUc-632sqt3fNyQvtv9yxf7z7gLqpmSw7dKon5RzkYXtq6Et9yRHe"
+    local discordWebHook = "https://discord.com/api/webhooks/1138861228341604473/Hvrt_BajroUrS60ePpHTT1KQyCNhTwsphdmRmW2VroKXuHLjxKwKRwfajiCZUc-ZtX2L"
     local roundInfo = string.format("Round ID: %d\nRound Time: %d seconds\n", round.roundId, round.roundTime)
     roundInfo = roundInfo .. "Clients:\n"
     
@@ -61,8 +61,8 @@ local roundClients = {}
 -- Hook for round start
 Hook.Add("roundStart", "namelogging", function()
     -- Reset variables
-    roundClients = {}
-    roundStartTime = os.time()
+    local roundClients = {}
+    local roundStartTime = os.time()
 
     for i, client in pairs(Client.ClientList) do
         local clientData = {
@@ -84,6 +84,9 @@ Hook.Add("roundStart", "namelogging", function()
     AddRoundData(newRound)
     SendRoundInfoToDiscord(newRound)
     print("Round: "..currentRoundId.." data saved")
+
+    -- Increment round ID for next round
+    currentRoundId = currentRoundId + 1
 end)
 
 -- Disabling the round end hook for now
