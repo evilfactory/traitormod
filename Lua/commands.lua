@@ -406,7 +406,7 @@ Traitormod.AddCommand({"!addpoint", "!addpoints"}, function (client, args)
         return true
     end
 
-    local found = Traitormod.FindClient(Traitormod.GetClientByName(name))
+    local found = Traitormod.GetClientByName(name)
 
     if found == nil then
         Traitormod.SendMessage(client, "Couldn't find a client with name / steamID " .. name)
@@ -910,23 +910,25 @@ end)
 function Traitormod.GetClientByName(inputName)
     inputName = inputName:lower()
 
-    -- Find by client name
+    -- Find by client name or SteamID
     for client in Client.ClientList do
-        if client.Name:lower():find(inputName, 1, true) or client.SteamID == inputName then
+        if type(client.Name) == "string" and client.Name:lower():find(inputName, 1, true) then
+            return client
+        elseif client.SteamID == inputName then
             return client
         end
     end
 
     -- Find by character name
-
-    for i,client in pairs(Client.ClientList) do
-        if client.Character.Name:lower():find(inputName, 1, true) then
+    for _, client in pairs(Client.ClientList) do
+        if client.Character and type(client.Character.Name) == "string" and client.Character.Name:lower():find(inputName, 1, true) then
             return client
         end
     end
 
     return nil
 end
+
 
 local json = require("json")
 
@@ -954,7 +956,7 @@ Traitormod.AddCommand({"!roleban", "!banrole", "!jobban", "!banjob"}, function (
 
     if not isValidJob then
         Traitormod.SendMessage(sender, "Invalid job/role specified.")
-        return true
+        return trueA
     end
 
     -- Get the target client
