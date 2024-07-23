@@ -5,11 +5,11 @@ function json.loadRoundData()
     local path = Traitormod.Path .. "/Lua/round_data.json"
     
     if not File.Exists(path) then
-        File.Write(path, "{}")
+        File.Write(path, "[]")
     end
 
     local content = File.Read(path)
-    return json.decode(content)
+    return json.decode(content) or {}
 end
 
 -- Save round data to JSON file
@@ -39,7 +39,7 @@ function addRoundData(newRound)
     json.saveRoundData(roundData)
 end
 
--- Initialize round data and traitors
+-- Initialize variables
 local currentRoundId = (#roundData > 0) and (roundData[#roundData].roundId + 1) or 1
 local roundStartTime = os.time()
 local roundClients = {}
@@ -48,6 +48,12 @@ local roundEnded = false
 
 -- Hook for round start
 Hook.Add("roundStart", "namelogging", function()
+    -- Reset variables
+    roundClients = {}
+    traitors = {}
+    roundEnded = false
+    roundStartTime = os.time()
+
     for i, client in pairs(Client.ClientList) do
         local clientData = {
             name = client.Name,
