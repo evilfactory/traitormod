@@ -26,7 +26,6 @@ local maxRounds = 50
 function addRoundData(newRound)
     -- Check for duplicate round IDs
     if #roundData > 0 and newRound.roundId == roundData[#roundData].roundId then
-        print("Debug: Duplicate round ID found. Not adding round data.")
         return
     end
 
@@ -38,7 +37,6 @@ function addRoundData(newRound)
     end
 
     json.saveRoundData(roundData)
-    print("Debug: Round data saved.")
 end
 
 -- Escape quotes for Discord webhook
@@ -64,15 +62,11 @@ end
 function sendRoundInfoToDiscord(round)
     local discordWebHook = "https://discord.com/api/webhooks/1265160570504609792/Aw1Mq3fYIH7v2J6MUc-632sqt3fNyQvtv9yxf7z7gLqpmSw7dKon5RzkYXtq6Et9yRHe"
     local roundInfo = formatRoundInfo(round)
-    print("Debug: Formatted round info: " .. roundInfo)
     local escapedMessage = escapeQuotes(roundInfo)
-    print("Debug: Escaped message for Discord: " .. escapedMessage)
     
     local payload = json.encode({ content = escapedMessage, username = "Round Logger" })
-    print("Debug: Payload for Discord: " .. payload)
     
     Networking.RequestPostHTTP(discordWebHook, function(result)
-        print("Debug: Discord webhook request result: " .. result)
     end, payload)
 end
 
@@ -83,7 +77,6 @@ local roundClients = {}
 
 -- Hook for round start
 Hook.Add("roundStart", "namelogging", function()
-    print("Debug: Round start hook triggered.")
     -- Reset variables
     roundClients = {}
     roundStartTime = os.time()
@@ -98,16 +91,35 @@ Hook.Add("roundStart", "namelogging", function()
         }
         table.insert(roundClients, clientData)
     end
-
-    print("Debug: Initial round data collected.")
 end)
 
 -- Hook for round end
 Hook.Add("roundEnd", "roundEndLogging", function()
-    print("Debug: Round end hook triggered.")
 
     -- Calculate round time
     local roundTime = os.time() - roundStartTime
+
+    -- Update client list with any new clients or characters who joined mid-game
+    for i, client in pairs(Client.ClientList) do
+        local found = false
+        for _, roundClient in ipairs(roundClients) do
+            if roundClient.steamId == client.SteamID then
+                found = true
+                break
+            end
+        end
+
+        if not found then
+            local clientData = {
+                name = client.Name,
+                steamId = client.SteamID,
+                characterName = client.Character and client.Character.Name or "N/A",
+                job = client.Character and client.Character.JobIdentifier.ToString() or "N/A",
+                isTraitor = false -- Initialize as false
+            }
+            table.insert(roundClients, clientData)
+        end
+    end
 
     -- Check for traitors
     local traitors = {}
@@ -130,12 +142,10 @@ Hook.Add("roundEnd", "roundEndLogging", function()
         clients = roundClients,
         traitors = traitors
     }
-    print("Debug: Final round data prepared: " .. json.encode(newRound))
 
     -- Save round data and send to Discord
     addRoundData(newRound)
     sendRoundInfoToDiscord(newRound)
-    print("Debug: Round: " .. currentRoundId .. " data saved")
 
     -- Increment round ID for next round
     currentRoundId = currentRoundId + 1
