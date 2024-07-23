@@ -193,10 +193,10 @@ language.AbyssHelpPart5 = "You could try to get a new battery for this submarine
 language.AbyssHelpDead = "I guess that's how it ends...."
 
 language.AmmoDelivery = "A delivery of explosive coilgun ammo and railgun shells has been made to the armoury area of the submarine."
-language.BeaconPirate = "There have been reports about a notorious pirate with a PUCS suit terrorizing these waters, the pirate was detected recently inside a beacon station - eliminate the pirate to claim a reward of %s points for the entire crew."
-language.WreckPirate = "There have been reports about a notorious pirate with a PUCS suit terrorizing these waters, the pirate was detected recently inside a wrecked submarine - eliminate the pirate to claim a reward of %s points for the entire crew."
-language.PirateInside = "Attention! A dangerous PUCS pirate has been detected inside the main submarine!"
-language.PirateKilled = "The PUCS pirate has been killed, the crew has received a reward of %s points."
+language.BeaconPirate = "There have been reports about a notorious pirate with a separatist suit terrorizing these waters, the pirate was detected recently inside a beacon station - eliminate the pirate to claim a reward of %s points for the entire crew."
+language.WreckPirate = "There have been reports about a notorious pirate with a separatist suit terrorizing these waters, the pirate was detected recently inside a wrecked submarine - eliminate the pirate to claim a reward of %s points for the entire crew."
+language.PirateInside = "Attention! A dangerous separatist pirate has been detected inside the main submarine!"
+language.PirateKilled = "The separatist pirate has been killed, the crew has received a reward of %s points."
 
 language.ClownMagic = "You feel a strange sensation, and suddenly you're somewhere else."
 language.CommunicationsOffline = "Something is interfering with all our communications systems. It's been estimated that communications will be offline for atleast %s minutes."
