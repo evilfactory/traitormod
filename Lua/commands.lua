@@ -911,7 +911,7 @@ function Traitormod.GetClientByName(inputName)
     inputName = inputName:lower()
 
     -- Find by client name or SteamID
-    for client in Client.ClientList do
+    for i,client in pairs(Client.ClientList) do
         if type(client.Name) == "string" and client.Name:lower():find(inputName, 1, true) then
             return client
         elseif client.SteamID == inputName then
