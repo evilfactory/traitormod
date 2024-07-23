@@ -23,7 +23,7 @@ local roundData = json.loadRoundData()
 local maxRounds = 50
 
 -- Add new round data and manage history
-function addRoundData(newRound)
+function AddRoundData(newRound)
     -- Check for duplicate round IDs
     if #roundData > 0 and newRound.roundId == roundData[#roundData].roundId then
         return
@@ -39,19 +39,29 @@ function addRoundData(newRound)
     json.saveRoundData(roundData)
 end
 
--- Initialize variables
+-- Send round information to Discord
+function SendRoundInfoToDiscord(round)
+    local discordWebHook = "https://discord.com/api/webhooks/1265160570504609792/Aw1Mq3fYIH7v2J6MUc-632sqt3fNyQvtv9yxf7z7gLqpmSw7dKon5RzkYXtq6Et9yRHe"
+    local roundInfo = string.format("Round ID: %d\nRound Time: %d seconds\n", round.roundId, round.roundTime)
+    roundInfo = roundInfo .. "Clients:\n"
+    
+    for _, client in ipairs(round.clients) do
+        roundInfo = roundInfo .. string.format("Name: %s, SteamID: %s, Character: %s, Job: %s\n",
+            client.name, client.steamId, client.characterName, client.job)
+    end
+
+    local escapedMessage = roundInfo:gsub("\"", "\\\"")
+    Networking.RequestPostHTTP(discordWebHook, function(result) end, '{\"content\": \"'..escapedMessage..'\", \"username\": \"'..'Round Logger'..'\"}')
+end
+
 local currentRoundId = (#roundData > 0) and (roundData[#roundData].roundId + 1) or 1
 local roundStartTime = os.time()
 local roundClients = {}
-local traitors = {}
-local roundEnded = false
 
 -- Hook for round start
 Hook.Add("roundStart", "namelogging", function()
     -- Reset variables
     roundClients = {}
-    traitors = {}
-    roundEnded = false
     roundStartTime = os.time()
 
     for i, client in pairs(Client.ClientList) do
@@ -64,70 +74,36 @@ Hook.Add("roundStart", "namelogging", function()
         table.insert(roundClients, clientData)
     end
 
-    -- Delay to check for traitors
-    Timer.Wait(function()
-        if roundEnded then
-            return
-        end
-
-        for i, client in pairs(Client.ClientList) do
-            if client.Character and client.Character.IsTraitor then
-                table.insert(traitors, client.Name)
-            end
-        end
-
-        -- Save round data after traitor information is collected
-        local newRound = {
-            roundId = currentRoundId,
-            roundTime = os.time() - roundStartTime,
-            clients = roundClients,
-            traitors = traitors
-        }
-        addRoundData(newRound)
-        sendRoundInfoToDiscord(newRound)
-        print("Round: "..currentRoundId.." data saved")
-
-    end, 120000) -- 2 minutes delay to check for traitor status
-end)
-
--- Hook for round end
-Hook.Add("roundEnd", "roundEndLogging", function()
-    roundEnded = true
-
-    -- Save round data if round ends before 2 minutes
-    for i, client in pairs(Client.ClientList) do
-        if client.Character and client.Character.IsTraitor then
-            table.insert(traitors, client.Name)
-        end
-    end
-
+    -- Save round data
     local newRound = {
         roundId = currentRoundId,
         roundTime = os.time() - roundStartTime,
         clients = roundClients,
-        traitors = traitors
+        traitors = {} -- No traitor check for now
     }
-    addRoundData(newRound)
-    sendRoundInfoToDiscord(newRound)
+    AddRoundData(newRound)
+    SendRoundInfoToDiscord(newRound)
     print("Round: "..currentRoundId.." data saved")
 end)
 
--- Send round information to Discord
-function sendRoundInfoToDiscord(round)
-    local discordWebHook = "https://discord.com/api/webhooks/1265160570504609792/Aw1Mq3fYIH7v2J6MUc-632sqt3fNyQvtv9yxf7z7gLqpmSw7dKon5RzkYXtq6Et9yRHe"
-    local roundInfo = string.format("Round ID: %d\nRound Time: %d seconds\n", round.roundId, round.roundTime)
-    roundInfo = roundInfo .. "Clients:\n"
-    
-    for _, client in ipairs(round.clients) do
-        roundInfo = roundInfo .. string.format("Name: %s, SteamID: %s, Character: %s, Job: %s\n",
-            client.name, client.steamId, client.characterName, client.job)
-    end
-    
-    roundInfo = roundInfo .. "Traitors:\n"
-    for _, traitor in ipairs(round.traitors) do
-        roundInfo = roundInfo .. traitor .. "\n"
-    end
+-- Disabling the round end hook for now
+-- Hook.Add("roundEnd", "roundEndLogging", function()
+--     roundEnded = true
 
-    local escapedMessage = roundInfo:gsub("\"", "\\\"")
-    Networking.RequestPostHTTP(discordWebHook, function(result) end, '{\"content\": \"'..escapedMessage..'\", \"username\": \"'..'Round Logger'..'\"}')
-end
+--     -- Save round data if round ends before 2 minutes
+--     for i, client in pairs(Client.ClientList) do
+--         if client.Character and client.Character.IsTraitor then
+--             table.insert(traitors, client.Name)
+--         end
+--     end
+
+--     local newRound = {
+--         roundId = currentRoundId,
+--         roundTime = os.time() - roundStartTime,
+--         clients = roundClients,
+--         traitors = traitors
+--     }
+--     addRoundData(newRound)
+--     sendRoundInfoToDiscord(newRound)
+--     print("Round: "..currentRoundId.." data saved")
+-- end)
