@@ -918,13 +918,10 @@ function Traitormod.GetClientByName(inputName)
     end
 
     -- Find by character name
-    for _, character in pairs(Character.CharacterList) do
-        if character.Name:lower():find(inputName, 1, true) then
-            for i, client in pairs(Client.ClientList) do
-                if client.Character.Name == character.Name then
-                    return client
-                end
-            end
+
+    for i,client in pairs(Client.ClientList) do
+        if client.Character.Name:lower():find(inputName, 1, true) then
+            return client
         end
     end
 
