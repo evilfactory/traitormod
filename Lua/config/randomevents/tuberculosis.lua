@@ -28,16 +28,13 @@ event.Start = function ()
             local strength = 5 * randomCharacter.CharacterHealth.MaxVitality / 100 / (1 - resistance)
             local affliction = prefab.Instantiate(strength)
             randomCharacter.CharacterHealth.ApplyAffliction(randomCharacter.AnimController.GetLimb(LimbType.Torso), affliction, false)
-            print(string.format("Character %s has been infected with Tuberculosis.", randomCharacter.Name))
         else
-            print(string.format("Character %s is resistant to Tuberculosis and was not infected.", randomCharacter.Name))
         end
     end
 
     Timer.Wait(function ()
         local text = "Attention crew!\n\nOur sensors have detected the presence of Tuberculosis pathogens in the air. It appears that one or more individuals on the station have been infected. Please take immediate precautions:\n\n1. Wear protective masks.\n2. Avoid close contact with others.\n3. Report any symptoms to the medical team immediately.\n\nStay safe and follow all health protocols."
         Traitormod.RoundEvents.SendEventMessage(text, "EyeButton")
-        print(string.format("Tuberculosis outbreak event started. Number of characters infected: %d. Infected characters: %s", infectedCount, table.concat(infectedCharacterNames, ", ")))
     end, 60000)
 
 end

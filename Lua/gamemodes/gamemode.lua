@@ -41,14 +41,12 @@ function gm:PreStart()
     
         -- Load banned jobs from JSON
         local bannedJobs = json.loadBannedJobs()
-        print("Banned jobs loaded: ", bannedJobs)
     
         for index, client in pairs(ptable["unassigned"]) do
             local jobName = client.AssignedJob.Prefab.Identifier.ToString()
             local steamID = client.SteamID
             local flag = false
     
-            print(string.format("Checking client %s with job %s and SteamID %s", client.Name, jobName, steamID))
     
             -- Check if the client is banned from the assigned job
             if bannedJobs[steamID] then
@@ -88,7 +86,6 @@ function gm:PreStart()
                     Traitormod.SendMessage(client, "You have been banned from playing the role: " .. jobName .. ", Appeal in discord https://discord.gg/nv8Zz32PxK")
                     print(string.format("Client %s reassigned to new job %s due to job ban", client.Name, newJobName))
                 else
-                    print("No available substitute roles found for client " .. client.Name)
                 end
             end
         end
