@@ -241,7 +241,7 @@ config.RoleConfig = {
     },
 
     Clown = {
-        SubObjectives = {"BananaSlip", "SuffocateCrew", "AssassinateDrunk", "GrowMudraptors", "Survive", "OnAcid"},
+        SubObjectives = {"BananaSlip", "SuffocateCrew", "AssassinateDrunk", "GrowMudraptors", "Survive", "OnAcid", "ClownControl"},
         MinSubObjectives = 3,
         MaxSubObjectives = 3,
 
