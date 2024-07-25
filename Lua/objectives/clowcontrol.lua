@@ -14,7 +14,7 @@ objective.RoleFilter = {
 
 function objective:Start()
 
-    self.Text = string.format(Traitormod.Language.ObjectiveCLownControl)
+    self.Text = string.format(Traitormod.Language.ObjectiveClownControl)
 
     return true
 end

@@ -406,7 +406,7 @@ Traitormod.AddCommand({"!addpoint", "!addpoints"}, function (client, args)
         return true
     end
 
-    local found = Traitormod.GetClientByName(name)
+    local found = Traitormod.GetClientByName(client,name)
 
     if found == nil then
         Traitormod.SendMessage(client, "Couldn't find a client with name / steamID " .. name)
@@ -868,7 +868,7 @@ Traitormod.AddCommand({"!apm", "!adminpm", "!adminmsg", "amsg"}, function (sende
     if #args <= 1 then return true end
 
     local targetClientInput = table.remove(args, 1)
-    local targetClient = Traitormod.GetClientByName(targetClientInput)
+    local targetClient = Traitormod.GetClientByName(sender,targetClientInput)
 
     if targetClient == nil then
         Traitormod.SendMessage(sender, "That player does not exist.")
@@ -907,28 +907,6 @@ Traitormod.AddCommand({"!apm", "!adminpm", "!adminmsg", "amsg"}, function (sende
     return true
 end)
 
-function Traitormod.GetClientByName(inputName)
-    inputName = inputName:lower()
-
-    -- Find by client name or SteamID
-    for i,client in pairs(Client.ClientList) do
-        if type(client.Name) == "string" and client.Name:lower():find(inputName, 1, true) then
-            return client
-        elseif client.SteamID == inputName then
-            return client
-        end
-    end
-
-    -- Find by character name
-    for _, client in pairs(Client.ClientList) do
-        if client.Character and type(client.Character.Name) == "string" and client.Character.Name:lower():find(inputName, 1, true) then
-            return client
-        end
-    end
-
-    return nil
-end
-
 
 local json = require("json")
 
@@ -956,20 +934,27 @@ Traitormod.AddCommand({"!roleban", "!banrole", "!jobban", "!banjob"}, function (
 
     if not isValidJob then
         Traitormod.SendMessage(sender, "Invalid job/role specified.")
-        return trueA
+        return true
     end
 
-    -- Get the target client
-    local targetClient = Traitormod.GetClientByName(targetClientInput)
-    
-    if targetClient == nil then
-        Traitormod.SendMessage(sender, "That player does not exist.")
-        return true
+    -- Check if input is a SteamID
+    local targetClient = nil
+    local steamID = nil
+
+    if targetClientInput:match("^%d+$") then
+        steamID = targetClientInput
+    else
+        -- Get the target client by name
+        targetClient = Traitormod.GetClientByName(sender,targetClientInput)
+        if targetClient == nil then
+            Traitormod.SendMessage(sender, "That player does not exist.")
+            return true
+        end
+        steamID = targetClient.SteamID
     end
 
     -- Load banned jobs from JSON
     local bannedJobs = json.loadBannedJobs()
-    local steamID = targetClient.SteamID
 
     -- Add job to banned jobs
     if not bannedJobs[steamID] then
@@ -980,12 +965,14 @@ Traitormod.AddCommand({"!roleban", "!banrole", "!jobban", "!banjob"}, function (
     -- Save banned jobs to JSON
     json.saveBannedJobs(bannedJobs)
 
-    Traitormod.SendMessage(sender, "Successfully banned " .. targetClient.Name .. " from the role: " .. job)
-    Traitormod.SendMessage(targetClient, "You have been banned from playing the role: " .. job)
+    Traitormod.SendMessage(sender, "Successfully banned " .. (targetClient and targetClient.Name or steamID) .. " from the role: " .. job)
+    if targetClient then
+        Traitormod.SendMessage(targetClient, "You have been banned from playing the role: " .. job)
+    end
 
     -- Log to a Discord webhook
     local discordWebHook = "https://discord.com/api/webhooks/1138861228341604473/Hvrt_BajroUrS60ePpHTT1KQyCNhTwsphdmRmW2VroKXuHLjxKwKRwfajiCZUc-ZtX2L"
-    local hookmsg = string.format("``Admin %s`` banned ``User %s`` from the role: %s", sender.Name, targetClient.Name, job)
+    local hookmsg = string.format("``Admin %s`` banned ``User %s`` from the role: %s", sender.Name, (targetClient and targetClient.Name or steamID), job)
 
     local function escapeQuotes(str)
         return str:gsub("\"", "\\\"")
@@ -996,6 +983,7 @@ Traitormod.AddCommand({"!roleban", "!banrole", "!jobban", "!banjob"}, function (
 
     return true
 end)
+
 
 Traitormod.AddCommand({"!unbanrole", "!roleunban", "!jobunban", "!unbanjob"}, function (sender, args)
     if not sender.HasPermission(ClientPermissions.Kick) then return end
@@ -1024,17 +1012,24 @@ Traitormod.AddCommand({"!unbanrole", "!roleunban", "!jobunban", "!unbanjob"}, fu
         return true
     end
 
-    -- Get the target client
-    local targetClient = Traitormod.GetClientByName(targetClientInput)
-    
-    if targetClient == nil then
-        Traitormod.SendMessage(sender, "That player does not exist.")
-        return true
+    -- Check if input is a SteamID
+    local targetClient = nil
+    local steamID = nil
+
+    if targetClientInput:match("^%d+$") then
+        steamID = targetClientInput
+    else
+        -- Get the target client by name
+        targetClient = Traitormod.GetClientByName(sender,targetClientInput)
+        if targetClient == nil then
+            Traitormod.SendMessage(sender, "That player does not exist.")
+            return true
+        end
+        steamID = targetClient.SteamID
     end
 
     -- Load banned jobs from JSON
     local bannedJobs = json.loadBannedJobs()
-    local steamID = targetClient.SteamID
 
     -- Check if the job is banned for this client
     if bannedJobs[steamID] then
@@ -1051,12 +1046,14 @@ Traitormod.AddCommand({"!unbanrole", "!roleunban", "!jobunban", "!unbanjob"}, fu
             -- Save updated banned jobs to JSON
             json.saveBannedJobs(bannedJobs)
 
-            Traitormod.SendMessage(sender, "Successfully unbanned " .. targetClient.Name .. " from the role: " .. job)
-            Traitormod.SendMessage(targetClient, "You have been unbanned from playing the role: " .. job)
+            Traitormod.SendMessage(sender, "Successfully unbanned " .. (targetClient and targetClient.Name or steamID) .. " from the role: " .. job)
+            if targetClient then
+                Traitormod.SendMessage(targetClient, "You have been unbanned from playing the role: " .. job)
+            end
 
             -- Log to a Discord webhook
             local discordWebHook = "https://discord.com/api/webhooks/1138861228341604473/Hvrt_BajroUrS60ePpHTT1KQyCNhTwsphdmRmW2VroKXuHLjxKwKRwfajiCZUc-ZtX2L"
-            local hookmsg = string.format("``Admin %s`` unbanned ``User %s`` from the role: %s", sender.Name, targetClient.Name, job)
+            local hookmsg = string.format("``Admin %s`` unbanned ``User %s`` from the role: %s", sender.Name, (targetClient and targetClient.Name or steamID), job)
 
             local function escapeQuotes(str)
                 return str:gsub("\"", "\\\"")
@@ -1065,10 +1062,10 @@ Traitormod.AddCommand({"!unbanrole", "!roleunban", "!jobunban", "!unbanjob"}, fu
             local escapedMessage = escapeQuotes(hookmsg)
             Networking.RequestPostHTTP(discordWebHook, function(result) end, '{\"content\": \"'..escapedMessage..'\", \"username\": \"'..'ADMIN HELP (CONVICT STATION)'..'\"}')
         else
-            Traitormod.SendMessage(sender, targetClient.Name .. " is not banned from the role: " .. job)
+            Traitormod.SendMessage(sender, (targetClient and targetClient.Name or "The player") .. " is not banned from the role: " .. job)
         end
     else
-        Traitormod.SendMessage(sender, targetClient.Name .. " is not banned from any roles.")
+        Traitormod.SendMessage(sender, (targetClient and targetClient.Name or "The player") .. " is not banned from any roles.")
     end
 
     return true
