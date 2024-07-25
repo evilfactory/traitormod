@@ -153,7 +153,7 @@ end
 
 category.Products = {
     {
-        Price = 100,
+        Price = 5,
         Limit = 15,
         IsLimitGlobal = false,
         Items = {"clownmask"},
@@ -168,7 +168,7 @@ category.Products = {
 
     {
         Identifier = "ClownEnsemble",
-        Price = 250,
+        Price = 25,
         Limit = 1,
         IsLimitGlobal = false,
         Items = {"clownmask", "clowncostume"},
@@ -348,7 +348,7 @@ category.Products = {
                     item2.Description = "Praise the honkmother."
                     item2.set_InventoryIconColor(Color(255, 5, 10))
                     item2.SpriteColor = Color(255, 5, 10, 255)
-                    item2.AddTag("medical")
+                    item2.AddTag("syringe")
                     item2.AddTag("clownboom")
 
                     local color = item2.SerializableProperties[Identifier("SpriteColor")]
