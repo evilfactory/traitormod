@@ -12,6 +12,11 @@ category.Products = {
         Limit = 3,
         Items = {"he-sugar", "he-sugar"}
     },
+    {
+        Price = 500,
+        Limit = 3,
+        Items = {"he-skillbookauntdoris"}
+    },
 
     {
         Price = 85,

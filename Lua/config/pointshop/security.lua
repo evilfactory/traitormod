@@ -18,6 +18,7 @@ category.Products = {
             client.Character.GiveTalent("firemanscarry")
         end
     },
+    
 
     {
         Price = 200,
@@ -25,7 +26,12 @@ category.Products = {
         IsLimitGlobal = false,
         Items = {"coilgunammobox"},
     },
-
+    {
+        Price = 500,
+        Limit = 3,
+        IsLimitGlobal = false,
+        Items = {"skillbooksubmarinewarfare_warstories"},
+    },
     {
         Price = 100,
         Limit = 5,
