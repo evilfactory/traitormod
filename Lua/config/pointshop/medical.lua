@@ -20,7 +20,11 @@ category.Products = {
         Limit = 1,
         Items = {"scp_combatmedicuniform"}
     },
-
+    {
+        Price = 600,
+        Limit = 3,
+        Items = {"skillbookeuropanmedicine"}
+    },
     {
         Price = 75,
         Limit = 4,
