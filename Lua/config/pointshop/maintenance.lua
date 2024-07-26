@@ -16,11 +16,6 @@ category.Products = {
     {
         Price = 500,
         Limit = 3,
-        Items = {""}
-    },
-    {
-        Price = 500,
-        Limit = 3,
         Items = {"skillbookhandyseaman"}
     },
     {
