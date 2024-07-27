@@ -20,7 +20,7 @@ end
 
 -- Initialize round data
 local roundData = json.loadRoundData()
-local maxRounds = 50
+local maxRounds = 50000
 
 -- Add new round data and manage history
 function addRoundData(newRound)
