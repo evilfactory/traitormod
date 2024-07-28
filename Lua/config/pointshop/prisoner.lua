@@ -133,10 +133,10 @@ category.Products = {
 
     {
         Name = "Molotov",
-        Price = 5500,
+        Price = 2500,
         Limit = 2,
         IsLimitGlobal = true,
-        Items = {"molotovcoctail"},
+        Items = {"molotovcoctail", "molotovcoctail", "zippolighter"},
     },
 
     {

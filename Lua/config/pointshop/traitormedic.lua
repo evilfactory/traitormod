@@ -184,10 +184,10 @@ category.Products = {
     },
 
     {
-        Price = 1200,
+        Price = 1000,
         Limit = 5,
         IsLimitGlobal = true,
-        Items = {"molotovcoctail"},
+        Items = {"molotovcoctail", "molotovcoctail", "zippolighter"},
     },
 
     {
