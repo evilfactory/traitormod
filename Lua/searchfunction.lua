@@ -1,4 +1,4 @@
---[[function Traitormod.GetClientByName(inputName)
+function Traitormod.GetClientByName(sender,inputName)
     inputName = inputName:lower()
 
     -- Find by client name or SteamID
@@ -18,14 +18,12 @@
     end
 
     return nil
-end]]
+end
 
 --testing new search method
 
 -- Levenshtein distance function for fuzzy matching
--- Levenshtein distance function for fuzzy matching
--- Levenshtein distance function for fuzzy matching
-local function levenshtein(str1, str2)
+--[[local function levenshtein(str1, str2)
     local len1 = #str1
     local len2 = #str2
     local matrix = {}
@@ -121,5 +119,5 @@ function Traitormod.GetClientByName(sender, inputName)
     end
 
     return nil
-end
+end]]
 
