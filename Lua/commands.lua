@@ -371,14 +371,10 @@ Traitormod.AddCommand({"!funny"}, function (client, args)
     return true
 end)
 
-Traitormod.AddCommand({"!addpoint", "!addpoints"}, function (client, args)
-    if not client.HasPermission(ClientPermissions.ConsoleCommands) then
-        Traitormod.SendMessage(client, "You do not have permissions to add points.")
-        return
-    end
+Traitormod.AddCommand({"!donate", "!givepoint", "!givepoints"}, function (client, args)
     
     if #args < 2 then
-        Traitormod.SendMessage(client, "Incorrect amount of arguments. usage: !addpoint \"Client Name\" 500")
+        Traitormod.SendMessage(client, "Incorrect amount of arguments. usage: !donate \"Client Name\" 500")
 
         return true
     end
@@ -391,19 +387,8 @@ Traitormod.AddCommand({"!addpoint", "!addpoints"}, function (client, args)
         return true
     end
 
-    if name == "all" then
-        for index, value in pairs(Client.ClientList) do
-            Traitormod.AddData(value, "Points", amount)
-        end
-
-        Traitormod.SendMessage(client, string.format(Traitormod.Language.PointsAwarded, amount), "InfoFrameTabButton.Mission")
-
-        local msg = string.format("Admin added %s points to everyone.", amount)
-        Traitormod.SendMessageEveryone(msg)
-        msg = Traitormod.ClientLogName(client) .. ": " .. msg
-        Traitormod.Log(msg)
-
-        return true
+    if Traitormod.GetData(client,"Points") < amount then
+        Traitormod.SendMessage(client, "Not enough points")
     end
 
     local found = Traitormod.GetClientByName(client,name)
@@ -414,10 +399,11 @@ Traitormod.AddCommand({"!addpoint", "!addpoints"}, function (client, args)
     end
 
     Traitormod.AddData(found, "Points", amount)
+    Traitormod.AddData(client, "Points", Traitormod.GetData(client,"Points") - amount)
 
     Traitormod.SendMessage(client, string.format(Traitormod.Language.PointsAwarded, amount), "InfoFrameTabButton.Mission")
 
-    local msg = string.format("Admin added %s points to %s.", amount, Traitormod.ClientLogName(found))
+    local msg = string.format(client.name.." added %s points to %s.", amount, Traitormod.ClientLogName(found))
     Traitormod.SendMessageEveryone(msg)
     msg = Traitormod.ClientLogName(client) .. ": " .. msg
     Traitormod.Log(msg)
