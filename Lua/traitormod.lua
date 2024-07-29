@@ -455,6 +455,7 @@ dofile(Traitormod.Path .. "/Lua/respawnshuttle.lua")
 dofile(Traitormod.Path .. "/Lua/traitormodmisc.lua")
 dofile(Traitormod.Path .. "/Lua/logstuff.lua")
 dofile(Traitormod.Path .. "/Lua/searchfunction.lua")
+dofile(Traitormod.Path .. "/Lua/javiertime.lua")
 
 Traitormod.AddGamemode(dofile(Traitormod.Path .. "/Lua/gamemodes/gamemode.lua"))
 Traitormod.AddGamemode(dofile(Traitormod.Path .. "/Lua/gamemodes/secret.lua"))
