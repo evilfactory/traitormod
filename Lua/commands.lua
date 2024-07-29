@@ -371,7 +371,7 @@ Traitormod.AddCommand({"!funny"}, function (client, args)
     return true
 end)
 
-Traitormod.AddCommand({"!donate", "!givepoint", "!givepoints"}, function (client, args)
+--[[Traitormod.AddCommand({"!donate", "!givepoint", "!givepoints"}, function (client, args)
     
     if #args < 2 then
         Traitormod.SendMessage(client, "Incorrect amount of arguments. usage: !donate \"Client Name\" 500")
@@ -409,7 +409,7 @@ Traitormod.AddCommand({"!donate", "!givepoint", "!givepoints"}, function (client
     Traitormod.Log(msg)
 
     return true
-end)
+end)]]
 
 Traitormod.AddCommand({"!addlife", "!addlive", "!addlifes", "!addlives"}, function (client, args)
     if not client.HasPermission(ClientPermissions.ConsoleCommands) then return end
