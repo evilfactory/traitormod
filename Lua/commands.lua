@@ -197,7 +197,7 @@ end)
 
 ----- ADMIN COMMANDS -----
 Traitormod.AddCommand("!alive", function (client, args)
-    if not (client.Character == nil or client.Character.IsDead) or not client.HasPermission(ClientPermissions.ConsoleCommands) then return end
+    if not client.Character == nil or client.Character.IsDead then return end
 
     if not Game.RoundStarted or Traitormod.SelectedGamemode == nil then
         Traitormod.SendMessage(client, Traitormod.Language.RoundNotStarted)
