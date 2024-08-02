@@ -12,6 +12,7 @@ event.Start = function()
     local areas = {}
 
     for key, value in pairs(Submarine.MainSub.GetHulls(true)) do
+        if value == nil then return end
         if value.IsTaggedAirlock() then
             table.insert(areas, value)
         end
