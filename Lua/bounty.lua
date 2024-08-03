@@ -25,7 +25,7 @@ Traitormod.AddCommand("!claim", function (client, args)
     local found = nil
     local bounty = nil
     for i=1, killers.CName do
-        if killers.CName[i] == client.Name then
+        if killers.CName[i] == client then
             bounty = price * killers.Count[killers.RName[i]]
             Traitormod.AwardPoints(killers.CName[i], bounty)
             break
