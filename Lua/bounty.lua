@@ -6,30 +6,40 @@
 
 local price = 500
 
-local killers = {
-    RName = {},
-    CName = {},
-    Count = {}
-}
+local killers = {}
 
 Hook.Add("character.death", "playerDeath", function (character)
-    local killerName = character.LastAttacker
-    if killerName.TeamID ~= CharacterTeamType.Team2 or killerName.TeamID ~= CharacterTeamType.Team0 then return end
-    
-    killers.RName[killerName] = killerName
-    killers.CName[killerName] = Util.FindClientCharacter(killerName)
-    killers.Count[killerName] += 1
+    --check for character teamtype and if they are human needs to be added here, shouldnt get points for killing allies and monsters
+    local killer = character.LastAttacker
+    if not killer then return end
+    --debug
+    print(killer.Name)
+    if killer.TeamID ~= 2 and killer.TeamID ~= 0 then
+        return
+    end
+    -- better nested table structure added, prevented duplicate entries
+    if not killers[killer] then
+        killers[killer] = { RealName = killer.Name, ClientCharacter = Util.FindClientCharacter(killer), Count = 0 }
+    end
+    killers[killer].Count = killers[killer].Count + 1
 end)
 
-Traitormod.AddCommand("!claim", function (client, args) 
-    local found = nil
-    local bounty = nil
-    for i=1, killers.CName do
-        if killers.CName[i] == client then
-            bounty = price * killers.Count[killers.RName[i]]
-            Traitormod.AwardPoints(killers.CName[i], bounty)
-            break
+Traitormod.AddCommand("!claim", function (client, args)
+    if not client.Character then
+        print("client character does not exist")
+        return false
+    end
+
+    for _, killer in pairs(killers) do
+        if killer.Character == client.Character then
+            local bounty = price * killer.Count
+            Traitormod.AwardPoints(client, bounty)
+            -- Reset the count after claiming
+            killer.Count = 0
+            print("awarded "..client.CHaracter.Name.." "..bounty.." points, reset count to 0")
+            return true
         end
     end
-    return true
+    print("claim failed")
+    return false
 end)
