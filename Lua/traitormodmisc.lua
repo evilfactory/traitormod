@@ -50,6 +50,9 @@ Hook.Add("think", "Traitormod.MiscThink", function ()
     if Traitormod.SelectedGamemode == nil or Traitormod.SelectedGamemode.Name ~= "Secret" then return end
 
     local targets = {}
+    if Level == nil then return end
+    if Level.Loaded == nil then return end
+    if Level.Loaded.EndOutpost == nil then return end
     local outpost = Level.Loaded.EndOutpost.WorldPosition
 
     for key, character in pairs(Character.CharacterList) do
