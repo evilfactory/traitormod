@@ -36,7 +36,7 @@ Traitormod.AddCommand("!claim", function (client, args)
             Traitormod.AwardPoints(client, bounty)
             -- Reset the count after claiming
             killer.Count = 0
-            print("awarded "..client.CHaracter.Name.." "..bounty.." points, reset count to 0")
+            print("awarded "..client.Character.Name.." "..bounty.." points, reset count to 0")
             return true
         end
     end
