@@ -11,10 +11,11 @@ local killers = {}
 Hook.Add("character.death", "playerDeath", function (character)
     --check for character teamtype and if they are human needs to be added here, shouldnt get points for killing allies and monsters
     local killer = character.LastAttacker -- client
-    if not killer then return end
+    if not killer then print("killer does not exist") return end
     --debug
     print(killer.Name)
-    if killer.TeamID ~= 2 and killer.TeamID ~= 0 then
+    if killer.TeamID ~= 2 or killer.TeamID ~= 0 then
+        print(killer.Name.."'s team is ".."killer.TeamID")
         return
     end
     -- better nested table structure added, prevented duplicate entries
