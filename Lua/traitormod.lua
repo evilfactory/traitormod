@@ -455,7 +455,6 @@ dofile(Traitormod.Path .. "/Lua/respawnshuttle.lua")
 dofile(Traitormod.Path .. "/Lua/traitormodmisc.lua")
 dofile(Traitormod.Path .. "/Lua/logstuff.lua")
 dofile(Traitormod.Path .. "/Lua/searchfunction.lua")
-dofile(Traitormod.Path .. "/Lua/javiertime.lua")
 dofile(Traitormod.Path .. "/Lua/bounty.lua")
 dofile(Traitormod.Path .. "/Lua/prisonerkiller.lua")
 
