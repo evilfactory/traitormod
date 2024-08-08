@@ -1,5 +1,5 @@
 local category = {}
-local PirateUtils = require("PirateUtils")
+loadfile(Traitormod.Path .. "/Lua/pirateutils.lua")(Traitormod.Config)
 
 category.Identifier = "eventmanager"
 category.Decoration = "ManAndHisRaptor"
