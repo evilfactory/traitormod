@@ -8,14 +8,8 @@ event.OnlyOncePerRound = true
 
 event.Start = function()
     local deadCharacters = {}
-    for _, character in pairs(Character.CharacterList) do
-        if character.IsDead and character.IsHuman then
-            table.insert(deadCharacters, character)
-        end
-    end
-
-    for _, client in pairs(Client.ClientList) do
-        if client.Character == nil then
+    for _,client in pairs(Client.ClientList) do
+        if client.Character == nil or client.Character.IsDead then
             table.insert(deadCharacters, client)
         end
     end
