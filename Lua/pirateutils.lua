@@ -1,6 +1,4 @@
-local PirateUtils = {}
-
-function PirateUtils.GeneratePirate(position)
+function Traitormod.GeneratePirate(position)
     local info = CharacterInfo(Identifier("human"))
     info.Name = "Pirate " .. info.Name
     info.Job = Job(JobPrefab.Get("warden"))
@@ -28,7 +26,7 @@ function PirateUtils.GeneratePirate(position)
     -- Drop unwanted items
     local itemsToDrop = {
         "captainspipe", "handcuffs", "coalitioncommendation", "revolver",
-        "handheldterminal", "handheldstatusmonitor"
+        "handheldterminal", "handheldstatusmonitor", "toolbelt"
     }
     for _, itemId in ipairs(itemsToDrop) do
         local item = character.Inventory.FindItemByIdentifier(itemId, true)
@@ -48,7 +46,7 @@ function PirateUtils.GeneratePirate(position)
         { id = "tourniquet", count = 1 },
         { id = "shotgunshell", count = 12 },
         { id = "antibiotics", count = 4 },
-        { id = "scp_armykit", count = 1, subItems = {
+        { id = "toolbelt", count = 1, subItems = {
             { id = "antibleeding1", count = 6 },
             { id = "antibloodloss2", count = 4 },
             { id = "fuelrod", count = 1 },
