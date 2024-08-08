@@ -1,4 +1,5 @@
 local category = {}
+local PirateUtils = require("PirateUtils")
 
 category.Identifier = "eventmanager"
 category.Decoration = "ManAndHisRaptor"
@@ -42,9 +43,29 @@ end
 
 local function SpawnPirate(client, product, paidPrice)
     local submarine = Submarine.MainSub
-    local position = submarine.WorldPosition
+    local subPosition = submarine.WorldPosition
+    local spawnPositions = {}
 
-    local character = PirateUtils.GeneratePirate(position)
+    -- Generate random positions around the submarine within a radius of 1000-2000 units
+    for i = 1, 10 do
+        local angle = math.random() * 2 * math.pi
+        local distance = math.random(1000, 2000)
+        local offsetX = math.cos(angle) * distance
+        local offsetY = math.sin(angle) * distance
+        local spawnPosition = Vector2(subPosition.X + offsetX, subPosition.Y + offsetY)
+        table.insert(spawnPositions, spawnPosition)
+    end
+
+    local spawnPosition
+    if #spawnPositions == 0 then
+        -- no waypoints? https://c.tenor.com/RgExaLgYIScAAAAC/megamind-megamind-meme.gif
+        spawnPosition = subPosition -- spawn it in the middle of the sub
+        Traitormod.Log("Couldn't find any good waypoints, spawning in the middle of the sub.")
+    else
+        spawnPosition = spawnPositions[math.random(#spawnPositions)]
+    end
+
+    local character = PirateUtils.GeneratePirate(spawnPosition)
     client.SetClientCharacter(character)
     Traitormod.Pointshop.TrackRefund(client, product, paidPrice)
 end
