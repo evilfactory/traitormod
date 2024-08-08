@@ -20,7 +20,13 @@ event.Start = function()
     end
 
     for _, deadCharacter in ipairs(deadCharacters) do
-        local position = deadCharacter.WorldPosition or Vector2(0, 0)
+        local submarine = Submarine.MainSub
+        local subPosition = submarine.WorldPosition
+        local angle = math.random() * 2 * math.pi
+        local distance = math.random(1000, 2000)
+        local offsetX = math.cos(angle) * distance
+        local offsetY = math.sin(angle) * distance
+        local position = Vector2(subPosition.X + offsetX, subPosition.Y + offsetY)
         Traitormod.GeneratePirate(position)
     end
 
