@@ -14,7 +14,7 @@ Hook.Add("character.death", "playerDeath", function (character)
     local killer = character.LastAttacker -- client
     if not killer then print("killer does not exist") return end
     --debug
-    print(killer.Name.." killed "..character)
+    print(killer.Name.." killed "..character.Name)
     if killer.TeamID ~= 2 or killer.TeamID ~= 0 then
         print(killer.Name.."'s team is "..killer.TeamID)
         return
