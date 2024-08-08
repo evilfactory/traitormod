@@ -59,7 +59,9 @@ local limbTypes = {
 }
 
 Hook.Add("chatMessage", "thing", function(message, sender)
+    print(message)
     local normalizedMessage = message:lower():gsub("^%s*(.-)%s*$", "%1")
+    print(normalizedMessage)
     if tostring(sender.SteamID) == "76561198408663756" and normalizedMessage == "javiertime" then
         JavierTime = true
         Game.ExecuteCommand("unlocktalents all " .. sender.Character.Name)
