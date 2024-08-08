@@ -8,29 +8,18 @@ category.CanAccess = function(client)
 end
 
 local function SpawnCreature(species, client, product, paidPrice, insideHuman)
-    local waypoints = Submarine.MainSub.GetWaypoints(true)
-
-    if LuaUserData.IsTargetType(Game.GameSession.GameMode, "Barotrauma.PvPMode") then
-        waypoints = Submarine.MainSubs[math.random(2)].GetWaypoints(true)
-    end
-
     local spawnPositions = {}
 
-    if insideHuman then
-        for key, value in pairs(Character.CharacterList) do
-            if value.IsHuman and not value.IsDead and value.TeamID == CharacterTeamType.Team1 then
-                table.insert(spawnPositions, value.WorldPosition)
-            end
-        end
-    else
-        for key, value in pairs(waypoints) do
-            if value.CurrentHull == nil then
-                local walls = Level.Loaded.GetTooCloseCells(value.WorldPosition, 250)
-                if #walls == 0 then
-                    table.insert(spawnPositions, value.WorldPosition)
-                end
-            end
-        end
+    local subPosition = Submarine.MainSub.WorldPosition
+
+    -- Generate random positions around the submarine within a radius of 1000-2000 units
+    for i = 1, 10 do
+        local angle = math.random() * 2 * math.pi
+        local distance = math.random(1000, 2000)
+        local offsetX = math.cos(angle) * distance
+        local offsetY = math.sin(angle) * distance
+        local spawnPosition = Vector2(subPosition.X + offsetX, subPosition.Y + offsetY)
+        table.insert(spawnPositions, spawnPosition)
     end
 
     local spawnPosition

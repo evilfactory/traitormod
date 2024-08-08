@@ -12,37 +12,23 @@ category.CanAccess = function(client)
 end
 
 local function SpawnCreature(species, client, product, paidPrice, insideHuman)
-    local waypoints = Submarine.MainSub.GetWaypoints(true)
-
-    if LuaUserData.IsTargetType(Game.GameSession.GameMode, "Barotrauma.PvPMode") then
-        waypoints = Submarine.MainSubs[math.random(2)].GetWaypoints(true)
-    end
-
     local spawnPositions = {}
+    local subPosition = Submarine.MainSub.WorldPosition
 
-    if insideHuman then
-        for key, value in pairs(Character.CharacterList) do
-            if value.IsHuman and not value.IsDead and value.TeamID == CharacterTeamType.Team1 then
-                table.insert(spawnPositions, value.WorldPosition)
-            end
-        end
-    else
-        for key, value in pairs(waypoints) do
-            if value.CurrentHull == nil then
-                local walls = Level.Loaded.GetTooCloseCells(value.WorldPosition, 250)
-                if #walls == 0 then
-                    table.insert(spawnPositions, value.WorldPosition)
-                end
-            end
-        end
+    -- Generate random positions around the submarine within a radius of 1000-2000 units
+    for i = 1, 10 do
+        local angle = math.random() * 2 * math.pi
+        local distance = math.random(1000, 2000)
+        local offsetX = math.cos(angle) * distance
+        local offsetY = math.sin(angle) * distance
+        local spawnPosition = Vector2(subPosition.X + offsetX, subPosition.Y + offsetY)
+        table.insert(spawnPositions, spawnPosition)
     end
 
     local spawnPosition
-
     if #spawnPositions == 0 then
         -- no waypoints? https://c.tenor.com/RgExaLgYIScAAAAC/megamind-megamind-meme.gif
         spawnPosition = Submarine.MainSub.WorldPosition -- spawn it in the middle of the sub
-
         Traitormod.Log("Couldnt find any good waypoints, spawning in the middle of the sub.")
     else
         spawnPosition = spawnPositions[math.random(#spawnPositions)]
@@ -54,7 +40,26 @@ local function SpawnCreature(species, client, product, paidPrice, insideHuman)
     end)
 end
 
+local function SpawnPirate(client, product, paidPrice)
+    local submarine = Submarine.MainSub
+    local position = submarine.WorldPosition
+
+    local character = PirateUtils.GeneratePirate(position)
+    client.SetClientCharacter(character)
+    Traitormod.Pointshop.TrackRefund(client, product, paidPrice)
+end
+
 category.Products = {
+    {
+        Identifier = "spawnaspirate",
+        Price = 1000,
+        Limit = 1,
+        IsLimitGlobal = true,
+        Action = function (client, product, paidPrice)
+            SpawnPirate(client, product, paidPrice)
+        end
+    },
+
     {
         Identifier = "spawnascrawler",
         Price = 0,
