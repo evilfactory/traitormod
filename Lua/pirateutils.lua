@@ -3,23 +3,19 @@ function Traitormod.GeneratePirate(position, client, loadoutType)
     if not loadout then
         error("Invalid loadout type: " .. tostring(loadoutType))
     end
-
     local info = CharacterInfo(Identifier("human"))
     info.Name = "Pirate " .. info.Name
     info.Job = Job(JobPrefab.Get(loadout.job))
-
     local character = Character.Create(info, position, info.Name, 0, false, true)
     character.CanSpeak = true
     character.TeamID = CharacterTeamType.Team2
     character.GiveJobItems(nil)
-
     local idCard = character.Inventory.GetItemInLimbSlot(InvSlotType.Card)
     if idCard then
         idCard.NonPlayerTeamInteractable = true
         local prop = idCard.SerializableProperties[Identifier("NonPlayerTeamInteractable")]
         Networking.CreateEntityEvent(idCard, Item.ChangePropertyEventData(prop, idCard))
     end
-
     local headset = character.Inventory.GetItemInLimbSlot(InvSlotType.Headset)
     if headset then
         local wifi = headset.GetComponentString("WifiComponent")
@@ -39,19 +35,22 @@ function Traitormod.GeneratePirate(position, client, loadoutType)
 
     -- Add items to the pirate's inventory
     for _, itemData in ipairs(loadout.itemsToAdd) do
-        Entity.Spawner.AddItemToSpawnQueue(ItemPrefab.GetItemPrefab(itemData.id), character.Inventory, nil, nil, function(item)
-            if itemData.subItems then
-                for _, subItemData in ipairs(itemData.subItems) do
-                    Entity.Spawner.AddItemToSpawnQueue(ItemPrefab.GetItemPrefab(subItemData.id), item.OwnInventory, nil, nil, function(subItem)
-                        subItem.Condition = subItemData.count
-                    end)
+        for i = 1, itemData.count or 1 do
+            Entity.Spawner.AddItemToSpawnQueue(ItemPrefab.GetItemPrefab(itemData.id), character.Inventory, nil, nil, function(item)
+                if itemData.subItems then
+                    for _, subItemData in ipairs(itemData.subItems) do
+                        for j = 1, subItemData.count or 1 do
+                            Entity.Spawner.AddItemToSpawnQueue(ItemPrefab.GetItemPrefab(subItemData.id), item.OwnInventory, nil, nil, function(subItem)
+                                subItem.Condition = subItemData.condition or subItem.Condition
+                            end)
+                        end
+                    end
                 end
-            end
-        end)
+            end)
+        end
     end
 
     client.SetClientCharacter(character)
-
     return character
 end
 
@@ -83,7 +82,7 @@ Traitormod.Loadouts = {
             { id = "pirateclothes", count = 1 },
             { id = "scp_renegadedivingsuit", count = 1, subItems = { { id = "oxygenitetank", count = 1 } } }
         }
-    }, -- default pirate loadout
+    },
     exosuitPirate = {
         job = "warden",
         itemsToDrop = {
@@ -106,5 +105,5 @@ Traitormod.Loadouts = {
             }},
             { id = "handheldsonar", count = 1, subItems = { { id = "batterycell", count = 1 } } }
         }
-    }  -- Add more loadouts here, also this loadout may not work.
+    }
 }
