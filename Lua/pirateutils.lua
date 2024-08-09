@@ -50,7 +50,7 @@ function Traitormod.GeneratePirate(position, client, loadoutType)
         end)
     end
 
-    client.setclientcharacter(character)
+    client.SetClientCharacter(character)
 
     return character
 end
