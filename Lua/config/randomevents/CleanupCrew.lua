@@ -16,6 +16,7 @@ event.Start = function()
 
     if #deadCharacters == 0 then
         event.End()
+        print("No dead characters found")
         return
     end
 
@@ -27,13 +28,16 @@ event.Start = function()
         local offsetX = math.cos(angle) * distance
         local offsetY = math.sin(angle) * distance
         local position = Vector2(subPosition.X + offsetX, subPosition.Y + offsetY)
-        Traitormod.GeneratePirate(position)
+        Traitormod.GeneratePirate(position, deadCharacter, "pirate")
+        print("Generated pirate at position:", position)
     end
 
     Traitormod.RoundEvents.SendEventMessage("The Cleanup Crew has arrived!", "CrewWalletIconLarge")
+    print("Cleanup Crew event started")
 end
 
 event.End = function()
+    print("Cleanup Crew event ended")
 end
 
 return event
