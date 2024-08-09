@@ -1,7 +1,12 @@
-function Traitormod.GeneratePirate(position)
+function Traitormod.GeneratePirate(position, client, loadoutType)
+    local loadout = Traitormod.Loadouts[loadoutType]
+    if not loadout then
+        error("Invalid loadout type: " .. tostring(loadoutType))
+    end
+
     local info = CharacterInfo(Identifier("human"))
     info.Name = "Pirate " .. info.Name
-    info.Job = Job(JobPrefab.Get("warden"))
+    info.Job = Job(JobPrefab.Get(loadout.job))
 
     local character = Character.Create(info, position, info.Name, 0, false, true)
     character.CanSpeak = true
@@ -24,11 +29,7 @@ function Traitormod.GeneratePirate(position)
     end
 
     -- Drop unwanted items
-    local itemsToDrop = {
-        "captainspipe", "handcuffs", "coalitioncommendation", "revolver",
-        "handheldterminal", "handheldstatusmonitor", "toolbelt"
-    }
-    for _, itemId in ipairs(itemsToDrop) do
+    for _, itemId in ipairs(loadout.itemsToDrop) do
         local item = character.Inventory.FindItemByIdentifier(itemId, true)
         if item then
             item.Drop()
@@ -37,51 +38,73 @@ function Traitormod.GeneratePirate(position)
     end
 
     -- Add items to the pirate's inventory
-    local itemsToAdd = {
-        { id = "shotgun", count = 1, subItems = { { id = "shotgunshell", count = 6 } } },
-        { id = "smg", count = 1, subItems = { { id = "smgmagazinedepletedfuel", count = 1 } } },
-        { id = "smgmagazine", count = 2 },
-        { id = "oxygenitetank", count = 1 },
-        { id = "combatstimulantsyringe", count = 1 },
-        { id = "tourniquet", count = 1 },
-        { id = "shotgunshell", count = 12 },
-        { id = "antibiotics", count = 4 },
-        { id = "toolbelt", count = 1, subItems = {
-            { id = "antibleeding1", count = 6 },
-            { id = "antibloodloss2", count = 4 },
-            { id = "fuelrod", count = 1 },
-            { id = "underwaterscooter", count = 1, subItems = { { id = "batterycell", count = 1 } } },
-            { id = "plasmacutter", count = 1, subItems = { { id = "oxygenitetank", count = 1 } } }
-        }},
-        { id = "handheldsonar", count = 1, subItems = { { id = "batterycell", count = 1 } } },
-        { id = "pirateclothes", count = 1 },
-        { id = "scp_renegadedivingsuit", count = 1, subItems = { { id = "oxygenitetank", count = 1 } } }
-    }
-
-    for _, itemData in ipairs(itemsToAdd) do
+    for _, itemData in ipairs(loadout.itemsToAdd) do
         Entity.Spawner.AddItemToSpawnQueue(ItemPrefab.GetItemPrefab(itemData.id), character.Inventory, nil, nil, function(item)
             if itemData.subItems then
                 for _, subItemData in ipairs(itemData.subItems) do
-                    for i = 1, subItemData.count do
-                        Entity.Spawner.AddItemToSpawnQueue(ItemPrefab.GetItemPrefab(subItemData.id), item.OwnInventory)
-                    end
+                    Entity.Spawner.AddItemToSpawnQueue(ItemPrefab.GetItemPrefab(subItemData.id), item.OwnInventory, nil, nil, function(subItem)
+                        subItem.Condition = subItemData.count
+                    end)
                 end
             end
         end)
     end
 
-    -- Remove old clothes and add new ones
-    local oldClothes = character.Inventory.GetItemInLimbSlot(InvSlotType.InnerClothes)
-    if oldClothes then
-        oldClothes.Drop()
-        Entity.Spawner.AddEntityToRemoveQueue(oldClothes)
-    end
-
-    Entity.Spawner.AddItemToSpawnQueue(ItemPrefab.GetItemPrefab("pirateclothes"), character.Inventory, nil, nil, function(item)
-        character.Inventory.TryPutItem(item, character.Inventory.FindLimbSlot(InvSlotType.InnerClothes), true, false, character)
-    end)
+    client.setclientcharacter(character)
 
     return character
 end
 
-return PirateUtils
+-- Define loadout configurations
+Traitormod.Loadouts = {
+    pirate = {
+        job = "warden",
+        itemsToDrop = {
+            "captainspipe", "handcuffs", "coalitioncommendation", "revolver",
+            "handheldterminal", "handheldstatusmonitor", "toolbelt"
+        },
+        itemsToAdd = {
+            { id = "shotgun", count = 1, subItems = { { id = "shotgunshell", count = 6 } } },
+            { id = "smg", count = 1, subItems = { { id = "smgmagazinedepletedfuel", count = 1 } } },
+            { id = "smgmagazine", count = 2 },
+            { id = "oxygenitetank", count = 1 },
+            { id = "combatstimulantsyringe", count = 1 },
+            { id = "tourniquet", count = 1 },
+            { id = "shotgunshell", count = 12 },
+            { id = "antibiotics", count = 4 },
+            { id = "toolbelt", count = 1, subItems = {
+                { id = "antibleeding1", count = 6 },
+                { id = "antibloodloss2", count = 4 },
+                { id = "fuelrod", count = 1 },
+                { id = "underwaterscooter", count = 1, subItems = { { id = "batterycell", count = 1 } } },
+                { id = "plasmacutter", count = 1, subItems = { { id = "oxygenitetank", count = 1 } } }
+            }},
+            { id = "handheldsonar", count = 1, subItems = { { id = "batterycell", count = 1 } } },
+            { id = "pirateclothes", count = 1 },
+            { id = "scp_renegadedivingsuit", count = 1, subItems = { { id = "oxygenitetank", count = 1 } } }
+        }
+    }, -- default pirate loadout
+    exosuitPirate = {
+        job = "warden",
+        itemsToDrop = {
+            "captainspipe", "handcuffs", "coalitioncommendation", "revolver",
+            "handheldterminal", "handheldstatusmonitor", "toolbelt"
+        },
+        itemsToAdd = {
+            { id = "assault_rifle", count = 1, subItems = { { id = "assault_rifle_magazine", count = 1 } } },
+            { id = "assault_rifle_magazine", count = 3 },
+            { id = "exosuit", count = 1, subItems = { { id = "oxygenitetank", count = 1 } } },
+            { id = "combatstimulantsyringe", count = 1 },
+            { id = "tourniquet", count = 1 },
+            { id = "antibiotics", count = 4 },
+            { id = "toolbelt", count = 1, subItems = {
+                { id = "antibleeding1", count = 6 },
+                { id = "antibloodloss2", count = 4 },
+                { id = "fuelrod", count = 1 },
+                { id = "underwaterscooter", count = 1, subItems = { { id = "batterycell", count = 1 } } },
+                { id = "plasmacutter", count = 1, subItems = { { id = "oxygenitetank", count = 1 } } }
+            }},
+            { id = "handheldsonar", count = 1, subItems = { { id = "batterycell", count = 1 } } }
+        }
+    }  -- Add more loadouts here, also this loadout may not work.
+}

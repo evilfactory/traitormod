@@ -64,8 +64,7 @@ local function SpawnPirate(client, product, paidPrice)
         spawnPosition = spawnPositions[math.random(#spawnPositions)]
     end
 
-    local character = Traitormod.GeneratePirate(spawnPosition)
-    client.SetClientCharacter(character)
+    Traitormod.GeneratePirate(spawnPosition,client,"pirate") -- GeneratePirate is a function from pirateutils.lua
     Traitormod.Pointshop.TrackRefund(client, product, paidPrice)
 end
 
