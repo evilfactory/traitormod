@@ -197,37 +197,38 @@ end)
 
 ----- ADMIN COMMANDS -----
 Traitormod.AddCommand("!alive", function (client, args)
-    if not client.Character == nil or not client.Character.IsDead then return end
+    if client.Character == nil or client.Character.IsDead then
 
-    if not Game.RoundStarted or Traitormod.SelectedGamemode == nil then
-        Traitormod.SendMessage(client, Traitormod.Language.RoundNotStarted)
+        if not Game.RoundStarted or Traitormod.SelectedGamemode == nil then
+            Traitormod.SendMessage(client, Traitormod.Language.RoundNotStarted)
 
-        return true
-    end
+            return true
+        end
 
-    local msg = ""
-    for index, value in pairs(Character.CharacterList) do
-        if value.IsHuman and not value.IsBot then
-            local targetClient = Traitormod.FindClientCharacter(value)
-            local job = tostring(value.Info.Job.Prefab.Name)
-            local clientName = ""
+        local msg = ""
+        for index, value in pairs(Character.CharacterList) do
+            if value.IsHuman and not value.IsBot then
+                local targetClient = Traitormod.FindClientCharacter(value)
+                local job = tostring(value.Info.Job.Prefab.Name)
+                local clientName = ""
 
-            if job == "Prison Doctor" then
-                job = "Doctor"
-            elseif job == "Maintenance Worker" then
-                job = "M. Worker"
-            end
+                if job == "Prison Doctor" then
+                    job = "Doctor"
+                elseif job == "Maintenance Worker" then
+                    job = "M. Worker"
+                end
 
-            if targetClient then
-                clientName = targetClient.Name
-            else
-                clientName = "Unknown"
-            end
+                if targetClient then
+                    clientName = targetClient.Name
+                else
+                    clientName = "Unknown"
+                end
 
-            if value.IsDead then
-                msg = msg .. clientName .. " ---- " .. Traitormod.Language.Dead .. " as " .. job .. " " ..value.Name .."\n"
-            else
-                msg = msg .. clientName .. " ++++ " .. Traitormod.Language.Alive .. " as " .. job .. " " .. value.Name .."\n"
+                if value.IsDead then
+                    msg = msg .. clientName .. " ---- " .. Traitormod.Language.Dead .. " as " .. job .. " " ..value.Name .."\n"
+                else
+                    msg = msg .. clientName .. " ++++ " .. Traitormod.Language.Alive .. " as " .. job .. " " .. value.Name .."\n"
+                end
             end
         end
     end
