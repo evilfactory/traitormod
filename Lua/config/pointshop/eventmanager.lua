@@ -74,6 +74,9 @@ category.Products = {
         Price = 0,
         Limit = 1000,
         IsLimitGlobal = true,
+        PricePerLimit = 0,
+        Timeout = 0,
+        
         Action = function (client, product, paidPrice)
             SpawnPirate(client, product, paidPrice)
         end

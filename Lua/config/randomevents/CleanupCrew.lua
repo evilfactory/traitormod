@@ -28,6 +28,7 @@ event.Start = function()
         local offsetY = math.sin(angle) * distance
         local position = Vector2(subPosition.X + offsetX, subPosition.Y + offsetY)
         Traitormod.GeneratePirate(position, deadCharacter, "pirate")
+        Traitormod.SendMessage(deadCharacter, "You are the cleanup Crew, you are not aligned with anyone but yourselves, your only kill everyone on the station, prisoners and traitors included, good luck.", "CrewWalletIconLarge")
     end
 
     Traitormod.RoundEvents.SendEventMessage("The Cleanup Crew has arrived!", "CrewWalletIconLarge")
