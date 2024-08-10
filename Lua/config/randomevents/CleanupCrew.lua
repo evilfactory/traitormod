@@ -3,20 +3,19 @@ event.Name = "CleanupCrew"
 event.MinRoundTime = 5
 event.MinIntensity = 0
 event.MaxIntensity = 0.1
-event.ChancePerMinute = 0.01
+event.ChancePerMinute = 0.005
 event.OnlyOncePerRound = true
 
 event.Start = function()
     local deadCharacters = {}
     for _,client in pairs(Client.ClientList) do
         if client.Character == nil or client.Character.IsDead then
-            table.insert(deadCharacters, client)
+            table.insert(deadCharacters, client) -- Add dead characters to the list
         end
     end
 
     if #deadCharacters == 0 then
         event.End()
-        print("No dead characters found")
         return
     end
 
@@ -29,15 +28,12 @@ event.Start = function()
         local offsetY = math.sin(angle) * distance
         local position = Vector2(subPosition.X + offsetX, subPosition.Y + offsetY)
         Traitormod.GeneratePirate(position, deadCharacter, "pirate")
-        print("Generated pirate at position:", position)
     end
 
     Traitormod.RoundEvents.SendEventMessage("The Cleanup Crew has arrived!", "CrewWalletIconLarge")
-    print("Cleanup Crew event started")
 end
 
 event.End = function()
-    print("Cleanup Crew event ended")
 end
 
 return event

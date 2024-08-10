@@ -48,7 +48,7 @@ local function SpawnPirate(client, product, paidPrice)
     -- Generate random positions around the submarine within a radius of 1000-2000 units
     for i = 1, 10 do
         local angle = math.random() * 2 * math.pi
-        local distance = math.random(1000, 2000)
+        local distance = math.random(2500, 5000)
         local offsetX = math.cos(angle) * distance
         local offsetY = math.sin(angle) * distance
         local spawnPosition = Vector2(subPosition.X + offsetX, subPosition.Y + offsetY)
@@ -70,9 +70,9 @@ end
 
 category.Products = {
     {
-        Identifier = "spawnaspirate",
-        Price = 1000,
-        Limit = 1,
+        Identifier = "spawn as pirate",
+        Price = 0,
+        Limit = 1000,
         IsLimitGlobal = true,
         Action = function (client, product, paidPrice)
             SpawnPirate(client, product, paidPrice)
