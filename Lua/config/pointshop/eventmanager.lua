@@ -18,7 +18,7 @@ local function SpawnCreature(species, client, product, paidPrice, insideHuman)
     -- Generate random positions around the submarine within a radius of 1000-2000 units
     for i = 1, 10 do
         local angle = math.random() * 2 * math.pi
-        local distance = math.random(1000, 2000)
+        local distance = math.random(2500, 5000)
         local offsetX = math.cos(angle) * distance
         local offsetY = math.sin(angle) * distance
         local spawnPosition = Vector2(subPosition.X + offsetX, subPosition.Y + offsetY)
