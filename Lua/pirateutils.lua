@@ -49,7 +49,7 @@ function Traitormod.GeneratePirate(position, client, loadoutType)
             end)
         end
     end
-
+    Traitormod.RoleManager.AssignRole(character, Traitormod.RoleManager.Roles.Pirate:new())
     client.SetClientCharacter(character)
     return character
 end
