@@ -23,7 +23,7 @@ Hook.Add("character.death", "playerDeath", function (character)
     -- Debug
     print(killer.Name .. " killed " .. character.Name)
 
-    if killer.TeamID == character.TeamID or not killer.IsM then
+    if killer.TeamID == character.TeamID then
         print(killer.Name .. "'s team is " .. killer.TeamID .. ", no points awarded for killing allies.")
         return
     end
