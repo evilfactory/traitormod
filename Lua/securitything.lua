@@ -40,15 +40,6 @@ Traitormod.TimerFunction(300, function()
     end
 end)
 
-function role:CompletedObjectives(name)
-    local num = 0
-    for _, value in pairs(self.Objectives) do
-        if value.Name == name then
-            num = num + 1
-        end
-    end
-    return num
-end
 
 function CheckPrisonerObjective(character)
     local role = Traitormod.RoleManager.GetRole(character)
