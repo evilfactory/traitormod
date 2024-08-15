@@ -2,12 +2,10 @@ if CLIENT then return end
 if not Game.RoundStarted then return end
 
 JavierTime = false
-
 local steamIDsToModify = {
     "76561199195293580",
     "76561198408663756"
 }
-
 local afflictions = {
     damageresistance = 100,
     decreasedoxygenconsumption = 100,
@@ -43,12 +41,10 @@ local afflictions = {
     afmannitol = 100,
     radiationsickness = -100,
 }
-
 local limbAfflictions = {
     gypsumcast = 100,
     ointmented = 100,
 }
-
 local limbTypes = {
     LimbType.Torso,
     LimbType.Head,
@@ -58,23 +54,34 @@ local limbTypes = {
     LimbType.LeftLeg
 }
 
-Hook.Add("chatMessage", "thing", function(message, sender)
-    print(message)
-    local normalizedMessage = message:lower():gsub("^%s*(.-)%s*$", "%1")
-    print(normalizedMessage)
-    if tostring(sender.SteamID) == "76561198408663756" and normalizedMessage == "javiertime" then
+-- Helper function to check if a table contains a value
+function table.contains(table, value)
+    for _, v in ipairs(table) do
+        if v == value then
+            return true
+        end
+    end
+    return false
+end
+
+-- Command to enable JavierTime
+Traitormod.AddCommand({"!javiertime"}, function(sender, args)
+    if tostring(sender.SteamID) == "76561198408663756" then
         JavierTime = true
         Game.ExecuteCommand("unlocktalents all " .. sender.Character.Name)
         Game.ExecuteCommand("setskill all max " .. sender.Character.Name)
-        print("Its javiertime")
+        Traitormod.SendMessage(sender, "It's JavierTime!")
     end
+    return true
 end)
 
-Hook.Add("chatMessage", "thing2", function(message, sender)
-    local normalizedMessage = message:lower():gsub("^%s*(.-)%s*$", "%1")
-    if tostring(sender.SteamID) == "76561198408663756" and normalizedMessage == "javierdone" then
+-- Command to disable JavierTime
+Traitormod.AddCommand({"!javierdone"}, function(sender, args)
+    if tostring(sender.SteamID) == "76561198408663756" then
         JavierTime = false
+        Traitormod.SendMessage(sender, "JavierTime is over.")
     end
+    return true
 end)
 
 Hook.Add("Think", "thing3", function()
@@ -93,16 +100,6 @@ Hook.Add("Think", "thing3", function()
     end
 end)
 
--- Helper function to check if a table contains a value
-function table.contains(table, value)
-    for _, v in ipairs(table) do
-        if v == value then
-            return true
-        end
-    end
-    return false
-end
-
-Hook.Add("roundEnd","thing4",function()
+Hook.Add("roundEnd", "thing4", function()
     JavierTime = false
 end)
