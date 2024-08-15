@@ -1,12 +1,6 @@
 if CLIENT then return end
-if not Game.RoundStarted then return end
 
 JavierTime = false
-
-local steamIDsToModify = {
-    "76561199195293580",
-    "76561198408663756"
-}
 
 local afflictions = {
     damageresistance = 100,
@@ -58,41 +52,6 @@ local limbTypes = {
     LimbType.LeftLeg
 }
 
-Hook.Add("chatMessage", "thing", function(message, sender)
-    print(message)
-    local normalizedMessage = message:lower():gsub("^%s*(.-)%s*$", "%1")
-    print(normalizedMessage)
-    if tostring(sender.SteamID) == "76561198408663756" and normalizedMessage == "javiertime" then
-        JavierTime = true
-        Game.ExecuteCommand("unlocktalents all " .. sender.Character.Name)
-        Game.ExecuteCommand("setskill all max " .. sender.Character.Name)
-        print("Its javiertime")
-    end
-end)
-
-Hook.Add("chatMessage", "thing2", function(message, sender)
-    local normalizedMessage = message:lower():gsub("^%s*(.-)%s*$", "%1")
-    if tostring(sender.SteamID) == "76561198408663756" and normalizedMessage == "javierdone" then
-        JavierTime = false
-    end
-end)
-
-Hook.Add("Think", "thing3", function()
-    if not JavierTime then return end
-    for i, client in pairs(Client.ClientList) do
-        if table.contains(steamIDsToModify, tostring(client.SteamID)) then
-            for affliction, strength in pairs(afflictions) do
-                HF.AddAffliction(client.Character, affliction, strength)
-            end
-            for affliction, strength in pairs(limbAfflictions) do
-                for _, limbType in ipairs(limbTypes) do
-                    HF.AddAfflictionLimb(client.Character, affliction, limbType, strength)
-                end
-            end
-        end
-    end
-end)
-
 -- Helper function to check if a table contains a value
 function table.contains(table, value)
     for _, v in ipairs(table) do
@@ -103,6 +62,35 @@ function table.contains(table, value)
     return false
 end
 
-Hook.Add("roundEnd","thing4",function()
-    JavierTime = false
+-- JavierTime function
+function Traitormod.JavierTime(targetClient)
+    if not targetClient or not targetClient.Character then
+        Traitormod.SendMessage(nil, "Invalid target client.")
+        return
+    end
+
+    local character = targetClient.Character
+    for affliction, strength in pairs(afflictions) do
+        character.CharacterHealth.ApplyAffliction(character.AnimController.MainLimb, AfflictionPrefab.Prefabs[affliction].Instantiate(strength))
+    end
+
+    for affliction, strength in pairs(limbAfflictions) do
+        for _, limbType in ipairs(limbTypes) do
+            character.CharacterHealth.ApplyAffliction(character.AnimController.GetLimb(limbType), AfflictionPrefab.Prefabs[affliction].Instantiate(strength))
+        end
+    end
+
+    Traitormod.SendMessage(nil, "JavierTime activated for " .. targetClient.Name .. ".")
+end
+
+-- Original round start hook
+Hook.Add("roundStart", "DelayedRoundStart", function()
+    Timer.Wait(function()
+        for _, steamID in ipairs(steamIDsToModify) do
+            local client = Traitormod.GetClientByName(nil, steamID)
+            if client then
+                Traitormod.JavierTime(client)
+            end
+        end
+    end, 5000)
 end)

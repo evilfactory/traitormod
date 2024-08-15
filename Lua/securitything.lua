@@ -40,7 +40,6 @@ Traitormod.TimerFunction(300, function()
     end
 end)
 
-
 function CheckPrisonerObjective(character)
     local role = Traitormod.RoleManager.GetRole(character)
     if role == nil then return false end
