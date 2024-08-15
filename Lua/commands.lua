@@ -1155,6 +1155,14 @@ Traitormod.AddCommand({"!votekick"}, function (client, args)
         votekickVotes[targetClient] = {}
     end
 
+    -- Check if the client has already initiated a votekick for the target client
+    for _, initiator in ipairs(votekickInitiators[targetClient]) do
+        if initiator == client then
+            Traitormod.SendMessage(client, "You have already initiated a votekick for this player.")
+            return true
+        end
+    end
+
     table.insert(votekickInitiators[targetClient], client)
 
     if #votekickInitiators[targetClient] >= votekickThreshold then
@@ -1172,7 +1180,6 @@ Traitormod.AddCommand({"!votekick"}, function (client, args)
     else
         Traitormod.SendMessage(nil, targetClient.Name .. " votekick initiated. " .. (#votekickInitiators[targetClient]) .. "/" .. votekickThreshold .. " votes.")
     end
-
     return true
 end)
 
