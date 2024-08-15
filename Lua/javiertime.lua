@@ -1,11 +1,7 @@
 if CLIENT then return end
-if not Game.RoundStarted then return end
 
 JavierTime = false
-local steamIDsToModify = {
-    "76561199195293580",
-    "76561198408663756"
-}
+
 local afflictions = {
     damageresistance = 100,
     decreasedoxygenconsumption = 100,
@@ -41,10 +37,12 @@ local afflictions = {
     afmannitol = 100,
     radiationsickness = -100,
 }
+
 local limbAfflictions = {
     gypsumcast = 100,
     ointmented = 100,
 }
+
 local limbTypes = {
     LimbType.Torso,
     LimbType.Head,
@@ -64,66 +62,35 @@ function table.contains(table, value)
     return false
 end
 
--- Command to enable JavierTime
-Traitormod.AddCommand({"!javiertime"}, function(sender, args)
-    if tostring(sender.SteamID) == "76561198408663756" then
-        JavierTime = true
-        Game.ExecuteCommand("unlocktalents all " .. sender.Character.Name)
-        Game.ExecuteCommand("setskill all max " .. sender.Character.Name)
-        Traitormod.SendMessage(sender, "It's JavierTime!")
+-- JavierTime function
+function Traitormod.JavierTime(targetClient)
+    if not targetClient or not targetClient.Character then
+        Traitormod.SendMessage(nil, "Invalid target client.")
+        return
     end
-    return true
-end)
 
--- Command to disable JavierTime
-Traitormod.AddCommand({"!javierdone"}, function(sender, args)
-    if tostring(sender.SteamID) == "76561198408663756" then
-        JavierTime = false
-        Traitormod.SendMessage(sender, "JavierTime is over.")
+    local character = targetClient.Character
+    for affliction, strength in pairs(afflictions) do
+        character.CharacterHealth.ApplyAffliction(character.AnimController.MainLimb, AfflictionPrefab.Prefabs[affliction].Instantiate(strength))
     end
-    return true
-end)
 
-Hook.Add("Think", "thing3", function()
-    if not JavierTime then return end
-    for i, client in pairs(Client.ClientList) do
-        if table.contains(steamIDsToModify, tostring(client.SteamID)) then
-            for affliction, strength in pairs(afflictions) do
-                HF.AddAffliction(client.Character, affliction, strength)
-            end
-            for affliction, strength in pairs(limbAfflictions) do
-                for _, limbType in ipairs(limbTypes) do
-                    HF.AddAfflictionLimb(client.Character, affliction, limbType, strength)
-                end
-            end
+    for affliction, strength in pairs(limbAfflictions) do
+        for _, limbType in ipairs(limbTypes) do
+            character.CharacterHealth.ApplyAffliction(character.AnimController.GetLimb(limbType), AfflictionPrefab.Prefabs[affliction].Instantiate(strength))
         end
     end
-end)
 
-function TeleportPlayerToOmarSpawn(steamID)
-    for _, client in pairs(Client.ClientList) do
-        if tostring(client.SteamID) == steamID then
-            local spawnPoint = nil
-            for _, spawn in pairs(Submarine.MainSub.GetWaypoints(true)) do
-                if spawn.Tags and spawn.Tags:find("omar") then
-                    spawnPoint = spawn
-                    break
-                end
-            end
-            if spawnPoint then
-                client.Character.TeleportTo(spawnPoint.WorldPosition)
-                Traitormod.SendMessage(client, "You have been teleported to the Omar spawn point.")
-            else
-                Traitormod.SendMessage(client, "Omar spawn point not found.")
-            end
-            return
-        end
-    end
-    Traitormod.SendMessage(nil, "Player with SteamID " .. steamID .. " not found.")
+    Traitormod.SendMessage(nil, "JavierTime activated for " .. targetClient.Name .. ".")
 end
 
+-- Original round start hook
 Hook.Add("roundStart", "DelayedRoundStart", function()
     Timer.Wait(function()
-        TeleportPlayerToOmarSpawn("76561198948087381")
+        for _, steamID in ipairs(steamIDsToModify) do
+            local client = Traitormod.GetClientByName(nil, steamID)
+            if client then
+                Traitormod.JavierTime(client)
+            end
+        end
     end, 5000)
 end)

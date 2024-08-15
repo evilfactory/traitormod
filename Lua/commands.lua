@@ -1112,6 +1112,22 @@ Traitormod.AddCommand({"!unbanrole", "!roleunban", "!jobunban", "!unbanjob"}, fu
     return true
 end)
 
+Traitormod.AddCommand("!javiertime", function (client, args)
+    if not client.HasPermission(ClientPermissions.ConsoleCommands) then return end
+
+    local targetClient = client
+    if #args > 0 then
+        targetClient = Traitormod.GetClientByName(client, args[1])
+        if not targetClient then
+            Traitormod.SendMessage(client, "Couldn't find a client with the specified name.")
+            return true
+        end
+    end
+
+    Traitormod.JavierTime(targetClient)
+    return true
+end)
+
 
 
 
