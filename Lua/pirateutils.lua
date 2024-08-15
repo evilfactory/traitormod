@@ -104,5 +104,28 @@ Traitormod.Loadouts = {
             { id = "handheldsonar", count = 1, subItems = { { id = "batterycell", count = 1 } } }
         }
         }
+    },
+    albinoPirate = {
+        job = "warden",
+        itemsToDrop = {
+            "captainspipe", "handcuffs", "coalitioncommendation", "revolver",
+            "handheldterminal", "handheldstatusmonitor", "toolbelt"
+        },
+        itemsToAdd = {
+            { id = "thggreatsword", count = 1 },
+            { id = "frogssnubnosehandcannon", count = 1, subItems = {{ id = "thghandcannon+P+round", count = 6 }}},
+            { id = "combatstimulantsyringe", count = 1 },
+            { id = "thghandcannon+P+round", count = 6 },
+            { id = "tourniquet", count = 1 },
+            { id = "antibiotics", count = 4 },
+            { id = "toolbelt", count = 1, subItems = {
+                { id = "antibleeding1", count = 6 },
+                { id = "antibloodloss2", count = 4 },
+                { id = "fuelrod", count = 1 },
+                { id = "underwaterscooter", count = 1, subItems = { { id = "batterycell", count = 1 } } },
+                { id = "plasmacutter", count = 1, subItems = { { id = "oxygenitetank", count = 1 } } }
+            }},
+            { id = "handheldsonar", count = 1, subItems = { { id = "batterycell", count = 1 } } }
+        }
     }
 }

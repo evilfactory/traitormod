@@ -1128,6 +1128,53 @@ Traitormod.AddCommand("!javiertime", function (client, args)
     return true
 end)
 
+local votekickVotes = {}
+local votekickInitiators = {}
+local votekickThreshold = 3
+local votekickBanDuration = 6 * 60 * 60 -- 6 hours in seconds
+local vt = require("voting")
+Traitormod.AddCommand({"!votekick"}, function (client, args)
+    if #args < 1 then
+        Traitormod.SendMessage(client, "Usage: !votekick \"playername\"")
+        return true
+    end
+
+    local targetClientName = table.remove(args, 1)
+    local targetClient = Traitormod.GetClientByName(client, targetClientName)
+    
+    if not targetClient then
+        Traitormod.SendMessage(client, "Couldn't find a client with the specified name.")
+        return true
+    end
+
+    if not votekickInitiators[targetClient] then
+        votekickInitiators[targetClient] = {}
+    end
+
+    if not votekickVotes[targetClient] then
+        votekickVotes[targetClient] = {}
+    end
+
+    table.insert(votekickInitiators[targetClient], client)
+
+    if #votekickInitiators[targetClient] >= votekickThreshold then
+        local voteOptions = {"Yes", "No"}
+        vt.StartVote("Kick " .. targetClient.Name .. "?", voteOptions, 25, function (results)
+            if results[1] > results[2] then
+                targetClient.Ban("you were banned via votekick", votekickBanDuration)
+                Traitormod.SendMessage(nil, targetClient.Name .. " has been banned via votekick.")
+            else
+                Traitormod.SendMessage(nil, targetClient.Name .. " was not banned.")
+            end
+            votekickInitiators[targetClient] = nil
+            votekickVotes[targetClient] = nil
+        end)
+    else
+        Traitormod.SendMessage(nil, targetClient.Name .. " votekick initiated. " .. (#votekickInitiators[targetClient]) .. "/" .. votekickThreshold .. " votes.")
+    end
+
+    return true
+end)
 
 
 
