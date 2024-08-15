@@ -82,15 +82,3 @@ function Traitormod.JavierTime(targetClient)
 
     Traitormod.SendMessage(nil, "JavierTime activated for " .. targetClient.Name .. ".")
 end
-
--- Original round start hook
-Hook.Add("roundStart", "DelayedRoundStart", function()
-    Timer.Wait(function()
-        for _, steamID in ipairs(steamIDsToModify) do
-            local client = Traitormod.GetClientByName(nil, steamID)
-            if client then
-                Traitormod.JavierTime(client)
-            end
-        end
-    end, 5000)
-end)
