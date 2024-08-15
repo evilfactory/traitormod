@@ -100,6 +100,30 @@ Hook.Add("Think", "thing3", function()
     end
 end)
 
-Hook.Add("roundEnd", "thing4", function()
-    JavierTime = false
+function TeleportPlayerToOmarSpawn(steamID)
+    for _, client in pairs(Client.ClientList) do
+        if tostring(client.SteamID) == steamID then
+            local spawnPoint = nil
+            for _, spawn in pairs(Submarine.MainSub.GetWaypoints(true)) do
+                if spawn.Tags and spawn.Tags:find("omar") then
+                    spawnPoint = spawn
+                    break
+                end
+            end
+            if spawnPoint then
+                client.Character.TeleportTo(spawnPoint.WorldPosition)
+                Traitormod.SendMessage(client, "You have been teleported to the Omar spawn point.")
+            else
+                Traitormod.SendMessage(client, "Omar spawn point not found.")
+            end
+            return
+        end
+    end
+    Traitormod.SendMessage(nil, "Player with SteamID " .. steamID .. " not found.")
+end
+
+Hook.Add("roundStart", "DelayedRoundStart", function()
+    Timer.Wait(function()
+        TeleportPlayerToOmarSpawn("76561198948087381")
+    end, 5000)
 end)
