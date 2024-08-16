@@ -1,6 +1,7 @@
 if CLIENT then return end
 
 JavierTime = false
+local javierCharacters = {}
 
 local afflictions = {
     damageresistance = 100,
@@ -69,19 +70,28 @@ function Traitormod.JavierTime(targetClient)
         return
     end
 
-    local character = targetClient.Character
-    for affliction, strength in pairs(afflictions) do
-        character.CharacterHealth.ApplyAffliction(character.AnimController.MainLimb, AfflictionPrefab.Prefabs[affliction].Instantiate(strength))
-    end
+    Game.ExecuteCommand("unlocktalents all "..targetClient.Character.Name)
+    Game.ExecuteCommand("setskill all max "..targetClient.Character.Name)
+    table.insert(javierCharacters, targetClient.Character)
+    Traitormod.SendMessage(nil, "JavierTime activated for " .. targetClient.Name .. ".")
+    return
+end
 
-    for affliction, strength in pairs(limbAfflictions) do
-        for _, limbType in ipairs(limbTypes) do
-            character.CharacterHealth.ApplyAffliction(character.AnimController.GetLimb(limbType), AfflictionPrefab.Prefabs[affliction].Instantiate(strength))
+Hook.Add("Think", "javiertime", function ()
+    for _, character in ipairs(javierCharacters) do
+        if character and not character.IsDead then
+            for affliction, strength in pairs(afflictions) do
+                character.CharacterHealth.ApplyAffliction(character.AnimController.MainLimb, AfflictionPrefab.Prefabs[affliction].Instantiate(strength))
+            end
+            
+            for affliction, strength in pairs(limbAfflictions) do
+                for _, limbType in ipairs(limbTypes) do
+                    character.CharacterHealth.ApplyAffliction(character.AnimController.GetLimb(limbType), AfflictionPrefab.Prefabs[affliction].Instantiate(strength))
+                end
+            end
         end
     end
-
-    Traitormod.SendMessage(nil, "JavierTime activated for " .. targetClient.Name .. ".")
-end
+end)
 
 Hook.Add("Think", "missioncheck", function ()
     local check = false
