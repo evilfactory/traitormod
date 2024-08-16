@@ -201,7 +201,6 @@ Traitormod.AddCommand("!alive", function (client, args)
 
         if not Game.RoundStarted or Traitormod.SelectedGamemode == nil then
             Traitormod.SendMessage(client, Traitormod.Language.RoundNotStarted)
-
             return true
         end
 
@@ -225,15 +224,15 @@ Traitormod.AddCommand("!alive", function (client, args)
                 end
 
                 if value.IsDead then
-                    msg = msg .. clientName .. " ---- " .. Traitormod.Language.Dead .. " as " .. job .. " " ..value.Name .."\n"
+                    msg = msg .. clientName .. " ---- " .. Traitormod.Language.Dead .. " as " .. job .. " " .. value.Name .. "\n"
                 else
-                    msg = msg .. clientName .. " ++++ " .. Traitormod.Language.Alive .. " as " .. job .. " " .. value.Name .."\n"
+                    msg = msg .. clientName .. " ++++ " .. Traitormod.Language.Alive .. " as " .. job .. " " .. value.Name .. "\n"
                 end
             end
         end
-    end
 
-    Traitormod.SendMessage(client, msg)
+        Traitormod.SendMessage(client, msg)
+    end
 
     return true
 end)
