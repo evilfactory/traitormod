@@ -25,6 +25,7 @@ Traitormod.TimerFunction(300, function()
     livePrisoners = 0 -- Reset the count
     totalPrisoners = 0
     for _, prisoner in pairs(Client.ClientList) do
+        if prisoner.Character == nil then return end
         if prisoner.Character.HasJob("convict") then
             totalPrisoners = totalPrisoners + 1
             if CheckPrisonerObjective(prisoner.Character) then
