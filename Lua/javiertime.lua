@@ -82,3 +82,16 @@ function Traitormod.JavierTime(targetClient)
 
     Traitormod.SendMessage(nil, "JavierTime activated for " .. targetClient.Name .. ".")
 end
+
+Hook.Add("Think", "missioncheck", function ()
+    local check = false
+    local mission = Game.GameSession.GetMission(1)
+    if check then return end
+    if mission.Completed and not nil then
+        local reward = mission.Reward 
+        check = true
+        for i,client in pairs(Client.ClientList) do
+            Traitormod.AwardPoints(client, reward, "Mission completed.")
+        end
+    end
+end)
