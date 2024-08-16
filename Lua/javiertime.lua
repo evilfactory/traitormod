@@ -95,7 +95,8 @@ end)
 
 Hook.Add("Think", "missioncheck", function ()
     local check = false
-    local mission = Game.GameSession.GetMission(1)
+    local mission = Game.GameSession.GetMission(1) or nil
+    if not mission then return end
     if check then return end
     if mission.Completed and not nil then
         local reward = mission.Reward 
