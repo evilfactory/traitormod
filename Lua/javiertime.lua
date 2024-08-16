@@ -94,6 +94,7 @@ Hook.Add("Think", "javiertime", function ()
 end)
 
 Hook.Add("Think", "missioncheck", function ()
+    if not Game.RoundStarted then return end
     local check = false
     local mission = Game.GameSession.GetMission(1) or nil
     if not mission then return end
