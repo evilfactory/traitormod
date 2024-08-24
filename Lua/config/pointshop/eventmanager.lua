@@ -4,7 +4,7 @@ category.Identifier = "deathspawn"
 category.Decoration = "huskinvite"
 
 category.CanAccess = function(client)
-    return client.Character == nil or client.Character.IsDead or not client.Character.IsHuman
+    return client.Character == nil or client.Character.IsDead or not client.Character.IsHuman or client.HasConsoleCommandPermission("spawn")
 end
 
 local function SpawnCreature(species, client, product, paidPrice, insideHuman)
