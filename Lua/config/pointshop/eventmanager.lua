@@ -1,6 +1,6 @@
 local category = {}
 
-category.Identifier = "deathspawn"
+category.Identifier = "eventmanagerspawn"
 category.Decoration = "huskinvite"
 
 category.CanAccess = function(client)
