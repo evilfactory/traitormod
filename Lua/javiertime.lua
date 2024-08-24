@@ -1,5 +1,3 @@
-if CLIENT then return end
-
 JavierTime = false
 local javierCharacters = {}
 
