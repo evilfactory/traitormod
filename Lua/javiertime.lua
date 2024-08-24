@@ -4,7 +4,15 @@ JavierTime = false
 local javierCharacters = {}
 
 local afflictions = {
+    stabilozineeffect = 100,
+    heartdamage = -10,
+    anesthesia = -200,
+    lungdamage = -10,
+    kidneydamage = -10,
+    bonedamage = -10,
+    liverdamage = -10,
     damageresistance = 100,
+    fibrillation = -100,
     decreasedoxygenconsumption = 100,
     healdamage = 100,
     husktransformimmunity = 100,

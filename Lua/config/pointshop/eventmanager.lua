@@ -1,35 +1,42 @@
 local category = {}
 
-category.Identifier = "eventmanager"
-category.Decoration = "ManAndHisRaptor"
+category.Identifier = "deathspawn"
+category.Decoration = "huskinvite"
 
 category.CanAccess = function(client)
-    if client.HasPermission(ClientPermissions.ManageRound) then
-        return true
-    else
-        return false
-    end
+    return client.Character == nil or client.Character.IsDead or not client.Character.IsHuman
 end
 
 local function SpawnCreature(species, client, product, paidPrice, insideHuman)
-    local spawnPositions = {}
-    local subPosition = Submarine.MainSub.WorldPosition
+    local waypoints = Submarine.MainSub.GetWaypoints(true)
 
-    -- Generate random positions around the submarine within a radius of 1000-2000 units
-    for i = 1, 10 do
-        local angle = math.random() * 2 * math.pi
-        local distance = math.random(2500, 5000)
-        local offsetX = math.cos(angle) * distance
-        local offsetY = math.sin(angle) * distance
-        local spawnPosition = Vector2(subPosition.X + offsetX, subPosition.Y + offsetY)
-        table.insert(spawnPositions, spawnPosition)
+    if LuaUserData.IsTargetType(Game.GameSession.GameMode, "Barotrauma.PvPMode") then
+        waypoints = Submarine.MainSubs[math.random(2)].GetWaypoints(true)
+    end
+
+    local spawnPositions = {}
+
+    if insideHuman then
+        for key, value in pairs(Character.CharacterList) do
+            if value.IsHuman and not value.IsDead and value.TeamID == CharacterTeamType.Team1 then
+                table.insert(spawnPositions, value.WorldPosition)
+            end
+        end
+    else
+        for key, value in pairs(waypoints) do
+            if value.CurrentHull == nil then
+                local walls = Level.Loaded.GetTooCloseCells(value.WorldPosition, 250)
+                if #walls == 0 then
+                    table.insert(spawnPositions, value.WorldPosition)
+                end
+            end
+        end
     end
 
     local spawnPosition
     if #spawnPositions == 0 then
-        -- no waypoints? https://c.tenor.com/RgExaLgYIScAAAAC/megamind-megamind-meme.gif
-        spawnPosition = Submarine.MainSub.WorldPosition -- spawn it in the middle of the sub
-        Traitormod.Log("Couldnt find any good waypoints, spawning in the middle of the sub.")
+        spawnPosition = Submarine.MainSub.WorldPosition
+        Traitormod.Log("Couldn't find any good waypoints, spawning in the middle of the sub.")
     else
         spawnPosition = spawnPositions[math.random(#spawnPositions)]
     end
@@ -44,27 +51,30 @@ local function SpawnPirate(client, product, paidPrice)
     local submarine = Submarine.MainSub
     local subPosition = submarine.WorldPosition
     local spawnPositions = {}
+    local waypoints = Submarine.MainSub.GetWaypoints(true)
 
-    -- Generate random positions around the submarine within a radius of 1000-2000 units
-    for i = 1, 10 do
-        local angle = math.random() * 2 * math.pi
-        local distance = math.random(2500, 5000)
-        local offsetX = math.cos(angle) * distance
-        local offsetY = math.sin(angle) * distance
-        local spawnPosition = Vector2(subPosition.X + offsetX, subPosition.Y + offsetY)
-        table.insert(spawnPositions, spawnPosition)
+    if LuaUserData.IsTargetType(Game.GameSession.GameMode, "Barotrauma.PvPMode") then
+        waypoints = Submarine.MainSubs[math.random(2)].GetWaypoints(true)
+    end
+
+    for key, value in pairs(waypoints) do
+        if value.CurrentHull == nil then
+            local walls = Level.Loaded.GetTooCloseCells(value.WorldPosition, 250)
+            if #walls == 0 then
+                table.insert(spawnPositions, value.WorldPosition)
+            end
+        end
     end
 
     local spawnPosition
     if #spawnPositions == 0 then
-        -- no waypoints? https://c.tenor.com/RgExaLgYIScAAAAC/megamind-megamind-meme.gif
-        spawnPosition = subPosition -- spawn it in the middle of the sub
+        spawnPosition = subPosition
         Traitormod.Log("Couldn't find any good waypoints, spawning in the middle of the sub.")
     else
         spawnPosition = spawnPositions[math.random(#spawnPositions)]
     end
 
-    Traitormod.GeneratePirate(spawnPosition,client,"pirate") -- GeneratePirate is a function from pirateutils.lua
+    Traitormod.GeneratePirate(spawnPosition, client, "pirate")
     Traitormod.Pointshop.TrackRefund(client, product, paidPrice)
 end
 

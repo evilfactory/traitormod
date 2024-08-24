@@ -1182,6 +1182,43 @@ Traitormod.AddCommand({"!votekick"}, function (client, args)
     return true
 end)
 
+Traitormod.AddCommand("!rename", function (client, args)
+    if client.Character == nil or client.Character.IsDead then
+        Traitormod.SendMessage(client, "You cannot rename because you are dead or do not have a character.")
+        return true
+    end
+
+    if #args < 1 or #args > 2 then
+        Traitormod.SendMessage(client, "Usage: !rename \"New Name\" [\"Old Name\"]")
+        return true
+    end
+
+    local newName = args[1]
+
+    if #args == 1 then
+        -- Rename the client's character to the new name
+        Traitormod.SetData(client, "RPName", newName)
+        client.Character.Info.Rename(newName)
+        Traitormod.SendMessage(client, "Your character has been renamed to " .. newName .. ".")
+    elseif #args == 2 then
+        -- Rename the character with the old name to the new name
+        local oldName = args[1]
+        local targetClient = Traitormod.GetClientByName(client, oldName)
+        
+        if targetClient == nil or targetClient.Character == nil or targetClient.Character.IsDead then
+            Traitormod.SendMessage(client, "Couldn't find a client with the name " .. oldName .. " or they are dead.")
+            return true
+        end
+
+        local newName = args[2]
+        Traitormod.SetData(targetClient, "RPName", newName)
+        targetClient.Character.Info.Rename(newName)
+        Traitormod.SendMessage(client, "The character " .. oldName .. " has been renamed to " .. newName .. ".")
+    end
+
+    return true
+end)
+
 
 
 
