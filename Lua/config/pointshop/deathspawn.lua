@@ -82,9 +82,9 @@ category.Products = {
     {
         Identifier = "spawn as pirate",
         Price = 4000,
-        Limit = 1,
+        Limit = 3,
         IsLimitGlobal = true,
-        PricePerLimit = 0,
+        PricePerLimit = 100,
         Timeout = 60,
 
         RoundPrice = {
