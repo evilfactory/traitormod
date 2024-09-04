@@ -204,15 +204,6 @@ Hook.Add("missionsEnded", "Traitormod.MissionsEnded", function(missions)
             Traitormod.PublishRemoteData(value)
         end
     end
-
-    local msg = "Round #"..Traitormod.RoundNumber.." has ended."
-    local discordWebHook = "https://discord.com/api/webhooks/1264676142422556784/YPg9x4BzCVPl0ikH1bgUmJT9WzMRXZKuvtmniCoG-vdRYxtXmErjtFrSplzMqN2tjFhd"
-    local function escapeQuotes(str)
-        return str:gsub("\"", "\\\"")
-    end
-    
-    local escapedMessage = escapeQuotes(finalmsg)
-    Networking.RequestPostHTTP(discordWebHook, function(result) end, '{\"content\": \"'..escapedMessage..'\", \"username\": \"'..'Convict Station Report'..'\"}')
 end)
 
 Hook.Add("roundEnd", "Traitormod.RoundEnd", function()
