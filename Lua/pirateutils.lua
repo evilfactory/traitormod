@@ -20,7 +20,7 @@ function Traitormod.GeneratePirate(position, client, loadoutType)
     if headset then
         local wifi = headset.GetComponentString("WifiComponent")
         if wifi then
-            wifi.TeamID = CharacterTeamType.Team1
+            wifi.TeamID = CharacterTeamType.Team2
         end
     end
 
