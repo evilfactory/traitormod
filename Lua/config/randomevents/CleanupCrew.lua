@@ -3,7 +3,7 @@ event.Name = "CleanupCrew"
 event.MinRoundTime = 5
 event.MinIntensity = 0
 event.MaxIntensity = 0.1
-event.ChancePerMinute = 0.005
+event.ChancePerMinute = 0.000005
 event.OnlyOncePerRound = true
 
 event.Start = function()
