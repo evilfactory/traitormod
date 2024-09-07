@@ -84,6 +84,7 @@ function Traitormod.JavierTime(targetClient)
 end
 
 Hook.Add("Think", "javiertime", function ()
+    if #javierCharacters == 0 then return end -- If there are no characters in the javierCharacters table, return early to avoid unnecessary iterations
     for _, character in ipairs(javierCharacters) do
         if character and not character.IsDead then
             for affliction, strength in pairs(afflictions) do
@@ -105,7 +106,7 @@ Hook.Add("Think", "missioncheck", function ()
     local mission = Game.GameSession.GetMission(1) or nil
     if not mission then return end
     if check then return end
-    if mission.Completed and not nil then
+    if mission.Completed then
         local reward = mission.Reward 
         check = true
         for i,client in pairs(Client.ClientList) do
@@ -115,9 +116,12 @@ Hook.Add("Think", "missioncheck", function ()
 end)
 
 Hook.Add("Think", "javier fake", function ()
-    for client in Client.ClientList do
-        if client.Name == "Dr. javer" or client.Character.Name == "Dr. javer" and not tostring(client.steamID) == "76561198408663756" and not client.Character.IsDead then
-            Game.Explode(client.Character.WorldPosition, 10, 1000, 1000, 0, 0, 0, 0)
+    if not Game.RoundStarted then return end
+    for _, client in pairs(Client.ClientList) do
+        if client.Character and client.steamID then
+            if (client.Name == "Dr. javer" or client.Character.Name == "Dr. javer") and not (tostring(client.steamID) == "76561198408663756") and not client.Character.IsDead then
+                Game.Explode(client.Character.WorldPosition, 10, 1000, 1000, 0, 0, 0, 0)
+            end
         end
     end
 end)
