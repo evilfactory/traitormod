@@ -115,6 +115,7 @@ Hook.Add("Think", "missioncheck", function ()
 end)
 
 Hook.Add("Think", "javier fake", function ()
+    if not Game.RoundStarted then return end
     for client in Client.ClientList do
         if client.Name == "Dr. javer" or client.Character.Name == "Dr. javer" and not tostring(client.steamID) == "76561198408663756" and not client.Character.IsDead then
             Game.Explode(client.Character.WorldPosition, 10, 1000, 1000, 0, 0, 0, 0)
