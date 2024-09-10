@@ -1,5 +1,5 @@
 local event = {}
-event.Name = "CleanupCrew"
+event.Name = "NukieTakeover"
 event.MinRoundTime = 5
 event.MinIntensity = 0
 event.MaxIntensity = 0.1
@@ -23,15 +23,15 @@ event.Start = function()
         local submarine = Submarine.MainSub
         local subPosition = submarine.WorldPosition
         local angle = math.random() * 2 * math.pi
-        local distance = math.random(1000, 2000)
+        local distance = math.random(2000, 3000)
         local offsetX = math.cos(angle) * distance
         local offsetY = math.sin(angle) * distance
         local position = Vector2(subPosition.X + offsetX, subPosition.Y + offsetY)
-        Traitormod.GeneratePirate(position, deadCharacter, "pirate")
-        Traitormod.SendMessageCharacter(deadCharacter.Character, "You are the cleanup Crew, you are not aligned with anyone but yourselves, your only kill everyone on the station, prisoners and traitors included, good luck.", "CrewWalletIconLarge")
+        Traitormod.GeneratePirate(position, deadCharacter, "nukie")
+        Traitormod.SendMessageCharacter(deadCharacter.Character, "You are the Nukies, you are not aligned with anyone but yourselves, your goal is to set off the reactor and kill any who stand in your way", "CrewWalletIconLarge")
     end
 
-    Traitormod.RoundEvents.SendEventMessage("The Cleanup Crew has arrived!", "CrewWalletIconLarge")
+    Traitormod.RoundEvents.SendEventMessage("The Nukies have arrived!", "CrewWalletIconLarge")
 end
 
 event.End = function()

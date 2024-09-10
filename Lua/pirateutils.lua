@@ -60,7 +60,7 @@ Traitormod.Loadouts = {
         job = "warden",
         itemsToDrop = {
             "captainspipe", "handcuffs", "coalitioncommendation", "revolver",
-            "handheldterminal", "handheldstatusmonitor", "toolbelt"
+            "handheldterminal", "handheldstatusmonitor", "toolbelt","wardenoutfit"
         },
         itemsToAdd = {
             { id = "shotgun", count = 1, subItems = { { id = "shotgunshell", count = 6 } } },
@@ -81,27 +81,37 @@ Traitormod.Loadouts = {
             { id = "scp_renegadedivingsuit", count = 1, subItems = { { id = "oxygenitetank", count = 1 } } },
             { id = "crowbar", count = 1 } -- Add crowbar as a normal item
     },
-    exosuitPirate = {
+    nukie = {
         job = "warden",
         itemsToDrop = {
             "captainspipe", "handcuffs", "coalitioncommendation", "revolver",
-            "handheldterminal", "handheldstatusmonitor", "toolbelt"
+            "handheldterminal", "handheldstatusmonitor", "toolbelt","wardenoutfit"
         },
         itemsToAdd = {
-            { id = "assault_rifle", count = 1, subItems = { { id = "assault_rifle_magazine", count = 1 } } },
-            { id = "assault_rifle_magazine", count = 3 },
-            { id = "exosuit", count = 1, subItems = { { id = "oxygenitetank", count = 1 } } },
-            { id = "combatstimulantsyringe", count = 1 },
-            { id = "tourniquet", count = 1 },
-            { id = "antibiotics", count = 4 },
-            { id = "toolbelt", count = 1, subItems = {
+            { id = "assaultrifle", count = 1, subItems = { { id = "assaultriflemagazine", count = 1 } } },
+            { id = "assaultriflemagazine", count = 2 },
+            { id = "boardingaxe", count = 1 },
+            { id = "fraggrenade", count = 3 },
+            { id = "detonator", count = 1, subItems = { { id = "dirtybomb_showofstrength", count = 1 } } },
+            { id = "redwire", count = 1 },
+            { id = "button", count = 1 },
+            { id = "screwdriverdementonite", count = 1 },
+            { id = "underwaterscooter", count = 1, subItems = { { id = "batterycell", count = 1 } } },
+            { id = "plasmacutter", count = 1, subItems = { { id = "oxygenitetank", count = 1 } } },
+            { id = "thgbackpack", count = 1, subItems = {
                 { id = "antibleeding1", count = 6 },
                 { id = "antibloodloss2", count = 4 },
-                { id = "fuelrod", count = 1 },
-                { id = "underwaterscooter", count = 1, subItems = { { id = "batterycell", count = 1 } } },
-                { id = "plasmacutter", count = 1, subItems = { { id = "oxygenitetank", count = 1 } } }
+                { id = "fuelrod", count = 4 },
+                { id = "liquidoxygenite", count = 1 },
+                { id = "combatstimulantsyringe", count = 2 },
+                { id = "tourniquet", count = 2 },
+                { id = "antibiotics", count = 4 },
             }},
-            { id = "handheldsonar", count = 1, subItems = { { id = "batterycell", count = 1 } } }
+            { id = "exosuit", count = 1, subItems = { { id = "oxygenitetank", count = 1 }, { id = "fuelrod", count = 1 }, } },
+            { id = "scp_combathelmet", count = 1 },
+            { id = "scp_heavyuniform", count = 1 },
+            { id = "autoinjectorheadset", count = 1, subItems = { { id = "combatstimulantsyringe", count = 1 }}},
+            
         }
         }
     },
