@@ -92,7 +92,7 @@ Traitormod.Loadouts = {
             { id = "assaultriflemagazine", count = 2 },
             { id = "boardingaxe", count = 1 },
             { id = "fraggrenade", count = 3 },
-            { id = "detonator", count = 1, subItems = { { id = "dirtybomb_showofstrength", count = 1 } } },
+            { id = "detonator", count = 1, subItems = { { id = "dirtybomb", count = 1 } } },
             { id = "redwire", count = 1 },
             { id = "button", count = 1 },
             { id = "screwdriverdementonite", count = 1 },

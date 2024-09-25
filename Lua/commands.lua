@@ -1219,8 +1219,38 @@ Traitormod.AddCommand("!rename", function (client, args)
     return true
 end)
 
+LastAttacker = {}
 
+Hook.Add("character.death", "killercommand", function (character)
+    local attacker = character.LastAttacker
+    if attacker then
+        local client = Util.FindClientCharacter(character)
+        if client then
+            LastAttacker[client] = {
+                Name = attacker.Name,
+                Role = rm.GetRole(attacker),
+                Job = attacker.Info.Job.Name
+            }
+        end
+    end
+end)
 
+Traitormod.AddCommand("!attacker", function (client, args)
+    if client.Character and not client.Character.IsDead then
+        Traitormod.SendMessage(client, "You are not dead.")
+        return true
+    end
+
+    local attackerInfo = LastAttacker[client]
+    if attackerInfo then
+        local message = string.format("Your last attacker was %s, who is a %s (%s).", attackerInfo.Name, attackerInfo.Job, attackerInfo.Role)
+        Traitormod.SendMessage(client, message)
+    else
+        Traitormod.SendMessage(client, "No attacker information found.")
+    end
+
+    return true
+end)
 
 
 
