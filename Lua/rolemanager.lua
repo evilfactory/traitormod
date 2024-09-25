@@ -1,4 +1,4 @@
-local rm = {}
+rm = {}
 
 rm.Roles = {}
 rm.Objectives = {}
