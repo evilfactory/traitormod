@@ -52,6 +52,7 @@ function Traitormod.randomizeCharacterName(character)
 end
 
 function gm:Start()
+    Game.EnableControlHusk(override)
     local this = self
 
     if self.EnableRandomEvents then
