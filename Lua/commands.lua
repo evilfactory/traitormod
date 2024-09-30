@@ -1226,18 +1226,24 @@ Hook.Add("character.death", "killercommand", function (character)
     if attacker then
         local client = Util.FindClientCharacter(character)
         if client then
-            LastAttacker[client] = {
+            LastAttacker[client.SteamID] = {
                 Name = attacker.Name,
                 Role = rm.GetRole(attacker),
                 Job = attacker.Info.Job.Name
             }
+            print(string.format("Debug: Recorded attacker for client %s - Name: %s, Role: %s, Job: %s", client.Name, attacker.Name, attacker.Info.Job.Name, rm.GetRole(attacker)))
+        else
+            print("Debug: No client found for the character.")
         end
+    else
+        print("Debug: No attacker found for the character.")
     end
 end)
 
 Traitormod.AddCommand("!attacker", function (client, args)
     if client.Character and not client.Character.IsDead then
         Traitormod.SendMessage(client, "You are not dead.")
+        print("Debug: Client is not dead.")
         return true
     end
 
@@ -1245,8 +1251,10 @@ Traitormod.AddCommand("!attacker", function (client, args)
     if attackerInfo then
         local message = string.format("Your last attacker was %s, who is a %s (%s).", attackerInfo.Name, attackerInfo.Job, attackerInfo.Role)
         Traitormod.SendMessage(client, message)
+        print(string.format("Debug: Sent attacker info to client %s - %s", client.Name, message))
     else
         Traitormod.SendMessage(client, "No attacker information found.")
+        print(string.format("Debug: No attacker information found for client %s", client.Name))
     end
 
     return true
