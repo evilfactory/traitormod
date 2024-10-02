@@ -32,12 +32,6 @@ category.Products = {
     },
 
     {
-        Price = 1750,
-        Limit = 1,
-        Items = {"frogsparalyzantsprayer"}
-    },
-
-    {
         Price = 500,
         Limit = 1,
         Items = {"clownmask"}
