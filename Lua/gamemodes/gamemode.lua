@@ -10,7 +10,6 @@ function gm:PreStart()
     Hook.Patch("Barotrauma.Networking.GameServer", "AssignJobs", function (instance, ptable)
         local gamemode = Traitormod.SelectedGamemode
         if not gamemode or not gamemode.RoleLock then 
-            print("No RoleLock found.")
             return 
         end
     
@@ -22,7 +21,6 @@ function gm:PreStart()
                 if jobName == role then
                     if gamemode.RoleLock.LockIf(client, params) then 
                         flag = true
-                        print(string.format("Client %s meets RoleLock condition for job %s", client.Name, jobName))
                     end
                     break
                 end
@@ -31,7 +29,6 @@ function gm:PreStart()
             if flag then
                 Traitormod.SendMessage(client, string.format(Traitormod.Language.RoleLocked, jobName))
                 client.AssignedJob = Traitormod.GetJobVariant(gamemode.RoleLock.SubstituteRoles[math.random(1, #gamemode.RoleLock.SubstituteRoles)])
-                print(string.format("Client %s reassigned to new job due to RoleLock", client.Name))
             end
         end
     end, Hook.HookMethodType.After)
@@ -53,7 +50,6 @@ function gm:PreStart()
                 for _, bannedJob in ipairs(bannedJobs[steamID]) do
                     if jobName == bannedJob then
                         flag = true
-                        print(string.format("Client %s is banned from job %s", client.Name, jobName))
                         break
                     end
                 end
@@ -84,7 +80,6 @@ function gm:PreStart()
                     local newJobName = substituteRoles[math.random(1, #substituteRoles)]
                     client.AssignedJob = Traitormod.GetJobVariant(newJobName)
                     Traitormod.SendMessage(client, "You have been banned from playing the role: " .. jobName .. ", Appeal in discord https://discord.gg/nv8Zz32PxK")
-                    print(string.format("Client %s reassigned to new job %s due to job ban", client.Name, newJobName))
                 else
                 end
             end
