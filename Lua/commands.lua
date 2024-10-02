@@ -1221,7 +1221,7 @@ end)
 
 LastAttacker = {}
 
-Hook.Add("character.death", "killercommand", function (character)
+--[[Hook.Add("character.death", "killercommand", function (character)
     local attacker = character.LastAttacker
     if attacker then
         local client = Util.FindClientCharacter(character)
@@ -1258,7 +1258,7 @@ Traitormod.AddCommand("!attacker", function (client, args)
     end
 
     return true
-end)
+end)]]
 
 
 

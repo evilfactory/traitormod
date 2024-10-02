@@ -81,21 +81,6 @@ category.Products = {
         Items = {"divingknife"},
     },
 
-    {
-        Name = "Premium Shiv",
-        Price = 1100,
-        Limit = 1,
-        IsLimitGlobal = true,
-        Items = {"frogsstabbingknife"},
-    },
-
-    {
-        Name = "Ol' Choppy",
-        Price = 2000,
-        Limit = 1,
-        IsLimitGlobal = true,
-        Items = {"frogspyschoknife"},
-    },
 
     {
         Name = "Meth",
