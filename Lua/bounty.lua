@@ -16,7 +16,6 @@ Hook.Add("character.death", "playerDeath", function (character)
 
     local killer = character.LastAttacker
     if not killer then
-        print("killer does not exist")
         return
     end
 
@@ -24,7 +23,6 @@ Hook.Add("character.death", "playerDeath", function (character)
     print(killer.Name .. " killed " .. character.Name)
 
     if killer.TeamID == character.TeamID then
-        print(killer.Name .. "'s team is " .. killer.TeamID .. ", no points awarded for killing allies.")
         return
     end
 
@@ -38,7 +36,6 @@ end)
 
 Traitormod.AddCommand("!claim", function (client, args)
     if not client.Character then
-        print("client character does not exist")
         return false
     end
 
@@ -49,14 +46,12 @@ Traitormod.AddCommand("!claim", function (client, args)
             Traitormod.AwardPoints(client, bounty)
             -- Reset the count after claiming
             killer.Count = 0
-            print("awarded " .. client.Character.Name .. " " .. bounty .. " points, reset count to 0")
             found = true
             return true
         end
     end
 
     if not found then
-        print("No entries for " .. client.Character.Name .. " existed out of " .. #killers .. " entries.") -- Debug
         for _, killer in pairs(killers) do
             print(killer.RealName)
         end

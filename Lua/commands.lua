@@ -1219,46 +1219,47 @@ Traitormod.AddCommand("!rename", function (client, args)
     return true
 end)
 
-LastAttacker = {}
-
---[[Hook.Add("character.death", "killercommand", function (character)
+Hook.Add("character.death", "killercommand", function (character)
     local attacker = character.LastAttacker
+    if not attacker or not attacker.IsHuman then print("line 1224") return end
     if attacker then
         local client = Util.FindClientCharacter(character)
         if client then
-            LastAttacker[client.SteamID] = {
-                Name = attacker.Name,
-                Role = rm.GetRole(attacker),
-                Job = attacker.Info.Job.Name
-            }
-            print(string.format("Debug: Recorded attacker for client %s - Name: %s, Role: %s, Job: %s", client.Name, attacker.Name, attacker.Info.Job.Name, rm.GetRole(attacker)))
+            if LastKiller then 
+                LastKiller[client] = {
+                    Name = attacker.Name,
+                    ClientName = Util.FindClientCharacter(attacker).Name,
+                    Role = rm.GetRole(attacker),
+                    IsTraitor = attacker.Character.IsAntagonist,
+                    Job = attacker.JobIdentifier
+                }
+            else
+                LastKiller = {}
+            end
         else
-            print("Debug: No client found for the character.")
+           
         end
     else
-        print("Debug: No attacker found for the character.")
+        print("no attacker, line 1243")
     end
 end)
 
 Traitormod.AddCommand("!attacker", function (client, args)
     if client.Character and not client.Character.IsDead then
         Traitormod.SendMessage(client, "You are not dead.")
-        print("Debug: Client is not dead.")
         return true
     end
 
-    local attackerInfo = LastAttacker[client]
+    local attackerInfo = LastKiller[client]
     if attackerInfo then
-        local message = string.format("Your last attacker was %s, who is a %s (%s).", attackerInfo.Name, attackerInfo.Job, attackerInfo.Role)
+        local message = string.format("Your last attacker was %s, character was %s, who is a %s (%s).", attackerInfo.ClientName, attackerInfo.Name, attackerInfo.Job, attackerInfo.IsTraitor, attackerInfo.Role)
         Traitormod.SendMessage(client, message)
-        print(string.format("Debug: Sent attacker info to client %s - %s", client.Name, message))
     else
         Traitormod.SendMessage(client, "No attacker information found.")
-        print(string.format("Debug: No attacker information found for client %s", client.Name))
     end
 
     return true
-end)]]
+end)
 
 
 
