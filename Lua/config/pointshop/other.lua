@@ -39,12 +39,6 @@ category.Products = {
     },
 
     {
-        Price = 290,
-        Limit = 5,
-        Items = {"skillbooksailorsguide"}
-    },
-
-    {
         Identifier = "clownsuit",
         Price = 650,
         Limit = 2,
