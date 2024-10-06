@@ -8,38 +8,22 @@ category.CanAccess = function(client)
 end
 
 local function SpawnCreature(species, client, product, paidPrice, insideHuman)
-    local waypoints = Submarine.MainSub.GetWaypoints(true)
-
-    if LuaUserData.IsTargetType(Game.GameSession.GameMode, "Barotrauma.PvPMode") then
-        waypoints = Submarine.MainSubs[math.random(2)].GetWaypoints(true)
-    end
-
+    local distance = 1000  -- Define the distance below the submarine
+    local radius = 500     -- Define the radius around the spawn point
+    local mainSubPosition = Submarine.MainSub.WorldPosition
+    local spawnCenter = Vector2(mainSubPosition.X, mainSubPosition.Y - distance)
+    
     local spawnPositions = {}
 
-    if insideHuman then
-        for key, value in pairs(Character.CharacterList) do
-            if value.IsHuman and not value.IsDead and value.TeamID == CharacterTeamType.Team1 then
-                table.insert(spawnPositions, value.WorldPosition)
-            end
-        end
-    else
-        for key, value in pairs(waypoints) do
-            if value.CurrentHull == nil then
-                local walls = Level.Loaded.GetTooCloseCells(value.WorldPosition, 250)
-                if #walls == 0 then
-                    table.insert(spawnPositions, value.WorldPosition)
-                end
-            end
-        end
+    for i = 1, 10 do  -- Generate 10 possible spawn positions
+        local angle = math.random() * math.pi * 2
+        local r = math.sqrt(math.random()) * radius
+        local x = spawnCenter.X + r * math.cos(angle)
+        local y = spawnCenter.Y + r * math.sin(angle)
+        table.insert(spawnPositions, Vector2(x, y))
     end
 
-    local spawnPosition
-    if #spawnPositions == 0 then
-        spawnPosition = Submarine.MainSub.WorldPosition
-        Traitormod.Log("Couldn't find any good waypoints, spawning in the middle of the sub.")
-    else
-        spawnPosition = spawnPositions[math.random(#spawnPositions)]
-    end
+    local spawnPosition = spawnPositions[math.random(#spawnPositions)]
 
     Entity.Spawner.AddCharacterToSpawnQueue(species, spawnPosition, function (character)
         client.SetClientCharacter(character)
