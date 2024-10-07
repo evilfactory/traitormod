@@ -1093,11 +1093,11 @@ Traitormod.AddCommand({"!warn"}, function (sender, args)
     local messageChat = ChatMessage.Create(sender.Name.." to "..targetClient.Name, "ADMIN WARN:\n"..finalmsg, ChatMessageType.Default, nil, sender)
     messageChat.Color = Color.IndianRed
 
-    Traitormod.SendClientMessage(messageChat, "TalentPointNotification", Color.Crimson, targetClient)
+    Traitormod.SendClientMessage(adminmsg, "TalentPointNotification", Color.Crimson, targetClient)
 
     for client in Client.ClientList do
         if client.HasPermission(ClientPermissions.Kick) then
-            Game.SendDirectChatMessage(messageChat, client)
+            Game.SendDirectChatMessage(finalmsg, client)
         end
     end
 
