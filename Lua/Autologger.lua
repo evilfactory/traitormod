@@ -2,86 +2,88 @@ if CLIENT then return end
 
 local api_endpoint = 'http://165.22.185.236:8080/update_data'
 local api_key = 'javierbotapikey2'
+local json = require 'json'
 
 local function sendPlayerCountToAPI()
-    Playercount = #Client.ClientList
-    -- Prepare the data payload
     local data = {
         api_key = api_key,
         data_type = "playercount",
         data = {
-            player_count = Playercount,
+            player_count = #Client.ClientList,
             max_players = Game.ServerSettings.MaxPlayers,
             server_name = Game.ServerSettings.ServerName,
             map_name = Game.ServerSettings.SelectedSubmarine
         }
     }
 
-    -- Encode the data to JSON
-    local payload = json.encode(data)
-
-    -- Send the POST request to the API endpoint
-    Networking.RequestPostHTTP(api_endpoint, function(result)
-        -- Optionally handle the result here
-    end, payload)
+    if next(data.data) ~= nil then
+        local payload = json.encode(data)
+        Networking.RequestPostHTTP(api_endpoint, function(result)
+        end, payload)
+    end
 end
 
-TImertick = 0
+local Timertick = 0
 Hook.Add("Think", "Timer", function()
-    if TImertick == 600 then
+    Timertick = Timertick + 1
+    if Timertick >= 600 then
         sendPlayerCountToAPI()
-    else
-        TImertick = TImertick + 1
+        Timertick = 0
     end
 end)
 
 
 -- for bans
-Hook.Patch("Barotrauma.Networking.BanList", "BanPlayer", 
-{
-    "System.String", 
-    "Barotrauma.Either`2[[Barotrauma.Networking.Address,BarotraumaCore],[Barotrauma.Networking.AccountId,BarotraumaCore]]", 
-    "System.String",
-    "System.TimeSpan"
-}, function (instance, ptable)
-    local address = ptable["addressOrAccountId"]
-    local reason = ptable["reason"]
-    local name = ptable["Name"] 
-    local time = ptable["ExpirationTime"]
+Hook.Patch(
+    "Barotrauma.Networking.GameServer",
+    "BanClient",
+    {
+        "Barotrauma.Networking.Client",
+        "System.String",
+        "System.TimeSpan"
+    },
 
+    function(instance, ptable)
 
-    -- nil checks
-    if address == nil then return end
-    if reason == nil then reason = "No reason provided" end
-    if name == nil then name = "unknown" end
-    if time == nil then time = 0 end
+      local client = ptable["client"]
+      local reason = ptable["reason"]
+      local duration = ptable["duration"]
 
 
 
-    local client = Traitormod.SteamidToClient(address)
-    if not client then return end
-
-    if time > TimeSpan.FromDays(365) then
-        time = TimeSpan.FromDays(365)
-    end    
-
-    -- Prepare the data payload
-    local data = {
+      local data = {
         api_key = api_key,
         data_type = "punishment",
         data = {
             steamid = client.SteamID,
             name = client.Name,
             reason = reason,
-            punishment = "permaban",
-            time_interval = time -- Add the time interval to the data
+            punishment = "Ban",
+            tempban_duration = duration,
         }
-    }
-    
-    -- Optionally, encode and send this data to the API if needed
-end, Hook.HookMethodType.Before)
+
+        }
+        local payload = json.encode(data)
+        Networking.RequestPostHTTP(api_endpoint, function(result) end, payload)
+
+    end, Hook.HookMethodType.Before)
 
 function Traitormod.RecieveRoleBan(client, jobs, reason)
+    -- Ensure jobs is a table (array) of strings
+    local jobsArray = {}
+    if type(jobs) == "string" then
+        -- If jobs is a single string, split it into an array
+        for job in jobs:gmatch("%S+") do
+            table.insert(jobsArray, job)
+        end
+    elseif type(jobs) == "table" then
+        -- If jobs is already a table, use it as is
+        jobsArray = jobs
+    else
+        -- If jobs is neither a string nor a table, log an error
+        print("Error: jobs must be a string or a table")
+        return
+    end
 
     local data = {
         api_key = api_key,
@@ -91,17 +93,18 @@ function Traitormod.RecieveRoleBan(client, jobs, reason)
             name = client.Name,
             reason = reason,
             punishment = "jobban",
-            rolebanned_roles = jobs,
+            rolebanned_roles = jobsArray,  -- Send as an array
         }
     }
 
     local payload = json.encode(data)
-    Networking.RequestPostHTTP(api_endpoint, function(result) end, payload)
-
+    print("Sending jobban punishment payload: " .. payload)  -- Add this line for debugging
+    Networking.RequestPostHTTP(api_endpoint, function(result)
+        print("Received response for jobban punishment: " .. tostring(result))
+    end, payload)
 end
 
 function Traitormod.RecieveWarn(client, reason)
-    
     local data = {
         api_key = api_key,
         data_type = "punishment",
@@ -110,10 +113,15 @@ function Traitormod.RecieveWarn(client, reason)
             name = client.Name,
             reason = reason,
             punishment = "warn",
+            -- discordid is optional and can be omitted or set to nil
         }
     }
 
-
+    local payload = json.encode(data)
+    print("Sending warn punishment payload: " .. payload)  -- Add this line for debugging
+    Networking.RequestPostHTTP(api_endpoint, function(result)
+        print("Received response for warn punishment: " .. tostring(result))
+    end, payload)
 end
 
 function Traitormod.SteamidToClient(steamid)
@@ -130,7 +138,7 @@ Hook.Patch(
     "Barotrauma.Networking.GameServer",
     "KickClient",
     {
-        "System.Client",
+        "Barotrauma.Networking.Client",
         "System.String",
         "System.Boolean"
     },
