@@ -1191,6 +1191,7 @@ Traitormod.AddCommand({"!unbanrole", "!roleunban", "!jobunban", "!unbanjob"}, fu
     for _, job in ipairs(jobList) do
         if unbanJob(bannedJobs[steamID], job) then
             table.insert(unbannedJobs, job)
+            return true
         end
     end
 
@@ -1221,6 +1222,7 @@ Traitormod.AddCommand({"!unbanrole", "!roleunban", "!jobunban", "!unbanjob"}, fu
             '{"content": "' .. escapedMessage .. '", "username": "ADMIN HELP (CONVICT STATION)"}')
     else
         Traitormod.SendMessage(sender, (targetClient and targetClient.Name or steamID) .. " is not banned from the specified roles.")
+        return true
     end
 
     return true
