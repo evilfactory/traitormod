@@ -184,3 +184,151 @@ Hook.Patch(
     }
 
 ]]
+
+local function checkCommandQueue()
+    local api_endpoint = 'http://165.22.185.236:8080/commandqueue'
+    local data = {
+        api_key = api_key
+    }
+    
+    Networking.RequestGetHTTP(api_endpoint .. "?api_key=" .. api_key, function(result)
+        if result ~= "" then
+            local commands = json.decode(result)
+            if #commands > 0 then
+                for _, command in ipairs(commands) do
+                    if not Starts_with_special_char(command.content) then
+                        print("Received command from " .. command.author .. ": " .. command.content)
+                        for client in Client.ClientList do
+                            if client.Character == nil or client.Character.IsDead then
+                                Traitormod.SendChatMessage(client, "(Discord) "..command.author .. ": " .. command.content)
+                            end
+                        end
+                    end
+                end
+            end
+        end
+    end)
+end
+
+-- Add this to your existing timer or create a new one
+local CommandQueueTick = 0
+Hook.Add("Think", "CommandQueueTimer", function()
+    CommandQueueTick = CommandQueueTick + 1
+    if CommandQueueTick >= 180 then  -- Check every 10 seconds (adjust as needed)
+        checkCommandQueue()
+        CommandQueueTick = 0
+    end
+end)
+
+-- Add this function to your existing Lua script
+function Traitormod.SendChatToDiscord(sender, message)
+    local chat_endpoint = 'http://165.22.185.236:8080/chat'
+    local data = {
+        api_key = api_key,
+        sender = sender,
+        message = message
+    }
+    
+    local payload = json.encode(data)
+    Networking.RequestPostHTTP(chat_endpoint, function(result)
+        if result == "Message sent to Discord" then
+            print("Chat message successfully sent to Discord")
+        else
+            print("Failed to send chat message to Discord: " .. tostring(result))
+        end
+    end, payload)
+end
+
+-- Example usage:
+-- You can call this function whenever you want to send a chat message to Discord
+-- For example, you might hook it into your game's chat system
+Hook.Add("chatMessage", "SendToDiscord", function(message, client)
+    local alive = "Alive"
+    if client.Character == nil or client.Character.IsDead then
+        alive = "Dead"
+    end
+
+    if not Starts_with_special_char(message) then
+        Traitormod.SendChatToDiscord(client.Name .. " (" .. alive .. ")", message)
+    end
+end)
+
+function Starts_with_special_char(str)
+    if str:match("^[/:!;><]") then
+        return true
+    else
+        return false
+    end
+end
+
+Auth_codes = {}
+
+Traitormod.AddCommand("!discord", function (client, args)
+    if #args < 1 then
+        Traitormod.SendMessage(client, "Usage: !Discord \"yourdiscordid\"")
+        return true
+    end
+
+    local discordid = table.remove(args, 1)
+    local auth_code = tostring(math.random(1000, 9999))
+    Auth_codes[client.SteamID] = {code = auth_code, discord_id = discordid}
+
+    -- Send authentication request to the bot
+    local auth_endpoint = 'http://165.22.185.236:8080/auth_request'
+    local data = {
+        api_key = api_key,
+        steam_id = client.SteamID,
+        discord_id = discordid,
+        auth_code = auth_code
+    }
+    
+    local payload = json.encode(data)
+    Networking.RequestPostHTTP(auth_endpoint, function(result)
+        if result == "Authentication request sent" then
+            Traitormod.SendMessage(client, "Your authentication code is " .. auth_code.. ", enter it in the discord dms", nil)
+        else
+            Traitormod.SendMessage(client, "Failed to send authentication request. Please try again later.")
+        end
+    end, payload)
+
+    return true
+end)
+
+Hook.Add("chatMessage", "content filter", function(message, client)
+    -- Load words from words.json
+    local words = {}
+    local content = File.Read(Traitormod.Path .. "/Lua/words.json")
+    if content then
+        words = json.decode(content)
+    end
+
+    -- Check if any word from words.json is in the message
+    for _, word in ipairs(words) do
+        if string.match(message:lower(), word:lower()) then
+            if client.Character then
+                client.Character.Kill()
+            end
+            Traitormod.SendMessage(client, "You have been warned for violating the content filter.")
+           return true
+        end
+    end
+end)
+
+--[[function Traitormod.SendMessageToDiscord(message, client, channel)
+    local data = {
+        api_key = api_key,
+        data_type = "chat",
+        data = {
+            sender = client.Name,
+            message = message,
+            channel = channel
+        }
+    }
+
+    local payload = json.encode(data)
+    print("Sending chat message to Discord: " .. payload)  -- Add this line for debugging
+    Networking.RequestPostHTTP(api_endpoint, function(result)
+        print("Received response for chat message: " .. tostring(result))
+    end, payload)
+end]]
+
