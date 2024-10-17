@@ -7,11 +7,31 @@ category.CanAccess = function(client)
     return client.Character == nil or client.Character.IsDead or not client.Character.IsHuman
 end
 
+Hook.Add("RoundStart", "originalsubpos", function()
+    Traitormod.originalSubPosition = Submarine.MainSub.WorldPosition
+end)
+
 local function SpawnCreature(species, client, product, paidPrice, insideHuman)
-    local distance = 1000  -- Define the distance below the submarine
+    local spawnAbove = false
     local radius = 500     -- Define the radius around the spawn point
     local mainSubPosition = Submarine.MainSub.WorldPosition
+
+    if Traitormod.originalSubPosition ~= nil then
+
+        local verticalMovement = mainSubPosition.y - Traitormod.OriginalSubPosition.y
+        local threshold = 2000
+        spawnAbove = verticalMovement > threshold
+    end
+
+    local distance = nil  -- Define the distance below the submarine
+    if spawnAbove then
+        distance = 1500
+    else
+        distance = -1500
+    end
+
     local spawnCenter = Vector2(mainSubPosition.X, mainSubPosition.Y - distance)
+
     
     local spawnPositions = {}
 
