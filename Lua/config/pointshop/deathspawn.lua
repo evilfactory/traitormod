@@ -18,7 +18,7 @@ local function SpawnCreature(species, client, product, paidPrice, insideHuman)
 
     if Traitormod.originalSubPosition ~= nil then
 
-        local verticalMovement = mainSubPosition.y - Traitormod.OriginalSubPosition.y
+        local verticalMovement = mainSubPosition.Y - Traitormod.OriginalSubPosition.Y
         local threshold = 2000
         spawnAbove = verticalMovement > threshold
     end
