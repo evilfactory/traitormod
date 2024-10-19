@@ -7,7 +7,7 @@ category.CanAccess = function(client)
     return client.Character == nil or client.Character.IsDead or not client.Character.IsHuman
 end
 
-Hook.Add("RoundStart", "originalsubpos", function()
+Hook.Add("roundStart", "originalsubpos", function()
     Traitormod.originalSubPosition = Submarine.MainSub.WorldPosition
 end)
 
