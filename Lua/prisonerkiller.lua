@@ -1,4 +1,4 @@
-Hook.Add("RoundStart","timer",function()
+--[[Hook.Add("RoundStart","timer",function()
     RoundStartTime = os.time()
 end)
 
@@ -10,4 +10,4 @@ Hook.Add("character.death","prisonerdeath",function(character)
         else
 		end
     end
-end)
+end)]]
