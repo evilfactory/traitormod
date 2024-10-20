@@ -19,8 +19,8 @@ Hook.Add("character.death", "playerDeath", function (character)
         return
     end
 
-    -- Debug
-    print(killer.Name .. " killed " .. character.Name)
+
+
 
     if killer.TeamID == character.TeamID then
         return
@@ -53,7 +53,7 @@ Traitormod.AddCommand("!claim", function (client, args)
 
     if not found then
         for _, killer in pairs(killers) do
-            print(killer.RealName)
+
         end
     end
 

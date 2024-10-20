@@ -81,7 +81,6 @@ function Traitormod.RecieveRoleBan(client, jobs, reason)
         jobsArray = jobs
     else
         -- If jobs is neither a string nor a table, log an error
-        print("Error: jobs must be a string or a table")
         return
     end
 

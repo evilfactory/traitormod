@@ -1337,7 +1337,7 @@ Traitormod.AddCommand("!rename", function (client, args)
     return true
 end)
 
-Hook.Add("character.death", "killercommand", function (character)
+--[[Hook.Add("character.death", "killercommand", function (character)
     local attacker = character.LastAttacker
     if not attacker or not attacker.IsHuman then print("line 1224") return end
     if attacker then
@@ -1377,7 +1377,7 @@ Traitormod.AddCommand("!attacker", function (client, args)
     end
 
     return true
-end)
+end)]]
 
 
 
