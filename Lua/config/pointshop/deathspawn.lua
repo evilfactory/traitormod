@@ -16,7 +16,7 @@ local function SpawnCreature(species, client, product, paidPrice, insideHuman)
     local radius = 500     -- Define the radius around the spawn point
     local mainSubPosition = Submarine.MainSub.WorldPosition
 
-    if Traitormod.originalSubPosition ~= nil then
+    if Traitormod.originalSubPosition ~= nil and mainSubPosition ~= nil then
 
         local verticalMovement = mainSubPosition.Y - Traitormod.OriginalSubPosition.Y
         local threshold = 2000
