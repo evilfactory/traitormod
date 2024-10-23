@@ -228,7 +228,7 @@ end
 function gm:AwardCrew()
     local missionType = {}
 
-    for key, value in pairs(MissionType) do
+    for key, value in pairs(MissionTypes) do
         missionType[value] = key
     end
 
@@ -345,7 +345,28 @@ function gm:TraitorResults()
     end
 
     -- first arg = mission id, second = message, third = completed, forth = list of characters
-    return {TraitorMissionResult(self.RoundEndIcon or Traitormod.MissionIdentifier, sb:concat(), success, antagonists)}
+    local missionIdentifier = self.RoundEndIcon or Traitormod.MissionIdentifier
+    local message = sb and sb:concat()
+    
+    if missionIdentifier == nil then
+        print("Debug: missionIdentifier is nil")
+    end
+    if message == nil then
+        print("Debug: message is nil")
+    end
+    if success == nil then
+        print("Debug: success is nil")
+    end
+    if antagonists == nil then
+        print("Debug: antagonists is nil")
+    end
+    
+    if missionIdentifier ~= nil and message ~= nil and success ~= nil and antagonists ~= nil then
+        return {TraitorMissionResult(missionIdentifier, message, success, antagonists)}
+    else
+        print("Debug: Returning nil due to one or more nil values")
+        return nil
+    end
 end
 
 function gm:End()

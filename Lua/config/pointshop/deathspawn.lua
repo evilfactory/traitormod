@@ -18,7 +18,12 @@ local function SpawnCreature(species, client, product, paidPrice, insideHuman)
 
     if Traitormod.originalSubPosition ~= nil and mainSubPosition ~= nil then
 
-        local verticalMovement = mainSubPosition.Y - Traitormod.OriginalSubPosition.Y
+        local verticalMovement = 0
+        if mainSubPosition and Traitormod.originalSubPosition then
+            verticalMovement = mainSubPosition.Y - Traitormod.originalSubPosition.Y
+        else
+            print("Error: mainSubPosition or Traitormod.originalSubPosition is nil")
+        end
         local threshold = 2000
         spawnAbove = verticalMovement > threshold
     end
