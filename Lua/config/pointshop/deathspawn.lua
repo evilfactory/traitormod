@@ -7,37 +7,45 @@ category.CanAccess = function(client)
     return client.Character == nil or client.Character.IsDead or not client.Character.IsHuman
 end
 
+-- Initialize originalSubPosition at round start
 Hook.Add("roundStart", "originalsubpos", function()
-    Traitormod.originalSubPosition = Submarine.MainSub.WorldPosition
+    if Submarine.MainSub then
+        Traitormod.originalSubPosition = Submarine.MainSub.WorldPosition
+        print("Original Submarine Position Set:", Traitormod.originalSubPosition)
+    else
+        print("Error: Submarine.MainSub is nil during roundStart")
+        Traitormod.originalSubPosition = Vector3(0, 0, 0)  -- Default fallback position
+    end
 end)
 
 local function SpawnCreature(species, client, product, paidPrice, insideHuman)
     local spawnAbove = false
     local radius = 500     -- Define the radius around the spawn point
-    local mainSubPosition = Submarine.MainSub.WorldPosition
+    local mainSubPosition = Submarine.MainSub and Submarine.MainSub.WorldPosition
 
-    if Traitormod.originalSubPosition ~= nil and mainSubPosition ~= nil then
-
-        local verticalMovement = 0
-        if mainSubPosition and Traitormod.originalSubPosition then
-            verticalMovement = mainSubPosition.Y - Traitormod.originalSubPosition.Y
-        else
-            print("Error: mainSubPosition or Traitormod.originalSubPosition is nil")
-        end
-        local threshold = 2000
-        spawnAbove = verticalMovement > threshold
+    -- Ensure mainSubPosition is valid
+    if not mainSubPosition then
+        print("Error: mainSubPosition is nil")
+        return
     end
 
-    local distance = nil  -- Define the distance below the submarine
-    if spawnAbove then
-        distance = 1500
-    else
-        distance = -1500
+    -- Initialize originalSubPosition if not set
+    if Traitormod.originalSubPosition == nil then
+        Traitormod.originalSubPosition = mainSubPosition
+        print("originalSubPosition was nil. Initialized to mainSubPosition:", Traitormod.originalSubPosition)
     end
 
+    -- Calculate vertical movement (assuming Y increases upwards)
+    local verticalMovement = Traitormod.originalSubPosition.Y - mainSubPosition.Y
+    local threshold = 2000
+    spawnAbove = verticalMovement > threshold
+
+    -- Determine spawn distance based on sub movement
+    local distance = spawnAbove and 1500 or -1500
+
+    -- Calculate spawn center position
     local spawnCenter = Vector2(mainSubPosition.X, mainSubPosition.Y - distance)
 
-    
     local spawnPositions = {}
 
     for i = 1, 10 do  -- Generate 10 possible spawn positions

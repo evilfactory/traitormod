@@ -220,7 +220,7 @@ Hook.Add("Think", "CommandQueueTimer", function()
 end)
 
 -- Add this function to your existing Lua script
-function Traitormod.SendChatToDiscord(sender, message)
+--[[function Traitormod.SendChatToDiscord(sender, message)
     local chat_endpoint = 'http://165.22.185.236:8080/chat'
     local data = {
         api_key = api_key,
@@ -291,7 +291,7 @@ Traitormod.AddCommand("!discord", function (client, args)
     end, payload)
 
     return true
-end)
+end)]]
 
 Hook.Add("chatMessage", "content filter", function(message, client)
     -- Load words from words.json

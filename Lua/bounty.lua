@@ -4,7 +4,7 @@
 -- Traitormod.AwardPoints(client, refundTable.Price)
 -- local points = Traitormod.GetPoints(client)
 
-local price = 500
+--[[local price = 500
 
 local killers = {}
 
@@ -58,4 +58,4 @@ Traitormod.AddCommand("!claim", function (client, args)
     end
 
     return false
-end)
+end)]]
