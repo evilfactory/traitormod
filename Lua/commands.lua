@@ -1115,7 +1115,7 @@ Traitormod.AddCommand({"!warn"}, function (sender, args)
     return true
 end)
 
-Traitormod.AddCommand({"!unbanrole", "!roleunban", "!jobunban", "!unbanjob"}, function (sender, args)
+Traitormod.AddCommand({"!unroleban", "!unbanrole", "!roleunban", "!jobunban", "!unbanjob"}, function (sender, args)
     if not sender.HasPermission(ClientPermissions.Kick) then return end
     
     -- Syntax: !unbanrole "name" "job1,job2,job3,jobN"
