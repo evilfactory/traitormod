@@ -27,12 +27,12 @@ event.Start = function()
 
     for i = 1, 4, 1 do
         local info = CharacterInfo(Identifier("human"))
-        info.Job = Job(JobPrefab.Get(jobs[math.random(#jobs)]))
+        info.Job = Job(JobPrefab.Get(jobs[math.random(#jobs)]), false)
 
         local character = Character.Create(info, area.WorldPosition, info.Name, 0, false, true)
 
         character.TeamID = CharacterTeamType.Team1
-        character.GiveJobItems(nil)
+        character.GiveJobItems(false, nil)
         character.CanSpeak = false
 
         Entity.Spawner.AddItemToSpawnQueue(ItemPrefab.GetItemPrefab("divingsuit"), character.Inventory, nil, nil, function (item)

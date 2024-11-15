@@ -102,7 +102,7 @@ local function SpawnCharacter(client, submarine)
 
     client.SetClientCharacter(character)
 
-    character.GiveJobItems()
+    character.GiveJobItems(false)
     character.LoadTalents()
 
     Traitormod.RespawnedCharacters[character] = client

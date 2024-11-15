@@ -71,14 +71,14 @@ event.Start = function ()
     for k, v in pairs(crew) do
         local info = CharacterInfo(Identifier("human"))
         info.Name = "Pirate " .. info.Name
-        info.Job = Job(JobPrefab.Get(v))
+        info.Job = Job(JobPrefab.Get(v), false)
 
         local character = Character.Create(info, submarine.WorldPosition, info.Name, 0, false, true)
 
         table.insert(event.Pirates, character)
 
         character.TeamID = CharacterTeamType.Team2
-        character.GiveJobItems(nil)
+        character.GiveJobItems(false, nil)
 
         local idCard = character.Inventory.GetItemInLimbSlot(InvSlotType.Card)
         if idCard then

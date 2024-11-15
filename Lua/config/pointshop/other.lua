@@ -131,10 +131,10 @@ category.Products = {
         Limit = 5,
         Action = function (client, product, items)
             local info = CharacterInfo(Identifier("human"))
-            info.Job = Job(JobPrefab.Get("assistant"))
+            info.Job = Job(JobPrefab.Get("assistant"), false)
             local character = Character.Create(info, client.Character.WorldPosition, info.Name, 0, false, true)
             character.TeamID = CharacterTeamType.Team1
-            character.GiveJobItems(nil)
+            character.GiveJobItems(false, nil)
         end
     },
 }

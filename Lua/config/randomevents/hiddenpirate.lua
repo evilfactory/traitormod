@@ -22,12 +22,12 @@ event.Start = function ()
 
     local info = CharacterInfo(Identifier("human"))
     info.Name = "Pirate " .. info.Name
-    info.Job = Job(JobPrefab.Get("securityofficer"))
+    info.Job = Job(JobPrefab.Get("securityofficer"), false)
 
     local character = Character.Create(info, area.WorldPosition, info.Name, 0, false, true)
 
     character.TeamID = CharacterTeamType.Team2
-    character.GiveJobItems(nil)
+    character.GiveJobItems(false, nil)
 
     Entity.Spawner.AddItemToSpawnQueue(ItemPrefab.GetItemPrefab("revolver"), character.Inventory, nil, nil, function (item)
         for i = 1, 6, 1 do

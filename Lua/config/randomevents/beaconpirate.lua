@@ -45,7 +45,7 @@ event.Start = function ()
 
     local info = CharacterInfo(Identifier("human"))
     info.Name = "Pirate " .. info.Name
-    info.Job = Job(JobPrefab.Get("mechanic"))
+    info.Job = Job(JobPrefab.Get("mechanic"), false)
 
     local character = Character.Create(info, beacon.WorldPosition, info.Name, 0, false, true)
     event.Character = character
@@ -54,7 +54,7 @@ event.Start = function ()
 
     character.CanSpeak = false
     character.TeamID = CharacterTeamType.Team2
-    character.GiveJobItems(nil)
+    character.GiveJobItems(false, nil)
 
     local idCard = character.Inventory.GetItemInLimbSlot(InvSlotType.Card)
     if idCard then

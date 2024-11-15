@@ -30,10 +30,10 @@ event.Start = function ()
     boom.Explode(submarine.WorldPosition)
 
     local info = CharacterInfo(Identifier("human"))
-    info.Job = Job(JobPrefab.Get("captain"))
+    info.Job = Job(JobPrefab.Get("captain"), false)
     info.TeamID = CharacterTeamType.FriendlyNPC
     local character = Character.Create(info, submarine.WorldPosition, info.Name, 0, false, true)
-    character.GiveJobItems(nil)
+    character.GiveJobItems(false, nil)
 
     local headset = character.Inventory.GetItemInLimbSlot(InvSlotType.Headset)
     headset.GetComponentString("WifiComponent").TeamID = CharacterTeamType.Team1

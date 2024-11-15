@@ -73,7 +73,7 @@ end
 
 local function SpawnEnemyCharacter(submarine, role, orders)
     local info = CharacterInfo(Identifier("human"))
-    info.Job = Job(JobPrefab.Get(role))
+    info.Job = Job(JobPrefab.Get(role), false)
 
     submarine.TeamID = CharacterTeamType.Team2
 
@@ -81,7 +81,7 @@ local function SpawnEnemyCharacter(submarine, role, orders)
     local character = Character.Create(info, waypoint.WorldPosition, info.Name, 0, false, true)
 
     character.TeamID = CharacterTeamType.Team2
-    character.GiveJobItems(waypoint)
+    character.GiveJobItems(false, waypoint)
 
     if orders then
         for key, value in pairs(orders) do

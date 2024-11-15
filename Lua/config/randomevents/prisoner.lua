@@ -25,14 +25,14 @@ event.Start = function ()
 
     local info = CharacterInfo(Identifier("human"))
     info.Name = "Prisoner " .. info.Name
-    info.Job = Job(JobPrefab.Get("assistant"))
+    info.Job = Job(JobPrefab.Get("assistant"), false)
 
     local character = Character.Create(info, position, info.Name, 0, false, true)
 
     event.Character = character
 
     character.TeamID = CharacterTeamType.Team2
-    character.GiveJobItems(nil)
+    character.GiveJobItems(false, nil)
 
     local oldClothes = character.Inventory.GetItemInLimbSlot(InvSlotType.InnerClothes)
     oldClothes.Drop()

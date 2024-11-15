@@ -14,7 +14,7 @@ local function SpawnCharacter(client, team, existingCharacter)
         character.TeamID = team.TeamID
 
         client.SetClientCharacter(character)
-        character.GiveJobItems()
+        character.GiveJobItems(false)
         character.LoadTalents()
 
         character.TeleportTo(spawnPoint.WorldPosition)
