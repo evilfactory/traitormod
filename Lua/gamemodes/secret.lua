@@ -199,20 +199,13 @@ function gm:SelectAntagonists()
 end
 
 function gm:AwardCrew()
-    local missionType = {}
-
-    for key, value in pairs(MissionType) do
-        missionType[value] = key
-    end
-
     local missionReward = 0
     for _, mission in pairs(Traitormod.RoundMissions) do
         if mission.Completed then
-            local type = missionType[mission.Prefab.Type]
             local missionValue = self.MissionPoints.Default
 
             for key, value in pairs(self.MissionPoints) do
-                if key == type then
+                if key == mission.Prefab.Type then
                     missionValue = value
                 end
             end
