@@ -66,7 +66,7 @@ m.TryCreateClientCharacter = function(submarine, client)
     end
 
     client.AssignedJob = jobPreference
-    client.CharacterInfo.Job = Job(jobPreference.Prefab, 0, jobPreference.Variant);
+    client.CharacterInfo.Job = Job(jobPreference.Prefab, false, 0, jobPreference.Variant);
 
     crewManager.AddCharacterInfo(client.CharacterInfo)
 
