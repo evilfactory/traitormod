@@ -110,7 +110,7 @@ m.TryCreateClientCharacter = function(submarine, client)
 
         client.SetClientCharacter(char)
 
-        char.GiveJobItems(waypoint)
+        char.GiveJobItems(false, waypoint)
         char.LoadTalents()
 
         Hook.Call("traitormod.midroundspawn", client, char)
