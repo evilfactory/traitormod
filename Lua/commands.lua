@@ -1191,7 +1191,6 @@ Traitormod.AddCommand({"!unroleban", "!unbanrole", "!roleunban", "!jobunban", "!
     for _, job in ipairs(jobList) do
         if unbanJob(bannedJobs[steamID], job) then
             table.insert(unbannedJobs, job)
-            return true
         end
     end
 
