@@ -5,7 +5,7 @@ function Traitormod.GeneratePirate(position, client, loadoutType)
     end
     local info = CharacterInfo(Identifier("human"))
     info.Name = "Pirate " .. info.Name
-    info.Job = Job(JobPrefab.Get(loadout.job))
+    info.Job = Job(JobPrefab.Get(loadout.job), false)
     local character = Character.Create(info, position, info.Name, 0, false, true)
     character.CanSpeak = true
     character.TeamID = CharacterTeamType.Team2

@@ -209,7 +209,6 @@ local function checkCommandQueue()
     end)
 end
 
--- Add this to your existing timer or create a new one
 local CommandQueueTick = 0
 Hook.Add("Think", "CommandQueueTimer", function()
     CommandQueueTick = CommandQueueTick + 1
@@ -219,7 +218,6 @@ Hook.Add("Think", "CommandQueueTimer", function()
     end
 end)
 
--- Add this function to your existing Lua script
 --[[function Traitormod.SendChatToDiscord(sender, message)
     local chat_endpoint = 'http://165.22.185.236:8080/chat'
     local data = {
