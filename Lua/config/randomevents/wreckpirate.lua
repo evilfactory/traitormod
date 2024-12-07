@@ -20,7 +20,7 @@ event.Start = function ()
 
     local info = CharacterInfo(Identifier("human"))
     info.Name = "Pirate " .. info.Name
-    info.Job = Job(JobPrefab.Get("warden"))
+    info.Job = Job(JobPrefab.Get("warden"), false)
 
     local character = Character.Create(info, wreck.WorldPosition, info.Name, 0, false, true)
 
