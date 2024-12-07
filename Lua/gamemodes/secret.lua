@@ -172,23 +172,22 @@ function gm:SelectAntagonists()
     local delay = math.random(self.TraitorSelectDelayMin, self.TraitorSelectDelayMax)
 
     Timer.Wait(function()
-        if thisRoundNumber ~= Traitormod.RoundNumber or not Game.RoundStarted then return end
+        if thisRoundNumber ~= Traitormod.RoundNumber then return end
 
         local clientWeight = {}
         local traitorChoices = 0
         local playerInGame = 0
+
         for key, value in pairs(Client.ClientList) do
-            -- valid traitor choices must be ingame, player was spawned before (has a character), is no spectator
-            if value.InGame and value.Character and not value.SpectateOnly then
-                -- filter by config
-                if this.TraitorFilter(value) > 0 and Traitormod.GetData(value, "NonTraitor") ~= true then
-                    -- players are alive or if respawning is on and config allows dead traitors (not supported yet)
-                    if not value.Character.IsDead and Traitormod.RoleManager.GetRole(value.Character) == nil then
-                        clientWeight[value] = (Traitormod.GetData(value, "Weight") or 0) * this.TraitorFilter(value)
-                        traitorChoices = traitorChoices + 1
-                    end
-                end
+            if value.Character ~= nil and not value.Character.IsDead and value.Character.IsHuman and value.Character.TeamID == CharacterTeamType.Team1 then
                 playerInGame = playerInGame + 1
+                
+                -- Check if client passes traitor filter
+                local weight = this.TraitorFilter(value)
+                if weight > 0 then
+                    traitorChoices = traitorChoices + 1
+                    clientWeight[value] = weight * (1 + (Traitormod.GetData(value, "Weight") or 0))
+                end
             end
         end
 
@@ -199,29 +198,20 @@ function gm:SelectAntagonists()
         end
 
         local amountTraitors = this.AmountTraitors(playerInGame)
-        if amountTraitors > traitorChoices then
-            amountTraitors = traitorChoices
-            Traitormod.Log("Not enough valid players to assign all traitors... New amount: " .. tostring(amountTraitors))
-        end
-
+        -- Ensure we don't assign more traitors than allowed
+        amountTraitors = math.min(amountTraitors, traitorChoices)
+        
         local antagonists = {}
-
-        for i = 1, amountTraitors, 1 do
+        for i = 1, amountTraitors do
             local index = weightedRandom.Choose(clientWeight)
-
-            if index ~= nil then
-                Traitormod.Log("Chose " ..
-                    index.Character.Name .. " as traitor. Weight: " .. math.floor(clientWeight[index] * 100) / 100)
-
+            if index then
                 table.insert(antagonists, index.Character)
-
-                clientWeight[index] = nil
-
+                clientWeight[index] = nil  -- Remove selected player from pool
                 Traitormod.SetData(index, "Weight", 0)
             end
         end
 
-        self:AssignAntagonists(antagonists)
+        this:AssignAntagonists(antagonists)
     end, delay * 1000)
 end
 
