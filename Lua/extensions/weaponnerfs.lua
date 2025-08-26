@@ -42,7 +42,7 @@ extension.Init = function ()
         <overwrite>
             <Attack targetimpulse="13" penetration="0.25">
                 <Affliction identifier="blunttrauma" strength="16" /> 
-                <Affliction identifier="psychosis" strength="25" />
+                <Affliction identifier="psychosis" strength="15" />
                 <Affliction identifier="stun" strength="0.1" />
             </Attack>
         </overwrite>
