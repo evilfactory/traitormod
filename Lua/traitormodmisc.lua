@@ -49,21 +49,24 @@ Hook.Add("think", "Traitormod.MiscThink", function ()
     if Traitormod.RoundEvents.IsEventActive("OutpostPirateAttack") then return end
     if Traitormod.SelectedGamemode == nil or Traitormod.SelectedGamemode.Name ~= "Secret" then return end
 
-    local targets = {}
-    local outpost = Level.Loaded.EndOutpost.WorldPosition
 
-    for key, character in pairs(Character.CharacterList) do
-        if character.IsRemotePlayer and character.IsHuman and not character.IsDead and Vector2.Distance(character.WorldPosition, outpost) < 5000 then
-            table.insert(targets, character)
+    if Level.Loaded ~= nil and Level.Loaded.EndOutpost ~= nil then
+        local targets = {}
+        local outpost = Level.Loaded.EndOutpost.WorldPosition
+
+        for key, character in pairs(Character.CharacterList) do
+            if character.IsRemotePlayer and character.IsHuman and not character.IsDead and Vector2.Distance(character.WorldPosition, outpost) < 5000 then
+                table.insert(targets, character)
+            end
         end
-    end
 
-    if #targets > 0 then
-        peopleInOutpost = peopleInOutpost + 1
-    end
+        if #targets > 0 then
+            peopleInOutpost = peopleInOutpost + 1
+        end
 
-    if peopleInOutpost > 30 then
-        Traitormod.RoundEvents.TriggerEvent("OutpostPirateAttack")
+        if peopleInOutpost > 30 then
+            Traitormod.RoundEvents.TriggerEvent("OutpostPirateAttack")
+        end
     end
 end)
 
