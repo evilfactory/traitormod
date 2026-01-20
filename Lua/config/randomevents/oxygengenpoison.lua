@@ -12,6 +12,7 @@ event.Start = function ()
     local text = Traitormod.Language.OxygenPoison
     Traitormod.RoundEvents.SendEventMessage(text, "GameModeIcon.pvp", Color.Red)
 
+    local poison = AfflictionPrefab.Prefabs["sufforinpoisoning"]
     local function GivePoison(character)
         if character.Submarine ~= Submarine.MainSub then return end
         if character.IsDead then return end
@@ -20,7 +21,6 @@ event.Start = function ()
         if headGear ~= nil and headGear.Prefab.Identifier == "divingmask" then return end
         if headGear ~= nil and headGear.Prefab.Identifier == "clowndivingmask" then return end
 
-        local poison = AfflictionPrefab.Prefabs["sufforinpoisoning"]
         character.CharacterHealth.ApplyAffliction(character.AnimController.MainLimb, poison.Instantiate(20))
     end
 
