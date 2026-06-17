@@ -482,7 +482,7 @@ category.Products = {
             SpawnCreature("endworm", client, product, paidPrice)
         end
     },
---[[
+
     {
         Identifier = "spawnaspeanut",
         Price = 50,
@@ -504,7 +504,7 @@ category.Products = {
             SpawnCreature("orangeboy", client, product, paidPrice, true)
         end
     },
-
+--[[ --cthulu can use items now, and people were using it to kill living players
     {
         Identifier = "spawnascthulhu",
         Price = 50,
@@ -514,7 +514,7 @@ category.Products = {
         Action = function (client, product, items, paidPrice)
             SpawnCreature("balloon", client, product, paidPrice, true)
         end
-    },
+    },]]--
 
     {
         Identifier = "spawnaspsilotoad",
@@ -525,7 +525,7 @@ category.Products = {
         Action = function (client, product, items, paidPrice)
             SpawnCreature("psilotoad", client, product, paidPrice, true)
         end
-    }, ]]--
+    }, 
 }
 
 return category
