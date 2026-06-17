@@ -482,7 +482,7 @@ category.Products = {
             SpawnCreature("endworm", client, product, paidPrice)
         end
     },
-
+--[[
     {
         Identifier = "spawnaspeanut",
         Price = 50,
@@ -525,7 +525,7 @@ category.Products = {
         Action = function (client, product, items, paidPrice)
             SpawnCreature("psilotoad", client, product, paidPrice, true)
         end
-    },
+    }, ]]--
 }
 
 return category
