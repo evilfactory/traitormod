@@ -261,7 +261,10 @@ Traitormod.AddCommand({"!addpoint", "!addpoints"}, function (client, args)
 end)
 
 Traitormod.AddCommand({"!addlife", "!addlive", "!addlifes", "!addlives"}, function (client, args)
-    if not client.HasPermission(ClientPermissions.ConsoleCommands) then return end
+    if not client.HasPermission(ClientPermissions.ConsoleCommands) then 
+        Traitormod.SendMessage(client, "You do not have permission to use this command.")
+        return true 
+    end
 
     if #args < 1 then
         Traitormod.SendMessage(client, "Incorrect amount of arguments. usage: !addlife \"Client Name\" 1")
