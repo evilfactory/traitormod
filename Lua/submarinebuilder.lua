@@ -25,6 +25,7 @@ sb.UpdateLobby = function(submarineInfo)
 
     for _, client in pairs(Client.ClientList) do
         client.LastRecvLobbyUpdate = 0
+        client.InitialLobbyUpdateSent = false
         Networking.ClientWriteLobby(client)
     end
 end

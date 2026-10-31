@@ -42,7 +42,7 @@ event.Start = function ()
         character.Inventory.TryPutItem(item, character.Inventory.FindLimbSlot(InvSlotType.InnerClothes), true, false, character)
     end)
 
-    for key, value in pairs(character.Inventory.AllItemsMod) do
+    for value in character.Inventory.AllItemsMod do
         if value.Prefab.Identifier == "screwdriver" or value.Prefab.Identifier == "wrench" then
             value.Drop()
             Entity.Spawner.AddEntityToRemoveQueue(value)

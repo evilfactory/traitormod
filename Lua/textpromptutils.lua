@@ -15,6 +15,7 @@ local function SendEventMessage(msg, options, id, eventSprite, fadeToBlack, clie
     message.WriteUInt16(UShort(0)) -- speak Id
     message.WriteString(msg)
     message.WriteBoolean(fadeToBlack or false) -- fade to black
+    message.WriteBoolean(false) -- disable close button
     message.WriteByte(Byte(#options))
     for key, value in pairs(options) do
         message.WriteString(value)
